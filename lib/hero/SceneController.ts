@@ -79,6 +79,14 @@ export class SceneController {
 
     this.master = gsap.timeline({ paused: true });
     this.o.buildMaster(this.master, this.o.refs);
+    if (process.env.NODE_ENV !== "production") {
+      const w = window as unknown as {
+        __master?: gsap.core.Timeline;
+        __scene?: SceneController;
+      };
+      w.__master = this.master;
+      w.__scene = this;
+    }
 
     this.st = ScrollTrigger.create({
       trigger: stage,
@@ -138,6 +146,11 @@ export class SceneController {
   }
 
   private disengage(): void {
+    // Committing to the LAST stop scrolls to the exact pin end, which toggles the
+    // pin inactive mid-snap. Ignore that: starting Lenis here would cancel the
+    // in-flight scrollTo so its onComplete (finish → unlock) never fires and the
+    // gate jams locked. The snap's own finish() restores scroll ownership.
+    if (this.locked) return;
     this.engaged = false;
     this.lenis?.start();
   }

@@ -54,18 +54,46 @@ export function HeadlineMorph() {
       {/* STATS headline — the rotating word resolves into this 4-line block.
           Centred by a transform-free flex wrapper (= the STATS headline slot)
           so the master can y-tween [data-h-stats] without fighting a centring
-          transform. The master cross-fades [data-headline] out and this in. */}
+          transform. The master cross-fades [data-headline] out and this in.
+          The 3 word spans are individually addressable: in BENEFITS they TRAVEL
+          up + shrink into the horizontal top line (data-stat-word 0/1/2), and
+          [data-stat-oneteam] fades out. */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div
           data-h-stats
           aria-hidden
           className="flex flex-col items-center text-center font-display text-[78px] font-bold leading-[79px] tracking-[-0.013em] opacity-0"
         >
-          <span className="block text-orange">{rotatingWords[0]},</span>
-          <span className="block text-orange">{rotatingWords[1]},</span>
-          <span className="block text-orange">{rotatingWords[2]}</span>
-          <span className="block text-black">{copy.oneTeam}</span>
+          <span data-stat-word="0" className="block text-orange">
+            {rotatingWords[0]},
+          </span>
+          <span data-stat-word="1" className="block text-orange">
+            {rotatingWords[1]},
+          </span>
+          <span data-stat-word="2" className="block text-orange">
+            {rotatingWords[2]}
+          </span>
+          <span data-stat-oneteam className="block text-black">
+            {copy.oneTeam}
+          </span>
         </div>
+      </div>
+
+      {/* BENEFITS headline — MEASUREMENT JIG only (visibility:hidden so it lays
+          out + is measurable but never shows). The real 48px horizontal line
+          near the canvas top; BenefitsController measures each word's box and
+          travels the live data-h-stats spans onto it. Never animated. */}
+      <div
+        data-h-benefits
+        aria-hidden
+        style={{ visibility: "hidden" }}
+        className="pointer-events-none absolute left-1/2 top-[44px] -translate-x-1/2 whitespace-nowrap font-display text-[48px] font-bold leading-[39px] tracking-[-1px]"
+      >
+        <span data-bn-word="0" className="text-orange">
+          {rotatingWords[0]},
+        </span>{" "}
+        <span data-bn-word="1">{rotatingWords[1]},</span>{" "}
+        <span data-bn-word="2">{rotatingWords[2]}</span>
       </div>
     </div>
   );

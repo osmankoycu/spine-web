@@ -248,6 +248,27 @@ export class StatsController {
     });
   }
 
+  /** STATS → BENEFITS: the circles pop down. scale/opacity are a SEPARATE matrix
+   *  channel from the segment-0 morph (width/height/x/y) and the drift
+   *  (xPercent/yPercent), so this composes — overwrite MUST be false (true would
+   *  kill the morph → circles never re-form on scroll-back). */
+  popDown(master: gsap.core.Timeline, at: number): void {
+    master.to(
+      this.carrierEls(),
+      {
+        scale: 0,
+        opacity: 0,
+        transformOrigin: "50% 50%",
+        duration: 0.3,
+        ease: "power2.in",
+        immediateRender: false,
+        overwrite: false,
+        stagger: { each: 0.004, from: "random" },
+      },
+      at,
+    );
+  }
+
   // ── ambient drift (STATS dwell only) ────────────────────────────────────────
   // Writes xPercent/yPercent — a SEPARATE gsap transform channel from the
   // master's x/y (px), so the two compose in one translate without overwriting.

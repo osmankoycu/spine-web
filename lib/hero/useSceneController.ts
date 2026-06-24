@@ -8,6 +8,7 @@ import { prefersReducedMotion } from "@/lib/reducedMotion";
 import { SceneController, type SceneRefs } from "./SceneController";
 import { HeroRestController } from "./HeroRestController";
 import { StatsController } from "./StatsController";
+import { BenefitsController } from "./BenefitsController";
 import { SEGMENTS } from "./phases";
 import type { PhaseId } from "./types";
 
@@ -21,6 +22,7 @@ function buildHeroMaster(
   master: gsap.core.Timeline,
   refs: SceneRefs,
   stats: StatsController,
+  benefits: BenefitsController,
 ): void {
   const { stage } = refs;
   const pills = gsap.utils.toArray<HTMLElement>("[data-tag]", stage);
@@ -86,8 +88,18 @@ function buildHeroMaster(
     );
   }
 
-  // Segments 1..3 — placeholder hold (real BENEFITS/COMPLIANCE/PEOPLE_OPS land later).
-  master.to({ _: 0 }, { _: 1, duration: SEGMENTS - 1 }, 1);
+  // Segment 1 (STATS → BENEFITS): the 3 words travel up + shrink into the top
+  // line (2 recolour grey), circles pop down, "one team" + CTA leave.
+  benefits.measureTargets();
+  benefits.buildSegment(master, 1);
+
+  // Segments 2 + 3 (BENEFITS → COMPLIANCE → PEOPLE_OPS): the docked line holds;
+  // only the ACTIVE (orange) word shifts along it.
+  benefits.setActiveWord(master, 2, 0, 1); // Benefits → Compliance active
+  benefits.setActiveWord(master, 3, 1, 2); // Compliance → People ops active
+
+  // Pin the master to its full SEGMENTS duration (the colour swaps finish early).
+  master.to({ _: 0 }, { _: 1, duration: SEGMENTS - 2 }, 2);
 }
 
 export function useHeroScene() {
@@ -95,6 +107,7 @@ export function useHeroScene() {
   const sceneRef = useRef<SceneController | null>(null);
   const heroRestRef = useRef<HeroRestController | null>(null);
   const statsRef = useRef<StatsController | null>(null);
+  const benefitsRef = useRef<BenefitsController | null>(null);
   const introPendingRef = useRef(false);
 
   const [phase, setPhase] = useState<PhaseId>("INTRO");
@@ -130,11 +143,13 @@ export function useHeroScene() {
       heroRestRef.current = heroRest;
       const stats = new StatsController(stage);
       statsRef.current = stats;
+      const benefits = new BenefitsController(stage, stats);
+      benefitsRef.current = benefits;
 
       const scene = new SceneController({
         refs: { stage },
         lenis: getLenis(),
-        buildMaster: (m, r) => buildHeroMaster(m, r, stats),
+        buildMaster: (m, r) => buildHeroMaster(m, r, stats, benefits),
         onPhaseChange: (p, i) => {
           setPhase(p);
           setStopIndex(i);
@@ -162,9 +177,11 @@ export function useHeroScene() {
         scene.destroy();
         heroRest.destroy();
         stats.destroy();
+        benefits.destroy();
         sceneRef.current = null;
         heroRestRef.current = null;
         statsRef.current = null;
+        benefitsRef.current = null;
       };
     },
     { scope: stageRef },

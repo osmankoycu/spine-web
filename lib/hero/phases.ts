@@ -13,8 +13,9 @@ export const fractionOfStop = (i: number): number => i / SEGMENTS;
 export const stopForProgress = (progress: number): number =>
   Math.round(progress * SEGMENTS);
 
-// Snap-tween timing for one committed transition (also the lock duration).
-export const PHASE_DURATION = 0.9; // seconds
+// Snap-tween timing for one committed transition (also the lock duration). The
+// master morph is scrubbed by this snap, so this also sets the morph's pace.
+export const PHASE_DURATION = 1.3; // seconds
 export const PHASE_EASE = (t: number): number =>
   // easeInOutCubic — used by Lenis.scrollTo for the committed snap.
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;

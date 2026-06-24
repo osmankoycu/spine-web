@@ -37,6 +37,9 @@ export type SceneControllerOptions = {
   onPhaseChange?: (phase: PhaseId, stopIndex: number) => void;
   onLockChange?: (locked: boolean) => void;
   onProgress?: (progress: number) => void;
+  /** Fired the instant a transition commits, BEFORE the master scrubs — lets
+   *  phase systems hand their elements to the master (e.g. freeze the physics). */
+  onTransitionStart?: () => void;
 };
 
 /**
@@ -155,6 +158,7 @@ export class SceneController {
 
   private commitTo(target: number): void {
     if (!this.st) return;
+    this.o.onTransitionStart?.(); // freeze phase systems BEFORE the scrub begins
     this.setLocked(true);
     const y = this.st.start + fractionOfStop(target) * (this.st.end - this.st.start);
 

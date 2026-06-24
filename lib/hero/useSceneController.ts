@@ -7,37 +7,82 @@ import { getLenis } from "@/lib/lenis";
 import { prefersReducedMotion } from "@/lib/reducedMotion";
 import { SceneController, type SceneRefs } from "./SceneController";
 import { HeroRestController } from "./HeroRestController";
+import { StatsController } from "./StatsController";
 import { SEGMENTS } from "./phases";
 import type { PhaseId } from "./types";
 
 // Real, in-place master timeline (no carousel). Slaved to scroll progress;
 // total duration = SEGMENTS so each segment occupies one progress quarter.
-// Segment 0 (HERO_REST → STATS): tags pop down in place + subtitle fades out.
-// The headline three-word morph + stat circles land in step 6 (the pad below).
-function buildHeroMaster(master: gsap.core.Timeline, refs: SceneRefs): void {
+// Segment 0 (HERO_REST → STATS): a subset of pills MORPH into the stat/decor
+// circles (StatsController), the rest pop down, the subtitle fades, and the
+// rotating headline cross-resolves into the 4-line block. Scrubbed → reverses
+// for free on scroll-back.
+function buildHeroMaster(
+  master: gsap.core.Timeline,
+  refs: SceneRefs,
+  stats: StatsController,
+): void {
   const { stage } = refs;
   const pills = gsap.utils.toArray<HTMLElement>("[data-tag]", stage);
   const subtitle = stage.querySelector<HTMLElement>("[data-subtitle]");
+  const headline = stage.querySelector<HTMLElement>("[data-headline]");
+  const hStats = stage.querySelector<HTMLElement>("[data-h-stats]");
+  const cta = stage.querySelector<HTMLElement>("[data-cta]");
 
-  // Duration + stagger must finish within the segment (master time 0→1) so the
-  // tags are fully gone at the STATS snap point (last pill: 0.25 + 0.55 < 1).
+  // Carriers travel + grow into circles; everyone else pops down.
+  stats.measureTargets();
+  const carriers = new Set(stats.carrierEls());
+  const poppers = pills.filter((p) => !carriers.has(p));
+
+  // SEQUENCED so the morphing circles never overlap the vanishing pills:
+  // FIRST the field clears FAST (poppers + subtitle + old headline, 0→0.28),
+  // THEN the carriers morph into circles in the cleared space (from 0.28). On
+  // scroll-back the timeline reverses → the circles un-morph first and the pills
+  // reappear last, so there's no overlap either direction.
   master.to(
-    pills,
+    poppers,
     {
       scale: 0,
       opacity: 0,
       ease: "power2.in",
-      duration: 0.55,
+      duration: 0.28,
       immediateRender: false,
-      stagger: { each: 0.006, from: "random" },
+      stagger: { each: 0.004, from: "random" },
     },
     0,
   );
   if (subtitle) {
     master.to(
       subtitle,
-      { opacity: 0, y: -10, duration: 0.6, ease: "power2.in", immediateRender: false },
+      { opacity: 0, y: -10, duration: 0.3, ease: "power2.in", immediateRender: false },
       0,
+    );
+  }
+  if (headline) {
+    master.to(
+      headline,
+      { opacity: 0, y: -12, duration: 0.3, ease: "power2.in", immediateRender: false },
+      0,
+    );
+  }
+
+  const MORPH_AT = 0.28; // morph starts only once the field has cleared
+  stats.buildSegment(master, MORPH_AT);
+  // The persistent 4-line STATS headline rises in as the morph runs.
+  if (hStats) {
+    master.fromTo(
+      hStats,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", immediateRender: false },
+      MORPH_AT + 0.05,
+    );
+  }
+  // CTA stays, but drops clear of the taller 4-line headline (Figma slot).
+  if (cta) {
+    master.to(
+      cta,
+      { y: 92, duration: 0.5, ease: "power2.inOut", immediateRender: false },
+      MORPH_AT,
     );
   }
 
@@ -49,6 +94,7 @@ export function useHeroScene() {
   const stageRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneController | null>(null);
   const heroRestRef = useRef<HeroRestController | null>(null);
+  const statsRef = useRef<StatsController | null>(null);
   const introPendingRef = useRef(false);
 
   const [phase, setPhase] = useState<PhaseId>("INTRO");
@@ -82,15 +128,24 @@ export function useHeroScene() {
 
       const heroRest = new HeroRestController(stage, false);
       heroRestRef.current = heroRest;
+      const stats = new StatsController(stage);
+      statsRef.current = stats;
 
       const scene = new SceneController({
         refs: { stage },
         lenis: getLenis(),
-        buildMaster: buildHeroMaster,
+        buildMaster: (m, r) => buildHeroMaster(m, r, stats),
         onPhaseChange: (p, i) => {
           setPhase(p);
           setStopIndex(i);
           heroRest.onPhase(p);
+          stats.onPhase(p);
+        },
+        onTransitionStart: () => {
+          // Hand the field to the master BEFORE it scrubs: stop the physics so it
+          // stops fighting the morph's writes (and so the morph's function-from
+          // captures the pills' true resting offset → no snap-to-home jump).
+          heroRest.freezeField();
         },
         onLockChange: setLocked,
       });
@@ -106,8 +161,10 @@ export function useHeroScene() {
       return () => {
         scene.destroy();
         heroRest.destroy();
+        stats.destroy();
         sceneRef.current = null;
         heroRestRef.current = null;
+        statsRef.current = null;
       };
     },
     { scope: stageRef },

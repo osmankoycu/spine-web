@@ -109,5 +109,35 @@ export const stats: Stat[] = [
   { value: "100+", caption: "Integrations", type: "stat" },
 ];
 
-// Scattered decorative empties (light grey) — count only; positions set in STATS.
-export const decorativeCircleCount = 6;
+// ── STATS circle layout (Section 6) ─────────────────────────────────────────
+// Single source of truth for the HERO_REST→STATS morph: where the pills travel
+// to and grow into. Coords are Figma-frame CENTRES (1440×1126 design frame);
+// StatsController maps them into the scaled canvas relative to the grid centre.
+// `figmaAnchorY` = the Figma point that maps to the canvas centre (tuned).
+export const statsLayout = {
+  figmaW: 1440,
+  figmaAnchorY: 472,
+  spread: 1280 / 1440, // 0.8889 — uniform x/y spread; sizes kept at design px
+  statSize: 200,
+  preferImportantForStats: true,
+  // 4 black stat circles — index aligns to stats[] (25%, $0, 24/7, 100+).
+  stats: [
+    { fx: 313, fy: 334 }, // 25%
+    { fx: 1143, fy: 307 }, // $0
+    { fx: 1077, fy: 685 }, // 24/7
+    { fx: 285, fy: 674 }, // 100+
+  ],
+  // 10 grey decorative circles — { size, centre }.
+  decoratives: [
+    { size: 150, fx: 118.5, fy: 488.5 },
+    { size: 150, fx: 471, fy: 819 },
+    { size: 150, fx: 110, fy: 225 },
+    { size: 150, fx: 922, fy: 239 },
+    { size: 150, fx: 1302, fy: 511 },
+    { size: 100, fx: 1360, fy: 223 },
+    { size: 100, fx: 1360, fy: 783 },
+    { size: 100, fx: 860, fy: 841 },
+    { size: 100, fx: 94, fy: 826 },
+    { size: 100, fx: 556, fy: 211 },
+  ],
+} as const;

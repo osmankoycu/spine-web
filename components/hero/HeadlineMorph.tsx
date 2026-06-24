@@ -1,7 +1,7 @@
 "use client";
 
 import { RotatingWord } from "./RotatingWord";
-import { copy } from "@/lib/hero/heroConfig";
+import { copy, rotatingWords } from "@/lib/hero/heroConfig";
 import { heroCta } from "@/lib/siteConfig";
 
 // Persistent center content (Section 3.2). For HERO_REST it renders the headline
@@ -44,11 +44,28 @@ export function HeadlineMorph() {
         <a
           data-cta
           href={heroCta.href}
-          className="pointer-events-auto mt-8 inline-flex items-center gap-2.5 rounded-pill bg-orange px-[32px] py-[17px] text-[18px] font-medium text-white opacity-0 transition-[transform,background-color] hover:-translate-y-px hover:bg-orange-600"
+          className="pointer-events-auto mt-8 inline-flex items-center gap-2.5 rounded-pill bg-orange px-[32px] py-[17px] text-[18px] font-medium text-white opacity-0 transition-colors hover:bg-orange-600"
         >
           {copy.cta}
           <span aria-hidden>→</span>
         </a>
+      </div>
+
+      {/* STATS headline — the rotating word resolves into this 4-line block.
+          Centred by a transform-free flex wrapper (= the STATS headline slot)
+          so the master can y-tween [data-h-stats] without fighting a centring
+          transform. The master cross-fades [data-headline] out and this in. */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div
+          data-h-stats
+          aria-hidden
+          className="flex flex-col items-center text-center font-display text-[78px] font-bold leading-[79px] tracking-[-0.013em] opacity-0"
+        >
+          <span className="block text-orange">{rotatingWords[0]},</span>
+          <span className="block text-orange">{rotatingWords[1]},</span>
+          <span className="block text-orange">{rotatingWords[2]}</span>
+          <span className="block text-black">{copy.oneTeam}</span>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens (Tailwind v4 CSS-first @theme).                       */
+/* Values approximate the Figma reference — confirm exact hex/fonts    */
+/* against Figma at polish time (variable_defs needs a desktop select).*/
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Brand + surfaces */
+  --color-bg: #f7f6f4; /* off-white page */
+  --color-white: #ffffff;
+  --color-black: #0f0f0f; /* important tags, "one team", headings */
+  --color-ink: #161616; /* near-black body text */
+  --color-orange: #ff6a00; /* brand, logo, active word, primary CTA */
+  --color-orange-600: #e85f00; /* CTA hover/press */
+  --color-grey-pill: #e9e9e9; /* inactive pills, decorative circles */
+  --color-grey-text: #9a9a9a; /* muted pill labels, faded fragments */
+  --color-grey-word: #c6c6c6; /* inactive headline words */
+  --color-frame: #0a0a0a; /* dark backdrop around the rounded page card */
+
+  /* Type families — Neue Haas Grotesk via Adobe Fonts (Typekit kit qyt7ipl,
+     reused from the image-web project). Loaded in layout.tsx <head>. */
+  --font-display: "neue-haas-grotesk-display", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "neue-haas-grotesk-text", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii */
+  --radius-page: 32px;
+  --radius-pill: 9999px;
+}
+
+/* Non-theme layout vars */
+:root {
+  --page-inset: 10px; /* dark frame thickness */
+  --page-px: clamp(20px, 8.33vw, 120px); /* horizontal gutter (≈120px @1440) */
+  --header-h: 84px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  /* The off-white card is the page itself; the dark frame is painted by
+     the fixed .page-frame overlay so it never interferes with pin/scroll. */
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Rounded "page card on black" treatment. A fixed, pointer-events-none
+   overlay whose huge spread box-shadow paints everything OUTSIDE its
+   rounded rect with the frame color. Decorative only — decoupled from
+   layout so ScrollTrigger pinning is unaffected. */
+.page-frame {
+  position: fixed;
+  inset: var(--page-inset);
+  border-radius: var(--radius-page);
+  box-shadow: 0 0 0 100vmax var(--color-frame);
+  pointer-events: none;
+  z-index: 60;
+}
+
+/* Shared horizontal gutter for header + stage content. */
+.page-gutter {
+  padding-inline: var(--page-px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

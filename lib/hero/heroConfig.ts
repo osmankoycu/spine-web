@@ -7,8 +7,8 @@ export type RotatingWord = (typeof rotatingWords)[number];
 // ── Copy (brand confirmed = Spine; subtitle "Heal" corrected) ───────────────
 export const copy = {
   rest: {
-    line1: "Let us worry", // headline line 1
-    line2Prefix: "about your", // line 2, before the rotating word + "."
+    line1: "Let us worry about", // headline line 1
+    line2Prefix: "your", // line 2, before the rotating word
     subtitle:
       "Spine replaces your broker and your PEO — lower premiums, real compliance, and 24/7 support from an in-house team plus AI. You run the company. We handle the rest.",
   },

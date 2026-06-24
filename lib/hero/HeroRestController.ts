@@ -230,11 +230,13 @@ export class HeroRestController {
     });
     const line2 = this.measure1;
     this.rotateTl
-      .to(rword, { yPercent: -45, opacity: 0, duration: 0.3, ease: "power2.in" }, 0)
+      .to(rword, { yPercent: -45, opacity: 0, duration: 0.24, ease: "power2.in" }, 0)
       .add(() => {
         // Swap the word, then GLIDE ONLY line 2's text to its new centred
-        // position (the headline width is locked, so line 1 / subtitle / CTA stay
-        // put — only the changing line eases across). offsetLeft is layout
+        // position — WHILE the word is invisible. The re-centre is a horizontal
+        // move; doing it now (not during the entry) is what keeps the next word
+        // rising STRAIGHT up instead of drifting in diagonally. line 1 / subtitle
+        // / CTA stay put (the headline width is locked). offsetLeft is layout
         // (unscaled) space, matching the x translate inside the scaled canvas.
         const before = line2 ? line2.offsetLeft : 0;
         rword.textContent = rotatingWords[next];
@@ -244,15 +246,18 @@ export class HeroRestController {
             gsap.fromTo(
               line2,
               { x: dx },
-              { x: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" },
+              { x: 0, duration: 0.22, ease: "power3.out", overwrite: "auto" },
             );
           }
         }
       })
+      // New word rises STRAIGHT up — starts only after the re-centre glide is
+      // done, so there's no horizontal component (no diagonal).
       .fromTo(
         rword,
         { yPercent: 45, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 0.34, ease: "power2.out" },
+        { yPercent: 0, opacity: 1, duration: 0.3, ease: "power2.out" },
+        0.42,
       );
   }
 

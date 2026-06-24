@@ -348,17 +348,14 @@ export class TagFlow {
     const penX = ehx - Math.abs(dx);
     const penY = ehy - Math.abs(dy);
     if (penX <= 0 || penY <= 0) return;
-    // Classify the pill by its HOME row, not its live position — otherwise a pill
-    // drifting across the threshold would flip its push axis every frame and
-    // oscillate forever (jitter). Home-based → the axis is fixed, so it settles.
-    const onLine = Math.abs(t.hy - o.oy) < o.ohh + t.hh * 0.5;
-    if (onLine) {
-      const nrm = dx < 0 ? -1 : dx > 0 ? 1 : t.side;
-      t.fx += nrm * penX * PUSH_STIFF - t.vx * PUSH_DAMP; // spring + damper
-    } else {
-      const nrm = dy < 0 ? -1 : 1;
-      t.fy += nrm * penY * PUSH_STIFF - t.vy * PUSH_DAMP;
-    }
+    // ALWAYS clear SIDEWAYS (horizontal). Every penetrating pill — whether on the
+    // text's own row or merely grazing it from the row above/below — slides out
+    // along x, so it keeps its HOME Y and the vertical row spacing stays uniform
+    // around the (tall) headline. (The old code nudged grazing rows vertically,
+    // which opened big gaps in the rows the text fell across.) A fixed axis also
+    // means no per-frame axis flip → no jitter.
+    const nrm = dx < 0 ? -1 : dx > 0 ? 1 : t.side;
+    t.fx += nrm * penX * PUSH_STIFF - t.vx * PUSH_DAMP; // spring + damper
   }
 
   // Soft pill↔pill separation along the min-overlap axis (penalty + damping).

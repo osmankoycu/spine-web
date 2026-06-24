@@ -117,7 +117,12 @@ export const stats: Stat[] = [
 export const statsLayout = {
   figmaW: 1440,
   figmaAnchorY: 472,
-  spread: 1280 / 1440, // 0.8889 — uniform x/y spread; sizes kept at design px
+  // How far the circles fling out from centre (× the Figma offset). >1 spreads
+  // them WIDER than the Figma frame so they fill the whole tag area; x is pushed
+  // harder than y because the tag grid is much wider than it is tall. Sizes stay
+  // at design px (not scaled by this).
+  spreadX: 1.22,
+  spreadY: 1.06,
   statSize: 200,
   preferImportantForStats: true,
   // 4 black stat circles — index aligns to stats[] (25%, $0, 24/7, 100+).

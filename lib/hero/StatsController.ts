@@ -91,11 +91,11 @@ export class StatsController {
     if (!grid) return;
 
     const gridH = grid.offsetHeight;
-    const { spread, figmaAnchorY, statSize } = statsLayout;
+    const { spreadX, spreadY, figmaAnchorY, statSize } = statsLayout;
     // Figma centre → grid-relative design coords (canvas centre = grid centre).
     const map = (fx: number, fy: number) => ({
-      x: 640 + (fx - 720) * spread,
-      y: gridH / 2 + (fy - figmaAnchorY) * spread,
+      x: 640 + (fx - 720) * spreadX,
+      y: gridH / 2 + (fy - figmaAnchorY) * spreadY,
     });
 
     const homes = pills.map((el) => ({
@@ -255,28 +255,36 @@ export class StatsController {
     if (this.drifting || this.destroyed || prefersReducedMotion()) return;
     this.drifting = true;
     this.carriers.forEach((c, i) => {
-      // % of own size → ~5–7px. x and y are SEPARATE tweens with different
-      // periods so each circle traces a slow organic ellipse (a bubble bobbing
-      // in place), never drifting far from its spot.
-      const amp = c.role === "stat" ? 2.6 : 4;
+      // % of own size → a CLEARLY-VISIBLE bob, like a bubble drifting in a soda.
+      // x and y are SEPARATE tweens with different periods so each circle traces
+      // a continuous organic ellipse, never wandering far. Plain `to` (from the
+      // settled xPercent 0) so there's no jump when drift kicks in; varied
+      // directions/periods keep the field from pulsing in sync. The GREY
+      // decoratives swing ~2× as far AND faster than the black stat circles.
+      const isStat = c.role === "stat";
+      const amp = isStat ? 7 : 18; // greys are smaller, so a bigger % to clear ~2× the px swing
+      const durX = (isStat ? 3.2 : 1.8) + (i % 5) * 0.4;
+      const durY = (isStat ? 3.8 : 2.2) + (i % 4) * 0.4; // ≠ x → elliptical
       const ax = (i % 2 ? 1 : -1) * amp;
       const ay = (i % 3 === 0 ? 1 : -1) * amp * 0.85;
       this.drifts.push(
         gsap.to(c.el, {
           xPercent: ax,
-          duration: 3.8 + (i % 5) * 0.7,
-          delay: (i % 6) * 0.3,
+          duration: durX,
+          delay: (i % 6) * 0.2,
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,
+          overwrite: "auto", // only the drift channel — never the master's x/y
         }),
         gsap.to(c.el, {
           yPercent: ay,
-          duration: 4.6 + (i % 4) * 0.6, // ≠ x period → elliptical, not a line
-          delay: (i % 5) * 0.4,
+          duration: durY,
+          delay: (i % 5) * 0.25,
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,
+          overwrite: "auto",
         }),
       );
     });
@@ -287,8 +295,17 @@ export class StatsController {
     this.drifting = false;
     for (const d of this.drifts) d.kill();
     this.drifts = [];
-    // Reset the drift channel to 0 so no offset is baked into the reverse morph.
-    gsap.set(this.carrierEls(), { xPercent: 0, yPercent: 0 });
+    // Ease the drift channel back to 0 (don't hard-snap — the bob is ~15px now)
+    // so leaving STATS doesn't jolt the circles by their drift offset.
+    // overwrite "auto" (NOT true) — true would also kill the master's morph
+    // tweens on these same elements, so the circles never re-form on a 2nd visit.
+    gsap.to(this.carrierEls(), {
+      xPercent: 0,
+      yPercent: 0,
+      duration: 0.35,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
   }
 
   onPhase(phase: PhaseId): void {

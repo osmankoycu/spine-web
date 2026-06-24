@@ -32,6 +32,8 @@ export class HeroRestController {
   private destroyed = false;
   private timer: ReturnType<typeof setTimeout> | null = null;
   private rotateTl: gsap.core.Timeline | null = null;
+  private tagDrifts: gsap.core.Tween[] = [];
+  private tagDrifting = false;
 
   constructor(stage: HTMLElement, reduced: boolean) {
     this.stage = stage;
@@ -198,6 +200,7 @@ export class HeroRestController {
     if (this.rotating || this.reduced || this.destroyed) return;
     this.rotating = true;
     this.scheduleNext();
+    this.startTagDrift();
   }
 
   private stopRotation(): void {
@@ -208,6 +211,58 @@ export class HeroRestController {
     }
     this.rotateTl?.kill();
     this.rotateTl = null;
+    this.stopTagDrift();
+  }
+
+  // Ambient bubble drift on the WHOLE tag field while resting — like the STATS
+  // circles' soda bob but GENTLER. xPercent/yPercent is a separate gsap transform
+  // channel, so it composes on top of TagFlow's physics x/y (px) without fighting
+  // it. Reset to 0 on leaving HERO_REST so the morph/handoff isn't offset.
+  private startTagDrift(): void {
+    if (this.tagDrifting || this.reduced || this.destroyed) return;
+    this.tagDrifting = true;
+    const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
+    tags.forEach((el, i) => {
+      const ax = (i % 2 ? 1 : -1) * 3; // % of own size → a light ~6px sway
+      const ay = (i % 3 === 0 ? 1 : -1) * 5.5;
+      this.tagDrifts.push(
+        gsap.to(el, {
+          xPercent: ax,
+          duration: 4.8 + (i % 5) * 0.8,
+          delay: (i % 7) * 0.4,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          overwrite: "auto",
+        }),
+        gsap.to(el, {
+          yPercent: ay,
+          duration: 5.6 + (i % 4) * 0.7, // ≠ x period → slow organic ellipse
+          delay: (i % 5) * 0.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          overwrite: "auto",
+        }),
+      );
+    });
+  }
+
+  private stopTagDrift(): void {
+    if (!this.tagDrifting) return;
+    this.tagDrifting = false;
+    for (const d of this.tagDrifts) d.kill();
+    this.tagDrifts = [];
+    const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
+    // overwrite "auto" → only the drift channel (xPercent/yPercent), never the
+    // physics x/y (quickSetter, not a tween) or the StatsController morph.
+    gsap.to(tags, {
+      xPercent: 0,
+      yPercent: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
   }
 
   private scheduleNext(): void {

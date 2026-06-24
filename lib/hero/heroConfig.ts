@@ -34,10 +34,10 @@ export const importantTags: string[] = [
 // Remaining grey pool (texture field — repeats are intentional).
 export const tagPool: string[] = [
   "Requested time off",
-  "Needs a new email alias",
+  "Got a raise",
   "Fired someone",
   "Had a baby",
-  "Got a raise",
+  "Needs a new email alias",
   "Became a manager",
   "Approved PTO",
   "Reorganized the company",

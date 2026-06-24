@@ -50,21 +50,33 @@ type PadOpt = { padX?: number; padY?: number } | undefined;
 // Every spring below is paired with a near-CRITICAL damper so nothing rings or
 // jitters: a pill glides to rest and stops. (crit damp c ≈ 2·√k.)
 const W = 7; // omega — home spring frequency (rad/s); holds the grid, ~0.8s settle
-const Z = 0.85; // zeta — well-damped → smooth ease-out, no bounce
+const Z = 1.1; // zeta — over-damped → the field eases to a dead-still rest
 const K = W * W; // spring stiffness
 const C = 2 * Z * W; // spring damping
-const PAD_X = 40; // breathing room a body keeps around itself, x (pills stand back)
+const HOME_CAP = 400; // SATURATE the home pull: beyond ~40px displacement the
+//   inward force stops growing, so pills shoved into the edge piles flow out and
+//   spread (decompressing the pile) instead of ramming together → no jitter.
+const PAD_X = 56; // breathing room a body keeps around itself, x (pills stand back)
 const PAD_Y = 14; // …y (smaller → tighter vertical band)
-const GAP = 18; // min gap between two pills (matches the roomier grid spacing)
+// Min gap kept between two pills when they collide. Asymmetric: a roomy
+// HORIZONTAL gap so pushed-aside pills don't stick together (their home rows are
+// spread ~60px+ by justify-between, so this stays well under that → no resting
+// tension), and a small VERTICAL gap that stays below the 10px row gap so
+// stacked rows don't fight at rest.
+const GAP_X = 22;
+const GAP_Y = 8;
 const PUSH_STIFF = 2200; // body→pill penalty stiffness (how firmly a pill is cleared)
-const PUSH_DAMP = 80; // body→pill damping (≈ critical for PUSH_STIFF → no jitter)
+const PUSH_DAMP = 185; // body→pill damping — heavily over-damped so the growing
+//   text body GLIDES pills aside (terminal speed ≈ stiff·pen/damp) instead of
+//   flinging them (no reveal "burst"/scatter); also calms the rest.
 const PAIR_STIFF = 1500; // pill→pill penalty stiffness (cascade)
-const PAIR_DAMP = 60; // pill→pill damping (≈ critical → smooth, no bounce)
-const VMAX = 2600; // velocity clamp
-const DT = 1 / 120; // small fixed step → 2 substeps/frame → stiff springs stay stable
-const MAXSUB = 4;
-const SLEEP_V = 5; // px/s — settle deadzone (with low net force)
-const SLEEP_F = 130; // net-force deadzone
+const PAIR_DAMP = 115; // pill→pill damping (over critical → kills residual
+//   oscillation in the squeezed lower-region pile)
+const VMAX = 1000; // velocity clamp (backstop so nothing flings during reveal/swap)
+const DT = 1 / 240; // tiny fixed step → ~4 substeps/frame, so the strong damping
+const MAXSUB = 6; //    (PUSH/PAIR) stays stable in explicit Euler (damp·dt < 1)
+const SLEEP_V = 26; // px/s — settle deadzone: catch the slow low-force drift the
+const SLEEP_F = 420; // home-cap leaves behind (reveal motion is far faster, untouched)
 const CURSOR_FORCE = 1700; // ambient mouse-repel (step 5)
 const CURSOR_RADIUS = 150;
 
@@ -77,7 +89,7 @@ export class TagFlow {
   private active = false;
   private running = false;
   private acc = 0;
-  private scale = 1; // TagField scales the grid to fit the stage; translate ÷ this
+  private scale = 1; // the whole hero is CSS-scaled to fit; translate writes ÷ this
 
   constructor(stage: HTMLElement) {
     this.stage = stage;
@@ -109,8 +121,11 @@ export class TagFlow {
       t.setX(0);
       t.setY(0);
     }
-    // The grid may be CSS-scaled to fit the stage; detect that factor (gBCR is
-    // scaled, offsetWidth is the layout size) so translate writes can divide it out.
+    // The hero is uniformly CSS-scaled to fit the stage; detect that factor
+    // (gBCR is post-scale, offsetWidth is the layout size) so translate writes —
+    // which live in the unscaled local space — can divide it out. Tags AND the
+    // text obstacles are inside the same scaled wrapper, so the field stays
+    // self-consistent (no jamming).
     const t0 = this.tags[0];
     this.scale =
       t0 && t0.el.offsetWidth
@@ -249,10 +264,19 @@ export class TagFlow {
     const tags = this.tags;
     const n = tags.length;
 
-    // 1. Base force: under-damped home spring (+ cursor repel).
+    // 1. Base force: saturating home spring (+ damping + cursor repel).
+    const cap = HOME_CAP * this.scale;
     for (const t of tags) {
-      let fx = -K * (t.x - t.hx) - C * t.vx;
-      let fy = -K * (t.y - t.hy) - C * t.vy;
+      const dxh = t.x - t.hx;
+      const dyh = t.y - t.hy;
+      const dh = Math.hypot(dxh, dyh);
+      let fx = -C * t.vx;
+      let fy = -C * t.vy;
+      if (dh > 0.001) {
+        const mag = Math.min(K * dh, cap) / dh; // linear near home, capped far out
+        fx -= mag * dxh;
+        fy -= mag * dyh;
+      }
       if (this.repel && this.cursor) {
         const dx = t.x - this.cursor.x;
         const dy = t.y - this.cursor.y;
@@ -280,13 +304,18 @@ export class TagFlow {
       for (let j = i + 1; j < n; j++) this.repel2(tags[i], tags[j]);
     }
 
+    // Velocity/force thresholds live in design space; the sim runs in post-scale
+    // px, so scale them to match.
+    const sc = this.scale;
+    const vmax = VMAX * sc;
+
     // 4. Integrate (semi-implicit Euler) with a velocity clamp.
     for (const t of tags) {
       t.vx += t.fx * dt;
       t.vy += t.fy * dt;
       const sp = Math.hypot(t.vx, t.vy);
-      if (sp > VMAX) {
-        const k = VMAX / sp;
+      if (sp > vmax) {
+        const k = vmax / sp;
         t.vx *= k;
         t.vy *= k;
       }
@@ -295,8 +324,10 @@ export class TagFlow {
     }
 
     // 5. Settle deadzone: at equilibrium (tiny speed + low net force) stop.
+    const sleepV = SLEEP_V * sc;
+    const sleepF = SLEEP_F * sc;
     for (const t of tags) {
-      if (Math.hypot(t.vx, t.vy) < SLEEP_V && Math.hypot(t.fx, t.fy) < SLEEP_F) {
+      if (Math.hypot(t.vx, t.vy) < sleepV && Math.hypot(t.fx, t.fy) < sleepF) {
         t.vx = 0;
         t.vy = 0;
       }
@@ -309,8 +340,9 @@ export class TagFlow {
   private pushText(t: Tag, o: Obstacle): void {
     const g = o.strength;
     if (g <= 0.02) return;
-    const ehx = (o.ohw + o.padX) * g + t.hw;
-    const ehy = (o.ohh + o.padY) * g + t.hh;
+    // pad is a design-space distance; the measured sizes are post-scale → ×scale.
+    const ehx = (o.ohw + o.padX * this.scale) * g + t.hw;
+    const ehy = (o.ohh + o.padY * this.scale) * g + t.hh;
     const dx = t.x - o.ox;
     const dy = t.y - o.oy;
     const penX = ehx - Math.abs(dx);
@@ -333,8 +365,8 @@ export class TagFlow {
   private repel2(a: Tag, b: Tag): void {
     const dx = b.x - a.x;
     const dy = b.y - a.y;
-    const ox = a.hw + b.hw + GAP - Math.abs(dx);
-    const oy = a.hh + b.hh + GAP - Math.abs(dy);
+    const ox = a.hw + b.hw + GAP_X * this.scale - Math.abs(dx);
+    const oy = a.hh + b.hh + GAP_Y * this.scale - Math.abs(dy);
     if (ox <= 0 || oy <= 0) return;
     if (ox < oy) {
       const nrm = dx < 0 ? -1 : 1;

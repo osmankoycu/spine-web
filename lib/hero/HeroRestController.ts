@@ -4,10 +4,11 @@ import { rotatingWords } from "./heroConfig";
 import type { PhaseId } from "./types";
 
 const DWELL = 1.8; // seconds a rotating word is shown before swapping
-// In HERO_REST the whole tag field reads as ghosted (Figma state 2): the black
-// "important" tags fade their TEXT to the page colour so every pill matches the
-// faint normal ones. Pills keep their solid #e1e5ea bg — only text colour moves.
+// In HERO_REST the whole tag field reads as ghosted: the black "important" tags
+// fade their TEXT to the page colour, and EVERY pill's grey bg lightens toward
+// the page so the field recedes behind the headline (less visible).
 const GHOST = "#fafafa";
+const REST_PILL = "#eef1f4"; // lighter pill bg in HERO_REST (was #e1e5ea)
 
 // Owns the HERO_REST resting state (Section 4): runs the fluid TagFlow that
 // opens the center around the text, pops the center content in, and loops the
@@ -46,7 +47,7 @@ export class HeroRestController {
     const measures = gsap.utils.toArray<HTMLElement>("[data-h-measure]", stage);
     this.flow.setObstacles(
       [measures[0] ?? null, measures[1] ?? null, this.subtitle, this.cta],
-      [{ padY: 18 }, { padY: 16 }, { padY: 16 }, { padY: 14 }],
+      [{ padY: 26 }, { padY: 24 }, { padY: 15 }, { padY: 13 }],
     );
     window.addEventListener("resize", this.onResize);
   }
@@ -58,12 +59,14 @@ export class HeroRestController {
 
     this.flow.measureHome();
 
+    const allTags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
     const important = gsap.utils.toArray<HTMLElement>("[data-important]", this.stage);
     const center = [...this.lines, this.subtitle, this.cta].filter(
       (el): el is HTMLElement => el != null,
     );
 
     if (this.reduced) {
+      gsap.set(allTags, { backgroundColor: REST_PILL });
       gsap.set(important, { color: GHOST });
       gsap.set(center, { opacity: 1, y: 0 });
       this.flow.setActive(true);
@@ -71,8 +74,10 @@ export class HeroRestController {
       return;
     }
 
-    // The field ghosts out: the black "important" tags fade their text to the
-    // page colour (pills stay solid) so the whole grid recedes behind the headline.
+    // The field ghosts out: every pill's bg lightens and the black "important"
+    // tags fade their text to the page colour, so the whole grid recedes behind
+    // the headline.
+    gsap.to(allTags, { backgroundColor: REST_PILL, duration: 0.9, ease: "power2.out" });
     if (important.length) {
       gsap.to(important, { color: GHOST, duration: 0.8, ease: "power2.out" });
     }
@@ -92,7 +97,8 @@ export class HeroRestController {
     this.revealBeat(tl, this.lines[0], 0, 0.1, "back.out(1.5)", { y: 22 });
     this.revealBeat(tl, this.lines[1], 1, 0.22, "back.out(1.5)", { y: 22 });
     this.revealBeat(tl, this.subtitle, 2, 0.33, "power3.out", { y: 16 });
-    this.revealBeat(tl, this.cta, 3, 0.43, "back.out(1.6)", { y: 16, scale: 0.94 });
+    // power3 (no overshoot) so the button glides in without a bounce at the end.
+    this.revealBeat(tl, this.cta, 3, 0.43, "power3.out", { y: 16, scale: 0.97 });
   }
 
   // One reveal beat. The collider GROWS FIRST (at `at`) so the pills start

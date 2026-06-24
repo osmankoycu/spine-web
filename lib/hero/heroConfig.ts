@@ -53,20 +53,39 @@ export const tagPool: string[] = [
   "Got promoted",
   "Needs a new app",
   "Offboarded someone",
+  "Started parental leave",
+  "Enrolled in benefits",
+  "Changed their name",
+  "Reported an injury",
+  "Updated direct deposit",
+  "Went fully remote",
+  "Requested FMLA",
+  "Joined the company",
+  "Took a sabbatical",
+  "Set up payroll",
 ];
 
 // Toggle to randomize which tags are "important" per load (default: stable).
 export const randomizeImportant = false;
 
-// Build the data-driven tag field. The important (black) tags are spread evenly
-// across `target` tiles; the rest are filled by cycling the grey pool (repeats
-// are intentional texture). Deterministic so SSR/client markup match — INTRO
-// randomizes only the pop-in *order* (in GSAP), never the layout.
-export function buildTags(target = 40): Tag[] {
+// Build the data-driven tag field. The important (black) tags are SCATTERED at
+// deterministic pseudo-random positions (one per slot, randomized within it) so
+// they read as mixed rather than lining up in columns; the rest cycle the grey
+// pool (repeats are intentional texture). Deterministic (seeded) so SSR/client
+// markup match — INTRO randomizes only the pop-in *order* (in GSAP).
+export function buildTags(target = 36): Tag[] {
   const out: Tag[] = [];
+  let seed = 20260624;
+  const rand = () => {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    return seed / 0x7fffffff;
+  };
   const positions = new Set<number>();
+  const slot = target / importantTags.length;
   for (let k = 0; k < importantTags.length; k++) {
-    positions.add(Math.floor(((k + 0.5) * target) / importantTags.length));
+    let pos = Math.min(target - 1, Math.floor(k * slot + rand() * slot));
+    while (positions.has(pos)) pos = (pos + 1) % target;
+    positions.add(pos);
   }
   let impI = 0;
   let poolI = 0;

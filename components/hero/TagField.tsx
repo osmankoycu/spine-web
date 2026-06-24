@@ -17,23 +17,47 @@ type TagFieldProps = {
 };
 
 /**
- * Data-driven HR-event tag grid (Section 6) + INTRO pop-in (Section 4):
- * pills pop in one-by-one in randomized order with a spring overshoot, ~1.5s.
- * The same pills are later popped DOWN in place by the master timeline.
+ * Data-driven HR-event tag grid (Section 6) + INTRO pop-in (Section 4).
+ * The grid is SCALE-TO-FIT: it lays out at its natural size, then the whole
+ * field is uniformly scaled so it always sits fully inside the stage (never
+ * overflowing above the header or below) — recomputed on resize, so the fit is
+ * dynamic. TagFlow detects that scale and divides it out of its translate writes.
  */
 export function TagField({ onIntroComplete, className }: TagFieldProps) {
   const root = useRef<HTMLDivElement>(null);
+  const fit = useRef<HTMLDivElement>(null);
+  const grid = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const el = root.current;
-      if (!el) return;
-      const pills = gsap.utils.toArray<HTMLElement>("[data-tag]", el);
+      const rootEl = root.current;
+      const fitEl = fit.current;
+      const gridEl = grid.current;
+      if (!rootEl || !fitEl || !gridEl) return;
+
+      // Scale the grid down (never up) so it fits the available stage area.
+      const fitToArea = () => {
+        fitEl.style.transform = "scale(1)"; // measure natural size first
+        const cs = getComputedStyle(rootEl);
+        const availW =
+          rootEl.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        const availH =
+          rootEl.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        const gw = gridEl.offsetWidth;
+        const gh = gridEl.offsetHeight;
+        if (!gw || !gh) return;
+        const s = Math.min(1, availW / gw, availH / gh);
+        fitEl.style.transform = `scale(${s})`;
+      };
+      fitToArea();
+      window.addEventListener("resize", fitToArea);
+
+      const pills = gsap.utils.toArray<HTMLElement>("[data-tag]", gridEl);
 
       if (prefersReducedMotion()) {
         gsap.set(pills, { opacity: 1, scale: 1 });
         onIntroComplete?.();
-        return;
+        return () => window.removeEventListener("resize", fitToArea);
       }
 
       // Hide pre-paint (useGSAP runs in a layout effect → no flash).
@@ -46,6 +70,8 @@ export function TagField({ onIntroComplete, className }: TagFieldProps) {
         stagger: { each: 0.035, from: "random" }, // randomized pop order
         onComplete: () => onIntroComplete?.(),
       });
+
+      return () => window.removeEventListener("resize", fitToArea);
     },
     { scope: root },
   );
@@ -55,29 +81,35 @@ export function TagField({ onIntroComplete, className }: TagFieldProps) {
       ref={root}
       aria-hidden
       className={cn(
-        "flex items-center justify-center px-[var(--page-px)]",
+        "absolute inset-0 flex items-center justify-center px-[var(--page-px)]",
+        "pb-12 pt-[calc(var(--header-h)+16px)]",
         className,
       )}
     >
-      {/* Bounded, centered grid (~1200px) so the initial layout is stable across
-          viewport sizes — the physics then pushes pills out of this box and they
-          may overflow the edges (that's fine). */}
-      <div className="flex max-w-[1200px] flex-wrap content-center justify-center gap-x-7 gap-y-6">
-        {TAGS.map((tag, i) => (
-          <span
-            key={`${tag.label}-${i}`}
-            data-tag
-            data-important={tag.important || undefined}
-            className={cn(
-              "whitespace-nowrap rounded-pill px-8 py-[1.1rem] text-[1.2rem] font-medium leading-none will-change-transform select-none",
-              tag.important
-                ? "bg-black text-white"
-                : "bg-grey-pill text-grey-text",
-            )}
-          >
-            {tag.label}
-          </span>
-        ))}
+      {/* Scale wrapper (transform applied imperatively in fitToArea). */}
+      <div ref={fit} className="origin-center">
+        {/* Natural-size grid — fills the width up to 1280px, packs rows edge to
+            edge (justify-between) like the Figma reference. */}
+        <div
+          ref={grid}
+          className="flex w-full max-w-[1280px] flex-wrap content-center justify-between gap-y-[10px]"
+        >
+          {TAGS.map((tag, i) => (
+            <span
+              key={`${tag.label}-${i}`}
+              data-tag
+              data-important={tag.important || undefined}
+              className={cn(
+                // Figma: every pill shares the same #e1e5ea bg; only the TEXT
+                // colour distinguishes them — important = black, normal = ghost.
+                "whitespace-nowrap rounded-pill bg-grey-pill px-[30px] py-[21px] text-[24px] font-medium leading-[39.42px] tracking-[-0.27px] will-change-transform select-none",
+                tag.important ? "text-black" : "text-bg",
+              )}
+            >
+              {tag.label}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

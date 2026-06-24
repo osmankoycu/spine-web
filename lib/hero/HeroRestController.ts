@@ -4,10 +4,10 @@ import { rotatingWords } from "./heroConfig";
 import type { PhaseId } from "./types";
 
 const DWELL = 1.8; // seconds a rotating word is shown before swapping
-const REST_TAG_OPACITY = 0.55; // softened tags in HERO_REST
-// Important (black) tags soften to grey in HERO_REST (matches the design).
-const GREY_PILL = "#e9e9e9";
-const GREY_TEXT = "#9a9a9a";
+// In HERO_REST the whole tag field reads as ghosted (Figma state 2): the black
+// "important" tags fade their TEXT to the page colour so every pill matches the
+// faint normal ones. Pills keep their solid #e1e5ea bg — only text colour moves.
+const GHOST = "#fafafa";
 
 // Owns the HERO_REST resting state (Section 4): runs the fluid TagFlow that
 // opens the center around the text, pops the center content in, and loops the
@@ -58,35 +58,23 @@ export class HeroRestController {
 
     this.flow.measureHome();
 
-    const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
     const important = gsap.utils.toArray<HTMLElement>("[data-important]", this.stage);
     const center = [...this.lines, this.subtitle, this.cta].filter(
       (el): el is HTMLElement => el != null,
     );
 
     if (this.reduced) {
-      gsap.set(tags, { opacity: REST_TAG_OPACITY });
-      gsap.set(important, { backgroundColor: GREY_PILL, color: GREY_TEXT });
+      gsap.set(important, { color: GHOST });
       gsap.set(center, { opacity: 1, y: 0 });
       this.flow.setActive(true);
       this.flow.settle(120);
       return;
     }
 
-    // Tags soften + fade as the flow opens the center.
-    gsap.to(tags, {
-      opacity: REST_TAG_OPACITY,
-      duration: 1.0,
-      ease: "power2.out",
-      stagger: { each: 0.004, from: "center" },
-    });
+    // The field ghosts out: the black "important" tags fade their text to the
+    // page colour (pills stay solid) so the whole grid recedes behind the headline.
     if (important.length) {
-      gsap.to(important, {
-        backgroundColor: GREY_PILL,
-        color: GREY_TEXT,
-        duration: 0.7,
-        ease: "power2.out",
-      });
+      gsap.to(important, { color: GHOST, duration: 0.8, ease: "power2.out" });
     }
     // Field starts simulating (tags rest at home, strengths still 0 → no push)
     // so they react the instant a band's strength ramps in.

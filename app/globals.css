@@ -6,15 +6,15 @@
 /* against Figma at polish time (variable_defs needs a desktop select).*/
 /* ------------------------------------------------------------------ */
 @theme {
-  /* Brand + surfaces */
-  --color-bg: #f7f6f4; /* off-white page */
+  /* Brand + surfaces — exact values from Figma (Spine-Landing, node 13:3/13:101) */
+  --color-bg: #fafafa; /* off-white page (also the "ghost" tag-text color) */
   --color-white: #ffffff;
-  --color-black: #0f0f0f; /* important tags, "one team", headings */
+  --color-black: #0f0f0f; /* "one team", headings */
   --color-ink: #161616; /* near-black body text */
-  --color-orange: #ff6a00; /* brand, logo, active word, primary CTA */
-  --color-orange-600: #e85f00; /* CTA hover/press */
-  --color-grey-pill: #e9e9e9; /* inactive pills, decorative circles */
-  --color-grey-text: #9a9a9a; /* muted pill labels, faded fragments */
+  --color-orange: #ff6c16; /* brand, logo, active word, primary CTA */
+  --color-orange-600: #e85f0e; /* CTA hover/press */
+  --color-grey-pill: #e1e5ea; /* ALL tag pills share this bg */
+  --color-grey-text: #828282; /* subtitle / muted fragments */
   --color-grey-word: #c6c6c6; /* inactive headline words */
   --color-frame: #0a0a0a; /* dark backdrop around the rounded page card */
 

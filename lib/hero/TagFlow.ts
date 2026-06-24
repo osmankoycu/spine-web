@@ -77,6 +77,7 @@ export class TagFlow {
   private active = false;
   private running = false;
   private acc = 0;
+  private scale = 1; // TagField scales the grid to fit the stage; translate ÷ this
 
   constructor(stage: HTMLElement) {
     this.stage = stage;
@@ -108,6 +109,13 @@ export class TagFlow {
       t.setX(0);
       t.setY(0);
     }
+    // The grid may be CSS-scaled to fit the stage; detect that factor (gBCR is
+    // scaled, offsetWidth is the layout size) so translate writes can divide it out.
+    const t0 = this.tags[0];
+    this.scale =
+      t0 && t0.el.offsetWidth
+        ? t0.el.getBoundingClientRect().width / t0.el.offsetWidth
+        : 1;
     const s = this.stage.getBoundingClientRect();
     for (const t of this.tags) {
       const r = t.el.getBoundingClientRect();
@@ -195,9 +203,10 @@ export class TagFlow {
     this.measureObs(true);
     for (const o of this.obs) o.strength = 1;
     for (let i = 0; i < iters; i++) this.step(DT);
+    const inv = 1 / this.scale;
     for (const t of this.tags) {
-      t.setX(t.x - t.hx);
-      t.setY(t.y - t.hy);
+      t.setX((t.x - t.hx) * inv);
+      t.setY((t.y - t.hy) * inv);
     }
   }
 
@@ -216,9 +225,10 @@ export class TagFlow {
       this.acc -= DT;
       n++;
     }
+    const inv = 1 / this.scale;
     for (const t of this.tags) {
-      t.setX(t.x - t.hx);
-      t.setY(t.y - t.hy);
+      t.setX((t.x - t.hx) * inv);
+      t.setY((t.y - t.hy) * inv);
     }
   };
 

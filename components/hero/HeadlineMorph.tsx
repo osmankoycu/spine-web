@@ -28,7 +28,6 @@ export function HeadlineMorph() {
           <span data-h-line className="block opacity-0">
             <span data-h-measure className="inline-block">
               {copy.rest.line2Prefix} <RotatingWord />
-              <span className="text-orange">.</span>
             </span>
           </span>
         </h1>

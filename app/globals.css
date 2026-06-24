@@ -32,7 +32,7 @@
 :root {
   --page-inset: 10px; /* dark frame thickness */
   --page-px: clamp(20px, 8.33vw, 120px); /* horizontal gutter (≈120px @1440) */
-  --header-h: 84px;
+  --header-h: 160px;
 }
 
 html,

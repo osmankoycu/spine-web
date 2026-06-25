@@ -34,15 +34,15 @@ export class BenefitsController {
   private readonly stats: StatsController;
   private readonly oneTeam: HTMLElement | null;
   private readonly cta: HTMLElement | null;
+  private readonly content: HTMLElement | null;
   private words: Word[] = [];
-  private ctaToX = 0; // travel for the CTA to its bottom slot (BENEFITS)
-  private ctaToY = 92; // default = its STATS nudge (no move) until measured
 
   constructor(stage: HTMLElement, stats: StatsController) {
     this.stage = stage;
     this.stats = stats;
     this.oneTeam = stage.querySelector<HTMLElement>("[data-stat-oneteam]");
     this.cta = stage.querySelector<HTMLElement>("[data-cta]");
+    this.content = stage.querySelector<HTMLElement>("[data-benefits-content]");
     if (process.env.NODE_ENV !== "production") {
       (window as unknown as { __bc?: BenefitsController }).__bc = this;
     }
@@ -85,15 +85,6 @@ export class BenefitsController {
       });
     }
     this.words = words;
-
-    // CTA travel: from its laid-out (centre) spot to the bottom jig.
-    const ctaJig = this.stage.querySelector<HTMLElement>("[data-cta-bottom]");
-    if (this.cta && ctaJig) {
-      const C = ds(this.cta);
-      const J = ds(ctaJig);
-      this.ctaToX = J.cx - C.cx;
-      this.ctaToY = J.cy - C.cy;
-    }
   }
 
   /** Segment 1 (STATS → BENEFITS) at master-time `at`. */
@@ -107,19 +98,13 @@ export class BenefitsController {
         at,
       );
     }
-    // The CTA does NOT leave — it travels down to its bottom slot (above the
-    // paging) and STAYS through COMPLIANCE / PEOPLE_OPS. From its STATS y:92.
+    // The CTA is a HERO_REST/STATS element only — it fades out on STATS → BENEFITS
+    // and never returns. fromTo so it scrubs back in on reverse.
     if (this.cta) {
       master.fromTo(
         this.cta,
-        { x: 0, y: 92 },
-        {
-          x: this.ctaToX,
-          y: this.ctaToY,
-          duration: 0.5,
-          ease: "power3.inOut",
-          immediateRender: false,
-        },
+        { opacity: 1 },
+        { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false },
         at,
       );
     }
@@ -149,6 +134,27 @@ export class BenefitsController {
         );
       }
     }
+    // The BENEFITS page content fades in once the words have docked.
+    if (this.content) {
+      master.fromTo(
+        this.content,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.45, ease: "power2.out", immediateRender: false },
+        at + 0.55,
+      );
+    }
+  }
+
+  /** Fade the page content out when LEAVING BENEFITS (→ COMPLIANCE). fromTo (not
+   *  `to`) so it scrubs back in on reverse. */
+  fadeOutContent(master: gsap.core.Timeline, at: number): void {
+    if (!this.content) return;
+    master.fromTo(
+      this.content,
+      { opacity: 1 },
+      { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false },
+      at,
+    );
   }
 
   /** Later phases (COMPLIANCE / PEOPLE_OPS): shift which word is active (orange).

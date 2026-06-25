@@ -16,6 +16,41 @@ export const copy = {
   cta: "Get your PEO exit plan",
 };
 
+// ── BENEFITS page content (Figma node 52:727) ───────────────────────────────
+// Illustrations exported to /public/benefits (tint baked in: company = blue
+// #1e54b8, employees = cyan #2bb0c9; the consultant is greyscale).
+export type BenefitFeature = { img: string; w: number; h: number; title: string; desc: string };
+export const benefitsPage = {
+  headline: ["Better plans.", "Lower premiums."],
+  subtitle:
+    "We become your broker of record. We shop every major carrier, right-size your plan to your team, and renegotiate every renewal — so your costs go down, not up.",
+  consultant: {
+    img: "/benefits/consultant.png",
+    eyebrow: "Your dedicated benefits consultant",
+    name: "Nashina Bush",
+    role: "Senior Health & Benefits Broker",
+    badge: "In-house",
+  },
+  company: {
+    title: "For your company",
+    color: "#1e54b8",
+    features: [
+      { img: "/benefits/company-carrier.png", w: 124, h: 124, title: "Every major carrier, every year.", desc: "No lazy renewals. Real shopping, every cycle." },
+      { img: "/benefits/company-optimization.png", w: 223, h: 216, title: "Plan optimization & right-sizing.", desc: "AI compares thousands of configurations against your actual workforce." },
+      { img: "/benefits/company-consultant.png", w: 111, h: 124, title: "Dedicated benefits consultant.", desc: "A real expert who knows your team — not a call center." },
+    ] as BenefitFeature[],
+  },
+  employees: {
+    title: "For your employees",
+    color: "#2bb0c9",
+    features: [
+      { img: "/benefits/employee-concierge.png", w: 137, h: 132, title: "24/7 concierge.", desc: "Every benefits question answered. Every bill checked. Every claim followed up." },
+      { img: "/benefits/employee-app.png", w: 154, h: 222, title: "The Spine app.", desc: "Plan selection, digital cards, pharmacy navigation, claims help — in their pocket." },
+      { img: "/benefits/employee-care.png", w: 113, h: 124, title: "Care navigation.", desc: "We help employees find in-network specialists, second opinions, and fight surprise bills." },
+    ] as BenefitFeature[],
+  },
+};
+
 // ── Tags (Section 6) ────────────────────────────────────────────────────────
 // Curated "important" set — pop in solid black. Fixed-curated by default.
 export const importantTags: string[] = [

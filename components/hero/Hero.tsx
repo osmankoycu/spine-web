@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { useHeroScene } from "@/lib/hero/useSceneController";
 import { TagField } from "./TagField";
 import { HeadlineMorph } from "./HeadlineMorph";
+import { BenefitsContent } from "./BenefitsContent";
 import { STOPS } from "@/lib/hero/types";
 import { cn } from "@/lib/cn";
 
@@ -59,6 +60,7 @@ export function Hero() {
           >
             <TagField onIntroComplete={completeIntro} />
             <HeadlineMorph />
+            <BenefitsContent />
           </div>
         </div>
 

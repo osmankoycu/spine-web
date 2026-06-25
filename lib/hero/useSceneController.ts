@@ -96,6 +96,7 @@ function buildHeroMaster(
   // Segments 2 + 3 (BENEFITS → COMPLIANCE → PEOPLE_OPS): the docked line holds;
   // only the ACTIVE (orange) word shifts along it.
   benefits.setActiveWord(master, 2, 0, 1); // Benefits → Compliance active
+  benefits.fadeOutContent(master, 2); // BENEFITS page content leaves with it
   benefits.setActiveWord(master, 3, 1, 2); // Compliance → People ops active
 
   // Pin the master to its full SEGMENTS duration (the colour swaps finish early).

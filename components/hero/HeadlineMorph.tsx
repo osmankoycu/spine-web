@@ -95,16 +95,6 @@ export function HeadlineMorph() {
         <span data-bn-word="1">{rotatingWords[1]},</span>{" "}
         <span data-bn-word="2">{rotatingWords[2]}</span>
       </div>
-
-      {/* BENEFITS CTA slot — measurement jig at the page bottom (above the
-          paging). The CTA travels here instead of fading, and STAYS through
-          COMPLIANCE / PEOPLE_OPS. Sized to the CTA so its centre is the target. */}
-      <div
-        data-cta-bottom
-        aria-hidden
-        style={{ visibility: "hidden" }}
-        className="pointer-events-none absolute bottom-[-60px] left-1/2 h-[58px] -translate-x-1/2"
-      />
     </div>
   );
 }

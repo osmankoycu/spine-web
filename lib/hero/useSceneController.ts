@@ -159,8 +159,11 @@ export function useHeroScene() {
         onTransitionStart: () => {
           // Hand the field to the master BEFORE it scrubs: stop the physics so it
           // stops fighting the morph's writes (and so the morph's function-from
-          // captures the pills' true resting offset → no snap-to-home jump).
+          // captures the pills' true resting offset → no snap-to-home jump). Also
+          // halt the STATS circle drift here so the reverse morph glides straight
+          // home instead of chasing the drift offset and snapping at the end.
           heroRest.freezeField();
+          stats.stopDrift();
         },
         onLockChange: setLocked,
       });

@@ -15,7 +15,14 @@ export const stopForProgress = (progress: number): number =>
 
 // Snap-tween timing for one committed transition (also the lock duration). The
 // master morph is scrubbed by this snap, so this also sets the morph's pace.
-export const PHASE_DURATION = 1.3; // seconds
+export const PHASE_DURATION = 1.3; // seconds (default / release glide)
+
+// Per-segment snap duration. Segment 0 (HERO_REST→STATS) is the slow circle
+// "breath" (gather toward the text, then relax out), so it gets a longer snap;
+// the rest stay quick. Indexed by the segment being traversed = min(from, to).
+export const SEGMENT_DURATIONS: readonly number[] = [1.9, 1.3, 1.3, 1.3];
+export const segmentDuration = (seg: number): number =>
+  SEGMENT_DURATIONS[seg] ?? PHASE_DURATION;
 export const PHASE_EASE = (t: number): number =>
   // easeInOutCubic — used by Lenis.scrollTo for the committed snap.
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;

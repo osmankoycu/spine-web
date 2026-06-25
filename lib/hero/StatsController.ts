@@ -31,8 +31,15 @@ type Carrier = {
   homeH: number;
   toX: number;
   toY: number;
+  gatherX: number; // intermediate translate: a bit closer to centre (gather)
+  gatherY: number;
   size: number;
 };
+
+// How far the circles gather toward centre BEFORE relaxing out to their final
+// spots (fraction of the final offset-from-centre). The morph reads "they bunch
+// near the text, then breathe out".
+const GATHER_F = 0.15;
 
 export class StatsController {
   private readonly stage: HTMLElement;
@@ -134,6 +141,8 @@ export class StatsController {
       // The pill is absolutely pinned at (left, top) and the morph grows
       // width/height to `size` from that top-left corner — so the FINAL centre is
       // (left + toX + size/2). Solve toX/toY so that centre lands on the target.
+      const toX = t.x - h.left - size / 2;
+      const toY = t.y - h.top - size / 2;
       return {
         el: h.el,
         label: h.el.querySelector<HTMLElement>("[data-tag-label]"),
@@ -141,8 +150,12 @@ export class StatsController {
         role,
         homeW: h.w,
         homeH: h.h,
-        toX: t.x - h.left - size / 2,
-        toY: t.y - h.top - size / 2,
+        toX,
+        toY,
+        // Gather target: the same circle pulled GATHER_F toward the canvas centre
+        // (640, gridH/2). Phase 1 of the morph lands here, phase 2 relaxes to toX/toY.
+        gatherX: toX - (t.x - 640) * GATHER_F,
+        gatherY: toY - (t.y - gridH / 2) * GATHER_F,
         size,
       };
     };
@@ -194,11 +207,11 @@ export class StatsController {
   buildSegment(master: gsap.core.Timeline, at: number): void {
     this.carriers.forEach((c, i) => {
       const t0 = at + i * 0.004; // tiny stagger so the field blooms, not snaps
-      // Geometry — SPRINGS into the circle (overshoot + settle, not a hard snap).
-      // Starts from the pill's LIVE rest translate (physics displaces the corner
-      // carriers ~200px out to clear the headline; it's frozen at commit BEFORE
-      // the scrub renders this, so the function-from captures that offset → the
-      // morph glides from where the pill actually sits, no snap-to-home jump).
+      // Geometry — PHASE 1: grow into the circle and GATHER toward the centre
+      // text. Starts from the pill's LIVE rest translate (physics displaces the
+      // corner carriers ~200px out to clear the headline; it's frozen at commit
+      // BEFORE the scrub renders this, so the function-from captures that offset →
+      // the morph glides from where the pill actually sits, no snap-to-home jump).
       master.fromTo(
         c.el,
         {
@@ -208,15 +221,31 @@ export class StatsController {
           height: c.homeH,
         },
         {
-          x: c.toX,
-          y: c.toY,
+          x: c.gatherX,
+          y: c.gatherY,
           width: c.size,
           height: c.size,
-          duration: 0.65,
-          ease: "back.out(1.5)",
+          duration: 0.24,
+          ease: "power3.out",
           immediateRender: false,
         },
         t0,
+      );
+      // PHASE 2: RELAX out from the gathered spot to the final position. This is
+      // the "breath" — the slow exhale, given the bigger share of the (slow) STATS
+      // snap so the going-back-out is clearly slower than the coming-in. Small
+      // spring (reduced from the old back.out(1.5)) for a light settle, both ways.
+      master.fromTo(
+        c.el,
+        { x: c.gatherX, y: c.gatherY },
+        {
+          x: c.toX,
+          y: c.toY,
+          duration: 0.42,
+          ease: "back.out(1.1)",
+          immediateRender: false,
+        },
+        t0 + 0.24,
       );
       // Background colour — smooth, NO overshoot (a spring on colour reads wrong).
       master.fromTo(
@@ -311,7 +340,11 @@ export class StatsController {
     });
   }
 
-  private stopDrift(): void {
+  /** Public so the scene can halt the drift the instant a transition commits
+   *  (BEFORE the scrub) — otherwise the bob keeps offsetting the circles while
+   *  the morph reverses, and they snap to home at the end instead of gliding
+   *  straight there. Idempotent: a no-op unless currently drifting. */
+  stopDrift(): void {
     if (!this.drifting) return;
     this.drifting = false;
     for (const d of this.drifts) d.kill();

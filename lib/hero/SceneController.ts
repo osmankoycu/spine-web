@@ -8,6 +8,7 @@ import {
   PHASE_DURATION,
   PHASE_EASE,
   SEGMENTS,
+  segmentDuration,
   stopForProgress,
   SWIPE_THRESHOLD,
 } from "./phases";
@@ -174,6 +175,8 @@ export class SceneController {
     this.o.onTransitionStart?.(); // freeze phase systems BEFORE the scrub begins
     this.setLocked(true);
     const y = this.st.start + fractionOfStop(target) * (this.st.end - this.st.start);
+    // The segment being traversed sets the snap pace (STATS is the slow breath).
+    const dur = segmentDuration(Math.min(this.currentStop, target));
 
     const finish = () => {
       if (this.destroyed) return;
@@ -185,7 +188,7 @@ export class SceneController {
 
     if (this.lenis) {
       this.lenis.scrollTo(y, {
-        duration: PHASE_DURATION,
+        duration: dur,
         easing: PHASE_EASE,
         lock: true, // ignore user scroll input for the duration → snap integrity
         force: true,

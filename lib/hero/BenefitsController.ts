@@ -35,6 +35,8 @@ export class BenefitsController {
   private readonly oneTeam: HTMLElement | null;
   private readonly cta: HTMLElement | null;
   private words: Word[] = [];
+  private ctaToX = 0; // travel for the CTA to its bottom slot (BENEFITS)
+  private ctaToY = 92; // default = its STATS nudge (no move) until measured
 
   constructor(stage: HTMLElement, stats: StatsController) {
     this.stage = stage;
@@ -83,11 +85,20 @@ export class BenefitsController {
       });
     }
     this.words = words;
+
+    // CTA travel: from its laid-out (centre) spot to the bottom jig.
+    const ctaJig = this.stage.querySelector<HTMLElement>("[data-cta-bottom]");
+    if (this.cta && ctaJig) {
+      const C = ds(this.cta);
+      const J = ds(ctaJig);
+      this.ctaToX = J.cx - C.cx;
+      this.ctaToY = J.cy - C.cy;
+    }
   }
 
   /** Segment 1 (STATS → BENEFITS) at master-time `at`. */
   buildSegment(master: gsap.core.Timeline, at: number): void {
-    // The field clears FIRST: circles pop down, "one team" + CTA leave.
+    // The field clears FIRST: circles pop down, "one team" leaves.
     this.stats.popDown(master, at);
     if (this.oneTeam) {
       master.to(
@@ -96,10 +107,19 @@ export class BenefitsController {
         at,
       );
     }
+    // The CTA does NOT leave — it travels down to its bottom slot (above the
+    // paging) and STAYS through COMPLIANCE / PEOPLE_OPS. From its STATS y:92.
     if (this.cta) {
-      master.to(
+      master.fromTo(
         this.cta,
-        { opacity: 0, scale: 0.96, transformOrigin: "50% 50%", duration: 0.3, ease: "power2.in", immediateRender: false },
+        { x: 0, y: 92 },
+        {
+          x: this.ctaToX,
+          y: this.ctaToY,
+          duration: 0.5,
+          ease: "power3.inOut",
+          immediateRender: false,
+        },
         at,
       );
     }

@@ -29,11 +29,12 @@ export const importantTags: string[] = [
   "COBRA paperwork",
   "Fixed a paycheck error",
   "Added a dependent",
+  "Requested time off",
+  "Updated their address",
 ];
 
 // Remaining grey pool (texture field — repeats are intentional).
 export const tagPool: string[] = [
-  "Requested time off",
   "Got a raise",
   "Fired someone",
   "Had a baby",
@@ -43,7 +44,6 @@ export const tagPool: string[] = [
   "Reorganized the company",
   "Placed on a PIP",
   "Earned a bonus",
-  "Updated their address",
   "Changed t-shirt sizes",
   "New hire onboarding",
   "Renewed the plan",

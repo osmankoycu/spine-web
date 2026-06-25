@@ -19,7 +19,9 @@ import type { PhaseId } from "./types";
 
 const REST_PILL = "#eef1f4"; // HeroRestController ghost bg — the morph's from-bg
 const STAT_BG = "#0f0f0f";
-const DECOR_BG = "rgba(234,237,241,0.6)";
+// Grey decoratives = the EXACT light-grey rest-pill colour (so a grey circle reads
+// as one of those light tags that became a circle, not a slightly different grey).
+const DECOR_BG = REST_PILL;
 const FROM_FONT = "ui-monospace, 'SF Mono', Menlo, monospace"; // Geist Mono fallback
 
 type Carrier = {
@@ -250,7 +252,9 @@ export class StatsController {
       // Background colour — smooth, NO overshoot (a spring on colour reads wrong).
       master.fromTo(
         c.el,
-        { backgroundColor: REST_PILL },
+        // Capture the pill's LIVE rest bg (important pills now hold #e1e5ea, the
+        // rest sit at REST_PILL) so the morph glides from its real colour — no snap.
+        { backgroundColor: () => gsap.getProperty(c.el, "backgroundColor") as string },
         {
           backgroundColor: c.role === "stat" ? STAT_BG : DECOR_BG,
           duration: 0.4,

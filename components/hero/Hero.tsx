@@ -12,7 +12,7 @@ import { cn } from "@/lib/cn";
 const MAX_SCALE = 1.35;
 
 export function Hero() {
-  const { stageRef, phase, stopIndex, locked, completeIntro } = useHeroScene();
+  const { stageRef, stopIndex, completeIntro } = useHeroScene();
   const areaRef = useRef<HTMLDivElement>(null);
   const fitRef = useRef<HTMLDivElement>(null);
 
@@ -62,35 +62,21 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Review HUD (not part of the final design). */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-10 z-30 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-2.5">
-            {STOPS.map((stop, i) => (
-              <span
-                key={stop}
-                className={cn(
-                  "h-2 rounded-pill transition-all duration-300",
-                  i === stopIndex
-                    ? "w-7 bg-orange"
-                    : i < stopIndex
-                      ? "w-2 bg-ink/40"
-                      : "w-2 bg-ink/15",
-                )}
-              />
-            ))}
-          </div>
-          <p className="text-xs text-grey-text">
-            {phase === "INTRO" ? (
-              <span className="text-ink/70">INTRO — tags popping in…</span>
-            ) : locked ? (
-              <span className="font-medium text-orange">● transition locked…</span>
-            ) : (
-              <>
-                <span className="font-medium text-ink/80">{phase}</span> — scroll
-                / swipe / ↓ to advance · one phase per input
-              </>
-            )}
-          </p>
+        {/* Page indicator dots, pinned near the bottom. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-6 z-30 flex items-center justify-center gap-2.5">
+          {STOPS.map((stop, i) => (
+            <span
+              key={stop}
+              className={cn(
+                "h-2 rounded-pill transition-all duration-300",
+                i === stopIndex
+                  ? "w-7 bg-orange"
+                  : i < stopIndex
+                    ? "w-2 bg-ink/40"
+                    : "w-2 bg-ink/15",
+              )}
+            />
+          ))}
         </div>
       </div>
     </section>

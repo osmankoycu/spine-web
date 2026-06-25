@@ -87,7 +87,7 @@ export function HeadlineMorph() {
         data-h-benefits
         aria-hidden
         style={{ visibility: "hidden" }}
-        className="pointer-events-none absolute left-1/2 top-[44px] -translate-x-1/2 whitespace-nowrap font-display text-[48px] font-bold leading-[39px] tracking-[-1px]"
+        className="pointer-events-none absolute left-1/2 top-[-10px] -translate-x-1/2 whitespace-nowrap font-display text-[48px] font-bold leading-[39px] tracking-[-1px]"
       >
         <span data-bn-word="0" className="text-orange">
           {rotatingWords[0]},
@@ -95,6 +95,16 @@ export function HeadlineMorph() {
         <span data-bn-word="1">{rotatingWords[1]},</span>{" "}
         <span data-bn-word="2">{rotatingWords[2]}</span>
       </div>
+
+      {/* BENEFITS CTA slot — measurement jig at the page bottom (above the
+          paging). The CTA travels here instead of fading, and STAYS through
+          COMPLIANCE / PEOPLE_OPS. Sized to the CTA so its centre is the target. */}
+      <div
+        data-cta-bottom
+        aria-hidden
+        style={{ visibility: "hidden" }}
+        className="pointer-events-none absolute bottom-[-60px] left-1/2 h-[58px] -translate-x-1/2"
+      />
     </div>
   );
 }

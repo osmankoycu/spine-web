@@ -82,12 +82,15 @@ export class HeroRestController {
 
     const allTags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
     const important = gsap.utils.toArray<HTMLElement>("[data-important]", this.stage);
+    // The "important" pills KEEP their original (darker) bg — only the rest
+    // lighten — so the important set reads as a faint darker pattern in the field.
+    const normalTags = allTags.filter((t) => !t.hasAttribute("data-important"));
     const center = [...this.lines, this.subtitle, this.cta].filter(
       (el): el is HTMLElement => el != null,
     );
 
     if (this.reduced) {
-      gsap.set(allTags, { backgroundColor: REST_PILL });
+      gsap.set(normalTags, { backgroundColor: REST_PILL });
       gsap.set(important, { color: GHOST });
       gsap.set(center, { opacity: 1, y: 0 });
       this.flow.setActive(true);
@@ -95,10 +98,10 @@ export class HeroRestController {
       return;
     }
 
-    // The field ghosts out: every pill's bg lightens and the black "important"
-    // tags fade their text to the page colour, so the whole grid recedes behind
-    // the headline.
-    gsap.to(allTags, { backgroundColor: REST_PILL, duration: 0.9, ease: "power2.out" });
+    // The field ghosts out: the NORMAL pills' bg lightens; the "important" pills
+    // hold their darker bg (the distinction is now the BACKGROUND, not the text),
+    // while their black text still fades to the page colour so nothing shouts.
+    gsap.to(normalTags, { backgroundColor: REST_PILL, duration: 0.9, ease: "power2.out" });
     if (important.length) {
       gsap.to(important, { color: GHOST, duration: 0.8, ease: "power2.out" });
     }

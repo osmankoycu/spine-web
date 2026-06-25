@@ -140,7 +140,10 @@ export class HeroRestController {
     from: gsap.TweenVars,
   ): void {
     if (!el) return;
-    const LEAD = 0.16;
+    // The collider grows + clears the pills well BEFORE the type lands, so the
+    // (now wider) headline's bigger sweep finishes parting the field instead of
+    // the text arriving mid-clear. Larger = type waits longer for the clearing.
+    const LEAD = 0.4;
     const obstacle = this.flow.obstacle(obsIndex);
     if (obstacle) {
       tl.to(obstacle, { strength: 1, duration: 0.5, ease: "power2.out" }, at);

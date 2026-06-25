@@ -321,11 +321,13 @@ export class StatsController {
       const durY = (isStat ? 3.8 : 2.2) + (i % 4) * 0.4; // ≠ x → elliptical
       const ax = (i % 2 ? 1 : -1) * amp;
       const ay = (i % 3 === 0 ? 1 : -1) * amp * 0.85;
+      // NO start delay — the drift begins the instant the circles form. The
+      // alternating directions (ax ±) and varied periods (durX ≠ durY, staggered
+      // by index) keep the field organic/out-of-sync without a ramp-in wait.
       this.drifts.push(
         gsap.to(c.el, {
           xPercent: ax,
           duration: durX,
-          delay: (i % 6) * 0.2,
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,
@@ -334,7 +336,6 @@ export class StatsController {
         gsap.to(c.el, {
           yPercent: ay,
           duration: durY,
-          delay: (i % 5) * 0.25,
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,

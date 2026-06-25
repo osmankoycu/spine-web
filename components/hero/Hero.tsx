@@ -70,7 +70,7 @@ export function Hero() {
               className={cn(
                 "h-2 rounded-pill transition-all duration-300",
                 i === stopIndex
-                  ? "w-7 bg-orange"
+                  ? "w-7 bg-ink"
                   : i < stopIndex
                     ? "w-2 bg-ink/40"
                     : "w-2 bg-ink/15",

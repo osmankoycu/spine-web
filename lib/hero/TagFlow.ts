@@ -63,7 +63,7 @@ const PAD_Y = 14; // …y (smaller → tighter vertical band)
 // spread ~60px+ by justify-between, so this stays well under that → no resting
 // tension), and a small VERTICAL gap that stays below the 10px row gap so
 // stacked rows don't fight at rest.
-const GAP_X = 22;
+const GAP_X = 32;
 const GAP_Y = 8;
 const PUSH_STIFF = 2200; // body→pill penalty stiffness (how firmly a pill is cleared)
 const PUSH_DAMP = 185; // body→pill damping — heavily over-damped so the growing

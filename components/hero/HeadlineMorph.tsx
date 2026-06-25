@@ -87,7 +87,7 @@ export function HeadlineMorph() {
         data-h-benefits
         aria-hidden
         style={{ visibility: "hidden" }}
-        className="pointer-events-none absolute left-1/2 top-[-10px] -translate-x-1/2 whitespace-nowrap font-display text-[48px] font-bold leading-[39px] tracking-[-1px]"
+        className="pointer-events-none absolute left-1/2 top-[-18px] -translate-x-1/2 whitespace-nowrap font-display text-[42px] font-bold leading-[34px] tracking-[-1px]"
       >
         <span data-bn-word="0" className="text-orange">
           {rotatingWords[0]},

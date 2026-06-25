@@ -19,7 +19,7 @@ import type { StatsController } from "./StatsController";
 const ORANGE = "#ff6c16";
 const GREY = "#d8d8d8"; // matches Figma node 13:290 (NOT --color-grey-word #c6c6c6)
 const STATS_SIZE = 78;
-const BENEFITS_SIZE = 48;
+const BENEFITS_SIZE = 42; // docked top-line size (must match the [data-h-benefits] jig)
 
 type Word = {
   live: HTMLElement;

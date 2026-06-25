@@ -96,6 +96,12 @@ export class SceneController {
       pin: stage,
       pinSpacing: true,
       anticipatePin: 1,
+      // Pin via TRANSFORM, not position:fixed. Re-entering the pin from BELOW
+      // (fast scroll-up after RELEASE) re-pins the stage; a fixed re-pin snaps the
+      // layout (the "sekme"), while a transform re-pin just re-applies a translate
+      // → no jump. Stage-relative measurements are unaffected (the transform
+      // cancels in gBCR − stageR; it's translate-only so the scale ratio holds).
+      pinType: "transform",
       onUpdate: (self) => {
         if (!this.introDone) return; // never render the master during INTRO
         this.master?.progress(self.progress);
@@ -143,7 +149,41 @@ export class SceneController {
     this.released = false;
     this.lenis?.stop(); // gate owns scroll while pinned
     this.currentStop = clamp(stopForProgress(this.st?.progress ?? 0), 0, LAST_STOP);
+    // Don't let the fling that carried us back into the pin commit a step.
+    this.cooldownUntil = Date.now() + COMMIT_COOLDOWN_MS;
+    // Re-entering from the released page (scrolling back UP) overshoots the
+    // boundary before the gate can freeze, so the master lands on a HALF-segment
+    // and the leftover momentum instantly jumps to the wrong stop. Settle cleanly
+    // ONTO the entry stop instead. Skipped on the very first engage (mid-INTRO,
+    // already at stop 0).
+    if (this.introDone) this.settleOntoStop();
     this.emitPhase();
+  }
+
+  /** Snap the master exactly onto the current stop — used on pin re-entry so the
+   *  field resumes AT a stop, never frozen mid-segment. Locks input for the brief
+   *  settle, then re-arms the cooldown so the trailing fling can't commit. */
+  private settleOntoStop(): void {
+    if (!this.st || !this.lenis) return;
+    const raw =
+      this.st.start + fractionOfStop(this.currentStop) * (this.st.end - this.st.start);
+    // Land a hair INSIDE the pin end. Settling exactly on st.end toggles the pin
+    // OFF — and then every back-commit re-crosses it, re-engaging + re-settling,
+    // which traps the user on the last stop (can't go back). Staying just inside
+    // keeps the pin live so a back swipe commits normally.
+    const y = Math.min(raw, this.st.end - window.innerHeight * 0.02);
+    this.setLocked(true);
+    this.lenis.scrollTo(y, {
+      duration: 0.3,
+      easing: PHASE_EASE,
+      lock: true,
+      force: true,
+      onComplete: () => {
+        if (this.destroyed) return;
+        this.cooldownUntil = Date.now() + COMMIT_COOLDOWN_MS;
+        this.setLocked(false);
+      },
+    });
   }
 
   private disengage(): void {

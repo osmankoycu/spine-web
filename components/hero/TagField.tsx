@@ -47,7 +47,12 @@ export function TagField({ onIntroComplete, className }: TagFieldProps) {
         duration: 0.5,
         ease: "back.out(1.8)", // spring overshoot
         stagger: { each: 0.04, from: "random" }, // randomized pop order
-        onComplete: () => onIntroComplete?.(),
+        // Hold a clean beat after the LAST pill settles before handing off to the
+        // headline. HERO_REST's enter() ghosts the field + reveals the type the
+        // instant it's called, so firing it immediately overlaps the tail of the
+        // pop-in (pills not fully settled yet). The pause separates the two:
+        // tags open first, THEN the type arrives — no clash.
+        onComplete: () => gsap.delayedCall(0.15, () => onIntroComplete?.()),
       });
     },
     { scope: root },

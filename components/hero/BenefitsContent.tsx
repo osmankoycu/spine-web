@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { benefitsPage, type BenefitFeature } from "@/lib/hero/heroConfig";
+import type { PhaseId } from "@/lib/hero/types";
 
 // Display the illustrations at 1× their Figma node size; the PNGs are exported at
 // 3× so they stay retina-crisp even at the hero's max canvas up-scale.
@@ -10,13 +14,18 @@ function Feature({ f }: { f: BenefitFeature }) {
   // shorter side ones, exactly like the Figma.
   return (
     <div className="flex w-[160px] flex-col items-center text-center">
+      {/* max-w-none + explicit style: Tailwind preflight caps imgs at max-w-100%
+          (and height:auto), which was clipping the wide optimization icon to the
+          column width — so the size/scale never took. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={f.img}
         alt=""
-        width={Math.round(f.w * ICON)}
-        height={Math.round(f.h * ICON)}
-        className="object-contain"
+        className="max-w-none"
+        style={{
+          width: Math.round(f.w * ICON * (f.scale ?? 1)),
+          height: Math.round(f.h * ICON * (f.scale ?? 1)),
+        }}
       />
       <h4 className="mt-5 font-display text-[16px] font-bold leading-[1.12] tracking-[-0.01em] text-[#0e1419]">
         {f.title}
@@ -28,14 +37,14 @@ function Feature({ f }: { f: BenefitFeature }) {
 
 function Column({ data }: { data: typeof benefitsPage.company }) {
   return (
-    <div className="flex flex-1 flex-col items-center px-7 pt-9">
+    <div className="flex flex-1 flex-col items-center px-7 pt-7">
       <h3
         className="font-display text-[24px] font-bold tracking-[-0.2px]"
         style={{ color: data.color }}
       >
         {data.title}
       </h3>
-      <div className="mt-7 flex w-full items-start justify-between">
+      <div className="mt-5 flex w-full items-start justify-between">
         {data.features.map((f) => (
           <Feature key={f.title} f={f} />
         ))}
@@ -48,8 +57,23 @@ function Column({ data }: { data: typeof benefitsPage.company }) {
  *  HeadlineMorph) so it scales with everything else; hidden until the BENEFITS
  *  phase fades [data-benefits-content] in. The docked title, CTA and paging are
  *  rendered elsewhere and persist. */
-export function BenefitsContent() {
+export function BenefitsContent({ phase }: { phase: PhaseId }) {
   const { headline, subtitle, consultant, company, employees } = benefitsPage;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // Play the consultant clip ONCE each time the BENEFITS screen opens (not on
+  // page load, no loop). While hidden, park it on FRAME 0 so re-opening never
+  // flashes the last frame before it restarts.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (phase === "BENEFITS") {
+      v.currentTime = 0;
+      void v.play().catch(() => {});
+    } else {
+      v.pause();
+      v.currentTime = 0;
+    }
+  }, [phase]);
   return (
     <div
       data-benefits-content
@@ -71,16 +95,18 @@ export function BenefitsContent() {
         </p>
       </div>
 
-      {/* Center — consultant illustration. z-10 lifts her ABOVE the card below so
-          her hands overlap and appear to rest ON its top edge (she sits a touch
-          lower so the wrists cross onto the card). */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={consultant.img}
-        alt=""
+      {/* Center — consultant (transparent WebM; the still PNG is poster/fallback).
+          z-10 lifts her ABOVE the card so her hands rest on its top edge; she
+          sits a touch lower so the wrists cross onto the card. */}
+      <video
+        ref={videoRef}
+        src="/benefits/consultant.webm"
+        muted
+        playsInline
+        preload="auto"
         width={317}
         height={286}
-        className="absolute left-1/2 top-[90px] z-10 -translate-x-1/2"
+        className="absolute left-1/2 top-[98px] z-10 -translate-x-1/2"
       />
 
       {/* Right — consultant card */}
@@ -98,7 +124,7 @@ export function BenefitsContent() {
       </div>
 
       {/* Bottom — two-column feature card */}
-      <div className="absolute inset-x-[16px] bottom-[6px] top-[360px] flex rounded-[28px] bg-white ring-1 ring-black/[0.06]">
+      <div className="absolute inset-x-[16px] bottom-[-8px] top-[366px] flex rounded-[28px] bg-white ring-1 ring-black/[0.06]">
         <Column data={company} />
         <div className="w-px self-stretch bg-black/[0.07]" />
         <Column data={employees} />

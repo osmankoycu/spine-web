@@ -19,7 +19,7 @@ export const copy = {
 // ── BENEFITS page content (Figma node 52:727) ───────────────────────────────
 // Illustrations exported to /public/benefits (tint baked in: company = blue
 // #1e54b8, employees = cyan #2bb0c9; the consultant is greyscale).
-export type BenefitFeature = { img: string; w: number; h: number; title: string; desc: string };
+export type BenefitFeature = { img: string; w: number; h: number; scale?: number; title: string; desc: string };
 export const benefitsPage = {
   headline: ["Better plans.", "Lower premiums."],
   subtitle:
@@ -36,7 +36,7 @@ export const benefitsPage = {
     color: "#1e54b8",
     features: [
       { img: "/benefits/company-carrier.png", w: 124, h: 124, title: "Every major carrier, every year.", desc: "No lazy renewals. Real shopping, every cycle." },
-      { img: "/benefits/company-optimization.png", w: 223, h: 216, title: "Plan optimization & right-sizing.", desc: "AI compares thousands of configurations against your actual workforce." },
+      { img: "/benefits/company-optimization.png", w: 223, h: 216, scale: 1.05, title: "Plan optimization & right-sizing.", desc: "AI compares thousands of configurations against your actual workforce." },
       { img: "/benefits/company-consultant.png", w: 111, h: 124, title: "Dedicated benefits consultant.", desc: "A real expert who knows your team — not a call center." },
     ] as BenefitFeature[],
   },
@@ -46,7 +46,7 @@ export const benefitsPage = {
     features: [
       { img: "/benefits/employee-concierge.png", w: 137, h: 132, title: "24/7 concierge.", desc: "Every benefits question answered. Every bill checked. Every claim followed up." },
       { img: "/benefits/employee-app.png", w: 154, h: 222, title: "The Spine app.", desc: "Plan selection, digital cards, pharmacy navigation, claims help — in their pocket." },
-      { img: "/benefits/employee-care.png", w: 113, h: 124, title: "Care navigation.", desc: "We help employees find in-network specialists, second opinions, and fight surprise bills." },
+      { img: "/benefits/employee-care.png", w: 113, h: 124, scale: 1.15, title: "Care navigation.", desc: "We help employees find in-network specialists, second opinions, and fight surprise bills." },
     ] as BenefitFeature[],
   },
 };

@@ -13,7 +13,7 @@ import { cn } from "@/lib/cn";
 const MAX_SCALE = 1.35;
 
 export function Hero() {
-  const { stageRef, stopIndex, completeIntro } = useHeroScene();
+  const { stageRef, phase, stopIndex, completeIntro } = useHeroScene();
   const areaRef = useRef<HTMLDivElement>(null);
   const fitRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +60,7 @@ export function Hero() {
           >
             <TagField onIntroComplete={completeIntro} />
             <HeadlineMorph />
-            <BenefitsContent />
+            <BenefitsContent phase={phase} />
           </div>
         </div>
 

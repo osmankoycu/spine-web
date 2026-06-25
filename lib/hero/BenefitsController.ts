@@ -134,12 +134,12 @@ export class BenefitsController {
         );
       }
     }
-    // The BENEFITS page content fades in once the words have docked.
+    // The BENEFITS page content fades in (with a faint rise) once the words dock.
     if (this.content) {
       master.fromTo(
         this.content,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.45, ease: "power2.out", immediateRender: false },
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", immediateRender: false },
         at + 0.55,
       );
     }
@@ -151,8 +151,8 @@ export class BenefitsController {
     if (!this.content) return;
     master.fromTo(
       this.content,
-      { opacity: 1 },
-      { opacity: 0, duration: 0.35, ease: "power2.in", immediateRender: false },
+      { opacity: 1, y: 0 },
+      { opacity: 0, y: 24, duration: 0.35, ease: "power2.in", immediateRender: false },
       at,
     );
   }

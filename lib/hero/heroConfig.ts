@@ -62,6 +62,18 @@ export const tagPool: string[] = [
   "Joined the company",
   "Took a sabbatical",
   "Set up payroll",
+  "Switched roles",
+  "Relocated the office",
+  "Updated an emergency contact",
+  "Completed onboarding",
+  "Submitted expenses",
+  "Booked a vacation",
+  "Changed managers",
+  "Joined a new team",
+  "Updated tax forms",
+  "Renewed a work visa",
+  "Reported a grievance",
+  "Returned from leave",
 ];
 
 // Toggle to randomize which tags are "important" per load (default: stable).

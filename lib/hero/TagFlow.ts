@@ -96,7 +96,15 @@ export class TagFlow {
     if (process.env.NODE_ENV !== "production") {
       (window as unknown as { __tf?: TagFlow }).__tf = this;
     }
-    const els = gsap.utils.toArray<HTMLElement>("[data-tag]", stage);
+    this.scan();
+  }
+
+  // (Re)collect every [data-tag] in the stage and build a fresh body per pill.
+  // Called on construction AND at each measureHome, so tags added after mount
+  // (the viewport-filling filler wall, which renders client-side once the area
+  // is measured) are picked up the next time the field is (re)measured.
+  private scan(): void {
+    const els = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
     this.tags = els.map((el, i) => ({
       el,
       hx: 0,
@@ -117,6 +125,7 @@ export class TagFlow {
 
   /** Capture grid home positions (transforms cleared first). Resets motion. */
   measureHome(): void {
+    this.scan();
     for (const t of this.tags) {
       t.setX(0);
       t.setY(0);

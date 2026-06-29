@@ -1,7 +1,6 @@
 import { gsap } from "@/lib/gsap";
 import { TagFlow } from "./TagFlow";
 import { rotatingWords } from "./heroConfig";
-import type { PhaseId } from "./types";
 
 const DWELL = 1.8; // seconds a rotating word is shown before swapping
 // In HERO_REST the whole tag field reads as ghosted: the black "important" tags
@@ -28,7 +27,6 @@ export class HeroRestController {
   private active = 0;
   private entered = false;
   private rotating = false;
-  private frozen = false;
   private destroyed = false;
   private timer: ReturnType<typeof setTimeout> | null = null;
   private rotateTl: gsap.core.Timeline | null = null;
@@ -172,36 +170,6 @@ export class HeroRestController {
     h1.style.minWidth = `${Math.ceil(max)}px`;
   }
 
-  /** The flow + rotation run only while resting in HERO_REST. */
-  onPhase(phase: PhaseId): void {
-    if (this.reduced) return;
-    if (phase === "HERO_REST") {
-      if (this.entered) {
-        this.frozen = false;
-        this.flow.setActive(true);
-        this.flow.setRepel(true); // ambient mouse-repel only while resting
-        this.flow.start();
-        this.startRotation();
-      }
-    } else {
-      this.stopRotation();
-      this.flow.setRepel(false);
-      this.flow.stop(); // freeze tags for the master pop-down
-    }
-  }
-
-  /** Freeze the field the instant the master starts scrubbing away from rest, so
-   *  the STATS morph (not the physics) owns the pill transforms during the whole
-   *  transition — otherwise the physics keeps writing translate every frame and
-   *  fights the morph. Resumed by onPhase("HERO_REST") on scroll-back. */
-  freezeField(): void {
-    if (this.frozen || !this.entered || this.reduced) return;
-    this.frozen = true;
-    this.stopRotation();
-    this.flow.setRepel(false);
-    this.flow.stop();
-  }
-
   private startRotation(): void {
     if (this.rotating || this.reduced || this.destroyed) return;
     this.rotating = true;
@@ -220,10 +188,9 @@ export class HeroRestController {
     this.stopTagDrift();
   }
 
-  // Ambient bubble drift on the WHOLE tag field while resting — like the STATS
-  // circles' soda bob but GENTLER. xPercent/yPercent is a separate gsap transform
-  // channel, so it composes on top of TagFlow's physics x/y (px) without fighting
-  // it. Reset to 0 on leaving HERO_REST so the morph/handoff isn't offset.
+  // Ambient bubble drift on the WHOLE tag field while resting — a gentle, slow
+  // soda bob. xPercent/yPercent is a separate gsap transform channel, so it
+  // composes on top of TagFlow's physics x/y (px) without fighting it.
   private startTagDrift(): void {
     if (this.tagDrifting || this.reduced || this.destroyed) return;
     this.tagDrifting = true;
@@ -261,7 +228,7 @@ export class HeroRestController {
     this.tagDrifts = [];
     const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
     // overwrite "auto" → only the drift channel (xPercent/yPercent), never the
-    // physics x/y (quickSetter, not a tween) or the StatsController morph.
+    // physics x/y (quickSetter, not a tween).
     gsap.to(tags, {
       xPercent: 0,
       yPercent: 0,

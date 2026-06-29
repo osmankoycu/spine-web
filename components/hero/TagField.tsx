@@ -75,19 +75,11 @@ export function TagField({ onIntroComplete, className }: TagFieldProps) {
           className={cn(
             // Figma: every pill shares the same #e1e5ea bg; only the TEXT colour
             // distinguishes them — important = black, normal = bg-colour ghost.
-            // relative+box-border+flex so STATS can morph it into a circle
-            // (width/height tween) with a centred inner face.
             "relative box-border flex items-center justify-center whitespace-nowrap rounded-pill bg-grey-pill px-[30px] py-[21px] text-[24px] font-medium leading-[39.42px] tracking-[-0.27px] will-change-transform select-none",
             tag.important ? "text-black" : "text-bg",
           )}
         >
           <span data-tag-label>{tag.label}</span>
-          {/* STATS face — populated + cross-faded in by StatsController. */}
-          <span
-            data-circle-inner
-            aria-hidden
-            className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 whitespace-normal px-3 text-center leading-tight opacity-0"
-          />
         </span>
       ))}
     </div>

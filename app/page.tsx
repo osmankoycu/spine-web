@@ -3,22 +3,23 @@ import { Hero } from "@/components/hero/Hero";
 export default function Home() {
   return (
     <main>
-      {/* Pinned hero choreography (INTRO … PEOPLE_OPS), then unpins → RELEASE. */}
+      {/* Full-screen hero: INTRO tag pop-in + HERO_REST opening play on load.
+          Scroll past it normally into the rest of the page. */}
       <Hero />
 
-      {/* Rest-of-page — normal scroll resumes after RELEASE. Stub sections
-          to verify the unpin handoff; real marketing sections come later. */}
+      {/* Rest-of-page — ordinary (Lenis-smoothed) scroll. Stub sections;
+          real marketing content comes later. */}
       <section className="page-gutter py-32">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-grey-text">
-          After RELEASE
+          Below the hero
         </p>
         <h2 className="font-display mt-4 max-w-2xl text-balance text-4xl font-bold leading-tight text-ink">
           The rest of the homepage scrolls normally from here.
         </h2>
         <p className="mt-5 max-w-xl text-grey-text">
-          Once the hero sequence finishes its final phase, the stage unpins and
-          standard marketing sections take over with native (Lenis-smoothed)
-          scrolling. These blocks are placeholders for that content.
+          The hero stays one full screen at the top; the standard marketing
+          sections take over below it with native (Lenis-smoothed) scrolling.
+          These blocks are placeholders for that content.
         </p>
       </section>
 

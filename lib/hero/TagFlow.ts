@@ -11,8 +11,8 @@ import { gsap } from "@/lib/gsap";
 // emergent, and because nothing is edge-relative it's stable across resizes.
 // Pills may overflow the field/viewport — that's intended.
 //
-// Writes ONLY translate x/y via gsap.quickSetter → composes with the master
-// timeline's scale/opacity tween (STATS pop-down): different matrix channels.
+// Writes ONLY translate x/y via gsap.quickSetter → composes with any scale/
+// opacity tweens (e.g. the INTRO pop-in): different matrix channels.
 
 type Tag = {
   el: HTMLElement;

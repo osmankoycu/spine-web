@@ -157,7 +157,7 @@ export function Hero() {
         {/* Fit area — its centre (below the header) is the grid/label-block centre. */}
         <div
           ref={areaRef}
-          className="absolute inset-0 flex items-center justify-center px-12 pb-4 pt-[164px]"
+          className="absolute inset-0 flex items-center justify-center px-12 py-[84px]"
         >
           {/* Scaled wrapper (sized to the unified grid). HeadlineMorph overlays its
               centre, which is the centre of the label block. */}

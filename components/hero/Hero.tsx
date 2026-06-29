@@ -17,8 +17,8 @@ import { HeadlineMorph } from "./HeadlineMorph";
 // and over-fills the viewport: filler runs up behind the header and out to every
 // edge. TagFlow reads this one scale for every pill.
 const MAX_SCALE = 1.6;
-const ROW_PITCH = 91; // px per row (pill height + gap)
-const COL_PITCH = 186; // ~avg pill + gap → columns per row
+const ROW_PITCH = 99; // px per row (pill height 81 + 18px gap)
+const COL_PITCH = 200; // ~avg pill + gap → columns per row
 const LABEL_ROWS_HALF = 4; // 9 labelled rows (k = -4..4)
 const LABEL_COLS_HALF = 2; // 5 labelled cells per labelled row
 const REF_W = 1200; // reference labelled-block width (for the width fit)

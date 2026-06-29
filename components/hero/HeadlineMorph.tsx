@@ -11,12 +11,13 @@ import { heroCta } from "@/lib/siteConfig";
 export function HeadlineMorph() {
   return (
     <div data-center className="pointer-events-none absolute inset-0 z-20">
-      {/* Headline + subtitle — nudged above the field centre so the motto sits a
-          little higher (but not a full row, which read as too high). */}
+      {/* Headline + subtitle — nudged above the field centre. The shift (-58px)
+          and the subtitle margin (53px) are paired so the motto stays put while
+          the gap motto→subtitle EQUALS the gap subtitle→CTA. */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div
           data-center-content
-          className="flex -translate-y-[72px] flex-col items-center text-center"
+          className="flex -translate-y-[58px] flex-col items-center text-center"
         >
           {/* Fixed px sizes (NOT vw/clamp) so the headline scales uniformly with
               the parent canvas, staying proportional to the tags at every size. */}
@@ -29,16 +30,25 @@ export function HeadlineMorph() {
                   is measured from its OWN text, independent of the other line */}
               <span data-h-measure className="inline-block">{copy.rest.line1}</span>
             </span>
-            <span data-h-line className="block opacity-0">
+            <span data-h-line className="relative block opacity-0">
               <span data-h-measure className="inline-block">
                 {copy.rest.line2Prefix} <RotatingWord />
               </span>
+              {/* Fixed-width collider for the rotating line — its width is locked
+                  to the WIDEST word (set by HeroRestController), centred, so the
+                  field is parted ONCE and the tags never move again when the word
+                  swaps. The visible text above still glides to re-centre. */}
+              <span
+                data-h-obstacle
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-0 h-full -translate-x-1/2"
+              />
             </span>
           </h1>
 
           <p
             data-subtitle
-            className="mt-6 max-w-[560px] text-[18px] leading-[1.55] text-grey-text opacity-0"
+            className="mt-[53px] max-w-[560px] text-[18px] leading-[1.55] text-grey-text opacity-0"
           >
             {copy.rest.subtitle}
           </p>
@@ -46,12 +56,12 @@ export function HeadlineMorph() {
       </div>
 
       {/* CTA as a tag-sized orange "pill" pinned to a tag ROW below the copy (2
-          rows / ~182px below the field centre, the row pitch is 91px), centred —
+          rows / ~198px below the field centre, the row pitch is 99px), centred —
           so it lands ON the tag line under the text and reads as one of the tags,
           set apart only by its colour. */}
       <div
         className="absolute inset-x-0 flex justify-center"
-        style={{ top: "calc(50% + 142px)" }}
+        style={{ top: "calc(50% + 158px)" }}
       >
         <a
           data-cta

@@ -23,6 +23,7 @@ export class HeroRestController {
   private readonly cta: HTMLElement | null;
   private readonly h1: HTMLElement | null;
   private readonly measure1: HTMLElement | null; // line 2's tight inner span
+  private readonly obstacle2: HTMLElement | null; // line 2's fixed-width collider
 
   private active = 0;
   private entered = false;
@@ -50,11 +51,14 @@ export class HeroRestController {
     // subtitle(2) → CTA(3).
     const measures = gsap.utils.toArray<HTMLElement>("[data-h-measure]", stage);
     this.measure1 = measures[1] ?? null;
+    this.obstacle2 = stage.querySelector<HTMLElement>("[data-h-obstacle]");
     // Vertical pads are kept under the row pitch (91px) so each body clears ONLY
     // its own tag row(s): a larger pad spilled over and emptied the centre of the
     // neighbouring row (the row above the headline, and the row below the button).
+    // Line 2's collider is the FIXED-WIDTH [data-h-obstacle] (widest word), not
+    // the live (shrinking/growing) text — so word swaps never re-push the field.
     this.flow.setObstacles(
-      [measures[0] ?? null, measures[1] ?? null, this.subtitle, this.cta],
+      [measures[0] ?? null, this.obstacle2, this.subtitle, this.cta],
       [{ padY: 8 }, { padY: 8 }, { padY: 12 }, { padY: 5 }],
     );
     window.addEventListener("resize", this.onResize);
@@ -163,11 +167,13 @@ export class HeroRestController {
     );
   }
 
-  // Lock the headline (h1) to the WIDEST rotating word's line width, so the
-  // block never re-centres when the word changes — only line 2 re-centres inside
-  // the fixed-width headline (which we then glide in rotate()).
+  // Lock the headline (h1) to the WIDEST rotating word's line width, so the block
+  // never re-centres when the word changes — only line 2 re-centres inside the
+  // fixed-width headline (which we then glide in rotate()). The line-2 collider is
+  // pinned to that same widest width, so the field is parted once and the tags
+  // stay put through every word swap.
   private lockHeadlineWidth(): void {
-    const { h1, measure1, rword } = this;
+    const { h1, measure1, rword, obstacle2 } = this;
     if (!h1 || !measure1 || !rword) return;
     const current = rword.textContent;
     let max = 0;
@@ -177,6 +183,7 @@ export class HeroRestController {
     }
     rword.textContent = current;
     h1.style.minWidth = `${Math.ceil(max)}px`;
+    if (obstacle2) obstacle2.style.width = `${Math.ceil(max)}px`;
   }
 
   private startRotation(): void {

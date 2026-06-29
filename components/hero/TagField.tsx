@@ -21,9 +21,9 @@ export function TagField({
   className?: string;
 }) {
   return (
-    <div aria-hidden className={cn("flex flex-col items-center gap-y-[10px]", className)}>
+    <div aria-hidden className={cn("flex flex-col items-center gap-y-[18px]", className)}>
       {rows.map((row, r) => (
-        <div key={r} className="flex shrink-0 items-center justify-center gap-x-[12px]">
+        <div key={r} className="flex shrink-0 items-center justify-center gap-x-[22px]">
           {row.map((cell, c) =>
             cell.filler ? (
               <span

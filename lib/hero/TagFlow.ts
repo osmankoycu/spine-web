@@ -68,9 +68,16 @@ const PAD_Y = 14; // …y (smaller → tighter vertical band)
 const GAP_X = 18;
 const GAP_Y = 8;
 const PUSH_STIFF = 2200; // body→pill penalty stiffness (how firmly a pill is cleared)
-const PUSH_DAMP = 185; // body→pill damping — heavily over-damped so the growing
-//   text body GLIDES pills aside (terminal speed ≈ stiff·pen/damp) instead of
-//   flinging them (no reveal "burst"/scatter); also calms the rest.
+const PUSH_DAMP = 110; // body→pill damping — kept JUST above the push spring's
+//   critical value (2·√PUSH_STIFF ≈ 94) so a pill reaches the parted boundary
+//   FAST and stops with no overshoot. It used to be ~2× critical (185); that
+//   over-damping made pills crawl asymptotically toward the edge — a slow tail
+//   that kept creeping outward AFTER the collider had stopped growing (and after
+//   the type had landed), read as "they move out a bit more at the very end". Near
+//   critical, the pills track the growing collider tightly → they're at their FINAL
+//   spot by the time the ramp ends, so the parting is one move with no late creep.
+//   (The earlier "burst/scatter" this guarded against is gone now the collider no
+//   longer breathes with the text's pop-scale — see measureObs/offsetWidth.)
 const PAIR_STIFF = 1500; // pill→pill penalty stiffness (cascade)
 const PAIR_DAMP = 115; // pill→pill damping (over critical → kills residual
 //   oscillation in the squeezed lower-region pile)
@@ -327,8 +334,15 @@ export class TagFlow {
       const r = o.el.getBoundingClientRect();
       o.ox = r.left - s.left + r.width / 2;
       o.oy = r.top - s.top + r.height / 2;
-      o.ohw = r.width / 2;
-      o.ohh = r.height / 2;
+      // Size from the LAYOUT box (offsetWidth/Height), NOT the rendered rect — so
+      // the collider is driven PURELY by `strength` (the smooth 0→1 grow ramp).
+      // The text pops in with a back.out scale overshoot (0.7 → ~1.09 → 1.0); read
+      // live, that overshoot breathed the collider out-then-in and SHOVED-then-
+      // RELEASED the pills, which (×4 staggered elements) read as a choppy, multi-
+      // step parting. offsetWidth ignores the transform → the body grows smoothly,
+      // once, and the field parts in a single continuous glide.
+      o.ohw = (o.el.offsetWidth / 2) * this.scale;
+      o.ohh = (o.el.offsetHeight / 2) * this.scale;
       if (!now0 && o.holdUntil > now && o.holdW > o.ohw) o.ohw = o.holdW;
     }
   }
@@ -406,15 +420,27 @@ export class TagFlow {
     const dy = t.y - o.oy;
     const penX = ehx - Math.abs(dx);
     const penY = ehy - Math.abs(dy);
-    if (penX <= 0 || penY <= 0) return;
+    if (penY <= 0) return; // outside the band's vertical span → no interaction
     // ALWAYS clear SIDEWAYS (horizontal). Every penetrating pill — whether on the
     // text's own row or merely grazing it from the row above/below — slides out
     // along x, so it keeps its HOME Y and the vertical row spacing stays uniform
     // around the (tall) headline. (The old code nudged grazing rows vertically,
     // which opened big gaps in the rows the text fell across.) A fixed axis also
     // means no per-frame axis flip → no jitter.
+    //
+    // DAMPING SKIN: the outward spring fires only while penetrating (penX > 0), but
+    // the velocity damper stays active for a few px OUTSIDE the edge too. Without
+    // it, a pill resting at the band edge limit-cycles — the home spring pulls it
+    // in, the very stiff push flings it back out PAST the cutoff (where there was
+    // no damping), the home spring pulls it in again… a fast chatter. It shows most
+    // on the WIDEST band — the rotating line, whose locked (widest-word) width
+    // pushes its left/right pills out to a boundary in the densest part of the
+    // grid. Damping the exit kills the cycle so the edge pills settle dead-still.
+    const skin = 16 * this.scale;
+    if (penX <= -skin) return;
     const nrm = dx < 0 ? -1 : dx > 0 ? 1 : t.side;
-    t.fx += nrm * penX * PUSH_STIFF - t.vx * PUSH_DAMP; // spring + damper
+    if (penX > 0) t.fx += nrm * penX * PUSH_STIFF; // outward spring (inside only)
+    t.fx -= t.vx * PUSH_DAMP; // damper — also across the skin, so no edge chatter
   }
 
   // Soft pill↔pill separation along the min-overlap axis (penalty + damping).

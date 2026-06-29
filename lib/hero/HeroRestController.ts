@@ -127,9 +127,14 @@ export class HeroRestController {
     // parts outward in half the time. Each beat POPS in (scale overshoot via the
     // back ease) rather than just fading.
     const tl = gsap.timeline({ onComplete: () => this.startRotation() });
-    this.revealBeat(tl, this.lines[0], 0, 0.05, "back.out(1.7)", { y: 10, scale: 0.7 });
-    this.revealBeat(tl, this.lines[1], 1, 0.11, "back.out(1.7)", { y: 10, scale: 0.7 });
-    this.revealBeat(tl, this.subtitle, 2, 0.165, "back.out(1.5)", { y: 6, scale: 0.8 });
+    // NOTE: the text pops in with SCALE + fade only — no y-translate. A y-rise on
+    // the copy would slide each obstacle's CENTRE as it lands, re-gating the pills
+    // grazing the band's vertical edge → one extra little shift the instant the
+    // type appeared. Scaling in place keeps the collider centre rock-still, so the
+    // field parts exactly ONCE (during the grow ramp) and never again.
+    this.revealBeat(tl, this.lines[0], 0, 0.05, "back.out(1.7)", { scale: 0.7 });
+    this.revealBeat(tl, this.lines[1], 1, 0.11, "back.out(1.7)", { scale: 0.7 });
+    this.revealBeat(tl, this.subtitle, 2, 0.165, "back.out(1.5)", { scale: 0.8 });
     // CTA pill pops in place (a touch stronger overshoot than the copy).
     this.revealBeat(tl, this.cta, 3, 0.215, "back.out(2)", { scale: 0.55 });
   }
@@ -156,7 +161,12 @@ export class HeroRestController {
     const LEAD = 0.4;
     const obstacle = this.flow.obstacle(obsIndex);
     if (obstacle) {
-      tl.to(obstacle, { strength: 1, duration: 0.25, ease: "power2.out" }, at);
+      // Smooth, slightly longer grow ramp (sine.inOut eases BOTH ends) so the
+      // body parts the field with a gentle continuous glide rather than a sharp
+      // power2.out shove at onset. Paired with the collider now being decoupled
+      // from the text's pop-scale (TagFlow.measureObs), the parting reads as one
+      // fluid open instead of the old step-step-step.
+      tl.to(obstacle, { strength: 1, duration: 0.34, ease: "sine.inOut" }, at);
     }
     // Slightly slower, eased pop for the type (was a touch too snappy).
     tl.fromTo(

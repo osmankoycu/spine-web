@@ -189,29 +189,20 @@ export class HeroRestController {
   }
 
   // Ambient bubble drift on the WHOLE tag field while resting — a gentle, slow
-  // soda bob. xPercent/yPercent is a separate gsap transform channel, so it
-  // composes on top of TagFlow's physics x/y (px) without fighting it.
+  // HORIZONTAL sway only (no vertical bob), so the field never moves up/down.
+  // xPercent is a separate gsap transform channel, so it composes on top of
+  // TagFlow's physics x (px) without fighting it.
   private startTagDrift(): void {
     if (this.tagDrifting || this.reduced || this.destroyed) return;
     this.tagDrifting = true;
     const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
     tags.forEach((el, i) => {
       const ax = (i % 2 ? 1 : -1) * 3; // % of own size → a light ~6px sway
-      const ay = (i % 3 === 0 ? 1 : -1) * 5.5;
       this.tagDrifts.push(
         gsap.to(el, {
           xPercent: ax,
           duration: 4.8 + (i % 5) * 0.8,
           delay: (i % 7) * 0.4,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          overwrite: "auto",
-        }),
-        gsap.to(el, {
-          yPercent: ay,
-          duration: 5.6 + (i % 4) * 0.7, // ≠ x period → slow organic ellipse
-          delay: (i % 5) * 0.5,
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,

@@ -318,28 +318,24 @@ export class TagFlow {
     const sc = this.scale;
     const vmax = VMAX * sc;
 
-    // 4. Integrate (semi-implicit Euler) with a velocity clamp.
+    // 4. Integrate (semi-implicit Euler) with a velocity clamp. The Y axis is
+    // LOCKED: pills part purely SIDEWAYS (left/right) and never move up/down, so
+    // the field opens around the headline with no vertical jostling. (Vertical
+    // forces are still summed above but discarded here.)
     for (const t of tags) {
       t.vx += t.fx * dt;
-      t.vy += t.fy * dt;
-      const sp = Math.hypot(t.vx, t.vy);
-      if (sp > vmax) {
-        const k = vmax / sp;
-        t.vx *= k;
-        t.vy *= k;
-      }
+      if (t.vx > vmax) t.vx = vmax;
+      else if (t.vx < -vmax) t.vx = -vmax;
       t.x += t.vx * dt;
-      t.y += t.vy * dt;
+      t.vy = 0;
+      t.y = t.hy;
     }
 
     // 5. Settle deadzone: at equilibrium (tiny speed + low net force) stop.
     const sleepV = SLEEP_V * sc;
     const sleepF = SLEEP_F * sc;
     for (const t of tags) {
-      if (Math.hypot(t.vx, t.vy) < sleepV && Math.hypot(t.fx, t.fy) < sleepF) {
-        t.vx = 0;
-        t.vy = 0;
-      }
+      if (Math.abs(t.vx) < sleepV && Math.abs(t.fx) < sleepF) t.vx = 0;
     }
   }
 

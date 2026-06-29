@@ -136,12 +136,15 @@ export function Hero() {
       gsap.to(pills, {
         opacity: target,
         scale: 1,
-        duration: 0.5,
+        // The field forms FAST — ~2× quicker than before (half the per-pill pop +
+        // half the stagger) so the wall snaps into place.
+        duration: 0.25,
         ease: "back.out(1.8)",
-        stagger: { each: 0.014, from: "random" },
-        // Hold a clean beat after the LAST pill settles before handing off to the
-        // headline (HERO_REST's enter() reveals the type the instant it fires).
-        onComplete: () => gsap.delayedCall(0.15, settle),
+        stagger: { each: 0.007, from: "random" },
+        // …then hold a slightly LONGER beat after the last pill settles before the
+        // type arrives (HERO_REST's enter() reveals the headline + parts the tags),
+        // so the fast formation and the text read as two clean, separated moments.
+        onComplete: () => gsap.delayedCall(0.4, settle),
       });
     },
     { dependencies: [rows], scope: fitRef },

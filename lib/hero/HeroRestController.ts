@@ -50,9 +50,12 @@ export class HeroRestController {
     // subtitle(2) → CTA(3).
     const measures = gsap.utils.toArray<HTMLElement>("[data-h-measure]", stage);
     this.measure1 = measures[1] ?? null;
+    // Vertical pads are kept under the row pitch (91px) so each body clears ONLY
+    // its own tag row(s): a larger pad spilled over and emptied the centre of the
+    // neighbouring row (the row above the headline, and the row below the button).
     this.flow.setObstacles(
       [measures[0] ?? null, measures[1] ?? null, this.subtitle, this.cta],
-      [{ padY: 26 }, { padY: 24 }, { padY: 15 }, { padY: 13 }],
+      [{ padY: 8 }, { padY: 8 }, { padY: 12 }, { padY: 5 }],
     );
     window.addEventListener("resize", this.onResize);
     if (!reduced) {
@@ -116,13 +119,15 @@ export class HeroRestController {
     // Each beat grows its OWN body into the field. The text pops in FAST and in
     // tight succession (tık-tık-tık-tık), but the collider grows on a slightly
     // longer eased ramp so the pills it pushes glide out smoothly (not snappy).
+    // Beat times are ~2× faster than before — the headline arrives and the field
+    // parts outward in half the time. Each beat POPS in (scale overshoot via the
+    // back ease) rather than just fading.
     const tl = gsap.timeline({ onComplete: () => this.startRotation() });
-    this.revealBeat(tl, this.lines[0], 0, 0.1, "back.out(1.5)", { y: 22 });
-    this.revealBeat(tl, this.lines[1], 1, 0.22, "back.out(1.5)", { y: 22 });
-    this.revealBeat(tl, this.subtitle, 2, 0.33, "power3.out", { y: 16 });
-    // No y-shift for the CTA (opacity finishes before a y-tween would, which read
-    // as a little post-appearance "hop"); just fade + a subtle scale in place.
-    this.revealBeat(tl, this.cta, 3, 0.43, "power3.out", { scale: 0.96 });
+    this.revealBeat(tl, this.lines[0], 0, 0.05, "back.out(1.7)", { y: 10, scale: 0.7 });
+    this.revealBeat(tl, this.lines[1], 1, 0.11, "back.out(1.7)", { y: 10, scale: 0.7 });
+    this.revealBeat(tl, this.subtitle, 2, 0.165, "back.out(1.5)", { y: 6, scale: 0.8 });
+    // CTA pill pops in place (a touch stronger overshoot than the copy).
+    this.revealBeat(tl, this.cta, 3, 0.215, "back.out(2)", { scale: 0.55 });
   }
 
   // One reveal beat. The collider GROWS FIRST (at `at`) so the pills start
@@ -141,15 +146,19 @@ export class HeroRestController {
     // The collider grows + clears the pills well BEFORE the type lands, so the
     // (now wider) headline's bigger sweep finishes parting the field instead of
     // the text arriving mid-clear. Larger = type waits longer for the clearing.
+    // The collider gets a clear head start so the field is already parting a beat
+    // BEFORE the type lands (the sideways open should read slightly ahead of the
+    // motto, not simultaneously).
     const LEAD = 0.4;
     const obstacle = this.flow.obstacle(obsIndex);
     if (obstacle) {
-      tl.to(obstacle, { strength: 1, duration: 0.5, ease: "power2.out" }, at);
+      tl.to(obstacle, { strength: 1, duration: 0.25, ease: "power2.out" }, at);
     }
+    // Slightly slower, eased pop for the type (was a touch too snappy).
     tl.fromTo(
       el,
       { opacity: 0, ...from },
-      { opacity: 1, y: 0, scale: 1, duration: 0.34, ease },
+      { opacity: 1, y: 0, scale: 1, duration: 0.24, ease },
       at + LEAD,
     );
   }

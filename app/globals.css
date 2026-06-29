@@ -16,7 +16,6 @@
   --color-grey-pill: #e1e5ea; /* ALL tag pills share this bg */
   --color-grey-text: #828282; /* subtitle / muted fragments */
   --color-grey-word: #c6c6c6; /* inactive headline words */
-  --color-frame: #0a0a0a; /* dark backdrop around the rounded page card */
 
   /* Type families — Neue Haas Grotesk via Adobe Fonts (Typekit kit qyt7ipl,
      reused from the image-web project). Loaded in layout.tsx <head>. */
@@ -24,13 +23,11 @@
   --font-sans: "neue-haas-grotesk-text", ui-sans-serif, system-ui, sans-serif;
 
   /* Radii */
-  --radius-page: 32px;
   --radius-pill: 9999px;
 }
 
 /* Non-theme layout vars */
 :root {
-  --page-inset: 10px; /* dark frame thickness */
   --page-px: clamp(20px, 8.33vw, 120px); /* horizontal gutter (≈120px @1440) */
   --header-h: 160px;
 }
@@ -41,26 +38,11 @@ body {
 }
 
 body {
-  /* The off-white card is the page itself; the dark frame is painted by
-     the fixed .page-frame overlay so it never interferes with pin/scroll. */
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-/* Rounded "page card on black" treatment. A fixed, pointer-events-none
-   overlay whose huge spread box-shadow paints everything OUTSIDE its
-   rounded rect with the frame color. Decorative only — decoupled from
-   layout so ScrollTrigger pinning is unaffected. */
-.page-frame {
-  position: fixed;
-  inset: var(--page-inset);
-  border-radius: var(--radius-page);
-  box-shadow: 0 0 0 100vmax var(--color-frame);
-  pointer-events: none;
-  z-index: 60;
 }
 
 /* Shared horizontal gutter for header + stage content. */

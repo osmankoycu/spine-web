@@ -33,8 +33,6 @@ export default function RootLayout({
           {children}
           <Footer />
         </SmoothScrollProvider>
-        {/* Decorative rounded "page card on black" frame (pin-safe overlay). */}
-        <div className="page-frame" aria-hidden />
       </body>
     </html>
   );

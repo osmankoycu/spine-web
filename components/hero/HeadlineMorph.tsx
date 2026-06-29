@@ -23,7 +23,7 @@ export function HeadlineMorph() {
               the parent canvas, staying proportional to the tags at every size. */}
           <h1
             data-headline
-            className="font-display text-[90px] font-bold leading-[1.05] tracking-[-0.02em] text-ink"
+            className="font-display text-[90px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink"
           >
             <span data-h-line className="block opacity-0">
               {/* inner inline-block = tight per-line width so each line's tag band
@@ -50,7 +50,15 @@ export function HeadlineMorph() {
             data-subtitle
             className="mt-[53px] max-w-[560px] text-[18px] leading-[1.55] text-grey-text opacity-0"
           >
-            {copy.rest.subtitle}
+            {copy.rest.subtitle.map((s, i) =>
+              s.em ? (
+                <strong key={i} className="font-semibold text-grey-text">
+                  {s.t}
+                </strong>
+              ) : (
+                <span key={i}>{s.t}</span>
+              ),
+            )}
           </p>
         </div>
       </div>

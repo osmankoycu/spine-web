@@ -6,7 +6,6 @@ export const nav: NavItem[] = [
   { label: "Platform", href: "/platform" },
   { label: "Who we serve", href: "/who-we-serve" },
   { label: "Partners", href: "/partners" },
-  { label: "Customers", href: "/customers" },
 ];
 
 // kind: "route" today; later could become "modal" | "external" with no Header change.

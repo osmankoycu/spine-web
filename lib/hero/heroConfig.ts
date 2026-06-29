@@ -5,14 +5,31 @@ export type Tag = { label: string; important?: boolean };
 export const rotatingWords = ["Benefits", "Compliance", "People ops"] as const;
 
 // ── Copy (brand confirmed = Spine; subtitle "Heal" corrected) ───────────────
+// Subtitle is segmented so key terms can carry a HEAVIER weight (em) — same text,
+// just emphasised — while the rest stays at the body weight. Rendered in
+// HeadlineMorph.
+export type SubPart = { t: string; em?: boolean };
+
 export const copy = {
   rest: {
     line1: "Let us worry about", // headline line 1
     line2Prefix: "your", // line 2, before the rotating word
-    subtitle:
-      "Spine replaces your broker and your PEO — lower premiums, real compliance, and 24/7 support from an in-house team plus AI. You run the company. We handle the rest.",
+    subtitle: [
+      { t: "Spine", em: true },
+      { t: " is the modern alternative to " },
+      { t: "brokers", em: true },
+      { t: " and " },
+      { t: "PEOs", em: true },
+      { t: ". One team runs your " },
+      { t: "healthcare", em: true },
+      { t: ", " },
+      { t: "payroll", em: true },
+      { t: ", and " },
+      { t: "compliance", em: true },
+      { t: ", backed by AI and free for your company. You run the company. We handle the rest." },
+    ] as SubPart[],
   },
-  cta: "Get your PEO exit plan",
+  cta: "See how much you'd save →",
 };
 
 // ── Tags (Section 6) ────────────────────────────────────────────────────────

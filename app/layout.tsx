@@ -16,10 +16,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <head>
-        {/* Neue Haas Grotesk — Adobe Fonts (Typekit kit qyt7ipl, shared with image-web) */}
+        {/* Neue Haas Grotesk — Adobe Fonts (Typekit kit qyt7ipl, shared with image-web).
+            KEPT loaded so we can flip back to it instantly (see globals.css fonts). */}
         <link rel="preconnect" href="https://use.typekit.net" />
         <link rel="preconnect" href="https://p.typekit.net" crossOrigin="" />
         <link rel="stylesheet" href="https://use.typekit.net/qyt7ipl.css" />
+        {/* TRYING: Inter (Google Fonts) — currently the active family via globals.css. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        />
         {/* Always load the pinned hero at the top (INTRO), even on reload. */}
         <script
           dangerouslySetInnerHTML={{

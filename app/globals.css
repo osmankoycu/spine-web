@@ -17,10 +17,14 @@
   --color-grey-text: #828282; /* subtitle / muted fragments */
   --color-grey-word: #c6c6c6; /* inactive headline words */
 
-  /* Type families — Neue Haas Grotesk via Adobe Fonts (Typekit kit qyt7ipl,
-     reused from the image-web project). Loaded in layout.tsx <head>. */
+  /* Type families. TRYING Inter (Google Fonts, loaded in layout.tsx) to evaluate
+     it against the brand. To revert to Neue Haas Grotesk, swap these two lines
+     back to the commented Haas values below (the Typekit link is still loaded). */
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Haas (original — keep for revert):
   --font-display: "neue-haas-grotesk-display", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "neue-haas-grotesk-text", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "neue-haas-grotesk-text", ui-sans-serif, system-ui, sans-serif; */
 
   /* Radii */
   --radius-pill: 9999px;
@@ -29,7 +33,7 @@
 /* Non-theme layout vars */
 :root {
   --page-px: clamp(20px, 8.33vw, 120px); /* horizontal gutter (≈120px @1440) */
-  --header-h: 160px;
+  --header-h: 100px;
 }
 
 html,

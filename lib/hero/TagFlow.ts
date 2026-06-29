@@ -27,6 +27,8 @@ type Tag = {
   fx: number; // force accumulator (this step)
   fy: number;
   side: number; // tiebreak push dir when a pill sits dead-center
+  cox: number; // cursor wave offset (px, stage coords) — kinematic, added at render
+  coy: number;
   setX: (v: number) => void;
   setY: (v: number) => void;
 };
@@ -49,21 +51,21 @@ type PadOpt = { padX?: number; padY?: number } | undefined;
 // ── tunables (top-level so they're easy to art-direct) ──────────────────────
 // Every spring below is paired with a near-CRITICAL damper so nothing rings or
 // jitters: a pill glides to rest and stops. (crit damp c ≈ 2·√k.)
-const W = 7; // omega — home spring frequency (rad/s); holds the grid, ~0.8s settle
-const Z = 1.1; // zeta — over-damped → the field eases to a dead-still rest
+const W = 8; // omega — home spring frequency (rad/s); holds the grid + settles the
+//   headline parting (the cursor wave is now kinematic, not a force — see below)
+const Z = 1; // zeta — critical: the parting settles with no ring/overshoot
 const K = W * W; // spring stiffness
 const C = 2 * Z * W; // spring damping
-const HOME_CAP = 400; // SATURATE the home pull: beyond ~40px displacement the
+const HOME_CAP = 400; // SATURATE the home pull: beyond a small displacement the
 //   inward force stops growing, so pills shoved into the edge piles flow out and
 //   spread (decompressing the pile) instead of ramming together → no jitter.
 const PAD_X = 56; // breathing room a body keeps around itself, x (pills stand back)
 const PAD_Y = 14; // …y (smaller → tighter vertical band)
-// Min gap kept between two pills when they collide. Asymmetric: a roomy
-// HORIZONTAL gap so pushed-aside pills don't stick together (their home rows are
-// spread ~60px+ by justify-between, so this stays well under that → no resting
-// tension), and a small VERTICAL gap that stays below the 10px row gap so
-// stacked rows don't fight at rest.
-const GAP_X = 32;
+// Min gap kept between two pills when they collide. Both stay UNDER the field's
+// actual gaps (22px x, 18px y) so pills are NOT colliding at home — otherwise the
+// pair repel fights the home spring at rest and pills never settle exactly home
+// (which read as "they don't return" after the cursor wave).
+const GAP_X = 18;
 const GAP_Y = 8;
 const PUSH_STIFF = 2200; // body→pill penalty stiffness (how firmly a pill is cleared)
 const PUSH_DAMP = 185; // body→pill damping — heavily over-damped so the growing
@@ -77,14 +79,25 @@ const DT = 1 / 240; // tiny fixed step → ~4 substeps/frame, so the strong damp
 const MAXSUB = 6; //    (PUSH/PAIR) stays stable in explicit Euler (damp·dt < 1)
 const SLEEP_V = 26; // px/s — settle deadzone: catch the slow low-force drift the
 const SLEEP_F = 420; // home-cap leaves behind (reveal motion is far faster, untouched)
-const CURSOR_FORCE = 1700; // ambient mouse-repel (step 5)
-const CURSOR_RADIUS = 150;
+
+// ── Cursor wave (KINEMATIC, decoupled from the force sim) ────────────────────
+// The mouse is NOT a force fed into the penalty physics (that cascaded and ran
+// away). Instead each pill eases toward a bounded target offset and back to 0, so
+// it can never fling far and ALWAYS returns home. The push follows the mouse's
+// MOVE direction (a wake): the pill DIRECTLY under the mouse is nudged the most
+// (no dead centre like a radial repel), its immediate neighbours less, and it all
+// relaxes the moment the mouse stops or leaves.
+const CURSOR_RADIUS = 150; // px reach of the wake around the mouse
+const CURSOR_AMOUNT = 52; // px — max nudge a pill takes (bounded!)
+const CURSOR_GAIN = 0.06; // maps mouse speed (px/s) → nudge px (clamped to AMOUNT)
+const CURSOR_RATE = 16; // 1/s — how fast the offset eases toward target & back to 0
 
 export class TagFlow {
   private readonly stage: HTMLElement;
   private tags: Tag[] = [];
   private obs: Obstacle[] = [];
   private cursor: { x: number; y: number } | null = null;
+  private lastCursor: { x: number; y: number } | null = null; // for mouse velocity
   private repel = false;
   private active = false;
   private running = false;
@@ -118,6 +131,8 @@ export class TagFlow {
       fx: 0,
       fy: 0,
       side: i % 2 === 0 ? -1 : 1,
+      cox: 0,
+      coy: 0,
       setX: gsap.quickSetter(el, "x", "px") as (v: number) => void,
       setY: gsap.quickSetter(el, "y", "px") as (v: number) => void,
     }));
@@ -229,8 +244,8 @@ export class TagFlow {
     for (let i = 0; i < iters; i++) this.step(DT);
     const inv = 1 / this.scale;
     for (const t of this.tags) {
-      t.setX((t.x - t.hx) * inv);
-      t.setY((t.y - t.hy) * inv);
+      t.setX((t.x - t.hx + t.cox) * inv);
+      t.setY((t.y - t.hy + t.coy) * inv);
     }
   }
 
@@ -239,7 +254,8 @@ export class TagFlow {
   private frame = (_time: number, deltaTime: number): void => {
     if (!this.running) return;
     this.measureObs(false);
-    let dt = (deltaTime || 16.67) / 1000;
+    const frameDt = (deltaTime || 16.67) / 1000;
+    let dt = frameDt;
     const cap = DT * MAXSUB;
     if (dt > cap) dt = cap;
     this.acc += dt;
@@ -249,12 +265,60 @@ export class TagFlow {
       this.acc -= DT;
       n++;
     }
+    this.updateCursorOffsets(frameDt);
+    // Render = parting (physics x) + cursor wave (kinematic cox/coy), ÷ scale.
     const inv = 1 / this.scale;
     for (const t of this.tags) {
-      t.setX((t.x - t.hx) * inv);
-      t.setY((t.y - t.hy) * inv);
+      t.setX((t.x - t.hx + t.cox) * inv);
+      t.setY((t.y - t.hy + t.coy) * inv);
     }
   };
+
+  // Kinematic mouse wave: each pill eases toward a target offset that is a pure
+  // function of ITS HOME distance to the cursor (away from the cursor, bounded to
+  // CURSOR_AMOUNT px). When the cursor leaves, the target is 0 → every pill eases
+  // straight back home. No coupling, no cascade, no runaway — it always returns.
+  private updateCursorOffsets(dt: number): void {
+    const c = this.repel ? this.cursor : null;
+    const R = CURSOR_RADIUS * this.scale;
+    const amt = CURSOR_AMOUNT * this.scale;
+    const a = 1 - Math.exp(-CURSOR_RATE * dt); // frame-rate-independent ease factor
+
+    // Mouse velocity this frame (px/s) — the wake's push direction & strength.
+    let vx = 0;
+    let vy = 0;
+    if (c && this.lastCursor && dt > 0) {
+      vx = (c.x - this.lastCursor.x) / dt;
+      vy = (c.y - this.lastCursor.y) / dt;
+    }
+    this.lastCursor = c ? { x: c.x, y: c.y } : null;
+    const speed = Math.hypot(vx, vy);
+    // Nudge magnitude from speed (clamped), and the unit push direction.
+    const kick = speed > 1 ? Math.min(speed * CURSOR_GAIN * this.scale, amt) : 0;
+    const ux = kick > 0 ? vx / speed : 0;
+    const uy = kick > 0 ? vy / speed : 0;
+
+    for (const t of this.tags) {
+      let tx = 0;
+      let ty = 0;
+      if (c && kick > 0) {
+        // Distance from the pill's CURRENT (parted) position, not its home — so
+        // the tags the headline pushed aside react under the mouse where they
+        // actually ARE, not where they were laid out.
+        const dx = t.x - c.x;
+        const dy = t.y - c.y;
+        const d = Math.hypot(dx, dy);
+        if (d < R) {
+          const prox = 1 - d / R; // 1 right at the mouse → 0 at the edge
+          const mag = kick * prox;
+          tx = ux * mag; // push along the mouse's travel direction (no dead centre)
+          ty = uy * mag;
+        }
+      }
+      t.cox += (tx - t.cox) * a;
+      t.coy += (ty - t.coy) * a;
+    }
+  }
 
   private measureObs(now0: boolean): void {
     const s = this.stage.getBoundingClientRect();
@@ -273,7 +337,8 @@ export class TagFlow {
     const tags = this.tags;
     const n = tags.length;
 
-    // 1. Base force: saturating home spring (+ damping + cursor repel).
+    // 1. Base force: saturating home spring (+ damping). The cursor is NOT here —
+    // it's a kinematic offset applied at render (updateCursorOffsets).
     const cap = HOME_CAP * this.scale;
     for (const t of tags) {
       const dxh = t.x - t.hx;
@@ -285,17 +350,6 @@ export class TagFlow {
         const mag = Math.min(K * dh, cap) / dh; // linear near home, capped far out
         fx -= mag * dxh;
         fy -= mag * dyh;
-      }
-      if (this.repel && this.cursor) {
-        const dx = t.x - this.cursor.x;
-        const dy = t.y - this.cursor.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist > 0.01 && dist < CURSOR_RADIUS) {
-          const u = dist / CURSOR_RADIUS;
-          const m = (CURSOR_FORCE * (1 - (3 * u * u - 2 * u * u * u))) / dist;
-          fx += dx * m;
-          fy += dy * m;
-        }
       }
       t.fx = fx;
       t.fy = fy;
@@ -319,9 +373,9 @@ export class TagFlow {
     const vmax = VMAX * sc;
 
     // 4. Integrate (semi-implicit Euler) with a velocity clamp. The Y axis is
-    // LOCKED: pills part purely SIDEWAYS (left/right) and never move up/down, so
-    // the field opens around the headline with no vertical jostling. (Vertical
-    // forces are still summed above but discarded here.)
+    // LOCKED: the headline parts the field purely SIDEWAYS (no vertical jostle).
+    // The cursor wave moves pills in both axes, but that is applied separately as
+    // a kinematic offset at render — it never enters this force sim.
     for (const t of tags) {
       t.vx += t.fx * dt;
       if (t.vx > vmax) t.vx = vmax;
@@ -370,19 +424,13 @@ export class TagFlow {
     const ox = a.hw + b.hw + GAP_X * this.scale - Math.abs(dx);
     const oy = a.hh + b.hh + GAP_Y * this.scale - Math.abs(dy);
     if (ox <= 0 || oy <= 0) return;
-    if (ox < oy) {
-      const nrm = dx < 0 ? -1 : 1;
-      const vrel = (b.vx - a.vx) * nrm;
-      const f = ox * PAIR_STIFF - vrel * PAIR_DAMP;
-      a.fx -= nrm * f;
-      b.fx += nrm * f;
-    } else {
-      const nrm = dy < 0 ? -1 : 1;
-      const vrel = (b.vy - a.vy) * nrm;
-      const f = oy * PAIR_STIFF - vrel * PAIR_DAMP;
-      a.fy -= nrm * f;
-      b.fy += nrm * f;
-    }
+    // Always separate SIDEWAYS — pills never shove each other up/down, so the
+    // field stays row-stable; only the cursor and home spring move pills in y.
+    const nrm = dx < 0 ? -1 : 1;
+    const vrel = (b.vx - a.vx) * nrm;
+    const f = ox * PAIR_STIFF - vrel * PAIR_DAMP;
+    a.fx -= nrm * f;
+    b.fx += nrm * f;
   }
 
   destroy(): void {

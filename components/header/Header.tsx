@@ -178,12 +178,12 @@ function MegaPanel({
       style={{ width: menu.width }}
       aria-hidden={!open}
     >
-      <div className="rounded-[28px] border border-black/10 bg-white/95 p-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.18)] backdrop-blur-xl">
-        <div className="flex gap-2">
+      <div className="rounded-[28px] border border-black/10 bg-white/95 p-5 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+        <div className="flex gap-4">
           {menu.columns.map((col) => (
             <div key={col.label} className="flex-1">
               <ColLabel>{col.label}</ColLabel>
-              <div className="mt-1 space-y-0.5">
+              <div className="mt-2 space-y-1">
                 {col.items.map((it) => (
                   <MegaItemRow key={it.title} item={it} onNavigate={onNavigate} />
                 ))}
@@ -213,24 +213,26 @@ function MegaItemRow({ item, onNavigate }: { item: MegaItem; onNavigate: () => v
     <Link
       href={item.href}
       onClick={onNavigate}
-      className="group flex cursor-pointer items-start gap-3 rounded-2xl px-3 py-2.5 transition-shadow duration-150 hover:ring-1 hover:ring-inset hover:ring-black/10"
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl px-3 py-3 transition-shadow duration-150 hover:ring-1 hover:ring-inset hover:ring-black/10"
     >
       <span
         className={cn(
-          "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-1 transition-colors",
+          // Larger tinted chip — our brand orange at low opacity (Deel-style),
+          // dark icon on top; the flagship keeps an orange icon for accent.
+          "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors",
           item.featured
-            ? "bg-orange/10 text-orange ring-orange/15"
-            : "bg-grey-pill/50 text-ink ring-black/[0.04] group-hover:bg-grey-pill",
+            ? "bg-orange/15 text-orange"
+            : "bg-orange/10 text-ink group-hover:bg-orange/[0.16]",
         )}
       >
-        {Icon ? <Icon size={18} weight={item.featured ? "fill" : "regular"} /> : null}
+        {Icon ? <Icon size={24} weight="fill" /> : null}
       </span>
       <span className="min-w-0">
-        <span className="block text-[14.5px] font-semibold leading-tight text-ink">
+        <span className="block text-[15px] font-semibold leading-tight text-ink">
           {item.title}
         </span>
         {item.desc ? (
-          <span className="mt-0.5 block text-[12.5px] leading-snug text-grey-text">
+          <span className="mt-0.5 block text-[13px] leading-snug text-grey-text">
             {item.desc}
           </span>
         ) : null}

@@ -32,7 +32,7 @@ export type MegaMenu = {
 };
 
 export const platformMenu: MegaMenu = {
-  width: 860,
+  width: 980,
   columns: [
     {
       label: "01 · Benefits",
@@ -101,7 +101,7 @@ export const platformMenu: MegaMenu = {
 };
 
 export const whoMenu: MegaMenu = {
-  width: 900,
+  width: 980,
   columns: [
     {
       label: "By size",
@@ -177,7 +177,7 @@ export const whoMenu: MegaMenu = {
 };
 
 export const partnersMenu: MegaMenu = {
-  width: 720,
+  width: 760,
   columns: [
     {
       label: "Partner with Spine",

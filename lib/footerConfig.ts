@@ -2,6 +2,13 @@
 export type FooterLink = { label: string; href: string };
 export type FooterColumn = { title: string; links: FooterLink[] };
 
+// Small legal/utility links in the footer's bottom bar.
+export const footerBottomLinks: FooterLink[] = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Status", href: "/status" },
+];
+
 export const footerTagline =
   "Enterprise benefits, compliance, and care for ambitious startups, without the PEO.";
 

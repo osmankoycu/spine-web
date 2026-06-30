@@ -36,7 +36,7 @@ export function StatsBand() {
               <div className="mt-[22px] font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[#15140f] sm:text-[54px] lg:text-[64px]">
                 {s.value}
               </div>
-              <p className="mt-[18px] max-w-[200px] text-[15px] leading-[1.45] text-[#86857e]">
+              <p className="mt-[18px] max-w-[200px] text-[15px] font-medium leading-[1.45] text-[#86857e]">
                 {s.caption}
               </p>
             </div>

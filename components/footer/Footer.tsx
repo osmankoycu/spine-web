@@ -1,52 +1,83 @@
 import Link from "next/link";
+import { GithubLogo, LinkedinLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 import { SpineLogo } from "@/components/SpineLogo";
-import { footerColumns, footerTagline } from "@/lib/footerConfig";
+import { footerBottomLinks, footerColumns, footerTagline } from "@/lib/footerConfig";
 
-// Charcoal footer — 400px tall. White wordmark (90px), tagline + copyright on the
-// LEFT (wider cell); the four link columns are EVENLY distributed across the rest
-// (a 1.5fr + 4×1fr grid) so the row reads balanced — no big gap after the logo,
-// no column jammed against the right edge.
+// Near-black footer (solid) in the tone of the dark comparison matrix above.
+// White wordmark with an orange "." accent; orange column headings; a divided
+// bottom bar carries the copyright, legal links and social icons.
+const SOCIALS = [
+  { label: "LinkedIn", href: "#", Icon: LinkedinLogo },
+  { label: "X", href: "#", Icon: XLogo },
+  { label: "GitHub", href: "#", Icon: GithubLogo },
+];
+
 export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-white px-4 text-white sm:px-6 lg:px-8">
-      {/* Inset charcoal card — side gutters match the header width, top corners
-          rounded (close to the menu panel's radius); flat bottom to the page edge. */}
-      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#1c1d22] md:rounded-t-[40px]">
-        <div className="grid grid-cols-1 gap-12 px-8 py-12 md:h-[400px] md:grid-cols-[2.3fr_repeat(4,1fr)] md:items-center md:gap-x-10 md:py-0 lg:px-14">
+      {/* Inset card — side gutters match the header width, top corners rounded. */}
+      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#15140f] px-8 pb-8 pt-12 sm:pt-14 md:rounded-t-[40px] lg:px-14 lg:pb-9 lg:pt-16">
+        {/* Top — brand + link columns */}
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-[2.3fr_repeat(4,1fr)] md:gap-x-10">
           {/* Brand */}
           <div className="md:max-w-[360px]">
-          <SpineLogo fill="#ffffff" className="!h-[64px] md:!h-[90px]" />
-          <p className="mt-6 text-[15px] font-medium leading-snug text-white/75">
-            {footerTagline}
-          </p>
-          <p className="mt-7 text-[13px] text-white/45">
-            © {year} Spine. All rights reserved.
-          </p>
+            <SpineLogo fill="#ffffff" dotFill="#ff6c16" className="!h-[52px] md:!h-[70px]" />
+            <p className="mt-5 text-[15px] font-medium leading-snug text-white/70">
+              {footerTagline}
+            </p>
+          </div>
+
+          {/* Link columns — 2-col grid on mobile, individual grid cells on md+ */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:contents">
+            {footerColumns.map((col) => (
+              <div key={col.title}>
+                <h3 className="text-[13px] font-bold uppercase tracking-[0.08em] text-orange">
+                  {col.title}
+                </h3>
+                <ul className="mt-5 space-y-3">
+                  {col.links.map((l) => (
+                    <li key={l.label}>
+                      <Link
+                        href={l.href}
+                        className="whitespace-nowrap text-[15px] text-white/60 transition-colors hover:text-white"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Link columns — 2-col grid on mobile, individual grid cells on md+ */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:contents">
-        {footerColumns.map((col) => (
-          <div key={col.title}>
-            <h3 className="text-[13px] font-bold uppercase tracking-[0.08em] text-white">
-              {col.title}
-            </h3>
-            <ul className="mt-5 space-y-3">
-              {col.links.map((l) => (
-                <li key={l.label}>
-                  <Link
-                    href={l.href}
-                    className="whitespace-nowrap text-[15px] text-white/60 transition-colors hover:text-white"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            </div>
-          ))}
-        </div>
+        {/* Bottom bar — copyright + legal links · socials */}
+        <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-7 md:mt-16 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-2 text-[14px]">
+            <span className="text-white/45">© {year} Spine. All rights reserved.</span>
+            {footerBottomLinks.map((l) => (
+              <Link
+                key={l.label}
+                href={l.href}
+                className="font-medium text-white/65 transition-colors hover:text-white"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-5">
+            {SOCIALS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                className="text-white/55 transition-colors hover:text-white"
+              >
+                <Icon size={23} />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

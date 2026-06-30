@@ -1,13 +1,21 @@
 import { cn } from "@/lib/cn";
 
-// The Spine wordmark (brand SVG). viewBox 105×35, rendered at 35px height.
-export function SpineLogo({ className }: { className?: string }) {
+// The Spine wordmark (brand SVG). viewBox 105×35, 35px height by default; `fill`
+// overridable (e.g. white-on-orange in the footer), size via className (use the
+// `!` modifier to override the default height, e.g. `!h-[90px]`).
+export function SpineLogo({
+  className,
+  fill = "#FF5F00",
+}: {
+  className?: string;
+  fill?: string;
+}) {
   return (
     <svg
       viewBox="0 0 105 35"
       role="img"
       aria-label="Spine"
-      fill="#FF5F00"
+      fill={fill}
       className={cn("h-[35px] w-auto select-none", className)}
     >
       <path d="M98.8514 27.7006V22.3477H104.429V27.7006H98.8514Z" />

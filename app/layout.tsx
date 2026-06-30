@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/app/providers/SmoothScrollProvider";
 import { Header } from "@/components/header/Header";
+import { TagDrop } from "@/components/footer/TagDrop";
 import { Footer } from "@/components/footer/Footer";
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
         <SmoothScrollProvider>
           <Header />
           {children}
+          <TagDrop />
           <Footer />
         </SmoothScrollProvider>
       </body>

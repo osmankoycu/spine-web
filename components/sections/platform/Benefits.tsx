@@ -40,35 +40,41 @@ const PLAN_TYPES = [
   "HSA / FSA",
 ];
 
-function CheckRow({ label }: { label: string }) {
+function CheckRow({ label, accent }: { label: string; accent: string }) {
   return (
     <div className="flex items-center gap-[9px]">
-      <Check size={13} weight="bold" className="shrink-0 text-orange" />
+      <Check size={13} weight="bold" className={cn("shrink-0", accent)} />
       <span className="text-[13.5px] text-[#56554f]">{label}</span>
     </div>
   );
 }
 
+// `accent` colour-codes the audience: Cobalt for the employer (company), Aqua
+// for employees — the product's two-tone semantic palette.
 function AudienceCard({
   icon: Icon,
   title,
   points,
+  accent,
+  tint,
 }: {
   icon: typeof Buildings;
   title: string;
   points: string[];
+  accent: string;
+  tint: string;
 }) {
   return (
-    <div className="rounded-[18px] border border-[#ececea] bg-[#fcfcfb] p-6">
+    <div className={cn("rounded-[18px] border p-6", tint)}>
       <div className="mb-4 flex items-center gap-2.5">
-        <Icon size={20} weight="duotone" className="text-orange" />
+        <Icon size={20} weight="duotone" className={accent} />
         <span className="text-[14.5px] font-extrabold text-[#15140f]">
           {title}
         </span>
       </div>
       <div className="flex flex-col gap-2.5">
         {points.map((p) => (
-          <CheckRow key={p} label={p} />
+          <CheckRow key={p} label={p} accent={accent} />
         ))}
       </div>
     </div>
@@ -85,8 +91,8 @@ function ReceivedBubble({ children }: { children: React.ReactNode }) {
 
 function SentBubble({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-[80%] self-end rounded-[18px_18px_5px_18px] bg-[#ffe1d0] px-3.5 py-[11px]">
-      <p className="text-[13.5px] leading-[1.4] text-[#9a3c12]">{children}</p>
+    <div className="max-w-[80%] self-end rounded-[18px_18px_5px_18px] bg-aqua-100 px-3.5 py-[11px]">
+      <p className="text-[13.5px] leading-[1.4] text-aqua-700">{children}</p>
     </div>
   );
 }
@@ -94,7 +100,7 @@ function SentBubble({ children }: { children: React.ReactNode }) {
 export function Benefits() {
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
-      <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+      <p className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
         01 · Benefits
       </p>
 
@@ -116,11 +122,15 @@ export function Benefits() {
               icon={Buildings}
               title="For your company"
               points={COMPANY_POINTS}
+              accent="text-cobalt-400"
+              tint="border-cobalt-200 bg-cobalt-100/40"
             />
             <AudienceCard
               icon={DeviceMobile}
               title="For employees"
               points={EMPLOYEE_POINTS}
+              accent="text-aqua-500"
+              tint="border-aqua-200 bg-aqua-100/40"
             />
           </div>
 
@@ -137,7 +147,7 @@ export function Benefits() {
                 Nashina Bush
               </div>
             </div>
-            <span className="shrink-0 rounded-full bg-orange/[0.07] px-2.5 py-1.5 text-[10.5px] font-bold text-orange">
+            <span className="shrink-0 rounded-full bg-cobalt-400/[0.08] px-2.5 py-1.5 text-[10.5px] font-bold text-cobalt-400">
               In-house
             </span>
           </div>
@@ -174,7 +184,7 @@ export function Benefits() {
 
           {/* App header */}
           <div className="flex items-center gap-3 border-b border-[#eceae6] bg-white px-[18px] pb-3.5 pt-1.5">
-            <span className="relative grid size-[42px] shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange to-orange-600">
+            <span className="relative grid size-[42px] shrink-0 place-items-center rounded-full bg-gradient-to-br from-aqua-400 to-aqua-500">
               <span className="text-[18px] font-extrabold text-white">S</span>
               <span className="absolute -bottom-px -right-px size-3 rounded-full border-2 border-white bg-[#2ec46b]" />
             </span>
@@ -201,7 +211,7 @@ export function Benefits() {
               disputing it for you.
             </SentBubble>
             <div className="flex items-center gap-2 self-start rounded-[14px] border border-[#eceae6] bg-white px-3.5 py-2.5">
-              <FileText size={18} weight="duotone" className="text-orange" />
+              <FileText size={18} weight="duotone" className="text-aqua-500" />
               <div>
                 <div className="text-[12.5px] font-bold text-[#15140f]">
                   Claim #4821
@@ -219,9 +229,7 @@ export function Benefits() {
             <div className="flex-1 rounded-full border border-[#e7e6e2] bg-[#f3f2ef] px-4 py-[11px] text-[13.5px] text-[#a9a9a3]">
               Message Spine Care…
             </div>
-            <span className={cn(
-              "grid size-10 shrink-0 place-items-center rounded-full bg-orange",
-            )}>
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-aqua-400">
               <PaperPlaneRight size={18} weight="fill" className="text-white" />
             </span>
           </div>

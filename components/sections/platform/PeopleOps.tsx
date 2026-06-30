@@ -87,7 +87,7 @@ export function PeopleOps() {
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
       <div className="mb-7">
-        <span className="text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+        <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           03 · People Ops
         </span>
       </div>

@@ -13,6 +13,24 @@
   --color-ink: #161616; /* near-black body text */
   --color-orange: #ff6c16; /* brand, logo, active word, primary CTA */
   --color-orange-600: #e85f0e; /* CTA hover/press */
+
+  /* Semantic product palettes — Employer = Cobalt, Employee = Aqua. 400 is the
+     primary step of each. Used to colour-code the platform pillars (company vs
+     employee cards, the employee app, the employer dashboards). */
+  --color-cobalt-100: #dbe5fa;
+  --color-cobalt-200: #a9c0f2;
+  --color-cobalt-300: #5b82de;
+  --color-cobalt-400: #1e54b8; /* ★ employer primary */
+  --color-cobalt-500: #163e89;
+  --color-cobalt-600: #0e2756;
+  --color-cobalt-700: #0b1d45;
+  --color-aqua-100: #c8eaf2;
+  --color-aqua-200: #94d7e5;
+  --color-aqua-300: #56c2d8;
+  --color-aqua-400: #2bb0c9; /* ★ employee primary */
+  --color-aqua-500: #1e7e92;
+  --color-aqua-600: #114e5c;
+  --color-aqua-700: #093f4b;
   --color-grey-pill: #e1e5ea; /* ALL tag pills share this bg */
   --color-grey-text: #828282; /* subtitle / muted fragments */
   --color-grey-word: #c6c6c6; /* inactive headline words */

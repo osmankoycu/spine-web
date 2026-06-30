@@ -76,13 +76,13 @@ const coverage = [
 
 const toneChip: Record<Tone, string> = {
   done: "bg-[#eafaef] text-[#2a8b3f]",
-  active: "bg-orange/[0.07] text-orange",
+  active: "bg-cobalt-400/[0.08] text-cobalt-400",
   queued: "bg-[#f2f2ef] text-[#b0afa9]",
 };
 
 const toneStatus: Record<Tone, string> = {
   done: "text-[#2a8b3f]",
-  active: "text-orange",
+  active: "text-cobalt-400",
   queued: "text-[#a9a9a3]",
 };
 
@@ -97,7 +97,7 @@ export function Compliance() {
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
       {/* Header */}
       <div className="mb-8">
-        <span className="text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+        <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           02 · Compliance
         </span>
         <h2 className="font-display mt-[22px] text-[34px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
@@ -135,12 +135,12 @@ export function Compliance() {
           {/* Sidebar */}
           <div className="flex flex-col gap-3 border-b border-[#ededea] px-[14px] py-[18px] md:gap-[3px] md:border-b-0 md:border-r">
             <div className="flex gap-2 overflow-x-auto md:flex-col md:gap-[3px] md:overflow-visible">
-              <div className="flex shrink-0 items-center gap-[11px] rounded-[10px] bg-orange/[0.07] px-3 py-[10px]">
-                <Pulse size={17} weight="fill" className="text-orange" />
+              <div className="flex shrink-0 items-center gap-[11px] rounded-[10px] bg-cobalt-400/[0.08] px-3 py-[10px]">
+                <Pulse size={17} weight="fill" className="text-cobalt-400" />
                 <span className="flex-1 whitespace-nowrap text-[13.5px] font-bold text-[#15140f]">
                   All activity
                 </span>
-                <span className="text-[11px] font-bold text-orange">5</span>
+                <span className="text-[11px] font-bold text-cobalt-400">5</span>
               </div>
               {navItems.map(({ label, icon: Icon, count }) => (
                 <div
@@ -201,7 +201,7 @@ export function Compliance() {
                     <div
                       className={cn(
                         "mt-[2px] text-[11.5px]",
-                        row.tone === "active" ? "text-orange" : "text-[#a9a9a3]",
+                        row.tone === "active" ? "text-cobalt-400" : "text-[#a9a9a3]",
                       )}
                     >
                       {row.sub}
@@ -222,8 +222,8 @@ export function Compliance() {
 
           {/* Right rail */}
           <div className="flex flex-col gap-[14px] p-[18px]">
-            <div className="rounded-[14px] border border-[#ffd9c2] bg-orange/[0.07] p-4">
-              <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-orange">
+            <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-4">
+              <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-cobalt-400">
                 Next deadline
               </div>
               <div className="mt-[6px] text-[15px] font-bold text-[#15140f]">
@@ -232,8 +232,8 @@ export function Compliance() {
               <div className="mt-[2px] text-[12px] text-[#86857e]">
                 June 1 · 4 days
               </div>
-              <div className="mt-3 h-[6px] overflow-hidden rounded-full bg-[#f4ddd0]">
-                <div className="h-full w-[70%] bg-orange" />
+              <div className="mt-3 h-[6px] overflow-hidden rounded-full bg-cobalt-100">
+                <div className="h-full w-[70%] bg-cobalt-400" />
               </div>
             </div>
             <div className="rounded-[14px] border border-[#ececea] bg-[#fafaf9] p-4">
@@ -265,8 +265,8 @@ export function Compliance() {
       <div className="mt-7 grid gap-7 border-t border-[#ededea] pt-7 sm:grid-cols-3">
         {coverage.map((cell) => (
           <div key={cell.title} className="flex items-start gap-3">
-            <span className="grid h-[26px] w-[26px] flex-none place-items-center rounded-full bg-orange/[0.07]">
-              <Check size={12} weight="bold" className="text-orange" />
+            <span className="grid h-[26px] w-[26px] flex-none place-items-center rounded-full bg-cobalt-400/[0.08]">
+              <Check size={12} weight="bold" className="text-cobalt-400" />
             </span>
             <div>
               <div className="text-[15px] font-bold text-[#15140f]">

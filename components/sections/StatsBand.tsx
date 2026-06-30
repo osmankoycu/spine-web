@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { cn } from "@/lib/cn";
 import { trustedLogos } from "./trustedLogos";
 
 // Proof band (handoff Block 0): a white rounded card — four headline metrics,
@@ -44,7 +45,8 @@ const fmt = (a: Extract<Anim, { kind: "count" }>, v: number) => {
   return `${a.prefix ?? ""}${n}${a.suffix ?? ""}`;
 };
 
-export function StatsBand() {
+export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" }) {
+  const dark = variant === "dark";
   const gridRef = useRef<HTMLDivElement>(null);
   const numRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -109,27 +111,48 @@ export function StatsBand() {
 
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
-      <div className="relative z-10 mx-auto max-w-[1200px] overflow-hidden rounded-[32px] border border-[#ededea] bg-white px-7 pb-9 pt-10 shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)] sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
+      <div
+        className={cn(
+          "relative z-10 mx-auto max-w-[1200px] overflow-hidden rounded-[32px] border px-7 pb-9 pt-10 sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]",
+          dark
+            ? "border-white/10 bg-[#15140f] shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)]"
+            : "border-[#ededea] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)]",
+        )}
+      >
         {/* Stats */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 divide-y divide-[#ededea] sm:grid-cols-2 md:grid-cols-4 md:divide-y-0"
+          className={cn(
+            "grid grid-cols-1 divide-y sm:grid-cols-2 md:grid-cols-4 md:divide-y-0",
+            dark ? "divide-white/10" : "divide-[#ededea]",
+          )}
         >
           {STATS.map((s, i) => (
             <div
               key={s.value}
-              className="px-0 py-8 first:pt-0 last:pb-0 sm:px-9 sm:py-0 md:first:pl-0 md:last:pr-0 md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-[#ededea]"
+              className={cn(
+                "px-0 py-8 first:pt-0 last:pb-0 sm:px-9 sm:py-0 md:first:pl-0 md:last:pr-0 md:[&:not(:last-child)]:border-r",
+                dark ? "md:[&:not(:last-child)]:border-white/10" : "md:[&:not(:last-child)]:border-[#ededea]",
+              )}
             >
               <div className="h-1 w-[30px] rounded-[2px] bg-orange" />
               <div
                 ref={(el) => {
                   numRefs.current[i] = el;
                 }}
-                className="mt-[22px] font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[#15140f] sm:text-[54px] lg:text-[64px]"
+                className={cn(
+                  "mt-[22px] font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] sm:text-[54px] lg:text-[64px]",
+                  dark ? "text-white" : "text-[#15140f]",
+                )}
               >
                 {s.value}
               </div>
-              <p className="mt-[18px] max-w-[200px] text-[15px] font-medium leading-[1.45] text-[#86857e]">
+              <p
+                className={cn(
+                  "mt-[18px] max-w-[200px] text-[15px] font-medium leading-[1.45]",
+                  dark ? "text-white/55" : "text-[#86857e]",
+                )}
+              >
                 {s.caption}
               </p>
             </div>
@@ -137,13 +160,23 @@ export function StatsBand() {
         </div>
 
         {/* Divider */}
-        <div className="mb-10 mt-[52px] h-px bg-[#ededea]" />
+        <div className={cn("mb-10 mt-[52px] h-px", dark ? "bg-white/10" : "bg-[#ededea]")} />
 
         {/* Trusted by */}
-        <p className="mb-8 text-center text-[12px] font-bold uppercase tracking-[0.18em] text-[#a9a9a3]">
+        <p
+          className={cn(
+            "mb-8 text-center text-[12px] font-bold uppercase tracking-[0.18em]",
+            dark ? "text-white/40" : "text-[#a9a9a3]",
+          )}
+        >
           Trusted by ambitious tech companies
         </p>
-        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-7 text-[#c2c2bc]">
+        <div
+          className={cn(
+            "flex flex-wrap items-center justify-between gap-x-8 gap-y-7",
+            dark ? "text-white/35" : "text-[#c2c2bc]",
+          )}
+        >
           {orderedLogos.map((logo) => (
             <span
               key={logo.label}

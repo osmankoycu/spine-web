@@ -13,7 +13,7 @@ export default function Home() {
 
       {/* Proof band → platform pillars (Benefits/Compliance/People Ops) → free →
           HR community → dark matrix, then the closing CTA + footer (in layout). */}
-      <StatsBand />
+      <StatsBand variant="dark" />
       <PlatformSections />
       <FreeHero />
       <HrCommunity />

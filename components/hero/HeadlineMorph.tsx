@@ -2,13 +2,14 @@
 
 import { RotatingWord } from "./RotatingWord";
 import { copy } from "@/lib/hero/heroConfig";
-import { heroCta } from "@/lib/siteConfig";
+import { useDemoModal } from "@/components/cta/DemoModal";
 
 // Center content for HERO_REST: the headline (with the rotating word), subtitle,
 // and CTA. Initially opacity-0 — popped in on HERO_REST entry by
 // HeroRestController. [data-center-content] is the box the tag corridor is
 // measured from.
 export function HeadlineMorph() {
+  const { open } = useDemoModal();
   return (
     <div data-center className="pointer-events-none absolute inset-0 z-20">
       {/* Headline + subtitle — nudged above the field centre. The shift (-58px)
@@ -71,13 +72,14 @@ export function HeadlineMorph() {
         className="absolute inset-x-0 flex justify-center"
         style={{ top: "calc(50% + 158px)" }}
       >
-        <a
+        <button
+          type="button"
           data-cta
-          href={heroCta.href}
-          className="pointer-events-auto box-border flex items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[24px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-colors hover:bg-orange-600"
+          onClick={open}
+          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[24px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-colors hover:bg-orange-600"
         >
           {copy.cta}
-        </a>
+        </button>
       </div>
     </div>
   );

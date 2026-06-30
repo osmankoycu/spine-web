@@ -4,6 +4,7 @@ import { SmoothScrollProvider } from "@/app/providers/SmoothScrollProvider";
 import { Header } from "@/components/header/Header";
 import { TagDrop } from "@/components/footer/TagDrop";
 import { Footer } from "@/components/footer/Footer";
+import { DemoModalProvider } from "@/components/cta/DemoModal";
 
 export const metadata: Metadata = {
   title: "Spine — Replace your broker and your PEO",
@@ -38,10 +39,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-full antialiased">
         <SmoothScrollProvider>
-          <Header />
-          {children}
-          <TagDrop />
-          <Footer />
+          <DemoModalProvider>
+            <Header />
+            {children}
+            <TagDrop />
+            <Footer />
+          </DemoModalProvider>
         </SmoothScrollProvider>
       </body>
     </html>

@@ -7,8 +7,8 @@ export default function Home() {
       {/* Full-screen hero: INTRO tag pop-in + HERO_REST opening play on load. */}
       <Hero />
 
-      {/* Proof band — black stats + trusted-by card, directly below the hero. */}
-      <StatsBand />
+      {/* Proof band — stats + trusted-by, directly below the hero. */}
+      <StatsBand variant="light" />
 
       {/* Placeholder for the real marketing sections — kept tall so the scroll
           between the hero and the closing CTA + footer (global, in layout) has

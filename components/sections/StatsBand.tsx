@@ -1,14 +1,31 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { gsap } from "@/lib/gsap";
 import { trustedLogos } from "./trustedLogos";
 
 // Proof band (handoff Block 0): a white rounded card — four headline metrics,
-// each topped by an orange accent bar and divided by hairline borders, over a
-// full-width trusted-by logo row. Styling is from the handoff; the logos are OUR
-// real extracted SVG marks (kept muted), not the handoff's text placeholders.
-const STATS: { value: string; caption: string }[] = [
-  { value: "3-in-1", caption: "Benefits, compliance, people ops, one team" },
-  { value: "25%", caption: "Average reduction in healthcare costs" },
-  { value: "24/7", caption: "Employee support, in-house team + AI" },
-  { value: "$0", caption: "Cost to your company. Free, always." },
+// each topped by an orange accent bar, over a full-width trusted-by logo row.
+// On scroll-into-view the metrics animate: 3-in-1 / 24/7 pop with a light spring;
+// 25% counts up 0→25; $0 counts rapidly down from 999. Real SVG logos kept.
+
+type Anim =
+  | { kind: "scale" }
+  | { kind: "count"; from: number; to: number; prefix?: string; suffix?: string };
+
+const STATS: { value: string; caption: string; anim: Anim }[] = [
+  { value: "3-in-1", caption: "Benefits, compliance, people ops, one team", anim: { kind: "scale" } },
+  {
+    value: "25%",
+    caption: "Average reduction in healthcare costs",
+    anim: { kind: "count", from: 0, to: 25, suffix: "%" },
+  },
+  { value: "24/7", caption: "Employee support, in-house team + AI", anim: { kind: "scale" } },
+  {
+    value: "$0",
+    caption: "Cost to your company. Free, always.",
+    anim: { kind: "count", from: 999, to: 0, prefix: "$" },
+  },
 ];
 
 // Optical size tuning — equal heights don't read as equal weight; nudge a few.
@@ -21,19 +38,95 @@ const orderedLogos = [...trustedLogos].sort(
   (a, b) => LOGO_ORDER.indexOf(a.label) - LOGO_ORDER.indexOf(b.label),
 );
 
+const fmt = (a: Extract<Anim, { kind: "count" }>, v: number) => {
+  let n = Math.round(v);
+  if (a.from > a.to) n = Math.max(a.to, n); // countdown: never dip below the target
+  return `${a.prefix ?? ""}${n}${a.suffix ?? ""}`;
+};
+
 export function StatsBand() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const numRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return; // SSR already renders the final values
+
+    // Prime the start states (the section is below the fold on load, so no flash).
+    STATS.forEach((s, i) => {
+      const el = numRefs.current[i];
+      if (!el) return;
+      if (s.anim.kind === "scale") {
+        gsap.set(el, { scale: 0.4, opacity: 0, transformOrigin: "50% 50%" });
+      } else {
+        gsap.set(el, { opacity: 0 });
+        el.textContent = fmt(s.anim, s.anim.from);
+      }
+    });
+
+    let played = false;
+    const play = () => {
+      if (played) return;
+      played = true;
+      STATS.forEach((s, i) => {
+        const el = numRefs.current[i];
+        if (!el) return;
+        const delay = i * 0.06;
+        if (s.anim.kind === "scale") {
+          gsap.to(el, { scale: 1, opacity: 1, duration: 0.7, ease: "back.out(1.7)", delay });
+          return;
+        }
+        const a = s.anim;
+        const countingDown = a.from > a.to;
+        gsap.to(el, { opacity: 1, duration: 0.3, delay });
+        const obj = { v: a.from };
+        gsap.to(obj, {
+          v: a.to,
+          duration: countingDown ? 0.85 : 1.3, // $0 races down; 25% eases up
+          ease: "back.out(1.1)", // a little spring on the count too
+          delay,
+          onUpdate: () => {
+            el.textContent = fmt(a, obj.v);
+          },
+        });
+      });
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          play();
+          io.disconnect();
+        }
+      },
+      { threshold: 0.85, rootMargin: "0px 0px -12% 0px" },
+    );
+    io.observe(grid);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
       <div className="relative z-10 mx-auto max-w-[1200px] overflow-hidden rounded-[32px] border border-[#ededea] bg-white px-7 pb-9 pt-10 shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)] sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
         {/* Stats */}
-        <div className="grid grid-cols-1 divide-y divide-[#ededea] sm:grid-cols-2 md:grid-cols-4 md:divide-y-0">
-          {STATS.map((s) => (
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 divide-y divide-[#ededea] sm:grid-cols-2 md:grid-cols-4 md:divide-y-0"
+        >
+          {STATS.map((s, i) => (
             <div
               key={s.value}
               className="px-0 py-8 first:pt-0 last:pb-0 sm:px-9 sm:py-0 md:first:pl-0 md:last:pr-0 md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-[#ededea]"
             >
               <div className="h-1 w-[30px] rounded-[2px] bg-orange" />
-              <div className="mt-[22px] font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[#15140f] sm:text-[54px] lg:text-[64px]">
+              <div
+                ref={(el) => {
+                  numRefs.current[i] = el;
+                }}
+                className="mt-[22px] font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[#15140f] sm:text-[54px] lg:text-[64px]"
+              >
                 {s.value}
               </div>
               <p className="mt-[18px] max-w-[200px] text-[15px] font-medium leading-[1.45] text-[#86857e]">

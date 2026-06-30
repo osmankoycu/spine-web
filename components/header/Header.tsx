@@ -7,6 +7,7 @@ import { SpineLogo } from "@/components/SpineLogo";
 import { actions, nav, type NavItem } from "@/lib/siteConfig";
 import type { MegaFeature, MegaItem, MegaMenu } from "@/lib/nav/megaMenu";
 import { getLenis } from "@/lib/lenis";
+import { useDemoModal } from "@/components/cta/DemoModal";
 import { menuIcons } from "./menuIcons";
 import { cn } from "@/lib/cn";
 
@@ -24,6 +25,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const { open: openModal } = useDemoModal();
 
   useEffect(() => {
     const onScroll = () => {
@@ -146,12 +148,13 @@ export function Header() {
             >
               {actions.login.label}
             </Link>
-            <Link
-              href={actions.demo.href}
-              className="rounded-pill bg-black px-4 py-2.5 text-[14px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-[#262626] sm:px-[18px] sm:text-[15px]"
+            <button
+              type="button"
+              onClick={openModal}
+              className="cursor-pointer rounded-pill bg-black px-4 py-2.5 text-[14px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-[#262626] sm:px-[18px] sm:text-[15px]"
             >
               {actions.demo.label}
-            </Link>
+            </button>
             <button
               type="button"
               onClick={() => setMobileOpen((v) => !v)}

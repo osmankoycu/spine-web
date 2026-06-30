@@ -177,7 +177,7 @@ export function TagDrop() {
   }, []);
 
   return (
-    <section className="relative h-[800px] overflow-hidden bg-white">
+    <section className="relative h-[620px] overflow-hidden bg-white sm:h-[720px] lg:h-[800px]">
       {/* Physics layer — receives the drag; pills are pointer-events-none so the
           drag hit-tests against matter bodies, not the DOM, and text can't be
           selected. Sits BEHIND the copy. */}
@@ -190,7 +190,7 @@ export function TagDrop() {
             }}
             data-tag
             style={{ top: 0, left: 0 }}
-            className="pointer-events-none absolute whitespace-nowrap rounded-pill bg-[#e7eaef] px-[36px] py-[25px] text-[22px] font-medium leading-none tracking-[-0.02em] text-white opacity-0 transition-opacity duration-300 will-change-transform data-[active=true]:bg-black"
+            className="pointer-events-none absolute whitespace-nowrap rounded-pill bg-[#e7eaef] px-[22px] py-[16px] text-[16px] font-medium leading-none tracking-[-0.02em] text-white opacity-0 transition-opacity duration-300 will-change-transform data-[active=true]:bg-black sm:px-[30px] sm:py-[21px] sm:text-[20px] lg:px-[36px] lg:py-[25px] lg:text-[22px]"
           >
             {label}
           </div>
@@ -199,18 +199,18 @@ export function TagDrop() {
 
       {/* Copy — in front, but pointer-events-none so drags pass through to the
           physics layer; only the CTA / email links are interactive. */}
-      <div className="pointer-events-none relative z-10 mx-auto flex max-w-[760px] flex-col items-center px-6 pt-[120px] text-center">
-        <h2 className="font-display text-[56px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink">
+      <div className="pointer-events-none relative z-10 mx-auto flex max-w-[760px] flex-col items-center px-6 pt-[88px] text-center sm:pt-[110px] lg:pt-[120px]">
+        <h2 className="font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[44px] lg:text-[56px]">
           Offload your <em className="text-orange">people stack</em> in 30 minutes.
         </h2>
-        <p className="mt-6 max-w-[560px] text-[18px] leading-[1.55] text-grey-text">
+        <p className="mt-6 max-w-[560px] text-[16px] leading-[1.55] text-grey-text sm:text-[18px]">
           Free 30-minute call. We&apos;ll show you exactly what we&apos;d take over: benefits,
           compliance, payroll, onboarding, and how much you&apos;d save. No commitment.
         </p>
         <button
           type="button"
           onClick={open}
-          className="pointer-events-auto mt-9 cursor-pointer rounded-pill bg-orange px-[30px] py-[18px] text-[18px] font-semibold text-white transition-colors hover:bg-orange-600"
+          className="pointer-events-auto mt-9 cursor-pointer rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-orange-600 sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
           Request your free audit →
         </button>

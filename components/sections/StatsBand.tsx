@@ -25,7 +25,7 @@ const orderedLogos = [...trustedLogos].sort(
 export function StatsBand({ variant = "dark" }: { variant?: "dark" | "light" }) {
   const light = variant === "light";
   return (
-    <section className="bg-bg px-4 py-20 sm:px-6 lg:px-8">
+    <section className="bg-bg px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       {/* No padding on the card itself, so the dividers run edge-to-edge: the
           stats' vertical lines reach the card's top, the horizontal line below
           spans the full width — a fully divided grid. */}
@@ -38,13 +38,13 @@ export function StatsBand({ variant = "dark" }: { variant?: "dark" | "light" }) 
         {/* Stats — full-height vertical dividers (top of card → horizontal line) */}
         <div
           className={cn(
-            "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:divide-x",
-            light ? "md:divide-grey-pill" : "md:divide-white/10",
+            "grid grid-cols-1 divide-y sm:grid-cols-2 md:grid-cols-4 md:divide-x md:divide-y-0",
+            light ? "divide-grey-pill md:divide-grey-pill" : "divide-white/10 md:divide-white/10",
           )}
         >
           {STATS.map((s) => (
-            <div key={s.value} className="px-8 py-14 lg:px-12 lg:py-16">
-              <div className="font-display text-[50px] font-extrabold leading-none tracking-[-0.03em] text-ink lg:text-[60px]">
+            <div key={s.value} className="px-7 py-10 sm:px-8 sm:py-12 lg:px-12 lg:py-16">
+              <div className="font-display text-[40px] font-extrabold leading-none tracking-[-0.03em] text-ink sm:text-[50px] lg:text-[60px]">
                 {s.value}
               </div>
               <p
@@ -76,7 +76,7 @@ export function StatsBand({ variant = "dark" }: { variant?: "dark" | "light" }) 
           </p>
           <div
             className={cn(
-              "mt-10 flex flex-wrap items-center justify-center gap-x-14 gap-y-8",
+              "mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-7 sm:gap-x-12 lg:gap-x-14",
               light ? "text-grey-word" : "text-white/45",
             )}
           >

@@ -12,11 +12,11 @@ export function Footer() {
     <footer className="bg-white px-4 text-black sm:px-6 lg:px-8">
       {/* Inset orange card — side gutters match the header width, top corners
           rounded (close to the menu panel's radius); flat bottom to the page edge. */}
-      <div className="mx-auto max-w-[1480px] rounded-t-[40px] bg-orange">
-        <div className="grid grid-cols-1 gap-12 px-8 py-16 md:h-[400px] md:grid-cols-[2.3fr_repeat(4,1fr)] md:items-center md:gap-x-10 md:py-0 lg:px-14">
+      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-orange md:rounded-t-[40px]">
+        <div className="grid grid-cols-1 gap-12 px-8 py-12 md:h-[400px] md:grid-cols-[2.3fr_repeat(4,1fr)] md:items-center md:gap-x-10 md:py-0 lg:px-14">
           {/* Brand */}
           <div className="md:max-w-[360px]">
-          <SpineLogo fill="#ffffff" className="!h-[90px]" />
+          <SpineLogo fill="#ffffff" className="!h-[64px] md:!h-[90px]" />
           <p className="mt-6 text-[15px] font-medium leading-snug text-black/85">
             {footerTagline}
           </p>
@@ -25,7 +25,8 @@ export function Footer() {
           </p>
         </div>
 
-        {/* Link columns */}
+        {/* Link columns — 2-col grid on mobile, individual grid cells on md+ */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:contents">
         {footerColumns.map((col) => (
           <div key={col.title}>
             <h3 className="text-[13px] font-bold uppercase tracking-[0.08em] text-white">
@@ -45,6 +46,7 @@ export function Footer() {
             </ul>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </footer>

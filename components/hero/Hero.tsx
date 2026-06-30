@@ -22,6 +22,11 @@ const COL_PITCH = 200; // ~avg pill + gap → columns per row
 const LABEL_ROWS_HALF = 4; // 9 labelled rows (k = -4..4)
 const LABEL_COLS_HALF = 2; // 5 labelled cells per labelled row
 const REF_W = 1200; // reference labelled-block width (for the width fit)
+// On phones we fit a NARROWER reference width → larger scale → the tags read big,
+// only the centre region shows, and we let the motto wrap. It's a "zoom in", not
+// a shrink.
+const REF_W_MOBILE = 720;
+const MOBILE_MAX_W = 640; // below this viewport width we treat it as mobile
 const FILLER_MIN_W = 72;
 const FILLER_MAX_W = 300;
 const FILLER_OPACITY = 0.4;
@@ -88,14 +93,23 @@ export function Hero() {
         const availW = area.clientWidth - padL - padR;
         const availH = area.clientHeight - padT - padB;
         if (availW <= 0 || availH <= 0) return;
+        const mobile = availW < MOBILE_MAX_W;
         const s = Math.min(
           MAX_SCALE,
-          availW / REF_W,
+          availW / (mobile ? REF_W_MOBILE : REF_W),
           availH / ((2 * LABEL_ROWS_HALF + 1) * ROW_PITCH),
         );
         fit.style.transform = `scale(${s})`;
         // The grid centre sits at the centre of the area below the header.
         const sr = stage.getBoundingClientRect();
+        // On mobile, cap line 1 of the motto to ~the stage width (÷ scale, since
+        // the canvas is scaled) so it WRAPS into a big multi-line block — the
+        // "zoom in" look — instead of overflowing. Desktop stays one line/line.
+        const line1 = fit.querySelector<HTMLElement>("[data-h-measure]");
+        if (line1) {
+          line1.style.maxWidth = mobile ? `${Math.round((sr.width * 0.9) / s)}px` : "";
+          line1.style.whiteSpace = mobile ? "normal" : "";
+        }
         const centerY = padT + availH / 2;
         const vDist = Math.max(centerY, sr.height - centerY) / s;
         const hDist = sr.width / 2 / s;

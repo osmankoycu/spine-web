@@ -49,7 +49,7 @@ export function HeadlineMorph() {
 
           <p
             data-subtitle
-            className="mt-[53px] max-w-[560px] text-[18px] leading-[1.55] text-grey-text opacity-0"
+            className="mt-[53px] max-w-[560px] text-[26px] leading-[1.5] text-grey-text opacity-0 md:text-[18px] md:leading-[1.55]"
           >
             {copy.rest.subtitle.map((s, i) =>
               s.em ? (
@@ -76,7 +76,7 @@ export function HeadlineMorph() {
           type="button"
           data-cta
           onClick={open}
-          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[24px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-colors hover:bg-orange-600"
+          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[30px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-colors hover:bg-orange-600 md:text-[24px]"
         >
           {copy.cta}
         </button>

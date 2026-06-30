@@ -104,7 +104,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
       {/* Card */}
       <div
-        className={`relative z-10 w-full max-w-[560px] rounded-[28px] bg-white p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[opacity,scale,translate] duration-300 ease-out sm:p-10 ${
+        className={`relative z-10 w-full max-w-[560px] rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[opacity,scale,translate] duration-300 ease-out sm:p-8 md:p-10 ${
           shown ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-95 opacity-0"
         }`}
       >

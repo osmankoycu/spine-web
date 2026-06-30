@@ -1,5 +1,7 @@
 import { Hero } from "@/components/hero/Hero";
 import { StatsBand } from "@/components/sections/StatsBand";
+import { FreeHero } from "@/components/sections/FreeHero";
+import { HrCommunity } from "@/components/sections/HrCommunity";
 import { WhySpine } from "@/components/sections/WhySpine";
 
 export default function Home() {
@@ -8,11 +10,11 @@ export default function Home() {
       {/* Full-screen hero: INTRO tag pop-in + HERO_REST opening play on load. */}
       <Hero />
 
-      {/* Proof band — stats + trusted-by, directly below the hero. */}
-      <StatsBand variant="light" />
+      {/* Proof band, then a placeholder for the main marketing sections still to
+          come, then the handoff composition (free → HR community → dark matrix)
+          and the closing CTA + footer (global, in layout). */}
+      <StatsBand />
 
-      {/* Placeholder for the real marketing sections still to come — kept tall so
-          the scroll has real travel. Replace with actual content later. */}
       <section className="flex min-h-[200vh] flex-col items-center justify-center gap-3 bg-bg">
         <span className="text-[13px] font-semibold uppercase tracking-[0.22em] text-grey-text">
           Content will go here
@@ -22,8 +24,8 @@ export default function Home() {
         </span>
       </section>
 
-      {/* Why Spine — 3-way comparison, right above the closing CTA + footer
-          (global, in layout). */}
+      <FreeHero />
+      <HrCommunity />
       <WhySpine />
     </main>
   );

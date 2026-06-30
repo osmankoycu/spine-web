@@ -200,7 +200,7 @@ export function TagDrop() {
       {/* Copy — in front, but pointer-events-none so drags pass through to the
           physics layer; only the CTA / email links are interactive. */}
       <div className="pointer-events-none relative z-10 mx-auto flex max-w-[760px] flex-col items-center px-6 pt-[88px] text-center sm:pt-[110px] lg:pt-[120px]">
-        <h2 className="font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[44px] lg:text-[56px]">
+        <h2 className="font-display text-[40px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[52px] lg:text-[64px]">
           Offload your <span className="text-orange">people stack</span> in 30 minutes.
         </h2>
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.55] text-grey-text sm:text-[18px]">

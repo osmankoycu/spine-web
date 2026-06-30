@@ -100,14 +100,13 @@ function SentBubble({ children }: { children: React.ReactNode }) {
 export function Benefits() {
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
-      <p className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
-        01 · Benefits
-      </p>
-
-      <div className="mt-7 grid gap-10 md:grid-cols-[1fr_380px] md:gap-11 md:items-stretch">
+      <div className="grid gap-10 md:grid-cols-[1fr_380px] md:gap-11 md:items-stretch">
         {/* Left column */}
         <div className="flex flex-col">
-          <h2 className="font-display text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
+          <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+            01 · Benefits
+          </p>
+          <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
             Better plans.
             <br />
             <span className="text-orange">Lower premiums.</span>

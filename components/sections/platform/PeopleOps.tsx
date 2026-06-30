@@ -5,6 +5,7 @@ import {
   UserPlus,
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
+import { stackLogos } from "@/lib/platformLogos";
 
 // Platform pillar "03 · People Ops" (design handoff). ONE padded block only —
 // the parent supplies the white card + dividers. Left: headline + a vertical
@@ -81,7 +82,6 @@ const queue: QueueRow[] = [
   },
 ];
 
-const stackLogos = ["Gusto", "Rippling", "Justworks", "ADP", "Deel"];
 
 export function PeopleOps() {
   return (
@@ -226,20 +226,20 @@ export function PeopleOps() {
       </div>
 
       {/* Works on top of */}
-      <div className="mt-8 flex flex-wrap items-center gap-[18px] border-t border-[#ededea] pt-7">
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-x-10 gap-y-6 border-t border-[#ededea] pt-7 text-[#c2c2bc]">
         <span className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#a9a9a3]">
           Works on top of
         </span>
-        <div className="flex flex-wrap items-center gap-2.5">
-          {stackLogos.map((name) => (
-            <span
-              key={name}
-              className="grid h-10 w-[104px] place-items-center rounded-[10px] border border-[#ececea] bg-[#fcfcfb] text-[13px] font-semibold text-[#a9a9a3]"
-            >
-              {name}
-            </span>
-          ))}
-        </div>
+        {stackLogos.map((logo) => (
+          <span
+            key={logo.label}
+            role="img"
+            aria-label={logo.label}
+            style={{ width: 24 * logo.ar, height: 24 }}
+            className="block [&>svg]:h-full [&>svg]:w-full"
+            dangerouslySetInnerHTML={{ __html: logo.svg }}
+          />
+        ))}
       </div>
     </div>
   );

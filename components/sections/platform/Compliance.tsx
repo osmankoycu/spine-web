@@ -169,7 +169,7 @@ export function Compliance() {
           </div>
 
           {/* Feed */}
-          <div className="border-b border-[#ededea] px-[22px] py-[18px] md:border-b-0 md:border-r">
+          <div className="border-b border-[#ededea] bg-[#fcfcfb] px-[22px] py-[18px] md:border-b-0 md:border-r">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">
                 Live feed

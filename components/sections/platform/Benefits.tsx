@@ -10,6 +10,7 @@ import {
   WifiHigh,
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
+import { Reveal } from "@/components/sections/Reveal";
 
 // Platform pillar "01 · Benefits" (design handoff — Pillar 1). Broker-of-record
 // pitch on the left (audience cards + consultant chip + plan-type pill cloud),
@@ -170,7 +171,8 @@ export function Benefits() {
         </div>
 
         {/* Right column — concierge chat-app UI */}
-        <div className="flex min-h-[520px] flex-col overflow-hidden rounded-[30px] border border-[#e6e6e8] bg-[#f2f2f3] shadow-[0_30px_60px_-36px_rgba(20,20,18,0.3)]">
+        <Reveal className="md:h-full">
+          <div className="flex h-full min-h-[520px] flex-col overflow-hidden rounded-[30px] border border-[#e6e6e8] bg-[#f2f2f3] shadow-[0_30px_60px_-36px_rgba(20,20,18,0.3)]">
           {/* iOS status bar */}
           <div className="flex items-center justify-between bg-white px-[22px] pb-1.5 pt-3.5">
             <span className="text-[13px] font-bold text-[#15140f]">9:41</span>
@@ -232,7 +234,8 @@ export function Benefits() {
               <PaperPlaneRight size={18} weight="fill" className="text-white" />
             </span>
           </div>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </div>
   );

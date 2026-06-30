@@ -82,7 +82,7 @@ export function WhySpine() {
           io.disconnect();
         }
       },
-      { threshold: 0.3, rootMargin: "0px 0px -25% 0px" },
+      { threshold: 0, rootMargin: "-40% 0px -40% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();

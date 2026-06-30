@@ -6,6 +6,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 import { stackLogos } from "@/lib/platformLogos";
+import { Reveal } from "@/components/sections/Reveal";
 
 // Platform pillar "03 · People Ops" (design handoff). ONE padded block only —
 // the parent supplies the white card + dividers. Left: headline + a vertical
@@ -151,7 +152,8 @@ export function PeopleOps() {
         </div>
 
         {/* Right column: payroll console */}
-        <div className="overflow-hidden rounded-[20px] border border-[#ececea] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
+        <Reveal className="md:h-full">
+          <div className="h-full overflow-hidden rounded-[20px] border border-[#ececea] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
           {/* Top bar */}
           <div className="flex items-center gap-3.5 border-b border-[#ededea] bg-white px-5 py-[15px]">
             <div className="flex gap-[7px]">
@@ -222,7 +224,8 @@ export function PeopleOps() {
               </div>
             ))}
           </div>
-        </div>
+          </div>
+        </Reveal>
       </div>
 
       {/* Works on top of */}

@@ -10,6 +10,7 @@ import {
   Warning,
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
+import { Reveal } from "@/components/sections/Reveal";
 
 // "02 · Compliance" pillar (design handoff: platform sections). Returns ONE padded
 // block only — the parent supplies the white card + full-bleed dividers. A
@@ -110,7 +111,8 @@ export function Compliance() {
       </div>
 
       {/* Console */}
-      <div className="overflow-hidden rounded-[20px] border border-[#ececea] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
+      <Reveal>
+        <div className="overflow-hidden rounded-[20px] border border-[#ececea] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
         {/* Top bar */}
         <div className="flex flex-wrap items-center gap-x-[14px] gap-y-3 border-b border-[#ededea] px-5 py-[15px]">
           <div className="flex gap-[7px]">
@@ -258,8 +260,9 @@ export function Compliance() {
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* Coverage strip */}
       <div className="mt-7 grid gap-7 border-t border-[#ededea] pt-7 sm:grid-cols-3">

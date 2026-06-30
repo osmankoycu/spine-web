@@ -103,7 +103,7 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
           io.disconnect();
         }
       },
-      { threshold: 0.85, rootMargin: "0px 0px -12% 0px" },
+      { threshold: 0, rootMargin: "-40% 0px -40% 0px" },
     );
     io.observe(grid);
     return () => io.disconnect();

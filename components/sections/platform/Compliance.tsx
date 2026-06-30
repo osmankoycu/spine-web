@@ -1,5 +1,4 @@
 import {
-  ArrowsClockwise,
   Check,
   EnvelopeSimple,
   Heartbeat,
@@ -7,57 +6,22 @@ import {
   MapTrifold,
   Pulse,
   UserPlus,
-  Warning,
 } from "@phosphor-icons/react/dist/ssr";
-import { cn } from "@/lib/cn";
 import { Reveal } from "@/components/sections/Reveal";
+import { ComplianceFeed } from "./ComplianceFeed";
 
 // "02 · Compliance" pillar (design handoff: platform sections). Returns ONE padded
 // block only — the parent supplies the white card + full-bleed dividers. A
 // full-width product console (sidebar · live feed · right rail) over a 3-point
-// coverage strip. Neutral hex + success green are from the handoff; oranges use
-// our brand token (text-orange / bg-orange), tint = bg-orange/[0.07].
-
-type Tone = "done" | "active" | "queued";
+// coverage strip. The live feed is a client island (ComplianceFeed) that animates
+// the Done rows in. Neutral hex + success green from the handoff; oranges/cobalt
+// use our brand tokens.
 
 const navItems = [
   { label: "Healthcare", icon: Heartbeat, count: 2 },
   { label: "Multi-state tax", icon: MapTrifold, count: 1 },
   { label: "Hiring", icon: UserPlus, count: 1 },
   { label: "Notices", icon: EnvelopeSimple, count: 1 },
-];
-
-const feed: { title: string; sub: string; status: string; tone: Tone }[] = [
-  {
-    title: "ACA 1095-C forms filed",
-    sub: "47 employees · IRS confirmed",
-    status: "Done",
-    tone: "done",
-  },
-  {
-    title: "TX SUI registration",
-    sub: "New hire in Austin · auto-filed in 3 days",
-    status: "Done",
-    tone: "done",
-  },
-  {
-    title: "DOL notice · ERISA SPD update",
-    sub: "Due 06/01 · AI drafting",
-    status: "Active",
-    tone: "active",
-  },
-  {
-    title: "Form 5500 prep · plan year 2026",
-    sub: "Auto-file scheduled 07/15",
-    status: "Queued",
-    tone: "queued",
-  },
-  {
-    title: "COBRA election notice",
-    sub: "2 separations · sent, 14 days remaining",
-    status: "Done",
-    tone: "done",
-  },
 ];
 
 const coverage = [
@@ -74,24 +38,6 @@ const coverage = [
     sub: "Every IRS, DOL & state letter, handled",
   },
 ];
-
-const toneChip: Record<Tone, string> = {
-  done: "bg-[#eafaef] text-[#2a8b3f]",
-  active: "bg-cobalt-400/[0.08] text-cobalt-400",
-  queued: "bg-[#f2f2ef] text-[#b0afa9]",
-};
-
-const toneStatus: Record<Tone, string> = {
-  done: "text-[#2a8b3f]",
-  active: "text-cobalt-400",
-  queued: "text-[#a9a9a3]",
-};
-
-const toneIcon: Record<Tone, typeof Check> = {
-  done: Check,
-  active: Warning,
-  queued: ArrowsClockwise,
-};
 
 export function Compliance() {
   return (
@@ -170,57 +116,8 @@ export function Compliance() {
             </div>
           </div>
 
-          {/* Feed */}
-          <div className="border-b border-[#ededea] bg-[#fcfcfb] px-[22px] py-[18px] md:border-b-0 md:border-r">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">
-                Live feed
-              </span>
-              <span className="text-[11.5px] text-[#b0afa9]">This month</span>
-            </div>
-            {feed.map((row, i) => {
-              const ChipIcon = toneIcon[row.tone];
-              return (
-                <div
-                  key={row.title}
-                  className={cn(
-                    "flex items-center gap-[13px] py-[14px]",
-                    i < feed.length - 1 && "border-b border-[#ededea]",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "grid h-[30px] w-[30px] flex-none place-items-center rounded-[9px]",
-                      toneChip[row.tone],
-                    )}
-                  >
-                    <ChipIcon size={14} weight="bold" />
-                  </span>
-                  <div className="flex-1">
-                    <div className="text-[13.5px] font-semibold text-[#2e2d28]">
-                      {row.title}
-                    </div>
-                    <div
-                      className={cn(
-                        "mt-[2px] text-[11.5px]",
-                        row.tone === "active" ? "text-cobalt-400" : "text-[#a9a9a3]",
-                      )}
-                    >
-                      {row.sub}
-                    </div>
-                  </div>
-                  <span
-                    className={cn(
-                      "flex-none text-[11px] font-semibold",
-                      toneStatus[row.tone],
-                    )}
-                  >
-                    {row.status}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          {/* Feed — client island, animates the Done rows in */}
+          <ComplianceFeed />
 
           {/* Right rail */}
           <div className="flex flex-col gap-[14px] p-[18px]">

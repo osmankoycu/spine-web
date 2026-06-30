@@ -1,47 +1,14 @@
-import {
-  ClipboardText,
-  CurrencyCircleDollar,
-  SignOut,
-  UserPlus,
-} from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 import { stackLogos } from "@/lib/platformLogos";
 import { Reveal } from "@/components/sections/Reveal";
+import { CountUp } from "@/components/sections/CountUp";
+import { WorkflowTimeline } from "./WorkflowTimeline";
 
 // Platform pillar "03 · People Ops" (design handoff). ONE padded block only —
 // the parent supplies the white card + dividers. Left: headline + a vertical
 // workflow timeline pushed to the column bottom. Right: a payroll console.
 // Neutral hex + success green (#2a8b3f) are exact handoff values; oranges use
 // our brand token (text-orange / bg-orange), tint via bg-orange/[0.07].
-
-type WorkflowStep = {
-  icon: typeof UserPlus;
-  actor: "You" | "Spine";
-  title: string;
-  sub?: string;
-};
-
-const workflow: WorkflowStep[] = [
-  { icon: UserPlus, actor: "You", title: "Make the hire" },
-  {
-    icon: ClipboardText,
-    actor: "Spine",
-    title: "Onboards day one",
-    sub: "I-9, E-Verify, enrollment",
-  },
-  {
-    icon: CurrencyCircleDollar,
-    actor: "Spine",
-    title: "Runs payroll every cycle",
-    sub: "Processing, tax filings, reconciliation",
-  },
-  {
-    icon: SignOut,
-    actor: "Spine",
-    title: "Handles offboarding",
-    sub: "Final pay, COBRA, records",
-  },
-];
 
 type QueueRow = {
   glyph: string;
@@ -106,49 +73,8 @@ export function PeopleOps() {
             you already use.
           </p>
 
-          {/* Vertical workflow timeline; first step pushed to bottom */}
-          <ol className="mt-7">
-            {workflow.map((step, i) => {
-              const Glyph = step.icon;
-              const isLast = i === workflow.length - 1;
-              return (
-                <li
-                  key={step.title}
-                  className={cn(
-                    "flex items-start gap-4",
-                    i === 0 && "mt-auto",
-                  )}
-                >
-                  <div className="flex flex-none flex-col items-center self-stretch">
-                    <span className="grid size-11 flex-none place-items-center rounded-[14px] bg-orange/[0.07]">
-                      <Glyph size={22} weight="duotone" className="text-orange" />
-                    </span>
-                    {!isLast && (
-                      <span className="w-0.5 min-h-[22px] flex-1 bg-[#ededea]" />
-                    )}
-                  </div>
-                  <div className={cn(!isLast && "pb-[22px]")}>
-                    <div
-                      className={cn(
-                        "text-[11px] font-bold uppercase tracking-[0.08em]",
-                        step.actor === "You" ? "text-[#b0afa9]" : "text-orange",
-                      )}
-                    >
-                      {step.actor}
-                    </div>
-                    <div className="mt-0.5 text-[16px] font-extrabold tracking-[-0.01em] text-[#15140f]">
-                      {step.title}
-                    </div>
-                    {step.sub && (
-                      <div className="mt-0.5 text-[13px] text-[#86857e]">
-                        {step.sub}
-                      </div>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
+          {/* Vertical workflow timeline (client island: draws top-to-bottom) */}
+          <WorkflowTimeline />
         </div>
 
         {/* Right column: payroll console */}
@@ -173,9 +99,12 @@ export function PeopleOps() {
                 <div className="text-[11px] font-semibold tracking-[0.04em] text-[#a9a9a3]">
                   Payroll · this week
                 </div>
-                <div className="mt-1 text-[32px] font-extrabold tracking-[-0.03em] text-[#15140f]">
-                  $293K
-                </div>
+                <CountUp
+                  to={293}
+                  prefix="$"
+                  suffix="K"
+                  className="mt-1 block text-[32px] font-extrabold tracking-[-0.03em] text-[#15140f]"
+                />
                 <div className="mt-1 text-[12px] font-semibold text-[#2a8b3f]">
                   ✓ Processed Friday
                 </div>
@@ -184,9 +113,10 @@ export function PeopleOps() {
                 <div className="text-[11px] font-semibold tracking-[0.04em] text-[#a9a9a3]">
                   Active
                 </div>
-                <div className="mt-1 text-[32px] font-extrabold tracking-[-0.03em] text-[#15140f]">
-                  47
-                </div>
+                <CountUp
+                  to={47}
+                  className="mt-1 block text-[32px] font-extrabold tracking-[-0.03em] text-[#15140f]"
+                />
                 <div className="mt-1 text-[12px] font-semibold text-[#86857e]">
                   +3 onboarding
                 </div>

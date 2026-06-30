@@ -123,7 +123,7 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
         <div
           ref={gridRef}
           className={cn(
-            "grid grid-cols-1 divide-y sm:grid-cols-2 md:grid-cols-4 md:divide-y-0",
+            "grid grid-cols-1 divide-y sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0",
             dark ? "divide-white/10" : "divide-[#ededea]",
           )}
         >
@@ -131,8 +131,8 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
             <div
               key={s.value}
               className={cn(
-                "px-0 py-8 first:pt-0 last:pb-0 sm:px-9 sm:py-0 md:first:pl-0 md:last:pr-0 md:[&:not(:last-child)]:border-r",
-                dark ? "md:[&:not(:last-child)]:border-white/10" : "md:[&:not(:last-child)]:border-[#ededea]",
+                "px-0 py-8 first:pt-0 last:pb-0 sm:px-9 sm:py-0 lg:first:pl-0 lg:last:pr-0 lg:[&:not(:last-child)]:border-r",
+                dark ? "lg:[&:not(:last-child)]:border-white/10" : "lg:[&:not(:last-child)]:border-[#ededea]",
               )}
             >
               <div className="h-1 w-[30px] rounded-[2px] bg-orange" />

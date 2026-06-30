@@ -54,7 +54,7 @@ export function Header() {
   }, [mobileOpen]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
+    const mq = window.matchMedia("(min-width: 1024px)");
     const onChange = () => mq.matches && setMobileOpen(false);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -102,7 +102,7 @@ export function Header() {
             <SpineLogo />
           </Link>
 
-          <nav className="absolute left-1/2 z-10 hidden -translate-x-1/2 items-center gap-1 md:flex">
+          <nav className="absolute left-1/2 z-10 hidden -translate-x-1/2 items-center gap-1 lg:flex">
             {nav.map((item) =>
               item.menu ? (
                 <button
@@ -144,7 +144,7 @@ export function Header() {
           <div className="relative z-10 flex items-center gap-2 sm:gap-2.5">
             <Link
               href={actions.login.href}
-              className="hidden cursor-pointer rounded-pill px-3.5 py-2 text-[15px] font-semibold text-[#3b424b] transition-[color,box-shadow] duration-200 hover:text-ink hover:ring-1 hover:ring-inset hover:ring-black/15 md:block"
+              className="hidden cursor-pointer rounded-pill px-3.5 py-2 text-[15px] font-semibold text-[#3b424b] transition-[color,box-shadow] duration-200 hover:text-ink hover:ring-1 hover:ring-inset hover:ring-black/15 lg:block"
             >
               {actions.login.label}
             </Link>
@@ -160,7 +160,7 @@ export function Header() {
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className="-mr-1 flex h-10 w-10 cursor-pointer items-center justify-center text-ink md:hidden"
+              className="-mr-1 flex h-10 w-10 cursor-pointer items-center justify-center text-ink lg:hidden"
             >
               {mobileOpen ? <X size={24} weight="bold" /> : <List size={26} weight="bold" />}
             </button>
@@ -185,7 +185,7 @@ export function Header() {
           accordions that expand their submenu inline. */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-white transition-opacity duration-200 md:hidden",
+          "fixed inset-0 z-40 bg-white transition-opacity duration-200 lg:hidden",
           mobileOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
@@ -346,7 +346,7 @@ function MegaPanel({
   return (
     <div
       className={cn(
-        "absolute left-1/2 z-40 hidden max-w-[calc(100vw-2rem)] -translate-x-1/2 md:block",
+        "absolute left-1/2 z-40 hidden max-w-[calc(100vw-2rem)] -translate-x-1/2 lg:block",
         // Sits right under the nav when the bar is chrome-less; drops a little
         // lower (clearing the pill with a gap) once the bar has its surface.
         surfaced ? "top-[102px]" : "top-[86px]",

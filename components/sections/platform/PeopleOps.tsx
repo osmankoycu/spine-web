@@ -60,7 +60,7 @@ export function PeopleOps() {
         </span>
       </div>
 
-      <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
+      <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
         {/* Left column: headline + workflow timeline */}
         <div className="flex flex-col">
           <h2 className="font-display text-[34px] font-extrabold leading-[1.0] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
@@ -78,7 +78,7 @@ export function PeopleOps() {
         </div>
 
         {/* Right column: payroll console */}
-        <Reveal className="md:h-full">
+        <Reveal className="lg:h-full">
           <div className="h-full overflow-hidden rounded-[20px] border border-[#ececea] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
           {/* Top bar */}
           <div className="flex items-center gap-3.5 border-b border-[#ededea] bg-white px-5 py-[15px]">
@@ -159,7 +159,7 @@ export function PeopleOps() {
       </div>
 
       {/* Works on top of */}
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-x-10 gap-y-6 border-t border-[#ededea] pt-7 text-[#c2c2bc]">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 lg:justify-between gap-y-6 border-t border-[#ededea] pt-7 text-[#c2c2bc]">
         <span className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#a9a9a3]">
           Works on top of
         </span>

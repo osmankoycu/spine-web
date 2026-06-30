@@ -75,7 +75,7 @@ function AudienceCard({
 export function Benefits() {
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
-      <div className="grid gap-10 md:grid-cols-[1fr_380px] md:gap-11 md:items-stretch">
+      <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:gap-11 lg:items-stretch">
         {/* Left column */}
         <div className="flex flex-col">
           <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
@@ -144,8 +144,11 @@ export function Benefits() {
           </div>
         </div>
 
-        {/* Right column — concierge chat-app island (self-animating) */}
-        <ChatApp />
+        {/* Chat: phone-sized + centred when stacked (< lg); becomes the grid cell
+            at lg via display:contents. */}
+        <div className="mx-auto w-full max-w-[400px] lg:contents">
+          <ChatApp />
+        </div>
       </div>
     </div>
   );

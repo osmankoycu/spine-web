@@ -40,7 +40,7 @@ export function HrCommunity() {
           </div>
 
           {/* Bottom stat strip */}
-          <div className="grid divide-y divide-[#ededea] border-t border-[#ededea] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <div className="grid divide-y divide-[#ededea] border-t border-[#ededea] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
             <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
               <span className="text-[24px] font-extrabold leading-none text-orange">50+</span>
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">

@@ -114,7 +114,7 @@ export function WhySpine() {
         {/* Matrix — desktop */}
         <div
           ref={matrixRef}
-          className="hidden overflow-hidden rounded-[24px] border border-white/10 md:grid md:grid-cols-[0.8fr_1.2fr_1.35fr_1.2fr]"
+          className="hidden overflow-hidden rounded-[24px] border border-white/10 lg:grid lg:grid-cols-[0.8fr_1.2fr_1.35fr_1.2fr]"
         >
           {/* Header row */}
           <div className="bg-white/[0.02] px-7 py-[22px]" />
@@ -160,7 +160,7 @@ export function WhySpine() {
         </div>
 
         {/* Stacked per-provider cards — mobile (Spine first) */}
-        <div className="space-y-4 md:hidden">
+        <div className="space-y-4 lg:hidden">
           <MobileCard kind="spine" />
           <MobileCard kind="peo" />
           <MobileCard kind="broker" />

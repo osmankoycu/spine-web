@@ -79,10 +79,10 @@ export function Compliance() {
         </div>
 
         {/* Body grid */}
-        <div className="grid md:grid-cols-[200px_1fr_244px]">
+        <div className="grid lg:grid-cols-[200px_1fr_244px]">
           {/* Sidebar */}
-          <div className="flex flex-col gap-3 border-b border-[#ededea] px-[14px] py-[18px] md:gap-[3px] md:border-b-0 md:border-r">
-            <div className="flex gap-2 overflow-x-auto md:flex-col md:gap-[3px] md:overflow-visible">
+          <div className="flex flex-col gap-3 border-b border-[#ededea] px-[14px] py-[18px] lg:gap-[3px] lg:border-b-0 lg:border-r">
+            <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-[3px] lg:overflow-visible">
               <div className="flex shrink-0 items-center gap-[11px] rounded-[10px] bg-cobalt-400/[0.08] px-3 py-[10px]">
                 <Pulse size={17} weight="fill" className="text-cobalt-400" />
                 <span className="flex-1 whitespace-nowrap text-[13.5px] font-bold text-[#15140f]">
@@ -103,7 +103,7 @@ export function Compliance() {
                 </div>
               ))}
             </div>
-            <div className="mt-[14px] hidden rounded-[12px] border border-[#ececea] bg-[#fafaf9] px-3 py-[14px] md:block">
+            <div className="mt-[14px] hidden rounded-[12px] border border-[#ececea] bg-[#fafaf9] px-3 py-[14px] lg:block">
               <div className="mb-2 text-[10.5px] font-bold uppercase tracking-[0.06em] text-[#b0afa9]">
                 We monitor
               </div>

@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ArrowsClockwise,
   Check,
@@ -61,6 +63,31 @@ const RADIAL =
   "radial-gradient(130% 130% at 50% -10%, #232220 0%, #161513 60%, #100f0e 100%)";
 
 export function WhySpine() {
+  const matrixRef = useRef<HTMLDivElement>(null);
+  const [lit, setLit] = useState(false);
+
+  // The Spine column starts neutral (like the others) and lights up to orange
+  // once the matrix scrolls into view.
+  useEffect(() => {
+    const el = matrixRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setLit(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setLit(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.3, rootMargin: "0px 0px -25% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
       <div
@@ -85,13 +112,33 @@ export function WhySpine() {
         </div>
 
         {/* Matrix — desktop */}
-        <div className="hidden overflow-hidden rounded-[24px] border border-white/10 md:grid md:grid-cols-[0.8fr_1.2fr_1.35fr_1.2fr]">
+        <div
+          ref={matrixRef}
+          className="hidden overflow-hidden rounded-[24px] border border-white/10 md:grid md:grid-cols-[0.8fr_1.2fr_1.35fr_1.2fr]"
+        >
           {/* Header row */}
           <div className="bg-white/[0.02] px-7 py-[22px]" />
           <ProviderHead name="PEOs" sub="Co-employment" />
-          <div className="bg-gradient-to-b from-orange to-orange-600 px-[26px] py-[22px]">
-            <SpineLogo fill="#ffffff" className="!h-[20px] w-auto" />
-            <div className="mt-1.5 text-[12px] text-[#ffe3d2]">AI-native brokerage</div>
+          {/* Spine header — neutral until the matrix is in view, then the orange
+              gradient fades in. */}
+          <div className="relative overflow-hidden border-l border-white/10 bg-white/[0.02] px-[26px] py-[22px]">
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-b from-orange to-orange-600 transition-opacity duration-700 ease-out",
+                lit ? "opacity-100" : "opacity-0",
+              )}
+            />
+            <div className="relative">
+              <SpineLogo fill="#ffffff" className="!h-[20px] w-auto" />
+              <div
+                className={cn(
+                  "mt-1.5 text-[12px] transition-colors duration-700",
+                  lit ? "text-[#ffe3d2]" : "text-[#7e7c77]",
+                )}
+              >
+                AI-native brokerage
+              </div>
+            </div>
           </div>
           <ProviderHead name="Brokers" sub="Commission-based" />
 
@@ -105,8 +152,8 @@ export function WhySpine() {
                   <span className="text-[14px] font-bold text-[#d9d7d2]">{row.label}</span>
                 </div>
                 <NegCell text={row.peo} leftBorder />
-                <PosCell text={row.spine} />
-                <NegCell text={row.broker} />
+                <PosCell text={row.spine} lit={lit} />
+                <NegCell text={row.broker} leftBorder />
               </Fragment>
             );
           })}
@@ -148,13 +195,30 @@ function NegCell({ text, leftBorder }: { text: string; leftBorder?: boolean }) {
   );
 }
 
-function PosCell({ text }: { text: string }) {
+function PosCell({ text, lit }: { text: string; lit: boolean }) {
   return (
-    <div className="flex items-start gap-2.5 border-t border-white/10 bg-[rgba(247,101,27,0.1)] px-[26px] py-6">
-      <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange text-white">
+    <div
+      className={cn(
+        "flex items-start gap-2.5 border-l border-t border-white/10 px-[26px] py-6 transition-colors duration-700",
+        lit ? "bg-[rgba(247,101,27,0.1)]" : "bg-transparent",
+      )}
+    >
+      <span
+        className={cn(
+          "mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors duration-700",
+          lit ? "border-orange bg-orange text-white" : "border-white/20 bg-transparent text-[#8c8a85]",
+        )}
+      >
         <Check size={11} weight="bold" />
       </span>
-      <span className="text-[13.5px] font-semibold leading-[1.4] text-[#ffcdb0]">{text}</span>
+      <span
+        className={cn(
+          "text-[13.5px] font-semibold leading-[1.4] transition-colors duration-700",
+          lit ? "text-[#ffcdb0]" : "text-[#8c8a85]",
+        )}
+      >
+        {text}
+      </span>
     </div>
   );
 }

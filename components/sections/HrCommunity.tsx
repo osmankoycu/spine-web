@@ -1,31 +1,10 @@
-import {
-  BookOpen,
-  ChartLineUp,
-  Clock,
-  Confetti,
-  CurrencyDollar,
-  DoorOpen,
-  SealCheck,
-  UserPlus,
-  UsersThree,
-} from "@phosphor-icons/react/dist/ssr";
-import type { Icon } from "@phosphor-icons/react";
+import { Clock, SealCheck } from "@phosphor-icons/react/dist/ssr";
+import { ChipCloud } from "./ChipCloud";
 
 // "HR community" light card (design handoff Block 2): a white rounded card with
 // a 2-column top region (pitch + coverage chip cloud) over a 3-cell stat strip.
-// Neutral hex values are from the handoff; oranges use our brand token.
-
-type Chip = { label: string; Icon: Icon };
-
-const CHIPS: Chip[] = [
-  { label: "Recruiting", Icon: UserPlus },
-  { label: "Performance reviews", Icon: ChartLineUp },
-  { label: "Onboarding", Icon: DoorOpen },
-  { label: "Employee relations", Icon: UsersThree },
-  { label: "Handbook & policies", Icon: BookOpen },
-  { label: "Comp strategy", Icon: CurrencyDollar },
-  { label: "Culture & offsites", Icon: Confetti },
-];
+// Neutral hex values are from the handoff; oranges use our brand token. The chip
+// cloud is a client child so it can animate on scroll-into-view.
 
 export function HrCommunity() {
   return (
@@ -56,17 +35,7 @@ export function HrCommunity() {
               <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#b0afa9]">
                 Areas they cover
               </p>
-              <div className="mt-5 flex flex-wrap gap-2.5">
-                {CHIPS.map(({ label, Icon }) => (
-                  <span
-                    key={label}
-                    className="inline-flex items-center gap-2 rounded-pill border border-[#e7e7e3] bg-white px-4 py-2.5 text-[14px] font-semibold text-[#46463f]"
-                  >
-                    <Icon size={17} weight="duotone" className="text-orange" />
-                    {label}
-                  </span>
-                ))}
-              </div>
+              <ChipCloud />
             </div>
           </div>
 

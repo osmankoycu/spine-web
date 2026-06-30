@@ -23,12 +23,17 @@ export default function RootLayout({
         <link rel="preconnect" href="https://use.typekit.net" />
         <link rel="preconnect" href="https://p.typekit.net" crossOrigin="" />
         <link rel="stylesheet" href="https://use.typekit.net/qyt7ipl.css" />
-        {/* TRYING: Inter (Google Fonts) — currently the active family via globals.css. */}
+        {/* Google Fonts (Inter + Schibsted Grotesk). Active family set in globals.css. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        />
+        {/* TRYING: Schibsted Grotesk — currently the active family via globals.css. */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap"
         />
         {/* Always load the pinned hero at the top (INTRO), even on reload. */}
         <script

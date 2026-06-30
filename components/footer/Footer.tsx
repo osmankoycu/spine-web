@@ -2,25 +2,25 @@ import Link from "next/link";
 import { SpineLogo } from "@/components/SpineLogo";
 import { footerColumns, footerTagline } from "@/lib/footerConfig";
 
-// Orange footer — 400px tall. White wordmark (90px), tagline + copyright on the
+// Charcoal footer — 400px tall. White wordmark (90px), tagline + copyright on the
 // LEFT (wider cell); the four link columns are EVENLY distributed across the rest
 // (a 1.5fr + 4×1fr grid) so the row reads balanced — no big gap after the logo,
 // no column jammed against the right edge.
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-white px-4 text-black sm:px-6 lg:px-8">
-      {/* Inset orange card — side gutters match the header width, top corners
+    <footer className="bg-white px-4 text-white sm:px-6 lg:px-8">
+      {/* Inset charcoal card — side gutters match the header width, top corners
           rounded (close to the menu panel's radius); flat bottom to the page edge. */}
-      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-orange md:rounded-t-[40px]">
+      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#1c1d22] md:rounded-t-[40px]">
         <div className="grid grid-cols-1 gap-12 px-8 py-12 md:h-[400px] md:grid-cols-[2.3fr_repeat(4,1fr)] md:items-center md:gap-x-10 md:py-0 lg:px-14">
           {/* Brand */}
           <div className="md:max-w-[360px]">
           <SpineLogo fill="#ffffff" className="!h-[64px] md:!h-[90px]" />
-          <p className="mt-6 text-[15px] font-medium leading-snug text-black/85">
+          <p className="mt-6 text-[15px] font-medium leading-snug text-white/75">
             {footerTagline}
           </p>
-          <p className="mt-7 text-[13px] text-black/60">
+          <p className="mt-7 text-[13px] text-white/45">
             © {year} Spine. All rights reserved.
           </p>
         </div>
@@ -37,7 +37,7 @@ export function Footer() {
                 <li key={l.label}>
                   <Link
                     href={l.href}
-                    className="whitespace-nowrap text-[15px] text-black/80 transition-colors hover:text-black"
+                    className="whitespace-nowrap text-[15px] text-white/60 transition-colors hover:text-white"
                   >
                     {l.label}
                   </Link>

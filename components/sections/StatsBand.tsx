@@ -1,10 +1,10 @@
 import { cn } from "@/lib/cn";
 import { trustedLogos } from "./trustedLogos";
 
-// Proof band right below the hero: four headline stats + a trusted-by logo row,
-// in a fully-divided inset card. Two looks via `variant`:
-//   "dark"  — charcoal fill, light hairline dividers (default)
-//   "light" — white fill, outer + inner hairline STROKES only
+// Proof band right below the hero: a rounded white BOX holding four headline
+// stats (each topped by a short orange accent bar) + a trusted-by logo row spread
+// across the full width. Separators are INSET (they don't touch the box edges).
+// `variant`: light (white) or dark (charcoal).
 const STATS: { value: string; label: string }[] = [
   { value: "3-in-1", label: "Benefits, compliance, people ops, one team" },
   { value: "25%", label: "Average reduction in healthcare costs" },
@@ -24,32 +24,45 @@ const orderedLogos = [...trustedLogos].sort(
 
 export function StatsBand({ variant = "dark" }: { variant?: "dark" | "light" }) {
   const light = variant === "light";
+  const divider = light ? "bg-grey-pill" : "bg-white/12";
   return (
     <section className="bg-bg px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-      {/* No padding on the card itself, so the dividers run edge-to-edge: the
-          stats' vertical lines reach the card's top, the horizontal line below
-          spans the full width — a fully divided grid. */}
+      {/* Rounded box with inner padding — separators sit inset from its edges. */}
       <div
         className={cn(
-          "mx-auto max-w-[1480px] overflow-hidden rounded-[40px]",
-          light ? "bg-transparent ring-1 ring-grey-pill" : "bg-[#1c1d22]",
+          "mx-auto max-w-[1480px] rounded-[40px] px-6 py-10 sm:px-8 sm:py-12 lg:px-8 lg:py-14",
+          light ? "bg-white ring-1 ring-grey-pill" : "bg-[#1c1d22]",
         )}
       >
-        {/* Stats — full-height vertical dividers (top of card → horizontal line) */}
+        {/* Stats */}
         <div
           className={cn(
-            "grid grid-cols-1 divide-y sm:grid-cols-2 md:grid-cols-4 md:divide-x md:divide-y-0",
-            light ? "divide-grey-pill md:divide-grey-pill" : "divide-white/10 md:divide-white/10",
+            "grid grid-cols-1 md:grid-cols-4",
+            "divide-y md:divide-y-0",
+            light ? "divide-grey-pill" : "divide-white/12",
           )}
         >
-          {STATS.map((s) => (
-            <div key={s.value} className="px-7 py-10 sm:px-8 sm:py-12 lg:px-12 lg:py-16">
-              <div className="font-display text-[40px] font-extrabold leading-none tracking-[-0.03em] text-ink sm:text-[50px] lg:text-[60px]">
+          {STATS.map((s, i) => (
+            <div key={s.value} className="relative px-0 py-7 first:pt-0 last:pb-0 md:px-4 md:py-2 lg:px-6">
+              {/* inset vertical divider between columns (md+) — not edge-to-edge */}
+              {i > 0 ? (
+                <span
+                  aria-hidden
+                  className={cn("pointer-events-none absolute inset-y-2 left-0 hidden w-px md:block", divider)}
+                />
+              ) : null}
+              <div className="h-1 w-7 rounded-full bg-orange" />
+              <div
+                className={cn(
+                  "mt-5 font-display text-[40px] font-extrabold leading-none tracking-[-0.03em] sm:text-[48px] lg:text-[56px]",
+                  light ? "text-ink" : "text-white",
+                )}
+              >
                 {s.value}
               </div>
               <p
                 className={cn(
-                  "mt-5 max-w-[230px] text-[16px] leading-snug",
+                  "mt-4 max-w-[220px] text-[15px] font-normal leading-snug",
                   light ? "text-grey-text" : "text-white/55",
                 )}
               >
@@ -59,16 +72,14 @@ export function StatsBand({ variant = "dark" }: { variant?: "dark" | "light" }) 
           ))}
         </div>
 
-        {/* Trusted by — full-width horizontal divider above */}
-        <div
-          className={cn(
-            "border-t px-8 py-12 text-center lg:px-16",
-            light ? "border-black/10" : "border-white/10",
-          )}
-        >
+        {/* Inset horizontal divider */}
+        <div className={cn("mt-6 h-px md:mx-4 lg:mx-6", divider)} aria-hidden />
+
+        {/* Trusted by */}
+        <div className="pt-11 text-center md:px-4 lg:px-6">
           <p
             className={cn(
-              "text-[12px] font-semibold uppercase tracking-[0.22em]",
+              "text-[12px] font-medium uppercase tracking-[0.22em]",
               light ? "text-grey-text" : "text-white/40",
             )}
           >
@@ -76,7 +87,7 @@ export function StatsBand({ variant = "dark" }: { variant?: "dark" | "light" }) 
           </p>
           <div
             className={cn(
-              "mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-7 sm:gap-x-12 lg:gap-x-14",
+              "mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-7",
               light ? "text-grey-word" : "text-white/45",
             )}
           >

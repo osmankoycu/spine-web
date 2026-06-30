@@ -126,7 +126,15 @@ export class HeroRestController {
     // Beat times are ~2× faster than before — the headline arrives and the field
     // parts outward in half the time. Each beat POPS in (scale overshoot via the
     // back ease) rather than just fading.
-    const tl = gsap.timeline({ onComplete: () => this.startRotation() });
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // Drop GSAP's leftover inline transform on the CTA so its CSS hover
+        // scale applies cleanly (otherwise it composes onto the reveal transform
+        // and the hover bump is swallowed). Its rest state is identity anyway.
+        gsap.set(this.cta, { clearProps: "transform,scale,translate,rotate" });
+        this.startRotation();
+      },
+    });
     // NOTE: the text pops in with SCALE + fade only — no y-translate. A y-rise on
     // the copy would slide each obstacle's CENTRE as it lands, re-gating the pills
     // grazing the band's vertical edge → one extra little shift the instant the

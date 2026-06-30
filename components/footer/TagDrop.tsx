@@ -214,7 +214,7 @@ export function TagDrop() {
         <button
           type="button"
           onClick={open}
-          className="pointer-events-auto mt-9 cursor-pointer rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-orange-600 sm:px-[30px] sm:py-[18px] sm:text-[18px]"
+          className="pointer-events-auto mt-9 cursor-pointer rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
           Request your free audit →
         </button>

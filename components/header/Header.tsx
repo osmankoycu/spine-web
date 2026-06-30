@@ -142,13 +142,13 @@ export function Header() {
           <div className="relative z-10 flex items-center gap-2 sm:gap-2.5">
             <Link
               href={actions.login.href}
-              className="hidden px-3 py-2 text-[15px] font-semibold text-[#3b424b] transition-colors hover:text-ink md:block"
+              className="hidden cursor-pointer rounded-pill px-3.5 py-2 text-[15px] font-semibold text-[#3b424b] transition-[color,box-shadow] duration-200 hover:text-ink hover:ring-1 hover:ring-inset hover:ring-black/15 md:block"
             >
               {actions.login.label}
             </Link>
             <Link
               href={actions.demo.href}
-              className="rounded-pill bg-black px-4 py-2.5 text-[14px] font-semibold text-white transition-transform hover:-translate-y-px active:translate-y-0 sm:px-[18px] sm:text-[15px]"
+              className="rounded-pill bg-black px-4 py-2.5 text-[14px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-[#262626] sm:px-[18px] sm:text-[15px]"
             >
               {actions.demo.label}
             </Link>

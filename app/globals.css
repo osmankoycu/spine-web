@@ -44,6 +44,13 @@ body {
   height: 100%;
 }
 
+/* Always reserve the scrollbar gutter so locking scroll (modal / mobile menu,
+   which set the scroll container's overflow:hidden) doesn't remove the scrollbar
+   and shift the whole page sideways. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Lenis smooth scroll — required base styles (Lenis adds `.lenis` to <html>).
    Crucially, height:auto while Lenis is active: a fixed 100% root height fights
    Lenis's scroll virtualisation and shows up as a jitter at the page top/bottom.

@@ -76,7 +76,7 @@ export function HeadlineMorph() {
           type="button"
           data-cta
           onClick={open}
-          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[30px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-colors hover:bg-orange-600 md:text-[24px]"
+          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[30px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 md:text-[24px]"
         >
           {copy.cta}
         </button>

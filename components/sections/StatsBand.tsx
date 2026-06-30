@@ -24,7 +24,7 @@ const orderedLogos = [...trustedLogos].sort(
 export function StatsBand() {
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-[1200px] overflow-hidden rounded-[32px] border border-[#ededea] bg-white px-7 pb-9 pt-10 shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)] sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
+      <div className="relative z-10 mx-auto max-w-[1200px] overflow-hidden rounded-[32px] border border-[#ededea] bg-white px-7 pb-9 pt-10 shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)] sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
         {/* Stats */}
         <div className="grid grid-cols-1 divide-y divide-[#ededea] sm:grid-cols-2 md:grid-cols-4 md:divide-y-0">
           {STATS.map((s) => (

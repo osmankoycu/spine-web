@@ -8,8 +8,8 @@ import {
   SealCheck,
   UserPlus,
   UsersThree,
-  type Icon,
 } from "@phosphor-icons/react/dist/ssr";
+import type { Icon } from "@phosphor-icons/react";
 
 // "HR community" light card (design handoff Block 2): a white rounded card with
 // a 2-column top region (pitch + coverage chip cloud) over a 3-cell stat strip.

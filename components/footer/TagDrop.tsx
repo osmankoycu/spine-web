@@ -101,11 +101,15 @@ export function TagDrop() {
         box.removeEventListener("mousewheel", mw);
 
         // Grabbed → black; released → back to grey.
-        Events.on(mc, "startdrag", (e: { body?: { __el?: HTMLElement } }) => {
-          if (e.body?.__el) e.body.__el.dataset.active = "true";
+        const draggedEl = (e: unknown) =>
+          (e as { body?: { __el?: HTMLElement } }).body?.__el ?? null;
+        Events.on(mc, "startdrag", (e) => {
+          const el = draggedEl(e);
+          if (el) el.dataset.active = "true";
         });
-        Events.on(mc, "enddrag", (e: { body?: { __el?: HTMLElement } }) => {
-          if (e.body?.__el) delete e.body.__el.dataset.active;
+        Events.on(mc, "enddrag", (e) => {
+          const el = draggedEl(e);
+          if (el) delete el.dataset.active;
         });
 
         const runner = Runner.create();

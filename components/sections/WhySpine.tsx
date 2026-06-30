@@ -7,8 +7,8 @@ import {
   SlidersHorizontal,
   Stack,
   X,
-  type Icon,
 } from "@phosphor-icons/react/dist/ssr";
+import type { Icon } from "@phosphor-icons/react";
 import { SpineLogo } from "@/components/SpineLogo";
 import { cn } from "@/lib/cn";
 

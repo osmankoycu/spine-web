@@ -18,7 +18,7 @@ export default function Home() {
           Content will go here
         </span>
         <span className="text-sm text-grey-text/70">
-          Marketing sections — benefits, compliance, people ops, proof, pricing…
+          Marketing sections: benefits, compliance, people ops, proof, pricing…
         </span>
       </section>
     </main>

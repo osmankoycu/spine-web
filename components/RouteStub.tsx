@@ -18,7 +18,7 @@ export function RouteStub({
         {title}
       </h1>
       <p className="mt-5 max-w-xl text-grey-text">
-        {blurb ?? "This page is scaffolded — content coming soon."}
+        {blurb ?? "This page is scaffolded, content coming soon."}
       </p>
       <Link
         href="/"

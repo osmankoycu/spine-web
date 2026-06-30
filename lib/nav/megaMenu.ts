@@ -214,7 +214,7 @@ export const partnersMenu: MegaMenu = {
     label: "Featured",
     tag: "Flagship partner",
     title: "The Spine HR Community",
-    desc: "50+ vetted fractional HR practitioners. Spine handles benefits and compliance — they handle people strategy. Both grow together.",
+    desc: "50+ vetted fractional HR practitioners. Spine handles benefits and compliance. They handle people strategy. Both grow together.",
     linkLabel: "Join the community →",
     href: "/partners/fractional-hr",
   },

@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer/Footer";
 import { DemoModalProvider } from "@/components/cta/DemoModal";
 
 export const metadata: Metadata = {
-  title: "Spine — Replace your broker and your PEO",
+  title: "Spine: Replace your broker and your PEO",
   description:
     "Spine is a PEO-replacement platform covering Benefits, Compliance, and People Ops. Lower premiums, real compliance, and 24/7 support from an in-house team plus AI.",
 };

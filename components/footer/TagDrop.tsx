@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
+import { useDemoModal } from "@/components/cta/DemoModal";
 
 // Closing CTA over a physics "tag pile". When the section scrolls into view, the
 // tags fade in around the middle and DROP (gravity + collisions), stacking up
@@ -35,6 +35,7 @@ const CONTACT_EMAIL = "hello@spine.com"; // TODO: confirm the real contact addre
 export function TagDrop() {
   const boxRef = useRef<HTMLDivElement>(null);
   const tagRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const { open } = useDemoModal();
 
   useEffect(() => {
     const box = boxRef.current;
@@ -203,15 +204,16 @@ export function TagDrop() {
           Offload your <em className="text-orange">people stack</em> in 30 minutes.
         </h2>
         <p className="mt-6 max-w-[560px] text-[18px] leading-[1.55] text-grey-text">
-          Free 30-minute call. We&apos;ll show you exactly what we&apos;d take over — benefits,
-          compliance, payroll, onboarding — and how much you&apos;d save. No commitment.
+          Free 30-minute call. We&apos;ll show you exactly what we&apos;d take over: benefits,
+          compliance, payroll, onboarding, and how much you&apos;d save. No commitment.
         </p>
-        <Link
-          href="/request-a-demo"
-          className="pointer-events-auto mt-9 rounded-pill bg-orange px-[30px] py-[18px] text-[18px] font-semibold text-white transition-colors hover:bg-orange-600"
+        <button
+          type="button"
+          onClick={open}
+          className="pointer-events-auto mt-9 cursor-pointer rounded-pill bg-orange px-[30px] py-[18px] text-[18px] font-semibold text-white transition-colors hover:bg-orange-600"
         >
           Request your free audit →
-        </Link>
+        </button>
         <p className="mt-6 text-[15px] text-grey-text">
           Or email{" "}
           <a

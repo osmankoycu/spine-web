@@ -124,7 +124,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               You&apos;re all set
             </h2>
             <p className="mt-3 max-w-[400px] text-[16px] leading-relaxed text-grey-text">
-              Check your inbox — your personalized Spine savings estimate is on its way.
+              Check your inbox. Your personalized Spine savings estimate is on its way.
             </p>
             <button
               type="button"
@@ -188,7 +188,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
               <button
                 type="submit"
-                className="mt-7 w-full cursor-pointer rounded-pill bg-orange px-8 py-4 text-[16px] font-semibold text-white transition-colors hover:bg-orange-600"
+                className="mt-7 w-full cursor-pointer rounded-pill bg-black px-8 py-4 text-[16px] font-semibold text-white transition-colors hover:bg-black/85"
               >
                 Get my estimate →
               </button>

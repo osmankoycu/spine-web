@@ -3,7 +3,7 @@ export type FooterLink = { label: string; href: string };
 export type FooterColumn = { title: string; links: FooterLink[] };
 
 export const footerTagline =
-  "Enterprise benefits, compliance, and care for ambitious startups — without the PEO.";
+  "Enterprise benefits, compliance, and care for ambitious startups, without the PEO.";
 
 export const footerColumns: FooterColumn[] = [
   {

@@ -176,7 +176,7 @@ export function TagDrop() {
   }, []);
 
   return (
-    <section className="relative h-[900px] overflow-hidden bg-white">
+    <section className="relative h-[800px] overflow-hidden bg-white">
       {/* Physics layer — receives the drag; pills are pointer-events-none so the
           drag hit-tests against matter bodies, not the DOM, and text can't be
           selected. Sits BEHIND the copy. */}

@@ -1,10 +1,14 @@
 import { Hero } from "@/components/hero/Hero";
+import { StatsBand } from "@/components/sections/StatsBand";
 
 export default function Home() {
   return (
     <main>
       {/* Full-screen hero: INTRO tag pop-in + HERO_REST opening play on load. */}
       <Hero />
+
+      {/* Proof band — black stats + trusted-by card, directly below the hero. */}
+      <StatsBand />
 
       {/* Placeholder for the real marketing sections — kept tall so the scroll
           between the hero and the closing CTA + footer (global, in layout) has

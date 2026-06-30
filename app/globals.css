@@ -41,6 +41,24 @@ body {
   height: 100%;
 }
 
+/* Lenis smooth scroll — required base styles (Lenis adds `.lenis` to <html>).
+   Crucially, height:auto while Lenis is active: a fixed 100% root height fights
+   Lenis's scroll virtualisation and shows up as a jitter at the page top/bottom.
+   Under reduced motion Lenis is disabled, so the 100% height above still holds. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);

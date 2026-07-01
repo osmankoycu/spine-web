@@ -17,6 +17,11 @@ import { HeadlineMorph } from "./HeadlineMorph";
 // and over-fills the viewport: filler runs up behind the header and out to every
 // edge. TagFlow reads this one scale for every pill.
 const MAX_SCALE = 1.6;
+// Desktop settles at this comfortable scale regardless of viewport HEIGHT; the row
+// count fills the height instead (see the fit logic). MIN_SCALE stops very narrow
+// screens going unreadable.
+const DESKTOP_TARGET_SCALE = 1.0;
+const MIN_SCALE = 0.5;
 const ROW_PITCH = 99; // px per row (pill height 81 + 18px gap)
 const COL_PITCH = 200; // ~avg pill + gap → columns per row
 const LABEL_ROWS_HALF = 4; // 9 labelled rows (k = -4..4)
@@ -94,11 +99,17 @@ export function Hero() {
         const availH = area.clientHeight - padT - padB;
         if (availW <= 0 || availH <= 0) return;
         const mobile = availW < MOBILE_MAX_W;
-        const s = Math.min(
-          MAX_SCALE,
-          availW / (mobile ? REF_W_MOBILE : REF_W),
-          availH / ((2 * LABEL_ROWS_HALF + 1) * ROW_PITCH),
-        );
+        // Scale is driven by WIDTH only (so the labelled block fits), clamped to a
+        // comfortable band — NOT by height. The number of rows fills the height
+        // instead (buildGrid below). This keeps tags & text a consistent, readable
+        // size at any aspect ratio: short viewports simply show fewer rows ("zoom
+        // in") and tall viewports show more rows ("tighter"), instead of shrinking
+        // to unreadable (short/wide) or ballooning huge (tall/square).
+        const widthFit = availW / (mobile ? REF_W_MOBILE : REF_W);
+        // Phones zoom via the narrow mobile reference (stay width-bound), so their
+        // ceiling is MAX_SCALE; desktop settles at the comfortable target.
+        const ceil = mobile ? MAX_SCALE : DESKTOP_TARGET_SCALE;
+        const s = Math.max(MIN_SCALE, Math.min(ceil, widthFit));
         fit.style.transform = `scale(${s})`;
         // The grid centre sits at the centre of the area below the header.
         const sr = stage.getBoundingClientRect();

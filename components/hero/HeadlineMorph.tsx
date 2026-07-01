@@ -49,7 +49,7 @@ export function HeadlineMorph() {
 
           <p
             data-subtitle
-            className="mt-[53px] max-w-[560px] text-[26px] leading-[1.5] text-grey-text opacity-0 md:text-[18px] md:leading-[1.55]"
+            className="mt-[53px] max-w-[560px] text-[28px] leading-[1.5] text-grey-text opacity-0 md:text-[20px] md:leading-[1.55]"
           >
             {copy.rest.subtitle.map((s, i) =>
               s.em ? (

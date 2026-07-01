@@ -25,7 +25,7 @@ const REF_W = 1200; // reference labelled-block width (for the width fit)
 // On phones we fit a NARROWER reference width → larger scale → the tags read big,
 // only the centre region shows, and we let the motto wrap. It's a "zoom in", not
 // a shrink.
-const REF_W_MOBILE = 720;
+const REF_W_MOBILE = 480;
 const MOBILE_MAX_W = 640; // below this viewport width we treat it as mobile
 const FILLER_MIN_W = 72;
 const FILLER_MAX_W = 300;
@@ -102,14 +102,16 @@ export function Hero() {
         fit.style.transform = `scale(${s})`;
         // The grid centre sits at the centre of the area below the header.
         const sr = stage.getBoundingClientRect();
-        // On mobile, cap line 1 of the motto to ~the stage width (÷ scale, since
-        // the canvas is scaled) so it WRAPS into a big multi-line block — the
-        // "zoom in" look — instead of overflowing. Desktop stays one line/line.
-        const line1 = fit.querySelector<HTMLElement>("[data-h-measure]");
-        if (line1) {
-          line1.style.maxWidth = mobile ? `${Math.round((sr.width * 0.9) / s)}px` : "";
-          line1.style.whiteSpace = mobile ? "normal" : "";
-        }
+        // On mobile, cap BOTH motto lines to ~the stage width (÷ scale, since the
+        // canvas is scaled) so they WRAP into a big multi-line block — the "zoom
+        // in" look — instead of overflowing (incl. long rotating words like
+        // "Compliance" on line 2). Desktop stays one line per line.
+        const measures = fit.querySelectorAll<HTMLElement>("[data-h-measure]");
+        const cap = `${Math.round((sr.width * 0.9) / s)}px`;
+        measures.forEach((m) => {
+          m.style.maxWidth = mobile ? cap : "";
+          m.style.whiteSpace = mobile ? "normal" : "";
+        });
         const centerY = padT + availH / 2;
         const vDist = Math.max(centerY, sr.height - centerY) / s;
         const hDist = sr.width / 2 / s;
@@ -171,7 +173,7 @@ export function Hero() {
         {/* Fit area — its centre (below the header) is the grid/label-block centre. */}
         <div
           ref={areaRef}
-          className="absolute inset-0 flex items-center justify-center px-12 py-[84px]"
+          className="absolute inset-0 flex items-center justify-center px-5 py-[84px] sm:px-12"
         >
           {/* Scaled wrapper (sized to the unified grid). HeadlineMorph overlays its
               centre, which is the centre of the label block. */}

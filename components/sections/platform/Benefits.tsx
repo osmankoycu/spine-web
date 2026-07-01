@@ -87,8 +87,8 @@ export function Benefits() {
             <span className="text-orange">Lower premiums.</span>
           </h2>
           <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
-            We become your broker of record, shopping every carrier and
-            renegotiating every renewal, so costs go down.
+            AI continuously optimizes and right-sizes your plans, reducing
+            healthcare costs by 15% on average.
           </p>
 
           <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -106,24 +106,6 @@ export function Benefits() {
               accent="text-aqua-500"
               tint="border-aqua-200 bg-aqua-100/40"
             />
-          </div>
-
-          {/* Consultant chip */}
-          <div className="mt-4 flex items-center gap-3.5 rounded-[18px] border border-[#ececea] bg-[#fcfcfb] px-4 py-3.5">
-            <div className="grid size-12 shrink-0 place-items-center rounded-full bg-[#ececea] text-[15px] font-bold text-[#7c7c77]">
-              NB
-            </div>
-            <div className="flex-1">
-              <div className="text-[10.5px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">
-                Dedicated consultant
-              </div>
-              <div className="text-[15px] font-bold text-[#15140f]">
-                Nashina Bush
-              </div>
-            </div>
-            <span className="shrink-0 rounded-full bg-cobalt-400/[0.08] px-2.5 py-1.5 text-[10.5px] font-bold text-cobalt-400">
-              In-house
-            </span>
           </div>
 
           {/* Plan-type pill cloud */}

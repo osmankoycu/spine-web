@@ -26,7 +26,7 @@ export const copy = {
       { t: "payroll", em: true },
       { t: ", and " },
       { t: "compliance", em: true },
-      { t: ", backed by AI and free for your company. You run the company. We handle the rest." },
+      { t: ", backed by AI and free for your company." },
     ] as SubPart[],
   },
   cta: "See how much you'd save →",

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { cn } from "@/lib/cn";
+import { Marquee } from "./Marquee";
 import { trustedLogos } from "./trustedLogos";
 
 // Proof band (handoff Block 0): a white rounded card — four headline metrics,
@@ -31,10 +32,10 @@ const STATS: { value: string; caption: string; anim: Anim }[] = [
 
 // Optical size tuning — equal heights don't read as equal weight; nudge a few.
 const LOGO_H = 26;
-const LOGO_SCALE: Record<string, number> = { fal: 1.18, Firefly: 0.88 };
+const LOGO_SCALE: Record<string, number> = { fal: 1.18, Firefly: 0.88, FreshDirect: 1.1 };
 
 // Display order — fal centred, Billups last.
-const LOGO_ORDER = ["HockeyStack", "Firefly", "fal", "Maven", "Merge", "Billups"];
+const LOGO_ORDER = ["HockeyStack", "Firefly", "fal", "FreshDirect", "Maven", "Merge", "Billups"];
 const orderedLogos = [...trustedLogos].sort(
   (a, b) => LOGO_ORDER.indexOf(a.label) - LOGO_ORDER.indexOf(b.label),
 );
@@ -171,13 +172,9 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
         >
           Trusted by ambitious tech companies
         </p>
-        <div
-          className={cn(
-            "flex flex-wrap items-center justify-between gap-x-8 gap-y-7",
-            dark ? "text-white/35" : "text-[#c2c2bc]",
-          )}
-        >
-          {orderedLogos.map((logo) => (
+        <Marquee
+          className={dark ? "text-white/[0.22]" : "text-[#d3d3ce]"}
+          items={orderedLogos.map((logo) => (
             <span
               key={logo.label}
               role="img"
@@ -187,7 +184,7 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
               dangerouslySetInnerHTML={{ __html: logo.svg }}
             />
           ))}
-        </div>
+        />
       </div>
     </section>
   );

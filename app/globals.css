@@ -62,6 +62,18 @@ body {
   height: 100%;
 }
 
+/* Continuous logo marquee: the track holds two identical groups, so translating
+   it by -50% scrolls exactly one group width and loops seamlessly. Reduced motion
+   is handled by the global rule below (animation is effectively frozen). */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Always reserve the scrollbar gutter so locking scroll (modal / mobile menu,
    which set the scroll container's overflow:hidden) doesn't remove the scrollbar
    and shift the whole page sideways. */

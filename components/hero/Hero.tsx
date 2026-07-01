@@ -123,6 +123,11 @@ export function Hero() {
           m.style.maxWidth = mobile ? cap : "";
           m.style.whiteSpace = mobile ? "normal" : "";
         });
+        // Subtitle: on mobile its 560px (unscaled) max-width, once scaled, is wider
+        // than the phone → it overflows. Cap it to the stage width (÷ scale) so it
+        // wraps inside the screen. Desktop keeps the className max-width.
+        const subtitle = fit.querySelector<HTMLElement>("[data-subtitle]");
+        if (subtitle) subtitle.style.maxWidth = mobile ? cap : "";
         const centerY = padT + availH / 2;
         const vDist = Math.max(centerY, sr.height - centerY) / s;
         const hDist = sr.width / 2 / s;

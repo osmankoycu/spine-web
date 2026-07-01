@@ -24,7 +24,7 @@ export function HeadlineMorph() {
               the parent canvas, staying proportional to the tags at every size. */}
           <h1
             data-headline
-            className="font-display text-[90px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink"
+            className="font-display text-[72px] font-extrabold leading-[1.04] tracking-[-0.03em] text-ink sm:text-[90px] sm:leading-[1.05]"
           >
             <span data-h-line className="block opacity-0">
               {/* inner inline-block = tight per-line width so each line's tag band
@@ -68,10 +68,7 @@ export function HeadlineMorph() {
           rows / ~198px below the field centre, the row pitch is 99px), centred —
           so it lands ON the tag line under the text and reads as one of the tags,
           set apart only by its colour. */}
-      <div
-        className="absolute inset-x-0 flex justify-center"
-        style={{ top: "calc(50% + 158px)" }}
-      >
+      <div className="absolute inset-x-0 flex justify-center top-[calc(50%+272px)] sm:top-[calc(50%+158px)]">
         <button
           type="button"
           data-cta

@@ -35,7 +35,17 @@ const LOGO_H = 26;
 const LOGO_SCALE: Record<string, number> = { fal: 1.18, Firefly: 0.88, FreshDirect: 1.1 };
 
 // Display order — fal centred, Billups last.
-const LOGO_ORDER = ["HockeyStack", "Firefly", "fal", "FreshDirect", "Maven", "Merge", "Billups"];
+const LOGO_ORDER = [
+  "HockeyStack",
+  "Firefly",
+  "fal",
+  "FreshDirect",
+  "Paperclip",
+  "Front",
+  "Maven",
+  "Merge",
+  "Billups",
+];
 const orderedLogos = [...trustedLogos].sort(
   (a, b) => LOGO_ORDER.indexOf(a.label) - LOGO_ORDER.indexOf(b.label),
 );

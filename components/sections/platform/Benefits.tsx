@@ -8,16 +8,18 @@ import { ChatApp } from "./ChatApp";
 // block only — the parent supplies the white card + full-bleed dividers. Neutral
 // hex values come from the handoff; oranges/cobalt/aqua use our brand tokens.
 
-const COMPANY_POINTS = [
-  "AI plan optimization",
-  "Every carrier, every renewal",
-  "Dedicated consultant",
+type Point = { label: string; sub: string };
+
+const COMPANY_POINTS: Point[] = [
+  { label: "AI plan optimization", sub: "Benchmarked every renewal" },
+  { label: "Every carrier, every renewal", sub: "We shop the full market" },
+  { label: "Dedicated consultant", sub: "A named, in-house expert" },
 ];
 
-const EMPLOYEE_POINTS = [
-  "The Spine app",
-  "24/7 concierge",
-  "Care navigation & bill defense",
+const EMPLOYEE_POINTS: Point[] = [
+  { label: "The Spine app", sub: "Benefits, all in one place" },
+  { label: "24/7 concierge", sub: "Real help, any hour" },
+  { label: "Care navigation & bill defense", sub: "We dispute wrong bills" },
 ];
 
 const PLAN_TYPES = [
@@ -31,11 +33,14 @@ const PLAN_TYPES = [
   "HSA / FSA",
 ];
 
-function CheckRow({ label, accent }: { label: string; accent: string }) {
+function CheckRow({ point, accent }: { point: Point; accent: string }) {
   return (
-    <div className="flex items-center gap-[9px]">
-      <Check size={13} weight="bold" className={cn("shrink-0", accent)} />
-      <span className="text-[13.5px] text-[#56554f]">{label}</span>
+    <div className="flex items-start gap-[9px]">
+      <Check size={13} weight="bold" className={cn("mt-[3px] shrink-0", accent)} />
+      <div>
+        <div className="text-[13.5px] font-medium text-[#3d3c37]">{point.label}</div>
+        <div className="text-[12px] leading-snug text-[#8a897f]">{point.sub}</div>
+      </div>
     </div>
   );
 }
@@ -51,7 +56,7 @@ function AudienceCard({
 }: {
   icon: typeof Buildings;
   title: string;
-  points: string[];
+  points: Point[];
   accent: string;
   tint: string;
 }) {
@@ -63,9 +68,9 @@ function AudienceCard({
           {title}
         </span>
       </div>
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-3">
         {points.map((p) => (
-          <CheckRow key={p} label={p} accent={accent} />
+          <CheckRow key={p.label} point={p} accent={accent} />
         ))}
       </div>
     </div>
@@ -109,7 +114,7 @@ export function Benefits() {
           </div>
 
           {/* Plan-type pill cloud */}
-          <div className="mt-auto pt-4">
+          <div className="mt-8">
             <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.1em] text-[#a9a9a3]">
               Every plan type
             </div>

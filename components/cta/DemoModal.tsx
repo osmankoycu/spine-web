@@ -39,6 +39,11 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [render, setRender] = useState(false);
   const [shown, setShown] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Enter/exit: mount → next frame fade+scale in; on close, animate out then unmount.
   useEffect(() => {
@@ -59,6 +64,11 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
     const t = setTimeout(() => {
       setRender(false);
       setSubmitted(false);
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setError(null);
+      setSending(false);
     }, 220);
     return () => clearTimeout(t);
   }, [open]);
@@ -81,10 +91,28 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
   if (!render) return null;
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: POST the lead to the backend / CRM.
-    setSubmitted(true);
+    if (sending) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/estimate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, firstName, lastName }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        setSending(false);
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError("Network error. Please try again.");
+      setSending(false);
+    }
   };
 
   return (
@@ -158,6 +186,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               <input
                 type="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Work email"
                 autoComplete="email"
                 className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
@@ -165,17 +195,27 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               <div className="mt-3 grid grid-cols-2 gap-3">
                 <input
                   type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   placeholder="First name"
                   autoComplete="given-name"
                   className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
                 />
                 <input
                   type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   placeholder="Last name"
                   autoComplete="family-name"
                   className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
                 />
               </div>
+
+              {error && (
+                <p role="alert" className="mt-4 text-center text-[13.5px] font-medium text-orange-600">
+                  {error}
+                </p>
+              )}
 
               <p className="mt-7 px-2 text-center text-[12.5px] leading-relaxed text-grey-text">
                 We respect your data. By submitting, you agree that Spine may contact you about our
@@ -188,9 +228,10 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
               <button
                 type="submit"
-                className="mt-7 w-full cursor-pointer rounded-pill bg-black px-8 py-4 text-[16px] font-semibold text-white transition-colors hover:bg-black/85"
+                disabled={sending}
+                className="mt-7 w-full cursor-pointer rounded-pill bg-black px-8 py-4 text-[16px] font-semibold text-white transition-colors hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Get my estimate →
+                {sending ? "Sending…" : "Get my estimate →"}
               </button>
             </form>
           </>

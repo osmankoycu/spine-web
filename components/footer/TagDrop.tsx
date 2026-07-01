@@ -30,7 +30,7 @@ const TAGS = [
   "Updated withholding",
 ];
 
-const CONTACT_EMAIL = "hello@spine.com"; // TODO: confirm the real contact address
+const CONTACT_EMAIL = "hello@joinspine.ai";
 
 export function TagDrop() {
   const boxRef = useRef<HTMLDivElement>(null);

@@ -5,12 +5,14 @@ import { footerBottomLinks, footerColumns, footerTagline } from "@/lib/footerCon
 
 // Near-black footer (solid) in the tone of the dark comparison matrix above.
 // White wordmark with an orange "." accent; orange column headings; a divided
-// bottom bar carries the copyright, legal links and social icons.
+// bottom bar carries the copyright and, on the right, the legal links (+ socials).
 const SOCIALS = [
   { label: "LinkedIn", href: "#", Icon: LinkedinLogo },
   { label: "X", href: "#", Icon: XLogo },
   { label: "GitHub", href: "#", Icon: GithubLogo },
 ];
+// Socials are hidden for now (kept here to re-enable later — flip to true).
+const SHOW_SOCIALS = false;
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -52,10 +54,12 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar — copyright + legal links · socials */}
+        {/* Bottom bar — copyright · legal links (+ socials, hidden for now) */}
         <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-7 md:mt-16 md:flex-row md:items-center md:justify-between">
+          <span className="text-[14px] text-white/45">
+            © {year} Spine. All rights reserved.
+          </span>
           <div className="flex flex-wrap items-center gap-x-7 gap-y-2 text-[14px]">
-            <span className="text-white/45">© {year} Spine. All rights reserved.</span>
             {footerBottomLinks.map((l) => (
               <Link
                 key={l.label}
@@ -65,18 +69,20 @@ export function Footer() {
                 {l.label}
               </Link>
             ))}
-          </div>
-          <div className="flex items-center gap-5">
-            {SOCIALS.map(({ label, href, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="text-white/55 transition-colors hover:text-white"
-              >
-                <Icon size={23} />
-              </a>
-            ))}
+            {SHOW_SOCIALS && (
+              <div className="ml-1 flex items-center gap-5">
+                {SOCIALS.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    className="text-white/55 transition-colors hover:text-white"
+                  >
+                    <Icon size={23} />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

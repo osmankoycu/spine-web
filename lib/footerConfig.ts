@@ -6,7 +6,6 @@ export type FooterColumn = { title: string; links: FooterLink[] };
 export const footerBottomLinks: FooterLink[] = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
-  { label: "Status", href: "/status" },
 ];
 
 export const footerTagline =

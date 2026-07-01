@@ -10,6 +10,12 @@ import { useDemoModal } from "@/components/cta/DemoModal";
 // measured from.
 export function HeadlineMorph() {
   const { open } = useDemoModal();
+  // Split the last word of line 1 ("about") so it can hop to line 2 on mobile:
+  // desktop reads "Let us worry about" / "your …"; mobile reads "Let us worry" /
+  // "about your" / "…" (the rotating word drops to its own line).
+  const l1Words = copy.rest.line1.split(" ");
+  const l1Tail = l1Words[l1Words.length - 1];
+  const l1Head = l1Words.slice(0, -1).join(" ");
   return (
     <div data-center className="pointer-events-none absolute inset-0 z-20">
       {/* Headline + subtitle — nudged above the field centre. The shift (-58px)
@@ -29,10 +35,14 @@ export function HeadlineMorph() {
             <span data-h-line className="block opacity-0">
               {/* inner inline-block = tight per-line width so each line's tag band
                   is measured from its OWN text, independent of the other line */}
-              <span data-h-measure className="inline-block">{copy.rest.line1}</span>
+              <span data-h-measure className="inline-block">
+                {l1Head}
+                <span className="hidden sm:inline"> {l1Tail}</span>
+              </span>
             </span>
             <span data-h-line className="relative block opacity-0">
               <span data-h-measure className="inline-block">
+                <span className="sm:hidden">{l1Tail} </span>
                 {copy.rest.line2Prefix} <RotatingWord />
               </span>
               {/* Fixed-width collider for the rotating line — its width is locked
@@ -49,7 +59,7 @@ export function HeadlineMorph() {
 
           <p
             data-subtitle
-            className="mt-[53px] max-w-[560px] text-[28px] leading-[1.5] text-grey-text opacity-0 md:text-[20px] md:leading-[1.55]"
+            className="mt-[53px] max-w-[560px] text-[24px] leading-[1.5] text-grey-text opacity-0 md:text-[20px] md:leading-[1.55]"
           >
             {copy.rest.subtitle.map((s, i) =>
               s.em ? (
@@ -73,7 +83,7 @@ export function HeadlineMorph() {
           type="button"
           data-cta
           onClick={open}
-          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[30px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 md:text-[24px]"
+          className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[27px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 md:text-[24px]"
         >
           {copy.cta}
         </button>

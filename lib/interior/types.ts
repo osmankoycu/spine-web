@@ -23,6 +23,10 @@ export type Stat = { figure: string; label: string };
 
 export type PlatformPage = {
   slug: string;
+  // Interface accent for the hero console mockup + feature icons + step coins.
+  // "employer" = cobalt (the company's dashboard view), "employee" = aqua (the
+  // employee app). Brand orange stays on the hero H1, eyebrow, CTAs and stats.
+  accent?: "employer" | "employee";
   breadcrumb: Breadcrumb[]; // e.g. Platform / Benefits / Plan optimization
   eyebrow: string;
   h1: TwoTone;

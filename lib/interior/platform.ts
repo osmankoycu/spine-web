@@ -427,6 +427,7 @@ export const platformPages: Record<string, PlatformPage> = {
 
   "employee-concierge": {
     slug: "employee-concierge",
+    accent: "employee", // the employee app → aqua, not the employer cobalt
     breadcrumb: crumb("Benefits", "Employee concierge"),
     eyebrow: "Benefits · Employee app",
     h1: { pre: "The Spine app.", accent: "Benefits in their pocket." },

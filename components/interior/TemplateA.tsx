@@ -2,6 +2,8 @@
 // mockup, 6 feature cards, 3-step band, then either a merged tag-field closer
 // (stats + CTA over falling tags) or the standard stats + ink CTA band.
 // Data-driven: renders any page in lib/interior/platform.ts.
+import { ArrowsClockwise, Check } from "@phosphor-icons/react/dist/ssr";
+import { cn } from "@/lib/cn";
 import type { PlatformPage } from "@/lib/interior/types";
 import { InteriorIcon } from "@/components/interior/icons";
 import { PlatformCloser } from "@/components/interior/PlatformCloser";
@@ -10,10 +12,40 @@ import { hasOwnCloser } from "@/lib/interior/closers";
 
 const container = "mx-auto max-w-[1240px] px-6 md:px-10";
 
+// Interface accent language, matching the homepage employer console (cobalt) and
+// employee app (aqua). Only the product-UI depictions use these; brand orange
+// stays on the hero H1, eyebrow, CTAs and stat figures.
+const ACCENT = {
+  employer: {
+    tile: "bg-cobalt-100",
+    icon: "text-cobalt-400",
+    coin: "bg-cobalt-400",
+    headPill: "bg-cobalt-400/10 text-cobalt-400",
+    headDot: "bg-cobalt-400",
+    runChip: "bg-cobalt-400/10 text-cobalt-400",
+    runSub: "text-cobalt-500",
+    // console "total" bar: deep navy, not the bright cobalt-400 (too CTA-loud)
+    bar: "bg-cobalt-600",
+    barLabel: "text-cobalt-200",
+  },
+  employee: {
+    tile: "bg-aqua-100",
+    icon: "text-aqua-500",
+    coin: "bg-aqua-400",
+    headPill: "bg-aqua-400/10 text-aqua-500",
+    headDot: "bg-aqua-400",
+    runChip: "bg-aqua-400/10 text-aqua-500",
+    runSub: "text-aqua-600",
+    bar: "bg-aqua-600",
+    barLabel: "text-aqua-200",
+  },
+} as const;
+
 export function TemplateA({ page }: { page: PlatformPage }) {
   // Pages that opt into the merged closer drop the standalone stats + CTA band
   // (and the global TagDrop is suppressed for them — see closers.ts).
   const merged = hasOwnCloser(`/platform/${page.slug}`);
+  const a = ACCENT[page.accent ?? "employer"];
 
   return (
     <main className="bg-surface-page text-ink">
@@ -44,36 +76,45 @@ export function TemplateA({ page }: { page: PlatformPage }) {
                 <span className="text-[12px] font-bold uppercase tracking-[0.06em] text-muted">
                   {page.mockup.title}
                 </span>
-                <span className="flex items-center gap-1.5 rounded-pill bg-success-tint px-[11px] py-[5px] text-[11.5px] font-bold text-success">
-                  <span className="size-1.5 rounded-pill bg-success" />
+                <span
+                  className={cn(
+                    "flex items-center gap-1.5 rounded-pill px-[11px] py-[5px] text-[11.5px] font-bold",
+                    a.headPill,
+                  )}
+                >
+                  <span className={cn("size-1.5 rounded-pill", a.headDot)} />
                   {page.mockup.status}
                 </span>
               </div>
-              <div className="flex flex-col gap-2.5 px-5 py-[18px]">
+              <div className="px-5 pb-[18px] pt-1">
                 {page.mockup.rows.map((r, i) => {
                   const ok = r.tone === "ok";
                   return (
                     <div
                       key={i}
-                      className={`flex items-start gap-3 rounded-[14px] border px-[15px] py-[14px] ${
-                        ok
-                          ? "border-hairline bg-surface-inset"
-                          : "border-orange-150 bg-orange-100"
-                      }`}
+                      className={cn(
+                        "flex items-center gap-[13px] py-[13px]",
+                        i < page.mockup.rows.length - 1 && "border-b border-hairline-2",
+                      )}
                     >
                       <span
-                        className={`grid size-[30px] flex-none place-items-center rounded-pill text-[14px] font-extrabold ${
-                          ok ? "bg-success-tint text-success" : "bg-white text-orange"
-                        }`}
+                        className={cn(
+                          "grid size-[30px] flex-none place-items-center rounded-[9px]",
+                          ok ? "bg-success-tint text-success" : a.runChip,
+                        )}
                       >
-                        {ok ? "✓" : "↻"}
+                        {ok ? (
+                          <Check size={14} weight="bold" />
+                        ) : (
+                          <ArrowsClockwise size={14} weight="bold" />
+                        )}
                       </span>
-                      <div>
-                        <div className="text-[14px] font-bold text-ink">{r.title}</div>
+                      <div className="flex-1">
+                        <div className="text-[13.5px] font-semibold text-[#2e2d28]">
+                          {r.title}
+                        </div>
                         <div
-                          className={`mt-0.5 text-[12.5px] ${
-                            ok ? "text-subline" : "text-orange-ink"
-                          }`}
+                          className={cn("mt-0.5 text-[11.5px]", ok ? "text-subline" : a.runSub)}
                         >
                           {r.sub}
                         </div>
@@ -81,8 +122,13 @@ export function TemplateA({ page }: { page: PlatformPage }) {
                     </div>
                   );
                 })}
-                <div className="mt-1 flex items-center justify-between rounded-[14px] bg-ink px-4 py-[14px]">
-                  <span className="text-[13px] font-semibold text-[#c9c8c2]">
+                <div
+                  className={cn(
+                    "mt-3 flex items-center justify-between rounded-[12px] px-4 py-[13px]",
+                    a.bar,
+                  )}
+                >
+                  <span className={cn("text-[13px] font-semibold", a.barLabel)}>
                     {page.mockup.total.label}
                   </span>
                   <span className="text-[22px] font-extrabold tracking-[-0.02em] text-white">
@@ -115,8 +161,8 @@ export function TemplateA({ page }: { page: PlatformPage }) {
               key={f.title}
               className="rounded-[20px] border border-hairline bg-white px-6 py-[26px]"
             >
-              <span className="mb-4 grid size-12 place-items-center rounded-[13px] bg-orange-100">
-                <InteriorIcon name={f.icon} size={24} className="text-orange" />
+              <span className={cn("mb-4 grid size-12 place-items-center rounded-[13px]", a.tile)}>
+                <InteriorIcon name={f.icon} size={24} className={a.icon} />
               </span>
               <h3 className="mb-[7px] text-[18px] font-extrabold tracking-[-0.01em]">
                 {f.title}
@@ -144,7 +190,12 @@ export function TemplateA({ page }: { page: PlatformPage }) {
                   key={s.title}
                   className="px-0 py-8 first:pt-0 last:pb-0 lg:px-9 lg:py-0 lg:first:pl-0 lg:last:pr-0 lg:[&:not(:last-child)]:border-r lg:[&:not(:last-child)]:border-white/10"
                 >
-                  <span className="mb-[18px] grid size-[38px] place-items-center rounded-pill bg-orange text-[16px] font-extrabold text-white">
+                  <span
+                    className={cn(
+                      "mb-[18px] grid size-[38px] place-items-center rounded-pill text-[16px] font-extrabold text-white",
+                      a.coin,
+                    )}
+                  >
                     {i + 1}
                   </span>
                   <h3 className="mb-2 text-[19px] font-extrabold tracking-[-0.01em] text-white">
@@ -168,7 +219,12 @@ export function TemplateA({ page }: { page: PlatformPage }) {
                   key={s.title}
                   className="rounded-[20px] border border-hairline bg-white px-[26px] py-7"
                 >
-                  <span className="mb-[18px] grid size-[38px] place-items-center rounded-pill bg-orange text-[16px] font-extrabold text-white">
+                  <span
+                    className={cn(
+                      "mb-[18px] grid size-[38px] place-items-center rounded-pill text-[16px] font-extrabold text-white",
+                      a.coin,
+                    )}
+                  >
                     {i + 1}
                   </span>
                   <h3 className="mb-2 text-[19px] font-extrabold tracking-[-0.01em]">

@@ -134,7 +134,7 @@ export function ComplianceFeed({ feed }: { feed: FeedRow[] }) {
   }, []);
 
   return (
-    <div ref={ref} className="border-b border-[#ededea] bg-[#fcfcfb] px-[22px] py-[18px] lg:border-b-0 lg:border-r">
+    <div ref={ref} className="h-full animate-[fadeIn_0.4s_ease-out] px-[22px] py-[18px]">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">Live feed</span>
         <span className="text-[11.5px] text-[#b0afa9]">This month</span>

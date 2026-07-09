@@ -175,9 +175,7 @@ export function Compliance() {
             </span>
             <div className="ml-auto flex items-center gap-2 rounded-full bg-[#eafaef] px-[11px] py-[5px] text-[11.5px] font-semibold text-[#2a8b3f]">
               <span className="h-[6px] w-[6px] rounded-full bg-[#2a8b3f]" />
-              <span key={cat.id} className="animate-[fadeIn_0.35s_ease-out]">
-                {cat.status}
-              </span>
+              {cat.status}
             </div>
           </div>
 
@@ -225,15 +223,15 @@ export function Compliance() {
               </div>
             </div>
 
-            {/* Feed — remounts per category so the processing→Done animation
-                replays each time the user picks a category */}
-            <ComplianceFeed key={cat.id} feed={cat.feed} />
+            {/* Feed — the cell keeps a stable background/border; ComplianceFeed
+                remounts per category (key) so the content fades in and the
+                processing→Done animation replays on each pick. */}
+            <div className="border-b border-[#ededea] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
+              <ComplianceFeed key={cat.id} feed={cat.feed} />
+            </div>
 
-            {/* Right rail — cross-fades to the new category */}
-            <div
-              key={`rail-${cat.id}`}
-              className="flex animate-[fadeIn_0.35s_ease-out] flex-col gap-[14px] p-[18px]"
-            >
+            {/* Right rail — updates in place (progress bar transitions its width) */}
+            <div className="flex flex-col gap-[14px] p-[18px]">
               <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-4">
                 <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-cobalt-400">
                   Next deadline
@@ -287,7 +285,10 @@ export function Compliance() {
                   cobalt; a hovered item fills it grey. */}
               <span
                 aria-hidden
-                style={{ clipPath: clip }}
+                // translateZ(0) promotes this to its own compositing layer, so the
+                // clip-path is rasterised once and the hover colour transition
+                // doesn't re-clip each frame (that re-clip was the hover flicker).
+                style={{ clipPath: clip, transform: "translateZ(0)" }}
                 className={cn(
                   "pointer-events-none absolute inset-0 rounded-[14px] transition-colors",
                   sel ? "bg-[#f1f2f4]" : "group-hover:bg-[#f1f2f4]",

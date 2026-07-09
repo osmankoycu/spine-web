@@ -18,7 +18,7 @@ const PILL_AT = 90;
 // Persistent across the whole page — fixed, above everything. At the very top it
 // is chrome-less; once the user scrolls a little (or a menu is open) a fully-
 // rounded, blurred PILL fades in behind the bar. The three primary nav items
-// carry a caret and open a mega-menu panel on click.
+// carry a caret and open a mega-menu panel on hover (tap still works on touch).
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
@@ -26,6 +26,23 @@ export function Header() {
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const { open: openModal } = useDemoModal();
+
+  // Hover intent for the mega-menu: open on enter, and close on leave after a
+  // short delay so the mouse can travel from the nav item down to the panel
+  // (which is a separate element) without the menu snapping shut in the gap.
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
+  const openMenu = (label: string) => {
+    cancelClose();
+    setOpen(label);
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpen(null), 200);
+  };
+  useEffect(() => () => cancelClose(), []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -108,7 +125,9 @@ export function Header() {
                 <button
                   key={item.label}
                   type="button"
-                  onClick={() => setOpen((o) => (o === item.label ? null : item.label))}
+                  onClick={() => openMenu(item.label)}
+                  onMouseEnter={() => openMenu(item.label)}
+                  onMouseLeave={scheduleClose}
                   aria-expanded={open === item.label}
                   className={cn(
                     "flex cursor-pointer items-center gap-1.5 rounded-pill px-3.5 py-2 text-[15px] font-semibold transition-[color,background-color,box-shadow] duration-200",
@@ -177,6 +196,8 @@ export function Header() {
             open={open === item.label}
             surfaced={scrolled}
             onNavigate={() => setOpen(null)}
+            onEnter={cancelClose}
+            onLeave={scheduleClose}
           />
         ) : null,
       )}
@@ -337,14 +358,20 @@ function MegaPanel({
   open,
   surfaced,
   onNavigate,
+  onEnter,
+  onLeave,
 }: {
   menu: MegaMenu;
   open: boolean;
   surfaced: boolean;
   onNavigate: () => void;
+  onEnter: () => void;
+  onLeave: () => void;
 }) {
   return (
     <div
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
       className={cn(
         "absolute left-1/2 z-40 hidden max-w-[calc(100vw-2rem)] -translate-x-1/2 lg:block",
         // Sits right under the nav when the bar is chrome-less; drops a little

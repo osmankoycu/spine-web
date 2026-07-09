@@ -4,20 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowsClockwise, Check, Warning } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 
-// The compliance console's live feed. When the console scrolls into view (and
-// after it has revealed) the rows that end up "Done" start in a processing state
-// (grey ↻ + "Filing…") and flip one-by-one to a green ✓ + "Done" — the side
-// status word swaps with it. Active / queued rows stay put.
-type Tone = "done" | "active" | "queued";
-type Row = { title: string; sub: string; tone: Tone; status: string; pending?: string };
-
-const FEED: Row[] = [
-  { title: "ACA 1095-C forms filed", sub: "47 employees · IRS confirmed", tone: "done", status: "Done", pending: "Filing…" },
-  { title: "TX SUI registration", sub: "New hire in Austin · auto-filed in 3 days", tone: "done", status: "Done", pending: "Filing…" },
-  { title: "DOL notice · ERISA SPD update", sub: "Due 06/01 · AI drafting", tone: "active", status: "Active" },
-  { title: "Form 5500 prep · plan year 2026", sub: "Auto-file scheduled 07/15", tone: "queued", status: "Queued" },
-  { title: "COBRA election notice", sub: "2 separations · sent, 14 days remaining", tone: "done", status: "Done", pending: "Sending…" },
-];
+// The compliance console's live feed. When it scrolls into view (or is remounted
+// on a category switch), the rows that end up "Done" start in a processing state
+// (grey ↻ + "Filing…") and flip one-by-one to a green ✓ + "Done". Active / queued
+// rows stay put. The parent (Compliance) remounts this via `key` per category, so
+// switching categories replays the animation with the new feed.
+export type Tone = "done" | "active" | "queued";
+export type FeedRow = {
+  title: string;
+  sub: string;
+  tone: Tone;
+  status: string;
+  pending?: string;
+};
 
 const CHIP: Record<Tone | "pending", string> = {
   done: "bg-[#eafaef] text-[#2a8b3f]",
@@ -32,9 +31,8 @@ const STATUS: Record<Tone | "pending", string> = {
   pending: "text-[#a9a9a3]",
 };
 
-function FeedRow({ row, last, flipped }: { row: Row; last: boolean; flipped: boolean }) {
+function Row({ row, last, flipped }: { row: FeedRow; last: boolean; flipped: boolean }) {
   const isDone = row.tone === "done";
-  const showDone = !isDone || flipped; // active/queued render their static state
 
   return (
     <div className={cn("flex items-center gap-[13px] py-[14px]", !last && "border-b border-[#ededea]")}>
@@ -92,15 +90,18 @@ function FeedRow({ row, last, flipped }: { row: Row; last: boolean; flipped: boo
   );
 }
 
-export function ComplianceFeed() {
+export function ComplianceFeed({ feed }: { feed: FeedRow[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [flipped, setFlipped] = useState<boolean[]>(() => FEED.map(() => false));
+  const [flipped, setFlipped] = useState<boolean[]>(() => feed.map(() => false));
 
+  // Animate the Done rows in whenever this mounts and is on screen. The parent
+  // remounts it (key) on each category switch, so the processing→Done animation
+  // replays every time the user picks a category.
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setFlipped(FEED.map(() => true));
+      setFlipped(feed.map(() => true));
       return;
     }
 
@@ -109,7 +110,7 @@ export function ComplianceFeed() {
       (entries) => {
         if (!entries[0]?.isIntersecting) return;
         io.disconnect();
-        const doneIdx = FEED.map((r, i) => (r.tone === "done" ? i : -1)).filter((i) => i >= 0);
+        const doneIdx = feed.map((r, i) => (r.tone === "done" ? i : -1)).filter((i) => i >= 0);
         doneIdx.forEach((idx, k) => {
           timers.push(
             setTimeout(() => {
@@ -118,32 +119,31 @@ export function ComplianceFeed() {
                 next[idx] = true;
                 return next;
               });
-            }, 700 + k * 450), // let the panel reveal first, then tick rows to Done
+            }, 600 + k * 450),
           );
         });
       },
-      { threshold: 0, rootMargin: "-30% 0px -30% 0px" },
+      { threshold: 0, rootMargin: "-15% 0px -15% 0px" },
     );
     io.observe(el);
     return () => {
       io.disconnect();
       timers.forEach(clearTimeout);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className="border-b border-[#ededea] bg-[#fcfcfb] px-[22px] py-[18px] lg:border-b-0 lg:border-r"
-    >
+    <div ref={ref} className="h-full animate-[fadeIn_0.4s_ease-out] px-[22px] py-[18px]">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">
-          Live feed
-        </span>
+        <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">Live feed</span>
         <span className="text-[11.5px] text-[#b0afa9]">This month</span>
       </div>
-      {FEED.map((row, i) => (
-        <FeedRow key={row.title} row={row} last={i === FEED.length - 1} flipped={flipped[i]} />
+      {/* Rows update IN PLACE (index keys → same DOM nodes reused). All three
+          categories share the same tone pattern (done·done·active·queued·done),
+          so a switch only swaps text — no remount, no flicker. */}
+      {feed.map((row, i) => (
+        <Row key={i} row={row} last={i === feed.length - 1} flipped={flipped[i] ?? false} />
       ))}
     </div>
   );

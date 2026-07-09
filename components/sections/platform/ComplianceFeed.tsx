@@ -90,23 +90,18 @@ function Row({ row, last, flipped }: { row: FeedRow; last: boolean; flipped: boo
   );
 }
 
-export function ComplianceFeed({ feed, revealKey }: { feed: FeedRow[]; revealKey: string }) {
+export function ComplianceFeed({ feed }: { feed: FeedRow[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const seen = useRef(false); // has the first reveal animation played
   const [flipped, setFlipped] = useState<boolean[]>(() => feed.map(() => false));
 
+  // Animate the Done rows in whenever this mounts and is on screen. The parent
+  // remounts it (key) on each category switch, so the processing→Done animation
+  // replays every time the user picks a category.
   useEffect(() => {
-    // After the first reveal, a category change just shows the final state (the
-    // rows cross-fade in via `revealKey`) — no processing→Done replay each time.
-    if (seen.current) {
-      setFlipped(feed.map(() => true));
-      return;
-    }
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setFlipped(feed.map(() => true));
-      seen.current = true;
       return;
     }
 
@@ -115,7 +110,6 @@ export function ComplianceFeed({ feed, revealKey }: { feed: FeedRow[]; revealKey
       (entries) => {
         if (!entries[0]?.isIntersecting) return;
         io.disconnect();
-        seen.current = true;
         const doneIdx = feed.map((r, i) => (r.tone === "done" ? i : -1)).filter((i) => i >= 0);
         doneIdx.forEach((idx, k) => {
           timers.push(
@@ -136,7 +130,8 @@ export function ComplianceFeed({ feed, revealKey }: { feed: FeedRow[]; revealKey
       io.disconnect();
       timers.forEach(clearTimeout);
     };
-  }, [feed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div ref={ref} className="border-b border-[#ededea] bg-[#fcfcfb] px-[22px] py-[18px] lg:border-b-0 lg:border-r">
@@ -144,12 +139,12 @@ export function ComplianceFeed({ feed, revealKey }: { feed: FeedRow[]; revealKey
         <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">Live feed</span>
         <span className="text-[11.5px] text-[#b0afa9]">This month</span>
       </div>
-      {/* rows cross-fade in when the category changes */}
-      <div key={revealKey} className="animate-[fadeIn_0.35s_ease-out]">
-        {feed.map((row, i) => (
-          <Row key={row.title} row={row} last={i === feed.length - 1} flipped={flipped[i] ?? false} />
-        ))}
-      </div>
+      {/* Rows update IN PLACE (index keys → same DOM nodes reused). All three
+          categories share the same tone pattern (done·done·active·queued·done),
+          so a switch only swaps text — no remount, no flicker. */}
+      {feed.map((row, i) => (
+        <Row key={i} row={row} last={i === feed.length - 1} flipped={flipped[i] ?? false} />
+      ))}
     </div>
   );
 }

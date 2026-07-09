@@ -5,7 +5,6 @@ import {
   Check,
   EnvelopeSimple,
   Heartbeat,
-  MagnifyingGlass,
   MapTrifold,
   Pulse,
   UserPlus,
@@ -113,16 +112,15 @@ export function Compliance() {
       <Reveal>
         <div className="overflow-hidden rounded-[20px] border border-[#ececea] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
           {/* Top bar */}
-          <div className="flex flex-wrap items-center gap-x-[14px] gap-y-3 border-b border-[#ededea] px-5 py-[15px]">
+          <div className="flex items-center gap-3.5 border-b border-[#ededea] px-5 py-[11px]">
             <div className="flex gap-[7px]">
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
             </div>
-            <div className="flex min-w-[220px] flex-1 items-center gap-2 rounded-lg border border-[#ececea] bg-[#fafaf9] px-3 py-[6px] sm:flex-none">
-              <MagnifyingGlass size={13} className="text-[#b0afa9]" />
-              <span className="text-[12px] text-[#b0afa9]">Search filings, notices, states…</span>
-            </div>
+            <span className="text-[11px] tracking-[0.06em] text-[#a9a9a3]">
+              spine · HR dashboard
+            </span>
             <div className="ml-auto flex items-center gap-2 rounded-full bg-[#eafaef] px-[11px] py-[5px] text-[11.5px] font-semibold text-[#2a8b3f]">
               <span className="h-[6px] w-[6px] rounded-full bg-[#2a8b3f]" />
               {cat.status}

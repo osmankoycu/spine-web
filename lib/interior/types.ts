@@ -60,11 +60,12 @@ export type BentoCard = { icon: string; title: string; body: string };
 export type AudiencePage = {
   slug: string;
   pillIcon: string;
-  pillLabel: string; // "Who we serve · Startups"
+  pillLabel: string; // segment name, e.g. "Startups"
   h1: TwoTone;
   lead: string;
   primary: Cta;
   secondary: Cta;
+  heroImage?: { src: string; alt: string }; // right-side hero image (user-supplied)
   statRail: Stat[]; // 4 cells
   shift: {
     eyebrow: string;

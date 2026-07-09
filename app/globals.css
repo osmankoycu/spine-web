@@ -47,6 +47,34 @@
   --font-display: "neue-haas-grotesk-display", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "neue-haas-grotesk-text", ui-sans-serif, system-ui, sans-serif; */
 
+  /* ── Interior page system (Platform / Who / Partners detail templates) ──
+     Warm-neutral surfaces + ink/text levels + orange ramp + success, per the
+     Interior Templates handoff. Brand accent stays our --color-orange (#ff6c16);
+     these add the supporting surfaces, hairlines, muted text and tints the
+     detail templates need. Utility names follow after `--color-`. */
+  --color-surface-page: #f4f4f3; /* warm page bg for all interior templates */
+  --color-surface-band: #efeeeb; /* section bands (how-it-works, timeline) */
+  --color-surface-inset: #fcfcfb; /* inset rows inside cards */
+  --color-hairline: #ececea; /* card borders */
+  --color-hairline-2: #ededea; /* inner dividers */
+  --color-band-line: #e6e5e1; /* band top/bottom borders */
+  --color-btn-line: #e2e1dd; /* secondary button border */
+
+  --color-ink-2: #56554f; /* strong body / inline checks */
+  --color-body: #6e6e68; /* hero lead */
+  --color-body-2: #7c7c77; /* card body */
+  --color-subline: #86857e; /* mockup sublines, stat labels */
+  --color-muted: #a9a9a3; /* eyebrows-muted, breadcrumb, captions */
+  --color-on-ink: #b0afa9; /* body text on ink surfaces */
+
+  --color-orange-100: #fff1ea; /* icon-tile + highlight-row tint */
+  --color-orange-150: #ffd9c2; /* tint border */
+  --color-orange-700: #e0540a; /* deep eyebrow orange */
+  --color-orange-ink: #b0490c; /* orange text on tint rows */
+
+  --color-success: #2a8b3f;
+  --color-success-tint: #eafaef;
+
   /* Radii */
   --radius-pill: 9999px;
 }

@@ -285,13 +285,14 @@ export function Compliance() {
                   cobalt; a hovered item fills it grey. */}
               <span
                 aria-hidden
-                // translateZ(0) promotes this to its own compositing layer, so the
-                // clip-path is rasterised once and the hover colour transition
-                // doesn't re-clip each frame (that re-clip was the hover flicker).
+                // Always grey; we transition OPACITY (not colour) on a GPU layer
+                // (translateZ(0)). Opacity on a composited layer is pure
+                // compositing — no repaint/re-clip — so fast hover in/out that
+                // interrupts the transition stays smooth (no flip).
                 style={{ clipPath: clip, transform: "translateZ(0)" }}
                 className={cn(
-                  "pointer-events-none absolute inset-0 rounded-[14px] transition-colors",
-                  sel ? "bg-[#f1f2f4]" : "group-hover:bg-[#f1f2f4]",
+                  "pointer-events-none absolute inset-0 rounded-[14px] bg-[#f1f2f4] opacity-0 transition-opacity duration-200",
+                  sel ? "opacity-100" : "group-hover:opacity-100",
                 )}
               />
               <span

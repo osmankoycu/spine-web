@@ -5,6 +5,8 @@
 export function hasOwnCloser(pathname: string | null): boolean {
   return (
     pathname != null &&
-    (pathname.startsWith("/platform/") || pathname.startsWith("/who-we-serve/"))
+    (pathname.startsWith("/platform/") ||
+      pathname.startsWith("/who-we-serve/") ||
+      pathname.startsWith("/partners/"))
   );
 }

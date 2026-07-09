@@ -94,7 +94,7 @@ export type EconomicsCard = {
   highlight: { label: string; figure: string };
   earn: { label: string; value: string; note: string };
 };
-export type NumberedRow = { n: string; title: string; body: string };
+export type NumberedRow = { n: string; icon: string; title: string; body: string };
 export type LedgerStep = { icon: string; title: string; body: string };
 export type TableRow = {
   size: string;
@@ -113,6 +113,7 @@ export type PartnerPage = {
   primary: Cta;
   secondary: Cta;
   checks: string[];
+  stats: Stat[]; // "By the numbers" — the dark stat bar under the hero
   economics: EconomicsCard;
   why: { eyebrow: string; heading: TwoTone; rows: NumberedRow[] };
   ledger: { eyebrow: string; heading: TwoTone; steps: LedgerStep[] };

@@ -6,6 +6,7 @@
 import { TrendDown } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 import type { PartnerPage } from "@/lib/interior/types";
+import { InteriorIcon } from "@/components/interior/icons";
 import { PartnerCloser } from "@/components/interior/PartnerCloser";
 import { Button, CheckRow, Eyebrow, TwoToneText } from "@/components/interior/parts";
 
@@ -61,31 +62,35 @@ export function TemplateC({ page }: { page: PartnerPage }) {
                     </span>
                   </div>
                 ))}
-                {/* highlight row */}
-                <div className="flex items-center justify-between rounded-[14px] border border-orange-150 bg-orange-100 px-[18px] py-4">
-                  <div>
-                    <div className="text-[12px] font-bold uppercase tracking-[0.04em] text-orange-700">
-                      {page.economics.highlight.label}
+                {/* highlight + earn joined into one piece: shared outer rounding,
+                    flat where they meet, a 1px cobalt line between them */}
+                <div className="overflow-hidden rounded-[14px] border border-cobalt-200">
+                  {/* aggregate savings — white top */}
+                  <div className="flex items-center justify-between border-b border-cobalt-200 bg-white px-[18px] py-4">
+                    <div>
+                      <div className="text-[12px] font-bold uppercase tracking-[0.04em] text-cobalt-600">
+                        {page.economics.highlight.label}
+                      </div>
+                      <div className="mt-0.5 text-[32px] font-extrabold tracking-[-0.03em] text-ink">
+                        {page.economics.highlight.figure}
+                      </div>
                     </div>
-                    <div className="mt-0.5 text-[32px] font-extrabold tracking-[-0.03em] text-ink">
-                      {page.economics.highlight.figure}
-                    </div>
+                    <TrendDown size={34} weight="duotone" className="text-cobalt-400" />
                   </div>
-                  <TrendDown size={34} weight="duotone" className="text-orange" />
-                </div>
-                {/* earn row */}
-                <div className="flex items-center justify-between gap-4 rounded-[14px] bg-ink px-[18px] py-4">
-                  <div>
-                    <div className="text-[12px] font-bold uppercase tracking-[0.04em] text-orange">
-                      {page.economics.earn.label}
+                  {/* your win — blue bottom */}
+                  <div className="flex items-center justify-between gap-4 bg-cobalt-100 px-[18px] py-4">
+                    <div>
+                      <div className="text-[12px] font-bold uppercase tracking-[0.04em] text-cobalt-600">
+                        {page.economics.earn.label}
+                      </div>
+                      <div className="mt-0.5 text-[22px] font-extrabold tracking-[-0.02em] text-ink">
+                        {page.economics.earn.value}
+                      </div>
                     </div>
-                    <div className="mt-0.5 text-[22px] font-extrabold tracking-[-0.02em] text-white">
-                      {page.economics.earn.value}
-                    </div>
+                    <span className="max-w-[130px] text-right text-[12px] text-cobalt-500">
+                      {page.economics.earn.note}
+                    </span>
                   </div>
-                  <span className="max-w-[130px] text-right text-[12px] text-on-ink">
-                    {page.economics.earn.note}
-                  </span>
                 </div>
               </div>
             </div>
@@ -93,19 +98,41 @@ export function TemplateC({ page }: { page: PartnerPage }) {
         </div>
       </section>
 
+      {/* ── STAT BAR (dark, right below the hero — like Templates A/B) ── */}
+      <section className="mx-auto max-w-[1240px] px-6 py-10 md:px-10">
+        <div className="grid grid-cols-2 overflow-hidden rounded-[24px] border border-white/10 bg-[#15140f] lg:grid-cols-4">
+          {page.stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={cn(
+                "px-7 py-8",
+                i % 2 === 0 && "border-r border-white/10",
+                "lg:border-r lg:last:border-r-0",
+                i < 2 && "border-b border-white/10 lg:border-b-0",
+              )}
+            >
+              <div className="whitespace-nowrap text-[30px] font-extrabold tracking-[-0.03em] text-white sm:text-[34px]">
+                {s.figure}
+              </div>
+              <div className="mt-2 text-[13.5px] text-white/55">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── WHY PARTNERS REFER (numbered rows) ── */}
-      <section className={`${container} py-16`}>
-        <h2 className="mb-9 max-w-[620px] text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+      <section className={`${container} pb-16 pt-6`}>
+        <h2 className="mb-9 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
           <TwoToneText parts={page.why.heading} mono />
         </h2>
         <div className="flex flex-col gap-2">
           {page.why.rows.map((r) => (
             <div
               key={r.n}
-              className="grid grid-cols-[52px_1fr] items-center gap-4 rounded-[18px] border border-hairline bg-white px-7 py-6 sm:grid-cols-[64px_1fr] sm:gap-5"
+              className="grid grid-cols-[52px_1fr] items-center gap-4 rounded-[18px] border border-hairline bg-white px-7 py-6 sm:grid-cols-[60px_1fr] sm:gap-5"
             >
-              <span className="text-[28px] font-extrabold tracking-[-0.02em] text-orange sm:text-[30px]">
-                {r.n}
+              <span className="grid size-11 place-items-center rounded-[13px] bg-cobalt-100 sm:size-12">
+                <InteriorIcon name={r.icon} size={24} className="text-cobalt-400" />
               </span>
               <div className="grid items-center gap-1 lg:grid-cols-[280px_1fr] lg:gap-6">
                 <h3 className="text-[19px] font-extrabold tracking-[-0.01em]">{r.title}</h3>
@@ -141,7 +168,7 @@ export function TemplateC({ page }: { page: PartnerPage }) {
               className={cn(
                 "grid grid-cols-4 items-center px-7 py-[18px]",
                 i < page.table.rows.length - 1 && "border-b border-hairline-2",
-                r.highlight && "bg-[#fff8f4]",
+                r.highlight && "bg-cobalt-400/[0.06]",
               )}
             >
               <span className="text-[15px] font-semibold text-ink">{r.size}</span>
@@ -169,7 +196,7 @@ export function TemplateC({ page }: { page: PartnerPage }) {
                   "border-b border-white/10 lg:border-b-0 lg:border-r",
               )}
             >
-              <span className="mb-4 grid size-9 place-items-center rounded-pill bg-orange text-[15px] font-extrabold text-white">
+              <span className="mb-4 grid size-9 place-items-center rounded-pill bg-cobalt-400 text-[15px] font-extrabold text-white">
                 {i + 1}
               </span>
               <h3 className="mb-2 text-[18px] font-extrabold tracking-[-0.01em] text-white">

@@ -35,6 +35,12 @@ export const partnerPages: Record<string, PartnerPage> = {
     primary: become,
     secondary: refer,
     checks: ["25% avg. client savings", "Mutual referrals", "Referral fees available"],
+    stats: [
+      { figure: "25%", label: "Avg. client healthcare savings" },
+      { figure: "30d", label: "Avg. client migration" },
+      { figure: "Yes", label: "Referral fees available" },
+      { figure: "Yes", label: "Mutual referrals" },
+    ],
     economics: {
       caption: "Accountant referral economics",
       sub: "Sample 50-person client",
@@ -50,10 +56,10 @@ export const partnerPages: Record<string, PartnerPage> = {
       eyebrow: "Why accountants refer",
       heading: { pre: "You see the bloat every month.", accent: "We remove it." },
       rows: [
-        { n: "01", title: "Quantifiable savings", body: "A free cost analysis itemizes the exact dollars your client is overpaying. Easy to share, easy to defend." },
-        { n: "02", title: "Referral fee structure", body: "Available per partner agreement. We work within your firm's compliance and ethics framework." },
-        { n: "03", title: "Strategic credibility", body: "Bringing a 25% healthcare cut makes you the hero — a strategic partner, not just an accountant." },
-        { n: "04", title: "Mutual referrals", body: "We send clients who need fractional CFO services back to our partner accountants. It goes both ways." },
+        { n: "01", icon: "ChartBar", title: "Quantifiable savings", body: "A free cost analysis itemizes the exact dollars your client is overpaying. Easy to share, easy to defend." },
+        { n: "02", icon: "HandCoins", title: "Referral fee structure", body: "Available per partner agreement. We work within your firm's compliance and ethics framework." },
+        { n: "03", icon: "TrendUp", title: "Strategic credibility", body: "Bringing a 25% healthcare cut makes you the hero — a strategic partner, not just an accountant." },
+        { n: "04", icon: "ArrowsClockwise", title: "Mutual referrals", body: "We send clients who need fractional CFO services back to our partner accountants. It goes both ways." },
       ],
     },
     ledger: {
@@ -95,6 +101,12 @@ export const partnerPages: Record<string, PartnerPage> = {
     primary: become,
     secondary: refer,
     checks: ["Portfolio-wide deployment", "25% savings", "Founder-friendly"],
+    stats: [
+      { figure: "25%", label: "Avg. healthcare reduction" },
+      { figure: "7–10d", label: "Avg. time to live" },
+      { figure: "100%", label: "Founder satisfaction" },
+      { figure: "Yes", label: "Portfolio-wide reporting" },
+    ],
     economics: {
       caption: "VC portfolio impact",
       sub: "12-company fund example",
@@ -110,10 +122,10 @@ export const partnerPages: Record<string, PartnerPage> = {
       eyebrow: "Why VCs recommend",
       heading: { pre: "Your founders build.", accent: "We handle benefits." },
       rows: [
-        { n: "01", title: "Founder-friendly", body: "Real benefits, day-1 ready, free for the company. Your founders love it; you look smart for the intro." },
-        { n: "02", title: "25% avg. cost reduction", body: "Real money back into product, hiring, and growth — demonstrable savings for your portfolio reviews." },
-        { n: "03", title: "Portfolio-wide visibility", body: "Optional quarterly reports on healthcare spend, compliance posture, and headcount across the portfolio." },
-        { n: "04", title: "VC-friendly terms", body: "Bulk introduction structures, portfolio-wide rollouts, and pricing predictability available." },
+        { n: "01", icon: "RocketLaunch", title: "Founder-friendly", body: "Real benefits, day-1 ready, free for the company. Your founders love it; you look smart for the intro." },
+        { n: "02", icon: "TrendDown", title: "25% avg. cost reduction", body: "Real money back into product, hiring, and growth — demonstrable savings for your portfolio reviews." },
+        { n: "03", icon: "ChartBar", title: "Portfolio-wide visibility", body: "Optional quarterly reports on healthcare spend, compliance posture, and headcount across the portfolio." },
+        { n: "04", icon: "Handshake", title: "VC-friendly terms", body: "Bulk introduction structures, portfolio-wide rollouts, and pricing predictability available." },
       ],
     },
     ledger: {
@@ -155,6 +167,12 @@ export const partnerPages: Record<string, PartnerPage> = {
     primary: become,
     secondary: refer,
     checks: ["Portfolio-wide deployment", "25% savings", "Roll-up ready"],
+    stats: [
+      { figure: "25%", label: "Avg. healthcare reduction" },
+      { figure: "4–6%", label: "Additional aggregated leverage" },
+      { figure: "30d", label: "Avg. portco migration" },
+      { figure: "Yes", label: "Sale-prep ready" },
+    ],
     economics: {
       caption: "PE portfolio impact",
       sub: "Mid-market PE · 8 portcos",
@@ -170,10 +188,10 @@ export const partnerPages: Record<string, PartnerPage> = {
       eyebrow: "Why PE firms centralize",
       heading: { pre: "Apply portfolio scale", accent: "to benefits." },
       rows: [
-        { n: "01", title: "Aggregated claims leverage", body: "Treat your portfolio as one block for negotiation. Carriers offer better terms when they see scale." },
-        { n: "02", title: "Roll-up standardization", body: "Acquire a new portco? Standardize on Spine's plan structure — no rebuilding benefits per acquisition." },
-        { n: "03", title: "25% cost reduction = EBITDA", body: "Demonstrable EBITDA improvement at every portfolio company. A direct contribution to valuation." },
-        { n: "04", title: "Sale-prep ready", body: "Audit-ready ACA, ERISA, multi-state — a defensible posture for every diligence, LP audit, or exit." },
+        { n: "01", icon: "ChartLineUp", title: "Aggregated claims leverage", body: "Treat your portfolio as one block for negotiation. Carriers offer better terms when they see scale." },
+        { n: "02", icon: "Buildings", title: "Roll-up standardization", body: "Acquire a new portco? Standardize on Spine's plan structure — no rebuilding benefits per acquisition." },
+        { n: "03", icon: "CurrencyCircleDollar", title: "25% cost reduction = EBITDA", body: "Demonstrable EBITDA improvement at every portfolio company. A direct contribution to valuation." },
+        { n: "04", icon: "ShieldCheck", title: "Sale-prep ready", body: "Audit-ready ACA, ERISA, multi-state — a defensible posture for every diligence, LP audit, or exit." },
       ],
     },
     ledger: {
@@ -215,6 +233,12 @@ export const partnerPages: Record<string, PartnerPage> = {
     primary: become,
     secondary: refer,
     checks: ["50+ vetted partners", "Hand-picked by Spine", "Mutual referrals"],
+    stats: [
+      { figure: "50+", label: "Vetted practitioners" },
+      { figure: "100%", label: "Hand-picked by Spine" },
+      { figure: "0", label: "Commission to partners" },
+      { figure: "4×/yr", label: "Community learning sessions" },
+    ],
     economics: {
       caption: "Community at a glance",
       sub: "Flagship partner network",
@@ -230,10 +254,10 @@ export const partnerPages: Record<string, PartnerPage> = {
       eyebrow: "Why it works",
       heading: { pre: "Fractional HR + Spine,", accent: "better together." },
       rows: [
-        { n: "01", title: "Complementary services", body: "You bring people strategy — recruiting, performance, culture. Spine brings operational execution — benefits, compliance, payroll." },
-        { n: "02", title: "Grow your book", body: "Spine clients often need fractional HR. We route them to community partners — and pay no admin fee for the intro." },
-        { n: "03", title: "Save 30% of your time", body: "Stop debugging benefits, drafting COBRA notices, or managing renewals. Spine handles it; you focus on people work." },
-        { n: "04", title: "No bundle, no lock-in", body: "You stay independent and set your own rate. Spine is a tool you recommend, not a competitor." },
+        { n: "01", icon: "Handshake", title: "Complementary services", body: "You bring people strategy — recruiting, performance, culture. Spine brings operational execution — benefits, compliance, payroll." },
+        { n: "02", icon: "TrendUp", title: "Grow your book", body: "Spine clients often need fractional HR. We route them to community partners — and pay no admin fee for the intro." },
+        { n: "03", icon: "Lightning", title: "Save 30% of your time", body: "Stop debugging benefits, drafting COBRA notices, or managing renewals. Spine handles it; you focus on people work." },
+        { n: "04", icon: "LockKeyOpen", title: "No bundle, no lock-in", body: "You stay independent and set your own rate. Spine is a tool you recommend, not a competitor." },
       ],
     },
     ledger: {

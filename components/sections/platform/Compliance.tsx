@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Check,
   EnvelopeSimple,
@@ -81,6 +81,43 @@ const CATEGORIES: Category[] = [
   },
 ];
 
+// Selected-item shape: a rounded rectangle whose top edge rises to a rounded
+// central peak (points up at the console). clip-path polygon can't round corners,
+// so we build a path() with quadratic-rounded corners, measured in real pixels
+// (responsive via a ResizeObserver) to avoid the distortion an SVG stretch causes.
+function roundedPolyPath(points: [number, number][], radii: number[]) {
+  const n = points.length;
+  const len = (a: [number, number], b: [number, number]) => Math.hypot(a[0] - b[0], a[1] - b[1]) || 1;
+  let d = "";
+  for (let i = 0; i < n; i++) {
+    const V = points[i];
+    const A = points[(i - 1 + n) % n];
+    const B = points[(i + 1) % n];
+    const r = Math.min(radii[i], len(V, A) / 2, len(V, B) / 2);
+    const la = len(V, A);
+    const lb = len(V, B);
+    const P1: [number, number] = [V[0] + ((A[0] - V[0]) / la) * r, V[1] + ((A[1] - V[1]) / la) * r];
+    const P2: [number, number] = [V[0] + ((B[0] - V[0]) / lb) * r, V[1] + ((B[1] - V[1]) / lb) * r];
+    d += `${i === 0 ? "M" : "L"} ${P1[0].toFixed(2)} ${P1[1].toFixed(2)} `;
+    d += `Q ${V[0].toFixed(2)} ${V[1].toFixed(2)} ${P2[0].toFixed(2)} ${P2[1].toFixed(2)} `;
+  }
+  return `${d}Z`;
+}
+
+function peakClip(w: number, h: number) {
+  const r = 14; // side / bottom corner radius
+  const pr = 15; // peak tip radius (larger = softer tip)
+  const p = 22; // peak height (top-corner line) — lower = less sharp
+  const pts: [number, number][] = [
+    [0, p], // top-left (slope ↔ left side)
+    [w / 2, 0], // peak tip
+    [w, p], // top-right
+    [w, h], // bottom-right
+    [0, h], // bottom-left
+  ];
+  return `path('${roundedPolyPath(pts, [r, pr, r, r, r])}')`;
+}
+
 const NAV: { label: string; icon: Icon; count: string }[] = [
   { label: "All activity", icon: Pulse, count: "5" },
   { label: "Healthcare", icon: Heartbeat, count: "2" },
@@ -92,6 +129,21 @@ const NAV: { label: string; icon: Icon; count: string }[] = [
 export function Compliance() {
   const [selected, setSelected] = useState(0);
   const cat = CATEGORIES[selected];
+
+  // Measure an item and build the peaked clip-path. All three items are the same
+  // size (equal grid columns + matching padding), so one measurement drives the
+  // shape for every item — the selected one (cobalt) and any hovered one (grey).
+  const measureRef = useRef<HTMLButtonElement>(null);
+  const [clip, setClip] = useState<string>();
+  useEffect(() => {
+    const el = measureRef.current;
+    if (!el) return;
+    const update = () => setClip(peakClip(el.offsetWidth, el.offsetHeight));
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
@@ -212,29 +264,38 @@ export function Compliance() {
       </Reveal>
 
       {/* Coverage selector — drives the console above */}
-      <div className="mt-7 grid gap-2 border-t border-[#ededea] pt-7 sm:grid-cols-3">
+      <div className="mt-8 grid gap-2 sm:grid-cols-3">
         {CATEGORIES.map((c, i) => {
           const sel = i === selected;
           return (
             <button
               key={c.id}
+              ref={i === 0 ? measureRef : undefined}
               type="button"
               onClick={() => setSelected(i)}
               aria-pressed={sel}
-              className={cn(
-                "flex cursor-pointer items-start gap-3 rounded-[14px] border px-4 py-3.5 text-left transition-colors",
-                sel ? "border-cobalt-200 bg-cobalt-400/[0.06]" : "border-transparent hover:bg-[#f6f6f4]",
-              )}
+              className="group relative flex cursor-pointer items-start gap-3 px-4 pb-[18px] pt-[42px] text-left"
             >
+              {/* peaked shape as a background layer (content on top, so it isn't
+                  clipped — that was causing hover flicker). Selected fills it
+                  cobalt; a hovered item fills it grey. */}
+              <span
+                aria-hidden
+                style={{ clipPath: clip }}
+                className={cn(
+                  "pointer-events-none absolute inset-0 rounded-[14px] transition-colors",
+                  sel ? "bg-cobalt-400/[0.09]" : "group-hover:bg-[#f1f2f4]",
+                )}
+              />
               <span
                 className={cn(
-                  "grid h-[26px] w-[26px] flex-none place-items-center rounded-full transition-colors",
+                  "relative grid h-[26px] w-[26px] flex-none place-items-center rounded-full transition-colors",
                   sel ? "bg-cobalt-400" : "bg-cobalt-400/[0.08]",
                 )}
               >
                 <Check size={12} weight="bold" className={sel ? "text-white" : "text-cobalt-400"} />
               </span>
-              <div>
+              <div className="relative">
                 <div className="text-[15px] font-bold text-[#15140f]">{c.title}</div>
                 <div className="mt-[3px] text-[13px] leading-[1.45] text-[#86857e]">{c.sub}</div>
               </div>

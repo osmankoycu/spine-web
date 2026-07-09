@@ -190,8 +190,10 @@ export function TagField({
       </div>
 
       {/* Copy — in front, but pointer-events-none so drags pass through to the
-          physics layer; interactive elements inside must set pointer-events-auto. */}
-      <div className="pointer-events-none relative z-10 h-full">{children}</div>
+          physics layer; interactive elements inside must set pointer-events-auto.
+          Not h-full, so a caller can let content define the section height (pass a
+          min-h instead of a fixed h) — see the merged audience closer. */}
+      <div className="pointer-events-none relative z-10">{children}</div>
     </section>
   );
 }

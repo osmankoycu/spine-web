@@ -532,6 +532,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     lead: "Healthy workforce, distributed teams, fast hiring. Level-funded plans, multi-state setups, employee-first benefits — built for the way modern tech companies work.",
     primary: demo,
     secondary: explore,
+    heroImage: { src: "/who-we-serve/tech-saas.png", alt: "A SaaS platform team at work" },
     statRail: [
       { figure: "20–30%", label: "Avg. healthcare savings" },
       { figure: "8–15", label: "Avg. states served" },
@@ -604,6 +605,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     lead: "You're hiring world-class talent at hyperspeed. You can't afford to lose a hire because the benefits portal isn't ready. Spine moves at AI-company velocity — live in days, scaling with you.",
     primary: demo,
     secondary: explore,
+    heroImage: { src: "/who-we-serve/ai-companies.png", alt: "An AI company building its pipeline" },
     statRail: [
       { figure: "7d", label: "From signup to live" },
       { figure: "5x", label: "Avg. AI-company growth speed" },
@@ -677,6 +679,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     lead: "You're already audited by regulators, banking partners, and investors. The last thing you need is a benefits stack that adds compliance risk. Spine is built for fintech operational rigor.",
     primary: demo,
     secondary: explore,
+    heroImage: { src: "/who-we-serve/fintech.png", alt: "A fintech operator reviewing finances" },
     statRail: [
       { figure: "100%", label: "Filings on-time" },
       { figure: "SOC 2", label: "Compatible documentation" },
@@ -749,6 +752,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     lead: "Your team includes researchers with families, engineers transitioning from academia, and execs with complex healthcare needs. Spine builds plans that work for scientists — not just startups.",
     primary: demo,
     secondary: explore,
+    heroImage: { src: "/who-we-serve/healthcare-biotech.png", alt: "A healthcare & biotech team at work" },
     statRail: [
       { figure: "45%+", label: "Avg. dependent rate" },
       { figure: "Aetna+", label: "Premium carriers prioritized" },
@@ -821,6 +825,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     lead: "Law firms, consultancies, agencies, accounting firms. Partner/employee mix, per-partner economics, complex billable team structures. Spine handles the operational complexity.",
     primary: demo,
     secondary: explore,
+    heroImage: { src: "/who-we-serve/professional-services.png", alt: "A professional services consultant at work" },
     statRail: [
       { figure: "W-2 + K-1", label: "Partner/employee structure" },
       { figure: "Yes", label: "Variable comp tracking" },

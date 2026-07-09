@@ -130,6 +130,35 @@ export function Compliance() {
   const [selected, setSelected] = useState(0);
   const cat = CATEGORIES[selected];
 
+  // Auto-advance through the categories every 3s while the section is in view.
+  // Any manual selection cancels it for good (setAuto(false)).
+  const [auto, setAuto] = useState(true);
+  const [inView, setInView] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((e) => setInView(e[0]?.isIntersecting ?? false), {
+      threshold: 0,
+      rootMargin: "-20% 0px -20% 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!auto || !inView) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setSelected((s) => (s + 1) % CATEGORIES.length), 5000);
+    return () => clearInterval(id);
+  }, [auto, inView]);
+
+  const pick = (i: number) => {
+    setAuto(false);
+    setSelected(i);
+  };
+
   // Measure an item and build the peaked clip-path. All three items are the same
   // size (equal grid columns + matching padding), so one measurement drives the
   // shape for every item — the selected one (cobalt) and any hovered one (grey).
@@ -146,7 +175,7 @@ export function Compliance() {
   }, []);
 
   return (
-    <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
+    <div ref={rootRef} className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
       {/* Header */}
       <div className="mb-8">
         <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
@@ -175,7 +204,9 @@ export function Compliance() {
             </span>
             <div className="ml-auto flex items-center gap-2 rounded-full bg-[#eafaef] px-[11px] py-[5px] text-[11.5px] font-semibold text-[#2a8b3f]">
               <span className="h-[6px] w-[6px] rounded-full bg-[#2a8b3f]" />
-              {cat.status}
+              <span key={cat.id} className="animate-[fadeIn_0.35s_ease-out]">
+                {cat.status}
+              </span>
             </div>
           </div>
 
@@ -223,11 +254,11 @@ export function Compliance() {
               </div>
             </div>
 
-            {/* Feed — remounts per category to replay the animation */}
-            <ComplianceFeed key={cat.id} feed={cat.feed} />
+            {/* Feed — stays mounted; rows cross-fade to the new category */}
+            <ComplianceFeed feed={cat.feed} revealKey={cat.id} />
 
-            {/* Right rail */}
-            <div className="flex flex-col gap-[14px] p-[18px]">
+            {/* Right rail — cross-fades to the new category */}
+            <div key={cat.id} className="flex animate-[fadeIn_0.35s_ease-out] flex-col gap-[14px] p-[18px]">
               <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-4">
                 <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-cobalt-400">
                   Next deadline
@@ -272,7 +303,7 @@ export function Compliance() {
               key={c.id}
               ref={i === 0 ? measureRef : undefined}
               type="button"
-              onClick={() => setSelected(i)}
+              onClick={() => pick(i)}
               aria-pressed={sel}
               className="group relative flex cursor-pointer items-start gap-3 px-4 pb-[18px] pt-[42px] text-left"
             >
@@ -284,7 +315,7 @@ export function Compliance() {
                 style={{ clipPath: clip }}
                 className={cn(
                   "pointer-events-none absolute inset-0 rounded-[14px] transition-colors",
-                  sel ? "bg-cobalt-400/[0.09]" : "group-hover:bg-[#f1f2f4]",
+                  sel ? "bg-[#f1f2f4]" : "group-hover:bg-[#f1f2f4]",
                 )}
               />
               <span

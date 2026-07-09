@@ -102,6 +102,18 @@ body {
   }
 }
 
+/* Soft cross-fade used when the compliance console swaps category content.
+   Starts at a non-zero opacity so the freshly-mounted content is never blank for
+   a frame (that blank frame read as an intermittent flicker on category switch). */
+@keyframes fadeIn {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Always reserve the scrollbar gutter so locking scroll (modal / mobile menu,
    which set the scroll container's overflow:hidden) doesn't remove the scrollbar
    and shift the whole page sideways. */

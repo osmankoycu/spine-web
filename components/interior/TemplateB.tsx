@@ -7,7 +7,7 @@ import type { AudiencePage } from "@/lib/interior/types";
 import { InteriorIcon } from "@/components/interior/icons";
 import { HeroImage } from "@/components/interior/HeroImage";
 import { AudienceCloser } from "@/components/interior/AudienceCloser";
-import { Button, TwoToneText } from "@/components/interior/parts";
+import { Button, Eyebrow, TwoToneText } from "@/components/interior/parts";
 
 export function TemplateB({ page }: { page: AudiencePage }) {
   return (
@@ -17,12 +17,9 @@ export function TemplateB({ page }: { page: AudiencePage }) {
         <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div>
-              <div className="mb-[22px] inline-flex items-center gap-2 rounded-pill border border-orange-150 bg-orange-100 px-[15px] py-[7px] text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
-                <InteriorIcon name={page.pillIcon} size={14} weight="fill" />
-                {page.pillLabel}
-              </div>
-              <h1 className="text-[44px] font-extrabold leading-[0.98] tracking-[-0.038em] sm:text-[52px] lg:text-[60px]">
-                <TwoToneText parts={page.h1} block />
+              <Eyebrow>{page.pillLabel}</Eyebrow>
+              <h1 className="mt-4 text-[44px] font-extrabold leading-[1.02] tracking-[-0.038em] sm:text-[52px] lg:text-[58px]">
+                <TwoToneText parts={page.h1} />
               </h1>
               <p className="mb-8 mt-5 max-w-[520px] text-[18px] leading-[1.55] text-body">
                 {page.lead}
@@ -34,9 +31,10 @@ export function TemplateB({ page }: { page: AudiencePage }) {
             </div>
 
             {/* topic image slot (user-supplied, square) — no stroke; white bg so
-                the fade-in reads seamless (images are opaque on white); inset a
-                little from the right edge so it isn't flush to the container. */}
-            <div className="relative aspect-square overflow-hidden rounded-[24px] bg-white lg:mr-10">
+                the fade-in reads seamless (images are opaque on white). Capped +
+                right-aligned so the hero height matches Templates A/C (the square
+                image would otherwise fill the column and make the hero taller). */}
+            <div className="relative aspect-square w-full overflow-hidden rounded-[24px] bg-white lg:ml-auto lg:mr-10 lg:max-w-[440px]">
               {page.heroImage ? (
                 <HeroImage src={page.heroImage.src} alt={page.heroImage.alt} />
               ) : (
@@ -74,50 +72,44 @@ export function TemplateB({ page }: { page: AudiencePage }) {
         </div>
       </section>
 
-      {/* ── THE SHIFT (before / after) ── */}
+      {/* ── BENTO (what you get) ── */}
       <section className="mx-auto max-w-[1240px] px-6 py-14 md:px-10">
-        <h2 className="mx-auto mb-10 max-w-[680px] text-center text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
-          <TwoToneText parts={page.shift.heading} mono />
+        <h2 className="mb-9 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+          <TwoToneText parts={page.bento.heading} mono />
         </h2>
-        <div className="grid gap-5 lg:grid-cols-2">
-          {/* old way */}
-          <div className="rounded-[22px] border border-hairline bg-white p-8">
-            <div className="mb-5 text-[12px] font-extrabold uppercase tracking-[0.1em] text-muted">
-              {page.shift.oldLabel}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:[grid-auto-rows:1fr]">
+          {/* feature tile — employer-blue tint, spans full width (sm) / tall (lg) */}
+          <div className="flex flex-col justify-between rounded-[22px] border border-cobalt-200 bg-cobalt-100 p-8 sm:col-span-2 lg:col-span-1 lg:row-span-2">
+            <div>
+              <span className="mb-[18px] grid size-12 place-items-center rounded-[13px] bg-white">
+                <InteriorIcon name={page.bento.feature.icon} size={24} className="text-cobalt-400" />
+              </span>
+              <h3 className="mb-2.5 text-[24px] font-extrabold tracking-[-0.02em] text-ink">
+                {page.bento.feature.title}
+              </h3>
+              <p className="text-[15px] leading-[1.55] text-body-2">{page.bento.feature.body}</p>
             </div>
-            <div className="flex flex-col gap-4">
-              {page.shift.oldItems.map((it) => (
-                <div key={it.title} className="flex items-start gap-3">
-                  <span className="grid size-6 flex-none place-items-center rounded-pill bg-[#f2f0ec] text-[12px] font-extrabold text-muted">
-                    ✕
-                  </span>
-                  <div>
-                    <div className="text-[15px] font-bold text-[#3a3934]">{it.title}</div>
-                    <div className="mt-0.5 text-[13.5px] text-[#8f8e87]">{it.sub}</div>
-                  </div>
-                </div>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {page.bento.feature.chips.map((c) => (
+                <span
+                  key={c}
+                  className="rounded-pill border border-cobalt-200 bg-white px-3 py-1.5 text-[12.5px] font-medium text-ink-2"
+                >
+                  {c}
+                </span>
               ))}
             </div>
           </div>
-          {/* with Spine — employer blue */}
-          <div className="rounded-[22px] bg-cobalt-400 p-8">
-            <div className="mb-5 text-[12px] font-extrabold uppercase tracking-[0.1em] text-white">
-              {page.shift.newLabel}
+          {/* small cards */}
+          {page.bento.cards.map((c) => (
+            <div key={c.title} className="rounded-[22px] border border-hairline bg-white p-[26px]">
+              <span className="mb-4 grid size-11 place-items-center rounded-[12px] bg-cobalt-100">
+                <InteriorIcon name={c.icon} size={22} className="text-cobalt-400" />
+              </span>
+              <h3 className="mb-[7px] text-[17px] font-extrabold tracking-[-0.01em]">{c.title}</h3>
+              <p className="text-[14px] leading-[1.5] text-body-2">{c.body}</p>
             </div>
-            <div className="flex flex-col gap-4">
-              {page.shift.newItems.map((it) => (
-                <div key={it.title} className="flex items-start gap-3">
-                  <span className="grid size-6 flex-none place-items-center rounded-pill bg-white text-[12px] font-extrabold text-cobalt-400">
-                    ✓
-                  </span>
-                  <div>
-                    <div className="text-[15px] font-bold text-white">{it.title}</div>
-                    <div className="mt-0.5 text-[13.5px] text-cobalt-100">{it.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -170,8 +162,8 @@ export function TemplateB({ page }: { page: AudiencePage }) {
         </div>
       </section>
 
-      {/* ── CLOSER (merged tag-field: bento folded in above the CTA button) ── */}
-      <AudienceCloser cta={page.cta} bento={page.bento} />
+      {/* ── CLOSER (merged tag-field: CTA over the falling tags) ── */}
+      <AudienceCloser cta={page.cta} />
     </main>
   );
 }

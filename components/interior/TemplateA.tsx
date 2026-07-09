@@ -1,14 +1,13 @@
 // Template A · Platform / Feature — white split hero with a product-console
-// mockup, 6 feature cards, 3-step band, then either a merged tag-field closer
-// (stats + CTA over falling tags) or the standard stats + ink CTA band.
-// Data-driven: renders any page in lib/interior/platform.ts.
+// mockup, a dark stat bar, 6 feature cards, a dark 3-step "how it works" box,
+// then the tag-field CTA closer. Data-driven: renders any page in
+// lib/interior/platform.ts.
 import { ArrowsClockwise, Check } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 import type { PlatformPage } from "@/lib/interior/types";
 import { InteriorIcon } from "@/components/interior/icons";
 import { PlatformCloser } from "@/components/interior/PlatformCloser";
 import { Button, CheckRow, Eyebrow, TwoToneText } from "@/components/interior/parts";
-import { hasOwnCloser } from "@/lib/interior/closers";
 
 const container = "mx-auto max-w-[1240px] px-6 md:px-10";
 
@@ -24,9 +23,11 @@ const ACCENT = {
     headDot: "bg-cobalt-400",
     runChip: "bg-cobalt-400/10 text-cobalt-400",
     runSub: "text-cobalt-500",
-    // console "total" bar: deep navy, not the bright cobalt-400 (too CTA-loud)
-    bar: "bg-cobalt-600",
-    barLabel: "text-cobalt-200",
+    // console "total" bar: light-blue tint (same as the console's header pill /
+    // active chips), so it doesn't clash with the dark stat bar below the hero.
+    bar: "bg-cobalt-400/10",
+    barLabel: "text-cobalt-500",
+    barFigure: "text-cobalt-400",
   },
   employee: {
     tile: "bg-aqua-100",
@@ -36,15 +37,13 @@ const ACCENT = {
     headDot: "bg-aqua-400",
     runChip: "bg-aqua-400/10 text-aqua-500",
     runSub: "text-aqua-600",
-    bar: "bg-aqua-600",
-    barLabel: "text-aqua-200",
+    bar: "bg-aqua-400/10",
+    barLabel: "text-aqua-600",
+    barFigure: "text-aqua-500",
   },
 } as const;
 
 export function TemplateA({ page }: { page: PlatformPage }) {
-  // Pages that opt into the merged closer drop the standalone stats + CTA band
-  // (and the global TagDrop is suppressed for them — see closers.ts).
-  const merged = hasOwnCloser(`/platform/${page.slug}`);
   const a = ACCENT[page.accent ?? "employer"];
 
   return (
@@ -131,7 +130,9 @@ export function TemplateA({ page }: { page: PlatformPage }) {
                   <span className={cn("text-[13px] font-semibold", a.barLabel)}>
                     {page.mockup.total.label}
                   </span>
-                  <span className="text-[22px] font-extrabold tracking-[-0.02em] text-white">
+                  <span
+                    className={cn("text-[22px] font-extrabold tracking-[-0.02em]", a.barFigure)}
+                  >
                     {page.mockup.total.figure}
                   </span>
                 </div>
@@ -141,17 +142,35 @@ export function TemplateA({ page }: { page: PlatformPage }) {
         </div>
       </section>
 
+      {/* ── STAT BAR (dark, right below the hero — like Template B) ── */}
+      <section className="mx-auto max-w-[1240px] px-6 py-10 md:px-10">
+        <div className="grid grid-cols-2 overflow-hidden rounded-[24px] border border-white/10 bg-[#15140f] lg:grid-cols-4">
+          {page.numbers.stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={cn(
+                "px-7 py-8",
+                i % 2 === 0 && "border-r border-white/10",
+                "lg:border-r lg:last:border-r-0",
+                i < 2 && "border-b border-white/10 lg:border-b-0",
+              )}
+            >
+              <div className="whitespace-nowrap text-[30px] font-extrabold tracking-[-0.03em] text-white sm:text-[34px]">
+                {s.figure}
+              </div>
+              <div className="mt-2 text-[13.5px] text-white/55">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── WHAT YOU GET ── */}
       <section className={`${container} py-16`}>
-        <div className={merged ? "text-center" : undefined}>
+        <div className="text-center">
           <h2 className="text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
             <TwoToneText parts={page.features.heading} mono />
           </h2>
-          <p
-            className={`mb-10 mt-3 text-[17px] leading-[1.55] text-body-2 ${
-              merged ? "mx-auto max-w-[620px]" : "max-w-[680px]"
-            }`}
-          >
+          <p className="mx-auto mb-10 mt-3 max-w-[620px] text-[17px] leading-[1.55] text-body-2">
             {page.features.intro}
           </p>
         </div>
@@ -173,109 +192,38 @@ export function TemplateA({ page }: { page: PlatformPage }) {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      {merged ? (
-        // Dark-box treatment (same structure as the homepage StatsBand): one
-        // rounded-[32px] ink container, 3 step cells split by hairline dividers.
-        // Tighter top padding: the box is a heavy visual mass, so a full py-16
-        // above it (128px total with the cards' pb-16) reads as too much grey.
-        <section className={`${container} pb-16 pt-6`}>
-          <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#15140f] px-7 pb-9 pt-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
-            <h2 className="mb-10 text-center text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[40px]">
-              <TwoToneText parts={page.how.heading} light mono />
-            </h2>
-            <div className="grid grid-cols-1 divide-y divide-white/10 lg:grid-cols-3 lg:divide-y-0">
-              {page.how.steps.map((s, i) => (
-                <div
-                  key={s.title}
-                  className="px-0 py-8 first:pt-0 last:pb-0 lg:px-9 lg:py-0 lg:first:pl-0 lg:last:pr-0 lg:[&:not(:last-child)]:border-r lg:[&:not(:last-child)]:border-white/10"
+      {/* ── HOW IT WORKS (dark box) ── */}
+      <section className={`${container} pb-16 pt-6`}>
+        <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#15140f] px-7 pb-9 pt-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
+          <h2 className="mb-10 text-center text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[40px]">
+            <TwoToneText parts={page.how.heading} light mono />
+          </h2>
+          <div className="grid grid-cols-1 divide-y divide-white/10 lg:grid-cols-3 lg:divide-y-0">
+            {page.how.steps.map((s, i) => (
+              <div
+                key={s.title}
+                className="px-0 py-8 first:pt-0 last:pb-0 lg:px-9 lg:py-0 lg:first:pl-0 lg:last:pr-0 lg:[&:not(:last-child)]:border-r lg:[&:not(:last-child)]:border-white/10"
+              >
+                <span
+                  className={cn(
+                    "mb-[18px] grid size-[38px] place-items-center rounded-pill text-[16px] font-extrabold text-white",
+                    a.coin,
+                  )}
                 >
-                  <span
-                    className={cn(
-                      "mb-[18px] grid size-[38px] place-items-center rounded-pill text-[16px] font-extrabold text-white",
-                      a.coin,
-                    )}
-                  >
-                    {i + 1}
-                  </span>
-                  <h3 className="mb-2 text-[19px] font-extrabold tracking-[-0.01em] text-white">
-                    {s.title}
-                  </h3>
-                  <p className="text-[14.5px] leading-[1.5] text-white/55">{s.body}</p>
-                </div>
-              ))}
-            </div>
+                  {i + 1}
+                </span>
+                <h3 className="mb-2 text-[19px] font-extrabold tracking-[-0.01em] text-white">
+                  {s.title}
+                </h3>
+                <p className="text-[14.5px] leading-[1.5] text-white/55">{s.body}</p>
+              </div>
+            ))}
           </div>
-        </section>
-      ) : (
-        <section className="border-y border-band-line bg-surface-band">
-          <div className={`${container} py-16`}>
-            <h2 className="mb-10 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
-              <TwoToneText parts={page.how.heading} mono />
-            </h2>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {page.how.steps.map((s, i) => (
-                <div
-                  key={s.title}
-                  className="rounded-[20px] border border-hairline bg-white px-[26px] py-7"
-                >
-                  <span
-                    className={cn(
-                      "mb-[18px] grid size-[38px] place-items-center rounded-pill text-[16px] font-extrabold text-white",
-                      a.coin,
-                    )}
-                  >
-                    {i + 1}
-                  </span>
-                  <h3 className="mb-2 text-[19px] font-extrabold tracking-[-0.01em]">
-                    {s.title}
-                  </h3>
-                  <p className="text-[14.5px] leading-[1.5] text-body-2">{s.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {merged ? (
-        <PlatformCloser page={page} />
-      ) : (
-        <>
-          {/* ── BY THE NUMBERS ── */}
-          <section className={`${container} py-16`}>
-            <h2 className="mb-10 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
-              <TwoToneText parts={page.numbers.heading} mono />
-            </h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {page.numbers.stats.map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-[18px] border border-hairline bg-white px-6 py-[26px]"
-                >
-                  <div className="text-[44px] font-extrabold tracking-[-0.03em] text-orange">
-                    {s.figure}
-                  </div>
-                  <div className="mt-1.5 text-[14px] text-body-2">{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* ── CTA BAND ── */}
-          <section className="px-6 pb-20 md:px-10">
-            <div className="mx-auto max-w-[1240px] rounded-[28px] bg-ink px-14 py-16 text-center">
-              <h2 className="mb-3.5 text-[34px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[44px]">
-                <TwoToneText parts={page.cta.heading} light mono />
-              </h2>
-              <p className="mx-auto mb-[30px] max-w-[560px] text-[17px] leading-[1.55] text-on-ink">
-                {page.cta.lead}
-              </p>
-              <Button cta={page.cta.button} size="lg" arrow />
-            </div>
-          </section>
-        </>
-      )}
+      {/* ── CLOSER (CTA over the falling tags) ── */}
+      <PlatformCloser cta={page.cta} />
     </main>
   );
 }

@@ -44,14 +44,39 @@ export function Header() {
   };
   useEffect(() => () => cancelClose(), []);
 
+  // Keep the fixed bar riding just under the announcement banner: while the
+  // banner is on screen the bar sits at `--banner-h`; as it scrolls away the
+  // bar slides up until it reaches the very top (top:0), reclaiming the space —
+  // so no gap is left above the menu once the black bar is gone.
   useEffect(() => {
+    const el = headerRef.current;
+    const readBannerH = () =>
+      parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue("--banner-h"),
+      ) || 0;
+
+    const syncTop = (animate: boolean) => {
+      if (!el) return;
+      const top = Math.max(0, readBannerH() - window.scrollY);
+      el.style.transition = animate ? "top 300ms ease-out" : "none";
+      el.style.top = `${top}px`;
+    };
+
     const onScroll = () => {
       setScrolled(window.scrollY > PILL_AT);
       setOpen(null); // any scroll dismisses an open menu
+      syncTop(false);
     };
+    // The banner animates its own collapse; ease the bar up in step with it.
+    const onBanner = () => syncTop(true);
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("bannerresize", onBanner);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("bannerresize", onBanner);
+    };
   }, []);
 
   // Mobile menu: lock scroll while open; auto-close on resize up to desktop.
@@ -95,7 +120,10 @@ export function Header() {
   }, [open]);
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)]">
+    <header
+      ref={headerRef}
+      className="fixed inset-x-0 top-[var(--banner-h,0px)] z-50 h-[var(--header-h)]"
+    >
       <div className="relative z-50 mx-auto flex h-full max-w-[1480px] items-start px-4 pt-6 sm:px-6 lg:px-8">
         {/* The bar. The pill background is a separate inset layer whose OPACITY is
             tweened (cheap + smooth); content sits above it. */}

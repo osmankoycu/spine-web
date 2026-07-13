@@ -124,7 +124,7 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
       <div
         className={cn(
-          "relative z-10 mx-auto max-w-[1200px] overflow-hidden rounded-[32px] border px-7 pb-9 pt-10 sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]",
+          "relative z-10 mx-auto max-w-[1360px] overflow-hidden rounded-[32px] border px-7 pb-9 pt-10 sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]",
           dark
             ? "border-white/10 bg-[#15140f] shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)]"
             : "border-[#ededea] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)]",

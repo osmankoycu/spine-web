@@ -9,24 +9,24 @@ import { ChipCloud } from "./ChipCloud";
 export function HrCommunity() {
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-[1360px]">
         <div className="relative z-10 overflow-hidden rounded-[32px] border border-[#ededea] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)]">
           {/* Top region: pitch + coverage chips */}
           <div className="grid md:grid-cols-[1.25fr_1fr]">
             {/* Left cell */}
             <div className="p-8 sm:p-12 md:p-[52px]">
               <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#b0afa9]">
-                The Spine HR community
+                The people layer
               </p>
               <h2 className="font-display mt-4 text-[30px] font-extrabold leading-[1.08] tracking-[-0.025em] text-[#15140f] sm:text-[36px] lg:text-[40px]">
-                Need broader HR support?
-                <br className="hidden sm:inline" /> We&apos;ll match you with a{" "}
-                <span className="whitespace-nowrap text-orange">vetted partner</span>.
+                Need more HR support?
+                <br className="hidden sm:inline" /> We&apos;ll connect you with the{" "}
+                <span className="whitespace-nowrap text-orange">right partner</span>.
               </h2>
               <p className="mt-5 max-w-[460px] text-[16.5px] leading-[1.6] text-[#7c7c77]">
-                Spine handles benefits and compliance with a dedicated in-house
-                team. Need more? We match you with one of 50+ vetted fractional
-                HR partners, pay hourly, only for what you use.
+                Need more than benefits, payroll, and compliance? We&apos;ll match
+                you with the right fractional HR leader based on your
+                company&apos;s needs.
               </p>
             </div>
 
@@ -44,19 +44,19 @@ export function HrCommunity() {
             <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
               <span className="text-[24px] font-extrabold leading-none text-orange">50+</span>
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">
-                vetted fractional HR partners
+                fractional HR leaders
               </span>
             </div>
             <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
               <SealCheck size={19} weight="bold" className="shrink-0 text-orange" />
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">
-                Each hand-picked by the Spine team
+                Matched based on your needs
               </span>
             </div>
             <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
               <Clock size={19} weight="bold" className="shrink-0 text-orange" />
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">
-                Pay hourly for what you use
+                Hourly or ongoing engagements
               </span>
             </div>
           </div>

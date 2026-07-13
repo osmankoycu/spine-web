@@ -131,10 +131,9 @@ export function Compliance() {
   const cat = CATEGORIES[selected];
 
   // Auto-advance through the categories every 5s while the section is in view.
-  // Any manual selection cancels it for good (setAuto(false)).
-  // DISABLED for now — user selects manually. Flip the initial state to `true`
-  // to re-enable auto-advance later (all the plumbing below stays in place).
-  const [auto, setAuto] = useState(false);
+  // A manual pick cancels it for good (pick → setAuto(false)) so the console
+  // never moves out from under a user who has started driving it themselves.
+  const [auto, setAuto] = useState(true);
   const [inView, setInView] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -177,25 +176,25 @@ export function Compliance() {
   }, []);
 
   return (
-    <div ref={rootRef} className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
+    <div ref={rootRef} className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14 short:py-7">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8 short:mb-4">
         <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           02 · Compliance
         </span>
-        <h2 className="font-display mt-[22px] text-[34px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
+        <h2 className="font-display mt-[22px] text-[34px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px] short:mt-3 short:text-[32px]">
           Every filing, every deadline. <span className="text-orange">Done.</span>
         </h2>
-        <p className="mt-3 text-[16px] leading-[1.55] text-[#7c7c77]">
+        <p className="mt-3 text-[16px] leading-[1.55] text-[#7c7c77] short:mt-2">
           AI monitors every jurisdiction, our in-house experts close every workflow end-to-end.
         </p>
       </div>
 
       {/* Console */}
       <Reveal>
-        <div className="overflow-hidden rounded-[20px] border border-[#ececea] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
+        <div className="overflow-hidden rounded-[20px] border border-[#d6d6d1] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
           {/* Top bar */}
-          <div className="flex items-center gap-3.5 border-b border-[#ededea] px-5 py-[11px]">
+          <div className="flex items-center gap-3.5 border-b border-[#d6d6d1] px-5 py-[11px]">
             <div className="flex gap-[7px]">
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
@@ -213,7 +212,7 @@ export function Compliance() {
           {/* Body grid */}
           <div className="grid lg:grid-cols-[200px_1fr_244px]">
             {/* Sidebar */}
-            <div className="flex flex-col gap-3 border-b border-[#ededea] px-[14px] py-[18px] lg:gap-[3px] lg:border-b-0 lg:border-r">
+            <div className="flex flex-col gap-3 border-b border-[#d6d6d1] px-[14px] py-[18px] lg:gap-[3px] lg:border-b-0 lg:border-r">
               <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-[3px] lg:overflow-visible">
                 {NAV.map(({ label, icon: Icon, count }) => {
                   const active = label === cat.nav;
@@ -221,7 +220,7 @@ export function Compliance() {
                     <div
                       key={label}
                       className={cn(
-                        "flex shrink-0 items-center gap-[11px] rounded-[10px] px-3 py-[10px] transition-colors",
+                        "flex shrink-0 items-center gap-[11px] rounded-[10px] px-3 py-[10px] transition-colors short:py-[7px]",
                         active && "bg-cobalt-400/[0.08]",
                       )}
                     >
@@ -245,7 +244,7 @@ export function Compliance() {
                   );
                 })}
               </div>
-              <div className="mt-[14px] hidden rounded-[12px] border border-[#ececea] bg-[#fafaf9] px-3 py-[14px] lg:block">
+              <div className="mt-[14px] hidden rounded-[12px] border border-[#ececea] bg-[#fafaf9] px-3 py-[14px] lg:block short:hidden!">
                 <div className="mb-2 text-[10.5px] font-bold uppercase tracking-[0.06em] text-[#b0afa9]">
                   We monitor
                 </div>
@@ -257,30 +256,30 @@ export function Compliance() {
             {/* Feed — the cell keeps a stable background/border; ComplianceFeed
                 remounts per category (key) so the content fades in and the
                 processing→Done animation replays on each pick. */}
-            <div className="border-b border-[#ededea] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
+            <div className="border-b border-[#d6d6d1] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
               <ComplianceFeed key={cat.id} feed={cat.feed} />
             </div>
 
             {/* Right rail — updates in place (progress bar transitions its width) */}
-            <div className="flex flex-col gap-[14px] p-[18px]">
-              <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-4">
+            <div className="flex flex-col gap-[14px] p-[18px] short:gap-[10px] short:p-3">
+              <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-4 short:p-3">
                 <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-cobalt-400">
                   Next deadline
                 </div>
                 <div className="mt-[6px] text-[15px] font-bold text-[#15140f]">{cat.deadline.label}</div>
                 <div className="mt-[2px] text-[12px] text-[#86857e]">{cat.deadline.when}</div>
-                <div className="mt-3 h-[6px] overflow-hidden rounded-full bg-cobalt-100">
+                <div className="mt-3 h-[6px] overflow-hidden rounded-full bg-cobalt-100 short:mt-2">
                   <div
                     className="h-full bg-cobalt-400 transition-[width] duration-500"
                     style={{ width: `${cat.deadline.progress}%` }}
                   />
                 </div>
               </div>
-              <div className="rounded-[14px] border border-[#ececea] bg-[#fafaf9] p-4">
-                <div className="mb-[14px] text-[11px] font-bold uppercase tracking-[0.06em] text-[#b0afa9]">
+              <div className="rounded-[14px] border border-[#ececea] bg-[#fafaf9] p-4 short:p-3">
+                <div className="mb-[14px] text-[11px] font-bold uppercase tracking-[0.06em] text-[#b0afa9] short:mb-2">
                   This quarter
                 </div>
-                <div className="mb-3 flex items-baseline gap-2">
+                <div className="mb-3 flex items-baseline gap-2 short:mb-2">
                   <span className="text-[26px] font-extrabold tracking-[-0.02em] text-[#15140f]">
                     {cat.quarter.big}
                   </span>
@@ -299,7 +298,7 @@ export function Compliance() {
       </Reveal>
 
       {/* Coverage selector — drives the console above */}
-      <div className="mt-8 grid gap-2 sm:grid-cols-3">
+      <div className="mt-8 grid gap-2 sm:grid-cols-3 short:mt-4">
         {CATEGORIES.map((c, i) => {
           const sel = i === selected;
           return (
@@ -309,7 +308,7 @@ export function Compliance() {
               type="button"
               onClick={() => pick(i)}
               aria-pressed={sel}
-              className="group relative flex cursor-pointer items-start gap-3 px-4 pb-[18px] pt-[42px] text-left"
+              className="group relative flex cursor-pointer items-start gap-3 px-4 pb-[18px] pt-[42px] text-left short:pb-3 short:pt-[30px]"
             >
               {/* peaked shape as a background layer (content on top, so it isn't
                   clipped — that was causing hover flicker). Selected fills it

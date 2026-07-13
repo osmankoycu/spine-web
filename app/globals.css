@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Short-desktop viewport: laptops where height is tight but width is desktop.
+   Used to compress the Compliance console so the console AND its selector fit
+   on screen together (a user picking a category must see the change). Gated to
+   ≥1024px so it never touches the stacked mobile layout, which scrolls freely. */
+@custom-variant short (@media (min-width: 1024px) and (max-height: 880px));
+
 /* ------------------------------------------------------------------ */
 /* Design tokens (Tailwind v4 CSS-first @theme).                       */
 /* Values approximate the Figma reference — confirm exact hex/fonts    */
@@ -83,6 +89,10 @@
 :root {
   --page-px: clamp(20px, 8.33vw, 120px); /* horizontal gutter (≈120px @1440) */
   --header-h: 100px;
+  /* Height of the announcement banner (top of body). Defaults to its visible
+     height so the fixed header renders correctly under it on the server; the
+     banner sets it to 0px once dismissed. */
+  --banner-h: 44px;
 }
 
 html,
@@ -150,6 +160,29 @@ body {
 /* Shared horizontal gutter for header + stage content. */
 .page-gutter {
   padding-inline: var(--page-px);
+}
+
+/* Employer-scenario range sliders: light-blue filled track (set inline as a
+   gradient per value) + a cobalt thumb. */
+.scenario-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-cobalt-400);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(20, 20, 18, 0.25);
+  cursor: pointer;
+}
+.scenario-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-cobalt-400);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(20, 20, 18, 0.25);
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {

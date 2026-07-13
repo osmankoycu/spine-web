@@ -79,9 +79,9 @@ export function PeopleOps() {
 
         {/* Right column: payroll console */}
         <Reveal className="lg:h-full">
-          <div className="h-full overflow-hidden rounded-[20px] border border-[#ececea] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
+          <div className="h-full overflow-hidden rounded-[20px] border border-[#d6d6d1] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
           {/* Top bar */}
-          <div className="flex items-center gap-3.5 border-b border-[#ededea] bg-white px-5 py-[15px]">
+          <div className="flex items-center gap-3.5 border-b border-[#d6d6d1] bg-white px-5 py-[15px]">
             <div className="flex gap-[7px]">
               <span className="size-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="size-[11px] rounded-full bg-[#dcdbd6]" />

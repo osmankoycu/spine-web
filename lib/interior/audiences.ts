@@ -13,7 +13,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "RocketLaunch",
     pillLabel: "Startups",
     h1: { pre: "From first hire to Series A.", accent: "No PEO needed." },
-    lead: "Founders, your first hire deserves real benefits — not a junior PEO experience. Spine gives you enterprise-grade benefits, compliance, and people ops. Free for your company.",
+    lead: "Founders, your first hire deserves real benefits, not a junior PEO experience. Spine gives you enterprise-grade benefits, compliance, and people ops. Free for your company.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/startups.png", alt: "A startup team reviewing benefits" },
@@ -47,7 +47,7 @@ export const audiencePages: Record<string, AudiencePage> = {
         { icon: "MagnifyingGlass", day: "Day 0–2", title: "Free cost audit", sub: "Plans modeled, savings projected in 48h." },
         { icon: "Signature", day: "Day 2–3", title: "BOR letter signed", sub: "Spine becomes your broker of record." },
         { icon: "PlugsConnected", day: "Day 3–9", title: "Carriers set up · plans live", sub: "Employees onboarded in the Spine app." },
-        { icon: "Check", day: "Day 10", title: "Compliance & payroll integrated", sub: "ACA, multi-state, filings — on autopilot.", last: true },
+        { icon: "Check", day: "Day 10", title: "Compliance & payroll integrated", sub: "ACA, multi-state, filings, on autopilot.", last: true },
       ],
     },
     bento: {
@@ -56,11 +56,11 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "RocketLaunch",
         title: "Live in days",
-        body: "From signed contract to live benefits in 7–10 days — real carriers, real app, real support. We've done it dozens of times.",
+        body: "From signed contract to live benefits in 7–10 days, real carriers, real app, real support. We've done it dozens of times.",
         chips: ["Aetna", "Blue Shield", "Kaiser"],
       },
       cards: [
-        { icon: "CurrencyCircleDollar", title: "Free for employers", body: "No setup fees, no admin charges. We earn carrier commission — like every broker." },
+        { icon: "CurrencyCircleDollar", title: "Free for employers", body: "No setup fees, no admin charges. We earn carrier commission, like every broker." },
         { icon: "LockKeyOpen", title: "No co-employment", body: "You keep your entity and hire on your own EIN. We run the benefits layer on top." },
         { icon: "MapPinLine", title: "Multi-state from day 1", body: "Remote hires? We handle registration, withholding, and new-hire reporting everywhere." },
         { icon: "Headset", title: "Founder-friendly support", body: "Direct line to a dedicated consultant. No junior account managers." },
@@ -68,7 +68,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     },
     testimonial: {
       quote: {
-        pre: "We onboarded our first ten hires with real Aetna plans in under two weeks — for",
+        pre: "We onboarded our first ten hires with real Aetna plans in under two weeks, for",
         accent: "zero platform cost.",
         post: " Spine felt like having a benefits team before we could afford one.",
       },
@@ -87,7 +87,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Lightning",
     pillLabel: "Founders",
     h1: { pre: "Real benefits from day one.", accent: "Zero admin." },
-    lead: "You're building something. You shouldn't be debating PEOs or chasing ACA filings. Spine gives you enterprise-grade benefits, payroll, and compliance — free for your company, run by experts.",
+    lead: "You're building something. You shouldn't be debating PEOs or chasing ACA filings. Spine gives you enterprise-grade benefits, payroll, and compliance, free for your company, run by experts.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/founders.png", alt: "Founders planning together" },
@@ -102,7 +102,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       heading: { pre: "You're the whole ops team.", accent: "Hand off the people stack." },
       oldLabel: "The old way · DIY + a PEO",
       oldItems: [
-        { title: "Benefits eat your week", sub: "CEO, COO, and head of HR — all at once." },
+        { title: "Benefits eat your week", sub: "CEO, COO, and head of HR, all at once." },
         { title: "ACA filings you forget", sub: "Compliance risk you can't even see." },
         { title: "Bundled PEO plans", sub: "One-size-fits-none, priced for their margin." },
       ],
@@ -116,11 +116,11 @@ export const audiencePages: Record<string, AudiencePage> = {
     timeline: {
       eyebrow: "The founder path",
       heading: { pre: "Founder path", accent: "to Spine." },
-      intro: "Whether you're starting from scratch or already have something, we get you live fast — and scale with you.",
+      intro: "Whether you're starting from scratch or already have something, we get you live fast, and scale with you.",
       steps: [
         { icon: "MagnifyingGlass", day: "Step 1", title: "Free audit", sub: "Got something? We audit it. If not, we build from scratch." },
         { icon: "PlugsConnected", day: "Step 2", title: "Live in 7–10 days", sub: "Plans live, team on the Spine app, compliance and payroll integrated." },
-        { icon: "Check", day: "Ongoing", title: "We grow with you", sub: "Add hires, states, complexity — Spine scales without a rebuild.", last: true },
+        { icon: "Check", day: "Ongoing", title: "We grow with you", sub: "Add hires, states, complexity, Spine scales without a rebuild.", last: true },
       ],
     },
     bento: {
@@ -129,14 +129,14 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "Lightning",
         title: "Live in days",
-        body: "From signed BOR to live benefits in 7–10 days. We've done it for hundreds of founder-led teams — real carriers, real app, real support.",
+        body: "From signed BOR to live benefits in 7–10 days. We've done it for hundreds of founder-led teams, real carriers, real app, real support.",
         chips: ["Aetna", "Blue Shield", "Kaiser"],
       },
       cards: [
-        { icon: "CurrencyCircleDollar", title: "Free for your company", body: "No setup, no admin, no per-employee fees. We earn carrier commission — that's how brokers work." },
+        { icon: "CurrencyCircleDollar", title: "Free for your company", body: "No setup, no admin, no per-employee fees. We earn carrier commission, that's how brokers work." },
         { icon: "LockKeyOpen", title: "No co-employment", body: "Keep your entity, your EIN, your equity plan. We just run the people stack on top." },
         { icon: "ChatCircleText", title: "Employee app included", body: "Free for every employee. Plan picker, digital cards, 24/7 concierge." },
-        { icon: "UserCircle", title: "Direct line to your consultant", body: "A dedicated senior benefits expert. Slack us, text us — same-day response." },
+        { icon: "UserCircle", title: "Direct line to your consultant", body: "A dedicated senior benefits expert. Slack us, text us, same-day response." },
       ],
     },
     testimonial: {
@@ -150,7 +150,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     },
     cta: {
       heading: { pre: "Stop thinking about benefits." },
-      lead: "Real benefits, no admin, no fees — built for founder-led companies.",
+      lead: "Real benefits, no admin, no fees, built for founder-led companies.",
       button: { label: "Run free cost analysis", href: "#demo" },
     },
   },
@@ -160,7 +160,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "TrendUp",
     pillLabel: "Mid-market",
     h1: { pre: "30–200 people.", accent: "Scaling fast." },
-    lead: "You've outgrown the PEO. You're not ready for an in-house HR team. Spine is the modern stack for companies between 30 and 200 employees — benefits, compliance, and people ops on one platform.",
+    lead: "You've outgrown the PEO. You're not ready for an in-house HR team. Spine is the modern stack for companies between 30 and 200 employees, benefits, compliance, and people ops on one platform.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/mid-market.png", alt: "A mid-market team reviewing benefits" },
@@ -182,14 +182,14 @@ export const audiencePages: Record<string, AudiencePage> = {
       newLabel: "With Spine",
       newItems: [
         { title: "Unbundled, shopped every year", sub: "25% avg. healthcare reduction." },
-        { title: "$0 admin fees", sub: "We earn carrier commission — nothing on top." },
+        { title: "$0 admin fees", sub: "We earn carrier commission, nothing on top." },
         { title: "Scales with headcount & states", sub: "Multi-state from day one." },
       ],
     },
     timeline: {
       eyebrow: "The migration",
       heading: { pre: "Mid-market → Spine,", accent: "in 30 days." },
-      intro: "A clean, planned migration off the PEO — no gap in coverage, no surprises for your team.",
+      intro: "A clean, planned migration off the PEO, no gap in coverage, no surprises for your team.",
       steps: [
         { icon: "MagnifyingGlass", day: "Week 1", title: "Audit your PEO", sub: "Itemize admin fees, plan inefficiencies, compliance gaps." },
         { icon: "Signature", day: "Week 2", title: "Plan the migration", sub: "Model the optimal plan, prep comms, coordinate carriers." },
@@ -203,12 +203,12 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "TrendUp",
         title: "The PEO alternative",
-        body: "All the services of a PEO — benefits, payroll, compliance — without the co-employment lock-in or the $150–200/employee/month fees.",
+        body: "All the services of a PEO, benefits, payroll, compliance, without the co-employment lock-in or the $150–200/employee/month fees.",
         chips: ["No lock-in", "No admin fees", "Multi-state"],
       },
       cards: [
         { icon: "CurrencyCircleDollar", title: "Free for your company", body: "We earn carrier commission. No setup, no admin, no per-employee fees." },
-        { icon: "ShieldCheck", title: "Compliance handled", body: "ACA, ERISA, COBRA, multi-state tax and hiring — all on autopilot." },
+        { icon: "ShieldCheck", title: "Compliance handled", body: "ACA, ERISA, COBRA, multi-state tax and hiring, all on autopilot." },
         { icon: "UserCircle", title: "Dedicated team", body: "A senior benefits consultant, backed by AI + in-house experts. No call center." },
         { icon: "ChatCircleText", title: "Employee experience", body: "The Spine app gives every employee 24/7 support, bill negotiation, and care navigation." },
       ],
@@ -234,7 +234,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Buildings",
     pillLabel: "Enterprise",
     h1: { pre: "200+ employees.", accent: "Built for scale." },
-    lead: "At enterprise scale, brokers spread juniors thin and PEOs become bottlenecks. Spine pairs senior benefits expertise with AI-powered execution — across every geography, every plan, every renewal.",
+    lead: "At enterprise scale, brokers spread juniors thin and PEOs become bottlenecks. Spine pairs senior benefits expertise with AI-powered execution, across every geography, every plan, every renewal.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/enterprise.png", alt: "An enterprise team reviewing benefits" },
@@ -251,7 +251,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       oldItems: [
         { title: "Juniors spread thin", sub: "No senior attention on your account." },
         { title: "Renewals rubber-stamped", sub: "No claims-data leverage." },
-        { title: "Fragmented vendors", sub: "Broker, PEO, payroll, compliance — all separate." },
+        { title: "Fragmented vendors", sub: "Broker, PEO, payroll, compliance, all separate." },
       ],
       newLabel: "With Spine",
       newItems: [
@@ -263,7 +263,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     timeline: {
       eyebrow: "The migration",
       heading: { pre: "Enterprise migration,", accent: "done right." },
-      intro: "A carefully sequenced migration across carriers, geographies, and entities — with compliance handoffs planned end to end.",
+      intro: "A carefully sequenced migration across carriers, geographies, and entities, with compliance handoffs planned end to end.",
       steps: [
         { icon: "MagnifyingGlass", day: "Weeks 1–3", title: "Discovery & audit", sub: "Deep audit of carriers, plans, claims data, compliance posture." },
         { icon: "Signature", day: "Weeks 3–5", title: "Migration plan", sub: "Carrier transitions, comms, and compliance handoffs sequenced carefully." },
@@ -277,13 +277,13 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "Buildings",
         title: "Senior expertise + AI execution",
-        body: "A dedicated consultant with 10+ years of mid/large-market experience, backed by an AI-powered execution team — across every geography, every plan, every renewal.",
+        body: "A dedicated consultant with 10+ years of mid/large-market experience, backed by an AI-powered execution team, across every geography, every plan, every renewal.",
         chips: ["Multi-state", "Multi-entity", "Claims-data leverage"],
       },
       cards: [
         { icon: "Globe", title: "Multi-state, multi-entity", body: "Any combination of states, EINs, and entity structures. Spine scales with your complexity." },
         { icon: "ChartBar", title: "Claims-data leverage", body: "We counter every renewal with aggregated claims data. Avg. 4–6% reduction on the ask." },
-        { icon: "ShieldCheck", title: "Compliance at scale", body: "ACA, ERISA, COBRA, 5500, state mandates — monitored and executed across your footprint." },
+        { icon: "ShieldCheck", title: "Compliance at scale", body: "ACA, ERISA, COBRA, 5500, state mandates, monitored and executed across your footprint." },
         { icon: "Headset", title: "Concierge for everyone", body: "Every employee gets 24/7 support via the Spine app. Cuts HR ticket volume 70%+." },
       ],
     },
@@ -309,7 +309,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "UsersThree",
     pillLabel: "HR & People",
     h1: { pre: "Stop fielding", accent: "benefits questions." },
-    lead: "You didn't take an HR role to spend half your day explaining COBRA. Spine handles every benefits inquiry, every compliance filing, every PTO request — so you can focus on culture, hiring, and strategy.",
+    lead: "You didn't take an HR role to spend half your day explaining COBRA. Spine handles every benefits inquiry, every compliance filing, every PTO request, so you can focus on culture, hiring, and strategy.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/hr-people.png", alt: "An HR & People team meeting" },
@@ -325,7 +325,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       oldLabel: "The old way · HR as helpdesk",
       oldItems: [
         { title: "Benefits Slacks all day", sub: "Half your week explaining COBRA." },
-        { title: "Compliance on your plate", sub: "ACA, ERISA, filings — your problem." },
+        { title: "Compliance on your plate", sub: "ACA, ERISA, filings, your problem." },
         { title: "No time for strategy", sub: "Culture, hiring, performance sidelined." },
       ],
       newLabel: "With Spine",
@@ -338,11 +338,11 @@ export const audiencePages: Record<string, AudiencePage> = {
     timeline: {
       eyebrow: "How it works",
       heading: { pre: "The queue,", accent: "off your plate." },
-      intro: "Everything operational routes through Spine first — so your team only sees what actually needs them.",
+      intro: "Everything operational routes through Spine first, so your team only sees what actually needs them.",
       steps: [
-        { icon: "PlugsConnected", day: "Step 1", title: "Spine absorbs the queue", sub: "Benefits, PTO, compliance, payroll — routed through us first." },
+        { icon: "PlugsConnected", day: "Step 1", title: "Spine absorbs the queue", sub: "Benefits, PTO, compliance, payroll, routed through us first." },
         { icon: "Robot", day: "Step 2", title: "AI + experts handle 80%+", sub: "Most requests resolved without you; complex stuff escalated with context." },
-        { icon: "Check", day: "Ongoing", title: "You focus on what matters", sub: "Recruiting, culture, performance — the things only HR can do.", last: true },
+        { icon: "Check", day: "Ongoing", title: "You focus on what matters", sub: "Recruiting, culture, performance, the things only HR can do.", last: true },
       ],
     },
     bento: {
@@ -351,21 +351,21 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "UsersThree",
         title: "The operational layer beneath HR",
-        body: "Spine isn't a replacement for your HR function — it's the operational layer under it, so your team works on what actually matters.",
+        body: "Spine isn't a replacement for your HR function, it's the operational layer under it, so your team works on what actually matters.",
         chips: ["Benefits Q&A", "Compliance", "Onboarding"],
       },
       cards: [
         { icon: "ChatCircleText", title: "Benefits Q&A handled", body: "The app + concierge field 80%+ of questions. You see a weekly digest, not a flood." },
-        { icon: "ShieldCheck", title: "Compliance off your plate", body: "ACA, ERISA, COBRA, multi-state filings — handled by our team, not yours." },
-        { icon: "ArrowsClockwise", title: "Onboarding & offboarding", body: "I-9, E-Verify, enrollment, final paychecks — we run the workflow, you welcome the hire." },
-        { icon: "ChartBar", title: "Reporting & analytics", body: "Headcount, demographics, utilization, attrition — dashboards exportable for leadership." },
+        { icon: "ShieldCheck", title: "Compliance off your plate", body: "ACA, ERISA, COBRA, multi-state filings, handled by our team, not yours." },
+        { icon: "ArrowsClockwise", title: "Onboarding & offboarding", body: "I-9, E-Verify, enrollment, final paychecks, we run the workflow, you welcome the hire." },
+        { icon: "ChartBar", title: "Reporting & analytics", body: "Headcount, demographics, utilization, attrition, dashboards exportable for leadership." },
       ],
     },
     testimonial: {
       quote: {
         pre: "My team got",
         accent: "23 hours a week",
-        post: " back. Benefits questions just stopped landing in my inbox — we finally do real HR again.",
+        post: " back. Benefits questions just stopped landing in my inbox, we finally do real HR again.",
       },
       name: "Sam Ortiz",
       role: "Head of People · Bright Labs (60 people)",
@@ -382,7 +382,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Wallet",
     pillLabel: "Finance & CFO",
     h1: { pre: "Cut healthcare spend.", accent: "Keep the benefits." },
-    lead: "Healthcare is your second- or third-largest line item — and it keeps growing. Spine cuts it by 25% on average, without cutting benefits, while eliminating PEO admin fees entirely.",
+    lead: "Healthcare is your second- or third-largest line item, and it keeps growing. Spine cuts it by 25% on average, without cutting benefits, while eliminating PEO admin fees entirely.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/finance-cfo.png", alt: "A finance leader reviewing reports" },
@@ -411,7 +411,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     timeline: {
       eyebrow: "How it works",
       heading: { pre: "From audit to savings", accent: "in 90 days." },
-      intro: "We attack spend at every layer — admin fees, plan design, renewal negotiation, and pharmacy.",
+      intro: "We attack spend at every layer, admin fees, plan design, renewal negotiation, and pharmacy.",
       steps: [
         { icon: "MagnifyingGlass", day: "48 hours", title: "Free cost audit", sub: "Itemized savings model across plans, claims, and admin spend." },
         { icon: "PlugsConnected", day: "30 days", title: "Migrate & optimize", sub: "BOR transition, plan optimization, compliance handoff." },
@@ -430,7 +430,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       cards: [
         { icon: "ChartBar", title: "Plan right-sizing", body: "AI models thousands of plans against your demographics and claims. Often 10–15% on day one." },
         { icon: "TrendUp", title: "Claims-data negotiation", body: "Real claims data counters renewal asks. Avg. 4–6% improvement." },
-        { icon: "Pill", title: "Pharmacy savings", body: "Carve-outs, coupons, and PBM transparency — typically 8–12% of pharmacy spend." },
+        { icon: "Pill", title: "Pharmacy savings", body: "Carve-outs, coupons, and PBM transparency, typically 8–12% of pharmacy spend." },
         { icon: "FileText", title: "Forecasting & records", body: "Cost forecasts plugged into your model; every filing logged, audit-ready by default." },
       ],
     },
@@ -438,7 +438,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       quote: {
         pre: "Healthcare was our fastest-growing line item. Spine cut it",
         accent: "25%",
-        post: " without touching coverage — and killed our PEO admin fees entirely.",
+        post: " without touching coverage, and killed our PEO admin fees entirely.",
       },
       name: "Rachel Kim",
       role: "CFO · Meridian (90 people)",
@@ -455,7 +455,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Target",
     pillLabel: "Chief of Staff",
     h1: { pre: "One platform", accent: "that just works." },
-    lead: "You're the integration layer. Benefits questions, compliance deadlines, payroll issues, employee escalations — all funnel through you. Spine consolidates the entire people stack into one team with one dashboard.",
+    lead: "You're the integration layer. Benefits questions, compliance deadlines, payroll issues, employee escalations, all funnel through you. Spine consolidates the entire people stack into one team with one dashboard.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/chief-of-staff.png", alt: "A chief of staff at work" },
@@ -487,7 +487,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       intro: "We absorb your broker, PEO admin, compliance vendor, and payroll specialist into one team and one contract.",
       steps: [
         { icon: "MagnifyingGlass", day: "Week 1", title: "Audit your stack", sub: "Map existing vendors, contracts, and pain points." },
-        { icon: "PlugsConnected", day: "30 days", title: "Migrate", sub: "We absorb broker, compliance, and people-ops vendors — one contract, one team." },
+        { icon: "PlugsConnected", day: "30 days", title: "Migrate", sub: "We absorb broker, compliance, and people-ops vendors, one contract, one team." },
         { icon: "Check", day: "Ongoing", title: "Run lean", sub: "One relationship, one dashboard, one Slack channel for the whole stack.", last: true },
       ],
     },
@@ -502,7 +502,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       },
       cards: [
         { icon: "ChartBar", title: "Real-time dashboards", body: "Every benefit, filing, and payroll cycle in one view. Exportable for leadership." },
-        { icon: "UserCircle", title: "Direct senior contact", body: "Skip the support queue — a senior consultant on Slack/text, same-day response." },
+        { icon: "UserCircle", title: "Direct senior contact", body: "Skip the support queue, a senior consultant on Slack/text, same-day response." },
         { icon: "ShieldCheck", title: "Compliance you can trust", body: "Every requirement monitored and executed. Audit-ready logs for board meetings." },
         { icon: "Handshake", title: "Vendor consolidation", body: "We replace your broker, PEO admin, compliance vendor, and payroll specialist." },
       ],
@@ -529,7 +529,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Laptop",
     pillLabel: "Tech & SaaS",
     h1: { pre: "Built for", accent: "tech & SaaS." },
-    lead: "Healthy workforce, distributed teams, fast hiring. Level-funded plans, multi-state setups, employee-first benefits — built for the way modern tech companies work.",
+    lead: "Healthy workforce, distributed teams, fast hiring. Level-funded plans, multi-state setups, employee-first benefits, built for the way modern tech companies work.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/tech-saas.png", alt: "A SaaS platform team at work" },
@@ -561,7 +561,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       intro: "We benchmark you against tech peers, migrate to level-funded, and hook into your modern stack.",
       steps: [
         { icon: "MagnifyingGlass", day: "Step 1", title: "Free audit", sub: "Benchmark against tech peer cohorts; find plan-design and cost gaps." },
-        { icon: "Signature", day: "Step 2", title: "Level-funded migration", sub: "Most tech teams qualify — we model the savings and migrate the carrier." },
+        { icon: "Signature", day: "Step 2", title: "Level-funded migration", sub: "Most tech teams qualify, we model the savings and migrate the carrier." },
         { icon: "Check", day: "Step 3", title: "Modern stack integration", sub: "API hooks into your HRIS, payroll, IT, and equity tools.", last: true },
       ],
     },
@@ -575,17 +575,17 @@ export const audiencePages: Record<string, AudiencePage> = {
         chips: ["Surplus refunds", "Right-sized", "20–30% savings"],
       },
       cards: [
-        { icon: "Globe", title: "Multi-state native", body: "Remote-first or hybrid? Every state's tax, hiring, and compliance — automatically." },
+        { icon: "Globe", title: "Multi-state native", body: "Remote-first or hybrid? Every state's tax, hiring, and compliance, automatically." },
         { icon: "Lightbulb", title: "Modern benefits", body: "Mental health (Spring Health), fertility (Carrot, Maven), wellness, learning stipends." },
         { icon: "PlugsConnected", title: "Tech-native experience", body: "API integrations with Rippling, Gusto, Justworks, Deel. Slack-first support." },
-        { icon: "RocketLaunch", title: "Fast hiring support", body: "Onboarding that keeps up with tech velocity — I-9, equipment, benefits, day-1 ready." },
+        { icon: "RocketLaunch", title: "Fast hiring support", body: "Onboarding that keeps up with tech velocity, I-9, equipment, benefits, day-1 ready." },
       ],
     },
     testimonial: {
       quote: {
         pre: "Level-funded through Spine, we cut healthcare",
         accent: "27%",
-        post: " and got surplus back at year-end — for a team that barely files claims.",
+        post: " and got surplus back at year-end, for a team that barely files claims.",
       },
       name: "Alex Rivera",
       role: "COO · Streamline (SaaS, 80 people)",
@@ -602,7 +602,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Robot",
     pillLabel: "AI companies",
     h1: { pre: "Benefits at", accent: "AI speed." },
-    lead: "You're hiring world-class talent at hyperspeed. You can't afford to lose a hire because the benefits portal isn't ready. Spine moves at AI-company velocity — live in days, scaling with you.",
+    lead: "You're hiring world-class talent at hyperspeed. You can't afford to lose a hire because the benefits portal isn't ready. Spine moves at AI-company velocity, live in days, scaling with you.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/ai-companies.png", alt: "An AI company building its pipeline" },
@@ -624,7 +624,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       newLabel: "With Spine",
       newItems: [
         { title: "Live in 7 days", sub: "Move at AI-company velocity." },
-        { title: "Scales with hyper-growth", sub: "5 hires or 50 — no re-build." },
+        { title: "Scales with hyper-growth", sub: "5 hires or 50, no re-build." },
         { title: "US + global coordination", sub: "EOR handoff for international hires." },
       ],
     },
@@ -634,8 +634,8 @@ export const audiencePages: Record<string, AudiencePage> = {
       intro: "No 60-day implementation. We launch fast and absorb every bit of growth you throw at us.",
       steps: [
         { icon: "MagnifyingGlass", day: "Day 0", title: "Free audit, fast", sub: "48-hour turnaround. Plans modeled for current and projected headcount." },
-        { icon: "Signature", day: "Day 3", title: "BOR & carriers", sub: "Carriers contacted, plans set up — no 60-day implementation." },
-        { icon: "PlugsConnected", day: "Day 7", title: "Live on the Spine app", sub: "Employees onboarded — plan picker, digital cards, concierge." },
+        { icon: "Signature", day: "Day 3", title: "BOR & carriers", sub: "Carriers contacted, plans set up, no 60-day implementation." },
+        { icon: "PlugsConnected", day: "Day 7", title: "Live on the Spine app", sub: "Employees onboarded, plan picker, digital cards, concierge." },
         { icon: "Check", day: "Ongoing", title: "We absorb the growth", sub: "Hire 50 in a quarter or add 10 states? Every layer scales automatically.", last: true },
       ],
     },
@@ -645,21 +645,21 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "Robot",
         title: "Hyperscale-ready",
-        body: "Hire 5 people one month, 50 the next. Spine scales with you without breaking — no re-implementation, no gaps in coverage.",
+        body: "Hire 5 people one month, 50 the next. Spine scales with you without breaking, no re-implementation, no gaps in coverage.",
         chips: ["7-day launch", "No re-build", "Multi-state"],
       },
       cards: [
         { icon: "Globe", title: "Global team support", body: "US employees end-to-end, with EOR coordination for international hires (Deel, Remote, Oyster)." },
-        { icon: "Lightbulb", title: "Equity-aware benefits", body: "Your equity story is your benefits story — we align messaging with your comp framework." },
+        { icon: "Lightbulb", title: "Equity-aware benefits", body: "Your equity story is your benefits story, we align messaging with your comp framework." },
         { icon: "ChatCircleText", title: "AI-native concierge", body: "Employees expect AI-native UX. The Spine app answers instantly, with humans as backup." },
-        { icon: "ChartBar", title: "Fast-feedback dashboards", body: "Real-time headcount, cost, and compliance visibility — move at investor speed." },
+        { icon: "ChartBar", title: "Fast-feedback dashboards", body: "Real-time headcount, cost, and compliance visibility, move at investor speed." },
       ],
     },
     testimonial: {
       quote: {
         pre: "We went from 8 to 60 people in two quarters. Spine",
         accent: "scaled with us",
-        post: " — new state, new hire, day-1 ready, every time.",
+        post: ", new state, new hire, day-1 ready, every time.",
       },
       name: "Nina Park",
       role: "Head of Ops · Cortex AI (Series B)",
@@ -699,16 +699,16 @@ export const audiencePages: Record<string, AudiencePage> = {
       newItems: [
         { title: "Audit-ready by default", sub: "Timestamped trail for every action." },
         { title: "SOC 2-compatible docs", sub: "Pass through to partners & auditors." },
-        { title: "Multi-entity handled", sub: "Holdco, opco, subs — all compliant." },
+        { title: "Multi-entity handled", sub: "Holdco, opco, subs, all compliant." },
       ],
     },
     timeline: {
       eyebrow: "How it works",
       heading: { pre: "Fintech-grade", accent: "operational rigor." },
-      intro: "Every step documented for audit defensibility — from risk audit to pass-through to your auditors.",
+      intro: "Every step documented for audit defensibility, from risk audit to pass-through to your auditors.",
       steps: [
         { icon: "MagnifyingGlass", day: "Step 1", title: "Risk audit", sub: "Audit your compliance posture, identify gaps, map a remediation path." },
-        { icon: "Signature", day: "Step 2", title: "Migrate with documentation", sub: "Migration plan, comms, and carrier transitions — all documented." },
+        { icon: "Signature", day: "Step 2", title: "Migrate with documentation", sub: "Migration plan, comms, and carrier transitions, all documented." },
         { icon: "Check", day: "Ongoing", title: "Pass through to auditors", sub: "Documentation and SOC 2 posture pass to partners, investors, and auditors.", last: true },
       ],
     },
@@ -718,14 +718,14 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "ShieldCheck",
         title: "Audit-ready by default",
-        body: "Every filing, payment, and compliance action logged with timestamps and exportable for any audit — built to pass through to your investors, banking partners, and auditors.",
+        body: "Every filing, payment, and compliance action logged with timestamps and exportable for any audit, built to pass through to your investors, banking partners, and auditors.",
         chips: ["SOC 2", "Timestamped", "Exportable"],
       },
       cards: [
         { icon: "LockKeyOpen", title: "SOC 2 compatible", body: "Spine SOC 2 documentation available for your vendor risk assessments and security reviews." },
-        { icon: "FileText", title: "Regulatory-grade records", body: "Records, I-9s, elections — securely stored, version-controlled, retrievable on demand." },
-        { icon: "Globe", title: "Multi-state, multi-entity", body: "Holdco, opco, subsidiaries — multi-state tax and payroll compliance across structures." },
-        { icon: "Bell", title: "Proactive monitoring", body: "Regulatory changes, deadline shifts, agency updates — monitored continuously." },
+        { icon: "FileText", title: "Regulatory-grade records", body: "Records, I-9s, elections, securely stored, version-controlled, retrievable on demand." },
+        { icon: "Globe", title: "Multi-state, multi-entity", body: "Holdco, opco, subsidiaries, multi-state tax and payroll compliance across structures." },
+        { icon: "Bell", title: "Proactive monitoring", body: "Regulatory changes, deadline shifts, agency updates, monitored continuously." },
       ],
     },
     testimonial: {
@@ -749,7 +749,7 @@ export const audiencePages: Record<string, AudiencePage> = {
     pillIcon: "Dna",
     pillLabel: "Healthcare & Biotech",
     h1: { pre: "Benefits for the", accent: "science companies." },
-    lead: "Your team includes researchers with families, engineers transitioning from academia, and execs with complex healthcare needs. Spine builds plans that work for scientists — not just startups.",
+    lead: "Your team includes researchers with families, engineers transitioning from academia, and execs with complex healthcare needs. Spine builds plans that work for scientists, not just startups.",
     primary: demo,
     secondary: explore,
     heroImage: { src: "/who-we-serve/healthcare-biotech.png", alt: "A healthcare & biotech team at work" },
@@ -791,13 +791,13 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "Dna",
         title: "Premium carrier access",
-        body: "Researchers and clinicians expect Aetna, Blue Shield, Kaiser — and family-friendly networks. We prioritize them, and model plans around family-tier utilization.",
+        body: "Researchers and clinicians expect Aetna, Blue Shield, Kaiser, and family-friendly networks. We prioritize them, and model plans around family-tier utilization.",
         chips: ["Aetna", "Blue Shield", "Kaiser"],
       },
       cards: [
         { icon: "UsersThree", title: "Family-aware plans", body: "Science teams skew older with more dependents. We model plans around family-tier utilization." },
-        { icon: "Gift", title: "Fertility & family planning", body: "Carrot, Maven, Progyny integration — often a hiring differentiator in this industry." },
-        { icon: "ShieldCheck", title: "Lab-ready compliance", body: "Workers' comp, lab safety, hazardous materials — industry-specific compliance built in." },
+        { icon: "Gift", title: "Fertility & family planning", body: "Carrot, Maven, Progyny integration, often a hiring differentiator in this industry." },
+        { icon: "ShieldCheck", title: "Lab-ready compliance", body: "Workers' comp, lab safety, hazardous materials, industry-specific compliance built in." },
         { icon: "FirstAidKit", title: "Care navigation", body: "Complex specialist referrals, second opinions, clinical-trial coordination in the app." },
       ],
     },
@@ -855,7 +855,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       steps: [
         { icon: "MagnifyingGlass", day: "Step 1", title: "Firm-structure audit", sub: "Map partner/employee/contractor structure, offices, and comp complexity." },
         { icon: "Signature", day: "Step 2", title: "Tiered plan design", sub: "Separate plan structures for partners and employees; custom enrollment rules." },
-        { icon: "Check", day: "Year-end", title: "Coordinated execution", sub: "Payroll, benefits, taxes — W-2s and K-1s generated and filed with your CPA.", last: true },
+        { icon: "Check", day: "Year-end", title: "Coordinated execution", sub: "Payroll, benefits, taxes, W-2s and K-1s generated and filed with your CPA.", last: true },
       ],
     },
     bento: {
@@ -864,19 +864,19 @@ export const audiencePages: Record<string, AudiencePage> = {
       feature: {
         icon: "Briefcase",
         title: "Partner & employee tiers",
-        body: "Different plan structures for partners (W-2 + K-1) and employees, with separate enrollment and tax handling — all in one system.",
+        body: "Different plan structures for partners (W-2 + K-1) and employees, with separate enrollment and tax handling, all in one system.",
         chips: ["W-2 + K-1", "Tiered", "Multi-office"],
       },
       cards: [
         { icon: "ChartBar", title: "Variable comp tracking", body: "Bonus payouts, profit-sharing, and partner distributions coordinated with payroll and tax." },
-        { icon: "Globe", title: "Multi-office support", body: "NY, SF, Chicago, Boston, DC — multi-state tax, hiring, and compliance across offices." },
+        { icon: "Globe", title: "Multi-office support", body: "NY, SF, Chicago, Boston, DC, multi-state tax, hiring, and compliance across offices." },
         { icon: "UsersThree", title: "Tiered benefits by role", body: "Different plan tiers for partners, senior associates, and junior staff." },
-        { icon: "FileText", title: "Coordinated tax filings", body: "W-2s for employees, K-1s for partners — coordinated with your CPA or finance team." },
+        { icon: "FileText", title: "Coordinated tax filings", body: "W-2s for employees, K-1s for partners, coordinated with your CPA or finance team." },
       ],
     },
     testimonial: {
       quote: {
-        pre: "Partners on K-1, associates on W-2, four offices — Spine handled the",
+        pre: "Partners on K-1, associates on W-2, four offices, Spine handled the",
         accent: "whole structure",
         post: " without us re-explaining it every quarter.",
       },

@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 import {
   BookOpen,
+  ChalkboardTeacher,
   ChartLineUp,
   Confetti,
   CurrencyDollar,
-  DoorOpen,
   UserPlus,
   UsersThree,
   type Icon,
@@ -17,12 +17,12 @@ type Chip = { label: string; Icon: Icon };
 
 const CHIPS: Chip[] = [
   { label: "Recruiting", Icon: UserPlus },
-  { label: "Performance reviews", Icon: ChartLineUp },
-  { label: "Onboarding", Icon: DoorOpen },
+  { label: "Performance management", Icon: ChartLineUp },
   { label: "Employee relations", Icon: UsersThree },
-  { label: "Handbook & policies", Icon: BookOpen },
-  { label: "Comp strategy", Icon: CurrencyDollar },
+  { label: "Compensation", Icon: CurrencyDollar },
+  { label: "Policies & handbooks", Icon: BookOpen },
   { label: "Culture & offsites", Icon: Confetti },
+  { label: "Leadership coaching", Icon: ChalkboardTeacher },
 ];
 
 // The "Areas they cover" chips pop in one-by-one (fast staggered spring scale)

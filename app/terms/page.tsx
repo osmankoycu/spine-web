@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage, Section, P, UL, LI } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms of Use — Spine",
+  title: "Terms of Use · Spine",
   description: "The terms that govern your use of Spine.",
 };
 

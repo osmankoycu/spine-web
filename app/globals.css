@@ -162,6 +162,29 @@ body {
   padding-inline: var(--page-px);
 }
 
+/* Employer-scenario range sliders: light-blue filled track (set inline as a
+   gradient per value) + a cobalt thumb. */
+.scenario-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-cobalt-400);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(20, 20, 18, 0.25);
+  cursor: pointer;
+}
+.scenario-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-cobalt-400);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(20, 20, 18, 0.25);
+  cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

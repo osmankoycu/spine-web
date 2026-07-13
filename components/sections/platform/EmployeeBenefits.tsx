@@ -30,13 +30,13 @@ export function EmployeeBenefits() {
           01 · Benefits
         </p>
         <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
-          Better plans.
+          Care your
           <br />
-          <span className="text-orange">Lower premiums.</span>
+          <span className="text-aqua-500">team will love.</span>
         </h2>
         <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
-          AI continuously optimizes and right-sizes your plans, reducing
-          healthcare costs by 15% on average.
+          Every employee gets a 24/7 concierge in one app — to find the right
+          care, get answers fast, and dispute wrong bills.
         </p>
 
         {/* For employees */}

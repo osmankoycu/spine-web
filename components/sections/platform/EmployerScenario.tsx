@@ -55,6 +55,7 @@ export function EmployerScenario() {
 
   const arches = compute(H, C);
   const recId = recommend(arches);
+  const rec = arches.find((a) => a.id === recId) ?? arches[0];
 
   // Auto-sweep once, when the window scrolls into view.
   useEffect(() => {
@@ -100,15 +101,16 @@ export function EmployerScenario() {
       {/* Header */}
       <div className="flex items-start justify-between px-4 pt-4 sm:px-5">
         <div>
-          <div className="text-[15px] font-extrabold tracking-[-0.01em] text-[#15140f]">
-            Why this mix
+          <div className="text-[15px] font-extrabold leading-snug tracking-[-0.01em] text-[#15140f]">
+            Spine recommends the{" "}
+            <span className="text-[#2a8b3f]">{rec.label}</span> mix
           </div>
-          <div className="mt-0.5 text-[12px] leading-snug text-[#8a897f]">
-            Each plan plotted by savings and fit — watch them move as you adjust.
+          <div className="mt-1 text-[12px] leading-snug text-[#8a897f]">
+            The best balance of savings and fit for this open enrollment.
           </div>
         </div>
-        <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#eafaef] px-2.5 py-1 text-[11px] font-bold text-[#2a8b3f] sm:inline-flex">
-          <span className="size-1.5 rounded-full bg-[#2a8b3f]" />
+        <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#f1f1ef] px-2.5 py-1 text-[11px] font-bold text-[#8a897f] sm:inline-flex">
+          <span className="size-1.5 rounded-full bg-[#b9b9b3]" />
           Map
         </span>
       </div>
@@ -116,7 +118,7 @@ export function EmployerScenario() {
       {/* Plot */}
       <div className="relative min-h-[220px] flex-1 px-4 pb-1 pt-4 sm:px-5">
         {/* inner plot area (space for axis labels: left + bottom) */}
-        <div className="absolute inset-y-4 left-[42px] right-4 bottom-7">
+        <div className="absolute inset-y-4 left-[42px] right-[42px] bottom-7">
           <div className="relative h-full w-full rounded-[10px] bg-[#f4f4f2]">
             {/* strong-fit zone (fit >= 75) */}
             <div
@@ -124,7 +126,7 @@ export function EmployerScenario() {
               style={{ height: `${((FIT_MAX - FIT_ZONE) / (FIT_MAX - FIT_MIN)) * 100}%` }}
             >
               <span className="absolute right-2.5 top-2 text-[10px] font-bold uppercase tracking-[0.04em] text-[#2a8b3f]">
-                Strong fit — Heal recommends here
+                Strong fit — Spine recommends here
               </span>
             </div>
             {/* zone divider line (y = 75) */}
@@ -178,7 +180,7 @@ export function EmployerScenario() {
           <span>35</span>
         </div>
         {/* x-axis ticks */}
-        <div className="absolute bottom-1.5 left-[42px] right-4 flex justify-between text-[10px] font-semibold text-[#a9a9a3]">
+        <div className="absolute bottom-1.5 left-[42px] right-[42px] flex justify-between text-[10px] font-semibold text-[#a9a9a3]">
           <span>$0</span>
           <span>$250K</span>
           <span>$500K</span>
@@ -213,8 +215,8 @@ export function EmployerScenario() {
             label="Contribution"
             value={C}
             display={`${C}%`}
-            min={50}
-            max={90}
+            min={0}
+            max={100}
             step={1}
             onChange={(v) => {
               takeOver();
@@ -246,6 +248,9 @@ function SliderRow({
   step: number;
   onChange: (v: number) => void;
 }) {
+  // Fill the track up to the current value with light blue so how "full" the
+  // slider is reads at a glance.
+  const pct = ((value - min) / (max - min)) * 100;
   return (
     <div>
       <div className="mb-1.5 flex items-center gap-1.5 text-[#6e6e68]">
@@ -261,7 +266,10 @@ function SliderRow({
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         aria-label={label}
-        className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-[#e6e6e2] accent-cobalt-400"
+        style={{
+          background: `linear-gradient(to right, var(--color-cobalt-200) ${pct}%, #e6e6e2 ${pct}%)`,
+        }}
+        className="scenario-slider h-1.5 w-full cursor-pointer appearance-none rounded-full"
       />
     </div>
   );

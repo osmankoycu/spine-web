@@ -26,15 +26,26 @@ const PLAN_TYPES = [
 
 export function EmployerBenefits() {
   return (
-    <div className="grid gap-10 lg:grid-cols-[1fr_360px] lg:items-stretch lg:gap-12">
-      {/* Left: employer app window (content TBD) */}
+    <div className="grid gap-10 lg:grid-cols-[1fr_384px] lg:items-stretch lg:gap-12">
+      {/* Left: employer app window — the "Why this mix" scenario map */}
       <div className="mx-auto w-full lg:h-full">
         <EmployerWindow />
       </div>
 
-      {/* Right: employer copy */}
+      {/* Right: employer copy — mirrors the employee heading block (same title +
+          subtitle, cobalt accent) so the two halves read as a matched pair. */}
       <div className="flex flex-col justify-center">
-        <div className="flex items-center gap-2">
+        <h2 className="font-display text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
+          Better plans.
+          <br />
+          <span className="text-cobalt-400">Lower premiums.</span>
+        </h2>
+        <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
+          AI continuously optimizes and right-sizes your plans, reducing
+          healthcare costs by 15% on average.
+        </p>
+
+        <div className="mt-8 flex items-center gap-2">
           <Buildings size={20} weight="duotone" className="text-cobalt-400" />
           <span className="text-[15px] font-extrabold text-[#15140f]">For employers</span>
         </div>

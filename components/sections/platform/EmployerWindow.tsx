@@ -9,7 +9,7 @@ import { EmployerScenario } from "./EmployerScenario";
 export function EmployerWindow() {
   return (
     <Reveal className="lg:h-full">
-      <div className="flex h-full min-h-[480px] flex-col overflow-hidden rounded-[20px] border border-[#ececea] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
+      <div className="flex h-full min-h-[520px] flex-col overflow-hidden rounded-[20px] border border-[#ececea] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
         {/* Top bar */}
         <div className="flex items-center gap-3.5 border-b border-[#ededea] bg-white px-5 py-[15px]">
           <div className="flex gap-[7px]">

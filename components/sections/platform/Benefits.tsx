@@ -17,7 +17,7 @@ export function Benefits() {
           so it spans the full card width). */}
       <div className="-mx-6 border-t border-[#e9e9e6] sm:-mx-10 lg:-mx-12" />
 
-      <div className="pb-12 pt-12 sm:pb-14 sm:pt-14">
+      <div className="pb-12 pt-20 sm:pb-14 sm:pt-24 lg:pt-28">
         <EmployerBenefits />
       </div>
     </div>

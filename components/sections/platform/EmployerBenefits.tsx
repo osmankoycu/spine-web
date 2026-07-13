@@ -1,4 +1,4 @@
-import { Buildings, Check } from "@phosphor-icons/react/dist/ssr";
+import { Check } from "@phosphor-icons/react/dist/ssr";
 import { EmployerWindow } from "./EmployerWindow";
 
 // "For employers" half of the Benefits pillar (below the separator). Mirrors the
@@ -8,9 +8,18 @@ import { EmployerWindow } from "./EmployerWindow";
 type Point = { title: string; sub: string };
 
 const COMPANY_POINTS: Point[] = [
-  { title: "AI plan optimization", sub: "Benchmarked every renewal" },
-  { title: "Every carrier, every renewal", sub: "We shop the full market" },
-  { title: "Dedicated consultant", sub: "A named, in-house expert" },
+  {
+    title: "AI plan optimization",
+    sub: "Our models benchmark your plans against the market and right-size them at every renewal.",
+  },
+  {
+    title: "Every carrier, every renewal",
+    sub: "We shop the full market each year and negotiate so you never overpay for coverage.",
+  },
+  {
+    title: "Dedicated consultant",
+    sub: "A named, in-house benefits expert who knows your company and replies within hours.",
+  },
 ];
 
 const PLAN_TYPES = [
@@ -26,16 +35,20 @@ const PLAN_TYPES = [
 
 export function EmployerBenefits() {
   return (
-    <div className="grid gap-10 lg:grid-cols-[1fr_384px] lg:items-stretch lg:gap-12">
+    <div className="grid gap-15 lg:grid-cols-[1fr_384px] lg:items-stretch lg:gap-18">
       {/* Left: employer app window — the "Why this mix" scenario map */}
       <div className="mx-auto w-full lg:h-full">
         <EmployerWindow />
       </div>
 
-      {/* Right: employer copy — mirrors the employee heading block (same title +
-          subtitle, cobalt accent) so the two halves read as a matched pair. */}
+      {/* Right: employer copy — mirrors the employee heading block (same eyebrow
+          treatment + title + subtitle, cobalt accent) so the two halves read as
+          a matched pair. */}
       <div className="flex flex-col justify-center">
-        <h2 className="font-display text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
+        <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+          01 · Benefits <span className="ml-1 text-orange/50">/ Employer</span>
+        </p>
+        <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
           Better plans.
           <br />
           <span className="text-cobalt-400">Lower premiums.</span>
@@ -45,15 +58,11 @@ export function EmployerBenefits() {
           healthcare costs by 15% on average.
         </p>
 
-        <div className="mt-8 flex items-center gap-2">
-          <Buildings size={20} weight="duotone" className="text-cobalt-400" />
-          <span className="text-[15px] font-extrabold text-[#15140f]">For employers</span>
-        </div>
-
-        {/* Feature card */}
-        <div className="mt-4 flex flex-col gap-4 rounded-[20px] border border-cobalt-200 bg-cobalt-100/25 px-6 py-5">
+        {/* Feature card — outline only; rows split by full-width hairlines that
+            run edge to edge (matches the employee card treatment). */}
+        <div className="mt-9 flex flex-col divide-y divide-cobalt-200 rounded-[20px] border border-cobalt-200">
           {COMPANY_POINTS.map((p) => (
-            <div key={p.title} className="flex items-start gap-2.5">
+            <div key={p.title} className="flex items-start gap-2.5 px-6 py-4">
               <Check size={15} weight="bold" className="mt-[3px] shrink-0 text-cobalt-400" />
               <div>
                 <div className="text-[14px] font-bold text-[#15140f]">{p.title}</div>

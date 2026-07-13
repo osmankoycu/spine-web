@@ -138,7 +138,7 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
   return (
     <div
       ref={rootRef}
-      className="flex min-h-[520px] w-full flex-col overflow-hidden rounded-[34px] border border-[#e6e6e8] bg-white shadow-[0_40px_80px_-44px_rgba(20,20,18,0.35)] lg:h-full"
+      className="flex min-h-[600px] w-full flex-col overflow-hidden rounded-[34px] border border-[#e6e6e8] bg-white shadow-[0_40px_80px_-44px_rgba(20,20,18,0.35)] lg:h-full"
     >
       {/* iOS status bar */}
       <div className="flex items-center justify-between px-[24px] pb-1 pt-4">

@@ -45,6 +45,49 @@ function recommend(arches: Arch[]): string {
 const START = { H: 40, C: 55 };
 const TARGET = { H: 100, C: 70 };
 
+// Distinct stroke per plan chip so the three carriers read as three separate
+// picks. Muted, low-saturation hues — none close to the employer blue or the
+// green "recommended" cue (soft pink / ochre / mauve).
+const CHIP_BORDERS = ["border-[#d5a1b3]", "border-[#cbb079]", "border-[#b6a6c9]"];
+
+// The three carrier plans each portfolio bundles, plus a one-line rationale.
+// Shown between the map and the sliders; swaps whenever the recommendation does.
+type Plan = { name: string; meta: string };
+const PORTFOLIOS: Record<string, { why: string; plans: Plan[] }> = {
+  balanced: {
+    why: "A full spread — one plan for every kind of employee, value to premium.",
+    plans: [
+      { name: "Aetna HSA Bronze", meta: "Value · HDHP" },
+      { name: "UHC Choice Gold", meta: "Standard · PPO" },
+      { name: "UHC Choice Platinum", meta: "Premium · PPO" },
+    ],
+  },
+  protection: {
+    why: "Richer coverage and low out-of-pocket caps for a higher-need team.",
+    plans: [
+      { name: "UHC Choice Gold", meta: "Standard · PPO" },
+      { name: "Aetna PPO Premier", meta: "Premium · PPO" },
+      { name: "UHC Choice Platinum", meta: "Premium · PPO" },
+    ],
+  },
+  family: {
+    why: "Broad networks and dependent-friendly cost sharing for families.",
+    plans: [
+      { name: "UHC Choice Gold", meta: "Standard · PPO" },
+      { name: "Aetna Family PPO", meta: "Standard · PPO" },
+      { name: "Kaiser HMO Plus", meta: "Value · HMO" },
+    ],
+  },
+  cost: {
+    why: "Lean, HSA-first plans that keep premiums as low as possible.",
+    plans: [
+      { name: "Aetna HSA Bronze", meta: "Value · HDHP" },
+      { name: "UHC HDHP Silver", meta: "Value · HDHP" },
+      { name: "Cigna Local Plus", meta: "Value · HMO" },
+    ],
+  },
+};
+
 export function EmployerScenario() {
   const rootRef = useRef<HTMLDivElement>(null);
   const startedRef = useRef(false);
@@ -56,6 +99,7 @@ export function EmployerScenario() {
   const arches = compute(H, C);
   const recId = recommend(arches);
   const rec = arches.find((a) => a.id === recId) ?? arches[0];
+  const portfolio = PORTFOLIOS[recId] ?? PORTFOLIOS.balanced;
 
   // Auto-sweep once, when the window scrolls into view.
   useEffect(() => {
@@ -184,6 +228,38 @@ export function EmployerScenario() {
           <span>$0</span>
           <span>$250K</span>
           <span>$500K</span>
+        </div>
+      </div>
+
+      {/* Portfolio contents — the three plans in the recommended mix + why it
+          was picked. Simple by design; re-renders when the recommendation
+          changes as the sliders move. */}
+      <div className="border-t border-[#ededea] px-4 py-3 sm:px-5">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-[12px] font-extrabold text-[#2a8b3f]">
+            {rec.label} portfolio
+          </span>
+          <span className="text-[11px] font-semibold text-[#a9a9a3]">
+            · 3 plans included
+          </span>
+        </div>
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          {portfolio.plans.map((p, i) => (
+            <div
+              key={p.name}
+              className={cn(
+                "rounded-lg border-[1.5px] bg-white px-2.5 py-1.5",
+                CHIP_BORDERS[i % CHIP_BORDERS.length],
+              )}
+            >
+              <div className="truncate text-[11.5px] font-bold text-[#15140f]">
+                {p.name}
+              </div>
+              <div className="mt-0.5 truncate text-[9.5px] font-bold uppercase tracking-[0.04em] text-[#a9a9a3]">
+                {p.meta}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

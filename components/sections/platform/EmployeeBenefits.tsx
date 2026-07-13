@@ -16,15 +16,15 @@ type Feature = { title: string; sub: string };
 const FEATURES: Feature[] = [
   {
     title: "The Heal app",
-    sub: "One home for every plan, claim, and member card — nothing scattered across portals.",
+    sub: "Every plan, claim, and member card in one simple place.",
   },
   {
     title: "24/7 concierge",
-    sub: "Message or call a real benefits expert any hour, any day of the week.",
+    sub: "Message or call a real benefits expert, any hour, any day.",
   },
   {
     title: "Care & bill defense",
-    sub: "We steer people to in-network care and fight back on billing errors.",
+    sub: "We steer people to in-network care and dispute wrong bills.",
   },
 ];
 
@@ -92,7 +92,7 @@ export function EmployeeBenefits() {
           <span className="text-aqua-500">team will love.</span>
         </h2>
         <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
-          Every employee gets a 24/7 concierge in one app — to find the right
+          Every employee gets a 24/7 concierge in one app, to find the right
           care, get answers fast, and dispute wrong bills.
         </p>
 

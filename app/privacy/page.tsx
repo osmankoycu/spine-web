@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage, Section, P, Lead, UL, LI } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Spine",
+  title: "Privacy Policy · Spine",
   description: "How Spine collects, uses, and protects your information.",
 };
 

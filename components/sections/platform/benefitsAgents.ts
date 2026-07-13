@@ -22,7 +22,7 @@ export const BENEFITS_AGENTS: BenefitsAgent[] = [
     question: "I got a $1,200 ER bill, is this right?",
     answer: [
       "Looking into it now, hang tight.",
-      "Found it — you were billed out-of-network by mistake. We're disputing it for you.",
+      "Found it, you were billed out-of-network by mistake. We're disputing it for you.",
     ],
   },
   {
@@ -42,7 +42,7 @@ export const BENEFITS_AGENTS: BenefitsAgent[] = [
     question: "My prescription is $180 this month?",
     answer: [
       "Checking pharmacy pricing.",
-      "There's a covered generic at $12 — I sent the switch to your pharmacy for pickup.",
+      "There's a covered generic at $12, I sent the switch to your pharmacy for pickup.",
     ],
   },
   {
@@ -52,7 +52,7 @@ export const BENEFITS_AGENTS: BenefitsAgent[] = [
     question: "Is my MRI going to be covered?",
     answer: [
       "Pulling up your coverage.",
-      "Yes — covered at 90% after your deductible, so your share is about $140.",
+      "Yes, covered at 90% after your deductible, so your share is about $140.",
     ],
   },
   {
@@ -61,7 +61,7 @@ export const BENEFITS_AGENTS: BenefitsAgent[] = [
     bubble: "FightBack\nAgent",
     question: "My claim got denied. Can you help?",
     answer: [
-      "On it — reviewing the denial reason.",
+      "On it, reviewing the denial reason.",
       "This was denied in error. I've filed an appeal with the records to get it overturned.",
     ],
   },

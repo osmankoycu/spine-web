@@ -55,7 +55,7 @@ const CHIP_BORDERS = ["border-[#d5a1b3]", "border-[#cbb079]", "border-[#b6a6c9]"
 type Plan = { name: string; meta: string };
 const PORTFOLIOS: Record<string, { why: string; plans: Plan[] }> = {
   balanced: {
-    why: "A full spread — one plan for every kind of employee, value to premium.",
+    why: "A full spread, one plan for every kind of employee, value to premium.",
     plans: [
       { name: "Aetna HSA Bronze", meta: "Value · HDHP" },
       { name: "UHC Choice Gold", meta: "Standard · PPO" },
@@ -170,7 +170,7 @@ export function EmployerScenario() {
               style={{ height: `${((FIT_MAX - FIT_ZONE) / (FIT_MAX - FIT_MIN)) * 100}%` }}
             >
               <span className="absolute right-2.5 top-2 text-[10px] font-bold uppercase tracking-[0.04em] text-[#1e54b8]">
-                Strong fit — Spine recommends here
+                Strong fit · Spine recommends here
               </span>
             </div>
             {/* zone divider line (y = 75) */}

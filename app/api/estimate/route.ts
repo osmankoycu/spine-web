@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       from: FROM,
       to: TO,
       replyTo: email,
-      subject: `New savings estimate request — ${email}`,
+      subject: `New savings estimate request: ${email}`,
       text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\n`,
       html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">

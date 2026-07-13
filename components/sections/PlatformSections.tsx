@@ -12,7 +12,7 @@ const CARD =
 export function PlatformSections() {
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
-      <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col gap-22 lg:gap-28">
+      <div className="relative z-10 mx-auto flex max-w-[1360px] flex-col gap-22 lg:gap-28">
         <div className={CARD}>
           <Benefits />
         </div>

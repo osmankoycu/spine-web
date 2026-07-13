@@ -91,7 +91,7 @@ export function WhySpine() {
   return (
     <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
       <div
-        className="relative z-10 mx-auto max-w-[1200px] overflow-hidden rounded-[32px] px-6 py-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 sm:py-12 lg:px-[56px] lg:pb-[56px] lg:pt-[64px]"
+        className="relative z-10 mx-auto max-w-[1360px] overflow-hidden rounded-[32px] px-6 py-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 sm:py-12 lg:px-[56px] lg:pb-[56px] lg:pt-[64px]"
         style={{ background: RADIAL }}
       >
         {/* Header */}

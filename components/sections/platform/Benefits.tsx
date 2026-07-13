@@ -14,7 +14,7 @@ export function Benefits() {
       {/* Full-bleed floor line the avatars stand on — divides the employee half
           from the employer half (the negative margins cancel the block padding
           so it spans the full card width). */}
-      <div className="mt-6 -mx-6 border-t border-[#e9e9e6] sm:-mx-10 lg:-mx-12" />
+      <div className="-mx-6 border-t border-[#e9e9e6] sm:-mx-10 lg:-mx-12" />
 
       {/* TODO(phase 3): "For employers" half goes here, below the separator */}
       <div className="pb-12 sm:pb-14" />

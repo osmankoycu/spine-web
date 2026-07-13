@@ -42,14 +42,17 @@ export function AgentRail({
               {agent.bubble}
             </span>
 
-            {/* Avatar mask — clips the head-space; the lift reveals white below */}
-            <span className="relative mt-3 block h-[128px] w-full overflow-hidden">
+            {/* Avatar mask — its bottom edge sits ON the separator line. The
+                selected agent rests fully on the line (translate-y-0); the
+                others sink a little below it (masked away) and rise up to meet
+                the line on hover. */}
+            <span className="relative mt-3 block h-[132px] w-full overflow-hidden">
               <img
                 src={`/agents/${agent.id}.png`}
                 alt={agent.name}
                 className={cn(
                   "absolute inset-x-0 bottom-0 mx-auto w-[112px] max-w-full transition-transform duration-300 ease-out will-change-transform",
-                  active ? "-translate-y-2" : "translate-y-0 group-hover:-translate-y-2",
+                  active ? "translate-y-0" : "translate-y-1.5 group-hover:translate-y-0",
                 )}
               />
             </span>

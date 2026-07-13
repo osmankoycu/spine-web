@@ -64,8 +64,11 @@ export function EmployeeBenefits() {
         </div>
       </div>
 
-      {/* Phone — centred when stacked (< lg); the grid cell at lg */}
-      <div className="mx-auto w-full max-w-[384px]">
+      {/* Phone — centred when stacked (< lg); the grid cell at lg. The bottom
+          padding keeps its floor off the separator by ~the block's top gap, so
+          the phone sits with matching breathing room top and bottom while the
+          avatars still rest on the line. */}
+      <div className="mx-auto w-full max-w-[384px] lg:h-full lg:pb-14">
         <AgentPhone agent={agent} />
       </div>
     </div>

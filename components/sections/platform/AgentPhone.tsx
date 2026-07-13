@@ -31,7 +31,7 @@ function AnswerBubble({ children }: { children: React.ReactNode }) {
 
 export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
   return (
-    <div className="flex min-h-[620px] w-full flex-col overflow-hidden rounded-[34px] border border-[#e6e6e8] bg-white shadow-[0_40px_80px_-44px_rgba(20,20,18,0.35)]">
+    <div className="flex min-h-[520px] w-full flex-col overflow-hidden rounded-[34px] border border-[#e6e6e8] bg-white shadow-[0_40px_80px_-44px_rgba(20,20,18,0.35)] lg:h-full">
       {/* iOS status bar */}
       <div className="flex items-center justify-between px-[24px] pb-1 pt-4">
         <span className="text-[13px] font-bold text-[#15140f]">9:41</span>

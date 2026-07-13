@@ -36,7 +36,7 @@ export function AgentRail({
                 "whitespace-pre-line rounded-[12px] px-2.5 py-1.5 text-center text-[12.5px] font-bold leading-[1.15] transition-colors duration-200",
                 active
                   ? "bg-aqua-400 text-white"
-                  : "bg-aqua-100 text-aqua-600 group-hover:bg-aqua-200",
+                  : "bg-aqua-100/60 text-aqua-400 group-hover:bg-aqua-100",
               )}
             >
               {agent.bubble}

@@ -68,7 +68,7 @@ export function EmployeeBenefits() {
           padding keeps its floor off the separator by ~the block's top gap, so
           the phone sits with matching breathing room top and bottom while the
           avatars still rest on the line. */}
-      <div className="mx-auto w-full max-w-[384px] lg:h-full lg:pb-14">
+      <div className="mx-auto w-full max-w-[384px] lg:h-full lg:pb-8">
         <AgentPhone agent={agent} />
       </div>
     </div>

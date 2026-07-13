@@ -1,142 +1,23 @@
-import { Buildings, Check, DeviceMobile } from "@phosphor-icons/react/dist/ssr";
-import { cn } from "@/lib/cn";
-import { ChatApp } from "./ChatApp";
+import { EmployeeBenefits } from "./EmployeeBenefits";
 
-// Platform pillar "01 · Benefits" (design handoff — Pillar 1). Broker-of-record
-// pitch on the left (audience cards + consultant chip + plan-type pill cloud),
-// and the concierge chat-app island (ChatApp) on the right. Returns ONE padded
-// block only — the parent supplies the white card + full-bleed dividers. Neutral
-// hex values come from the handoff; oranges/cobalt/aqua use our brand tokens.
-
-type Point = { label: string; sub: string };
-
-const COMPANY_POINTS: Point[] = [
-  { label: "AI plan optimization", sub: "Benchmarked every renewal" },
-  { label: "Every carrier, every renewal", sub: "We shop the full market" },
-  { label: "Dedicated consultant", sub: "A named, in-house expert" },
-];
-
-const EMPLOYEE_POINTS: Point[] = [
-  { label: "The Spine app", sub: "Benefits, all in one place" },
-  { label: "24/7 concierge", sub: "Real help, any hour" },
-  { label: "Care navigation & bill defense", sub: "We dispute wrong bills" },
-];
-
-const PLAN_TYPES = [
-  "Fully insured",
-  "Level-funded",
-  "Self-funded",
-  "ICHRA",
-  "QSEHRA",
-  "401(k)",
-  "Dental & vision",
-  "HSA / FSA",
-];
-
-function CheckRow({ point, accent }: { point: Point; accent: string }) {
-  return (
-    <div className="flex items-start gap-[9px]">
-      <Check size={13} weight="bold" className={cn("mt-[3px] shrink-0", accent)} />
-      <div>
-        <div className="text-[13.5px] font-medium text-[#3d3c37]">{point.label}</div>
-        <div className="text-[12px] leading-snug text-[#8a897f]">{point.sub}</div>
-      </div>
-    </div>
-  );
-}
-
-// `accent` colour-codes the audience: Cobalt for the employer (company), Aqua
-// for employees — the product's two-tone semantic palette.
-function AudienceCard({
-  icon: Icon,
-  title,
-  points,
-  accent,
-  tint,
-}: {
-  icon: typeof Buildings;
-  title: string;
-  points: Point[];
-  accent: string;
-  tint: string;
-}) {
-  return (
-    <div className={cn("rounded-[18px] border p-6", tint)}>
-      <div className="mb-4 flex items-center gap-2.5">
-        <Icon size={20} weight="duotone" className={accent} />
-        <span className="text-[14.5px] font-extrabold text-[#15140f]">
-          {title}
-        </span>
-      </div>
-      <div className="flex flex-col gap-3">
-        {points.map((p) => (
-          <CheckRow key={p.label} point={p} accent={accent} />
-        ))}
-      </div>
-    </div>
-  );
-}
+// Platform pillar "01 · Benefits". Split into two halves in the same section:
+// "For employees" (the Heal app + agent rail) and, below a full-bleed separator,
+// "For employers" (added in a later phase). Returns ONE padded block — the
+// parent supplies the white card wrapper (its overflow-hidden clips the
+// full-bleed separator cleanly to the card edges).
 
 export function Benefits() {
   return (
-    <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
-      <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:gap-11 lg:items-stretch">
-        {/* Left column */}
-        <div className="flex flex-col">
-          <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
-            01 · Benefits
-          </p>
-          <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
-            Better plans.
-            <br />
-            <span className="text-orange">Lower premiums.</span>
-          </h2>
-          <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
-            AI continuously optimizes and right-sizes your plans, reducing
-            healthcare costs by 15% on average.
-          </p>
+    <div className="px-6 pt-12 sm:px-10 sm:pt-14 lg:px-12 lg:pt-14">
+      <EmployeeBenefits />
 
-          <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <AudienceCard
-              icon={Buildings}
-              title="For your company"
-              points={COMPANY_POINTS}
-              accent="text-cobalt-400"
-              tint="border-cobalt-200 bg-cobalt-100/40"
-            />
-            <AudienceCard
-              icon={DeviceMobile}
-              title="For employees"
-              points={EMPLOYEE_POINTS}
-              accent="text-aqua-500"
-              tint="border-aqua-200 bg-aqua-100/40"
-            />
-          </div>
+      {/* Full-bleed floor line the avatars stand on — divides the employee half
+          from the employer half (the negative margins cancel the block padding
+          so it spans the full card width). */}
+      <div className="mt-6 -mx-6 border-t border-[#e9e9e6] sm:-mx-10 lg:-mx-12" />
 
-          {/* Plan-type pill cloud */}
-          <div className="mt-8">
-            <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.1em] text-[#a9a9a3]">
-              Every plan type
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {PLAN_TYPES.map((plan) => (
-                <span
-                  key={plan}
-                  className="rounded-full border border-[#ececea] bg-white px-3 py-1.5 text-[13px] text-[#56554f]"
-                >
-                  {plan}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Chat: phone-sized + centred when stacked (< lg); becomes the grid cell
-            at lg via display:contents. */}
-        <div className="mx-auto w-full max-w-[400px] lg:contents">
-          <ChatApp />
-        </div>
-      </div>
+      {/* TODO(phase 3): "For employers" half goes here, below the separator */}
+      <div className="pb-12 sm:pb-14" />
     </div>
   );
 }

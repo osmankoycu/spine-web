@@ -99,7 +99,7 @@ export function EmployeeBenefits() {
         {/* Feature card — outline only; three equal columns split by hairlines
             that sit exactly on the thirds (padding insets content, not the grid
             lines, so the dividers halve the gaps evenly). */}
-        <div className="mt-9 grid gap-y-5 rounded-[20px] border border-aqua-200 px-6 py-5 sm:grid-cols-3 sm:gap-y-0 sm:py-0 sm:divide-x sm:divide-aqua-200">
+        <div className="mt-9 grid gap-y-5 rounded-[20px] border border-[#e6e6e2] px-6 py-5 sm:grid-cols-3 sm:gap-y-0 sm:py-0 sm:divide-x sm:divide-[#e6e6e2]">
           {FEATURES.map((f) => (
             <div
               key={f.title}

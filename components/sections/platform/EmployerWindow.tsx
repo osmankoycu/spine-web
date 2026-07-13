@@ -17,7 +17,7 @@ export function EmployerWindow() {
             <span className="size-[11px] rounded-full bg-[#dcdbd6]" />
             <span className="size-[11px] rounded-full bg-[#dcdbd6]" />
           </div>
-          <span className="ml-auto text-[11px] tracking-[0.06em] text-[#a9a9a3]">
+          <span className="text-[11px] tracking-[0.06em] text-[#a9a9a3]">
             spine · employer
           </span>
         </div>

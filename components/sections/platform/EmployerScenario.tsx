@@ -147,7 +147,7 @@ export function EmployerScenario() {
         <div>
           <div className="text-[15px] font-extrabold leading-snug tracking-[-0.01em] text-[#15140f]">
             Spine recommends the{" "}
-            <span className="text-[#2a8b3f]">{rec.label}</span> mix
+            <span className="text-[#1e54b8]">{rec.label}</span> mix
           </div>
           <div className="mt-1 text-[12px] leading-snug text-[#8a897f]">
             The best balance of savings and fit for this open enrollment.
@@ -166,16 +166,16 @@ export function EmployerScenario() {
           <div className="relative h-full w-full rounded-[10px] bg-[#f4f4f2]">
             {/* strong-fit zone (fit >= 75) */}
             <div
-              className="absolute inset-x-0 top-0 rounded-t-[10px] bg-[#e7f4ea]"
+              className="absolute inset-x-0 top-0 rounded-t-[10px] bg-[#e9eefb]"
               style={{ height: `${((FIT_MAX - FIT_ZONE) / (FIT_MAX - FIT_MIN)) * 100}%` }}
             >
-              <span className="absolute right-2.5 top-2 text-[10px] font-bold uppercase tracking-[0.04em] text-[#2a8b3f]">
+              <span className="absolute right-2.5 top-2 text-[10px] font-bold uppercase tracking-[0.04em] text-[#1e54b8]">
                 Strong fit — Spine recommends here
               </span>
             </div>
             {/* zone divider line (y = 75) */}
             <div
-              className="absolute inset-x-0 border-t border-dashed border-[#9ccfa8]"
+              className="absolute inset-x-0 border-t border-dashed border-[#a9c0f2]"
               style={{ top: `${((FIT_MAX - FIT_ZONE) / (FIT_MAX - FIT_MIN)) * 100}%` }}
             />
             {/* vertical divider ($250K) */}
@@ -194,12 +194,12 @@ export function EmployerScenario() {
                 >
                   <div className="relative grid place-items-center">
                     {sel && (
-                      <span className="absolute size-11 rounded-full bg-[#2a8b3f]/20" />
+                      <span className="absolute size-11 rounded-full bg-[#1e54b8]/20" />
                     )}
                     <span
                       className={cn(
                         "rounded-full transition-colors duration-300",
-                        sel ? "size-7 bg-[#2a8b3f]" : "size-[26px] bg-[#b9b9b3]",
+                        sel ? "size-7 bg-[#1e54b8]" : "size-[26px] bg-[#b9b9b3]",
                       )}
                     />
                     <span
@@ -236,7 +236,7 @@ export function EmployerScenario() {
           changes as the sliders move. */}
       <div className="border-t border-[#ededea] px-4 py-3 sm:px-5">
         <div className="flex items-baseline gap-1.5">
-          <span className="text-[12px] font-extrabold text-[#2a8b3f]">
+          <span className="text-[12px] font-extrabold text-[#1e54b8]">
             {rec.label} portfolio
           </span>
           <span className="text-[11px] font-semibold text-[#a9a9a3]">
@@ -267,8 +267,8 @@ export function EmployerScenario() {
       <div className="border-t border-[#ededea] bg-white px-4 py-3.5 sm:px-5">
         <div className="mb-2.5 flex items-center gap-2">
           <span className="text-[12px] font-extrabold text-[#15140f]">Adjust scenario</span>
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#2a8b3f]">
-            <span className="size-1.5 rounded-full bg-[#2a8b3f]" />
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1e54b8]">
+            <span className="size-1.5 rounded-full bg-[#1e54b8]" />
             LIVE
           </span>
         </div>

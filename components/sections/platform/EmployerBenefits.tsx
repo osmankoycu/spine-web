@@ -60,7 +60,7 @@ export function EmployerBenefits() {
 
         {/* Feature card — outline only; rows split by full-width hairlines that
             run edge to edge (matches the employee card treatment). */}
-        <div className="mt-9 flex flex-col divide-y divide-cobalt-200 rounded-[20px] border border-cobalt-200">
+        <div className="mt-9 flex flex-col divide-y divide-[#e6e6e2] rounded-[20px] border border-[#e6e6e2]">
           {COMPANY_POINTS.map((p) => (
             <div key={p.title} className="flex items-start gap-2.5 px-6 py-4">
               <Check size={15} weight="bold" className="mt-[3px] shrink-0 text-cobalt-400" />

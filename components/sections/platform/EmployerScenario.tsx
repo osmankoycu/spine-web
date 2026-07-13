@@ -42,7 +42,7 @@ function recommend(arches: Arch[]): string {
   return pool.reduce((best, a) => (a.sav > best.sav ? a : best), pool[0]).id;
 }
 
-const START = { H: 40, C: 55 };
+const START = { H: 25, C: 0 };
 const TARGET = { H: 100, C: 70 };
 
 // Distinct stroke per plan chip so the three carriers read as three separate
@@ -128,7 +128,7 @@ export function EmployerScenario() {
           },
         });
       },
-      { threshold: 0, rootMargin: "-15% 0px -15% 0px" },
+      { threshold: 0.6, rootMargin: "0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -234,7 +234,7 @@ export function EmployerScenario() {
       {/* Portfolio contents — the three plans in the recommended mix + why it
           was picked. Simple by design; re-renders when the recommendation
           changes as the sliders move. */}
-      <div className="border-t border-[#ededea] px-4 py-3 sm:px-5">
+      <div className="border-t border-[#d6d6d1] px-4 py-3 sm:px-5">
         <div className="flex items-baseline gap-1.5">
           <span className="text-[12px] font-extrabold text-[#1e54b8]">
             {rec.label} portfolio
@@ -264,7 +264,7 @@ export function EmployerScenario() {
       </div>
 
       {/* Sliders */}
-      <div className="border-t border-[#ededea] bg-white px-4 py-3.5 sm:px-5">
+      <div className="border-t border-[#d6d6d1] bg-white px-4 py-3.5 sm:px-5">
         <div className="mb-2.5 flex items-center gap-2">
           <span className="text-[12px] font-extrabold text-[#15140f]">Adjust scenario</span>
           <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1e54b8]">

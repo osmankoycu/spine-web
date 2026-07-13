@@ -192,9 +192,9 @@ export function Compliance() {
 
       {/* Console */}
       <Reveal>
-        <div className="overflow-hidden rounded-[20px] border border-[#ececea] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
+        <div className="overflow-hidden rounded-[20px] border border-[#d6d6d1] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
           {/* Top bar */}
-          <div className="flex items-center gap-3.5 border-b border-[#ededea] px-5 py-[11px]">
+          <div className="flex items-center gap-3.5 border-b border-[#d6d6d1] px-5 py-[11px]">
             <div className="flex gap-[7px]">
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
@@ -212,7 +212,7 @@ export function Compliance() {
           {/* Body grid */}
           <div className="grid lg:grid-cols-[200px_1fr_244px]">
             {/* Sidebar */}
-            <div className="flex flex-col gap-3 border-b border-[#ededea] px-[14px] py-[18px] lg:gap-[3px] lg:border-b-0 lg:border-r">
+            <div className="flex flex-col gap-3 border-b border-[#d6d6d1] px-[14px] py-[18px] lg:gap-[3px] lg:border-b-0 lg:border-r">
               <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-[3px] lg:overflow-visible">
                 {NAV.map(({ label, icon: Icon, count }) => {
                   const active = label === cat.nav;
@@ -256,7 +256,7 @@ export function Compliance() {
             {/* Feed — the cell keeps a stable background/border; ComplianceFeed
                 remounts per category (key) so the content fades in and the
                 processing→Done animation replays on each pick. */}
-            <div className="border-b border-[#ededea] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
+            <div className="border-b border-[#d6d6d1] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
               <ComplianceFeed key={cat.id} feed={cat.feed} />
             </div>
 

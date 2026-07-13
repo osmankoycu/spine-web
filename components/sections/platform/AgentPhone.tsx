@@ -5,8 +5,8 @@ import {
   BatteryFull,
   CaretLeft,
   CellSignalFull,
+  ChatCircleDots,
   PaperPlaneRight,
-  VideoCamera,
   WifiHigh,
 } from "@phosphor-icons/react/dist/ssr";
 import { gsap } from "@/lib/gsap";
@@ -161,10 +161,10 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
         </div>
         <button
           type="button"
-          aria-label={`Video call ${agent.name}`}
+          aria-label={`Chat with ${agent.name}`}
           className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-aqua-500 transition-colors hover:bg-aqua-100"
         >
-          <VideoCamera size={19} weight="fill" />
+          <ChatCircleDots size={20} weight="regular" />
         </button>
       </div>
 

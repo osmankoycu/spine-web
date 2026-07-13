@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Short-desktop viewport: laptops where height is tight but width is desktop.
+   Used to compress the Compliance console so the console AND its selector fit
+   on screen together (a user picking a category must see the change). Gated to
+   ≥1024px so it never touches the stacked mobile layout, which scrolls freely. */
+@custom-variant short (@media (min-width: 1024px) and (max-height: 880px));
+
 /* ------------------------------------------------------------------ */
 /* Design tokens (Tailwind v4 CSS-first @theme).                       */
 /* Values approximate the Figma reference — confirm exact hex/fonts    */

@@ -35,7 +35,7 @@ function Row({ row, last, flipped }: { row: FeedRow; last: boolean; flipped: boo
   const isDone = row.tone === "done";
 
   return (
-    <div className={cn("flex items-center gap-[13px] py-[14px]", !last && "border-b border-[#ededea]")}>
+    <div className={cn("flex items-center gap-[13px] py-[14px] short:py-[9px]", !last && "border-b border-[#ededea]")}>
       {/* status chip */}
       <span
         className={cn(
@@ -139,7 +139,7 @@ export function ComplianceFeed({ feed }: { feed: FeedRow[] }) {
     // auto-advance. A remount (parent `key`) resets the row animation cleanly
     // WITHOUT any container fade — the rows just re-enter at their pending state
     // and flip to Done, so switches are crisp, never flashing.
-    <div ref={ref} className="h-full px-[22px] py-[18px]">
+    <div ref={ref} className="h-full px-[22px] py-[18px] short:py-3">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">Live feed</span>
         <span className="text-[11.5px] text-[#b0afa9]">This month</span>

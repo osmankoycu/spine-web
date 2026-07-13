@@ -83,6 +83,10 @@
 :root {
   --page-px: clamp(20px, 8.33vw, 120px); /* horizontal gutter (≈120px @1440) */
   --header-h: 100px;
+  /* Height of the announcement banner (top of body). Defaults to its visible
+     height so the fixed header renders correctly under it on the server; the
+     banner sets it to 0px once dismissed. */
+  --banner-h: 44px;
 }
 
 html,

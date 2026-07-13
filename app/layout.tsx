@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/app/providers/SmoothScrollProvider";
 import { Header } from "@/components/header/Header";
+import { AnnouncementBanner } from "@/components/header/AnnouncementBanner";
 import { TagDrop } from "@/components/footer/TagDrop";
 import { Footer } from "@/components/footer/Footer";
 import { DemoModalProvider } from "@/components/cta/DemoModal";
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className="min-h-full antialiased">
         <SmoothScrollProvider>
           <DemoModalProvider>
+            <AnnouncementBanner />
             <Header />
             {children}
             <TagDrop />

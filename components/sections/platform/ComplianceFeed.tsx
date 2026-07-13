@@ -134,7 +134,12 @@ export function ComplianceFeed({ feed }: { feed: FeedRow[] }) {
   }, []);
 
   return (
-    <div ref={ref} className="h-full animate-[fadeIn_0.4s_ease-out] px-[22px] py-[18px]">
+    // No entrance fade here: the console already reveals on scroll (<Reveal>),
+    // and a per-switch opacity dip read as a periodic flicker during
+    // auto-advance. A remount (parent `key`) resets the row animation cleanly
+    // WITHOUT any container fade — the rows just re-enter at their pending state
+    // and flip to Done, so switches are crisp, never flashing.
+    <div ref={ref} className="h-full px-[22px] py-[18px]">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">Live feed</span>
         <span className="text-[11.5px] text-[#b0afa9]">This month</span>

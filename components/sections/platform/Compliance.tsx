@@ -131,10 +131,9 @@ export function Compliance() {
   const cat = CATEGORIES[selected];
 
   // Auto-advance through the categories every 5s while the section is in view.
-  // Any manual selection cancels it for good (setAuto(false)).
-  // DISABLED for now — user selects manually. Flip the initial state to `true`
-  // to re-enable auto-advance later (all the plumbing below stays in place).
-  const [auto, setAuto] = useState(false);
+  // A manual pick cancels it for good (pick → setAuto(false)) so the console
+  // never moves out from under a user who has started driving it themselves.
+  const [auto, setAuto] = useState(true);
   const [inView, setInView] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 

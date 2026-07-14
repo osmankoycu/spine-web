@@ -1,0 +1,5 @@
+# The Sanity Studio is a separate app deployed to Sanity hosting
+# (joinspine-blog.sanity.studio), not part of the Next.js deployment.
+studio
+# Transient blog-import working dir (also gitignored).
+content-import

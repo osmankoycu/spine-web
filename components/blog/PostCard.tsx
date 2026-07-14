@@ -26,8 +26,8 @@ export function PostCard({
       <div
         className={
           featured
-            ? "aspect-[25/16] overflow-hidden bg-[#edf2fd] md:order-last"
-            : "aspect-[25/16] overflow-hidden bg-[#edf2fd]"
+            ? "aspect-[25/16] overflow-hidden bg-[#f4f7fe] md:order-last"
+            : "aspect-[25/16] overflow-hidden bg-[#f4f7fe]"
         }
       >
         {post.heroImage ? (
@@ -42,7 +42,7 @@ export function PostCard({
             className="h-full w-full object-cover object-bottom transition-transform duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="h-full w-full bg-[#edf2fd]" />
+          <div className="h-full w-full bg-[#f4f7fe]" />
         )}
       </div>
 

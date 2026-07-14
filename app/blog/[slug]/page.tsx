@@ -142,7 +142,7 @@ export default async function PostPage({
             on a soft panel so nothing is cropped. */}
         {post.heroImage && (
           <div className="mx-auto mt-9 w-full max-w-[1000px] px-6 sm:px-8">
-            <div className="aspect-[25/16] w-full overflow-hidden rounded-[28px] bg-[#edf2fd]">
+            <div className="aspect-[25/16] w-full overflow-hidden rounded-[28px] bg-[#f4f7fe]">
               <SanityImage
                 image={post.heroImage}
                 width={1600}
@@ -187,7 +187,7 @@ export default async function PostPage({
 
       {/* ── MORE POSTS ── */}
       {morePosts.length > 0 && (
-        <section className="mx-auto max-w-[1200px] px-4 pb-16 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-[1240px] px-6 pb-16 md:px-10">
           <h2 className="font-display mb-7 text-[24px] font-extrabold tracking-[-0.02em] text-ink">
             More from the blog
           </h2>

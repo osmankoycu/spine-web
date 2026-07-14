@@ -132,3 +132,64 @@ export type PartnerPage = {
   };
   cta: { heading: TwoTone; lead: string; button: Cta };
 };
+
+// ── Template D · Compare (Spine vs one competitor) ─────────────────
+// A head-to-head page: white split hero with a verdict card, the signature dark
+// 2-column matrix (Spine lit orange vs the competitor), concrete difference
+// cards, an honest "where each wins" split, a stat bar, a switch timeline, and
+// an FAQ before the tag-field closer. Content lives in lib/interior/compare.ts.
+
+// One matrix row: a capability dimension with Spine's answer vs theirs.
+export type CompareRow = { label: string; icon: string; spine: string; them: string };
+
+// Hero verdict-card line: short label with the two sides' one-word/short answer.
+export type SnapshotPoint = { label: string; spine: string; them: string };
+
+// Honest "where each side wins" bullet.
+export type FairPoint = { title: string; body: string };
+
+// FAQ entry.
+export type Faq = { q: string; a: string };
+
+export type ComparePage = {
+  slug: string;
+  competitor: string; // "TriNet"
+  competitorSub: string; // matrix column subtitle, e.g. "PEO · co-employment"
+  breadcrumb: Breadcrumb[];
+  eyebrow: string;
+  h1: TwoTone;
+  lead: string;
+  primary: Cta;
+  secondary: Cta;
+  checks: string[];
+  // Hero verdict card (right column) — a compact at-a-glance summary.
+  snapshot: {
+    title: string;
+    points: SnapshotPoint[];
+    bottom: { label: string; figure: string };
+  };
+  // The signature dark head-to-head matrix.
+  matrix: {
+    eyebrow: string;
+    heading: TwoTone;
+    intro: string;
+    rows: CompareRow[];
+  };
+  // Concrete "what Spine does differently" cards.
+  differences: { eyebrow: string; heading: TwoTone; intro: string; items: Feature[] };
+  // Honest two-column "where each wins".
+  fair: {
+    eyebrow: string;
+    heading: TwoTone;
+    intro: string;
+    themLabel: string;
+    themPoints: FairPoint[];
+    spineLabel: string;
+    spinePoints: FairPoint[];
+  };
+  numbers: { eyebrow: string; heading: TwoTone; stats: Stat[] };
+  // "How to switch" timeline (dark box).
+  switch: { eyebrow: string; heading: TwoTone; steps: Step[] };
+  faq: { eyebrow: string; heading: TwoTone; items: Faq[] };
+  cta: { heading: TwoTone; lead: string; button: Cta };
+};

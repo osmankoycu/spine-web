@@ -148,18 +148,22 @@ export default async function PostPage({
           </div>
         </div>
 
-        {/* hero image */}
+        {/* hero image — a transparent cut-out illustration, shown object-contain
+            on a soft panel so nothing is cropped. */}
         {post.heroImage && (
-          <div className="mx-auto mt-9 w-full max-w-[1080px] px-6 sm:px-8">
-            <SanityImage
-              image={post.heroImage}
-              width={1600}
-              height={900}
-              alt={post.title}
-              priority
-              sizes="(min-width: 1080px) 1080px, 100vw"
-              className="aspect-[16/9] w-full rounded-[24px] border border-hairline object-cover"
-            />
+          <div className="mx-auto mt-9 w-full max-w-[1000px] px-6 sm:px-8">
+            <div className="aspect-[16/10] w-full overflow-hidden rounded-[28px] border border-hairline bg-gradient-to-b from-white to-[#efeeeb] p-3 sm:p-5">
+              <SanityImage
+                image={post.heroImage}
+                width={1600}
+                height={1000}
+                alt={post.title}
+                fit="max"
+                priority
+                sizes="(min-width: 1000px) 1000px, 100vw"
+                className="h-full w-full object-contain"
+              />
+            </div>
           </div>
         )}
       </section>

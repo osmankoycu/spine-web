@@ -12,6 +12,7 @@ export function SanityImage({
   className,
   sizes,
   priority,
+  fit = "crop",
 }: {
   image: SanityImageSource;
   width: number;
@@ -20,13 +21,15 @@ export function SanityImage({
   className?: string;
   sizes?: string;
   priority?: boolean;
+  // "crop" fills width×height (hotspot crop). "max" preserves the source aspect
+  // and transparency — used for cut-out hero illustrations shown object-contain.
+  fit?: "crop" | "max";
 }) {
-  const src = urlFor(image)
-    .width(width)
-    .height(height)
-    .fit("crop")
-    .auto("format")
-    .url();
+  const builder = urlFor(image).width(width).auto("format");
+  const src =
+    fit === "crop"
+      ? builder.height(height).fit("crop").url()
+      : builder.fit("max").url();
 
   return (
     <Image

@@ -23,19 +23,26 @@ export function PostCard({
           : "group flex flex-col overflow-hidden rounded-[20px] border border-hairline bg-white transition-shadow hover:shadow-[0_30px_60px_-45px_rgba(20,20,18,0.35)]"
       }
     >
-      <div className={featured ? "overflow-hidden md:order-last" : "overflow-hidden"}>
+      <div
+        className={
+          featured
+            ? "aspect-[16/10] overflow-hidden bg-gradient-to-b from-white to-[#efeeeb] p-4 md:order-last md:aspect-auto"
+            : "aspect-[16/10] overflow-hidden bg-gradient-to-b from-white to-[#efeeeb] p-3"
+        }
+      >
         {post.heroImage ? (
           <SanityImage
             image={post.heroImage}
             width={featured ? 900 : 760}
-            height={featured ? 620 : 428}
+            height={featured ? 560 : 475}
             alt=""
+            fit="max"
             sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
             priority={featured}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="aspect-[16/9] w-full bg-surface-band" />
+          <div className="h-full w-full bg-surface-band" />
         )}
       </div>
 

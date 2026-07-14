@@ -25,11 +25,9 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Compare",
     links: [
-      { label: "vs TriNet", href: "/compare/trinet" },
-      { label: "vs Rippling", href: "/compare/rippling" },
-      { label: "vs Gusto", href: "/compare/gusto" },
-      { label: "vs Justworks", href: "/compare/justworks" },
-      { label: "vs Newfront", href: "/compare/newfront" },
+      { label: "vs TriNet PEO", href: "/compare/trinet" },
+      { label: "vs Rippling PEO", href: "/compare/rippling" },
+      { label: "vs Broker + Gusto", href: "/compare/gusto" },
     ],
   },
   {

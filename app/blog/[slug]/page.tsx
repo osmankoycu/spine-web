@@ -152,7 +152,7 @@ export default async function PostPage({
             on a soft panel so nothing is cropped. */}
         {post.heroImage && (
           <div className="mx-auto mt-9 w-full max-w-[1000px] px-6 sm:px-8">
-            <div className="aspect-[16/10] w-full overflow-hidden rounded-[28px] border border-hairline bg-gradient-to-b from-white to-[#efeeeb] p-3 sm:p-5">
+            <div className="aspect-[16/10] w-full overflow-hidden rounded-[28px] bg-cobalt-100">
               <SanityImage
                 image={post.heroImage}
                 width={1600}
@@ -161,7 +161,7 @@ export default async function PostPage({
                 fit="max"
                 priority
                 sizes="(min-width: 1000px) 1000px, 100vw"
-                className="h-full w-full object-contain"
+                className="h-full w-full object-cover object-bottom"
               />
             </div>
           </div>

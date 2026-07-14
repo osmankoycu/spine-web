@@ -152,11 +152,11 @@ export default async function PostPage({
             on a soft panel so nothing is cropped. */}
         {post.heroImage && (
           <div className="mx-auto mt-9 w-full max-w-[1000px] px-6 sm:px-8">
-            <div className="aspect-[16/10] w-full overflow-hidden rounded-[28px] bg-cobalt-100">
+            <div className="aspect-[25/16] w-full overflow-hidden rounded-[28px] bg-[#edf2fd]">
               <SanityImage
                 image={post.heroImage}
                 width={1600}
-                height={1000}
+                height={1024}
                 alt={post.title}
                 fit="max"
                 priority

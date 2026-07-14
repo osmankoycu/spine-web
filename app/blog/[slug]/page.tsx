@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { client, sanityFetch } from "@/lib/sanity/client";
 import { POST_QUERY, MORE_POSTS_QUERY, SLUGS_QUERY } from "@/lib/sanity/queries";
 import type { PostCardData, PostData } from "@/lib/sanity/types";
@@ -88,7 +87,7 @@ export default async function PostPage({
   };
 
   return (
-    <main className="bg-surface-page text-ink">
+    <main className="bg-white text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -97,15 +96,6 @@ export default async function PostPage({
       {/* ── HEADER ── */}
       <section className="bg-white">
         <div className="mx-auto w-full max-w-[820px] px-6 pt-[128px] sm:px-8">
-          {/* breadcrumb */}
-          <nav className="mb-6 flex items-center gap-1.5 text-[13px] text-muted">
-            <Link href="/blog" className="text-body-2 hover:text-ink">
-              Blog
-            </Link>
-            <CaretRight size={12} weight="bold" className="opacity-50" />
-            <span className="line-clamp-1 font-semibold text-ink">{post.title}</span>
-          </nav>
-
           {primaryCategory && (
             <Link
               href="/blog"
@@ -197,7 +187,7 @@ export default async function PostPage({
 
       {/* ── MORE POSTS ── */}
       {morePosts.length > 0 && (
-        <section className="mx-auto max-w-[1240px] px-6 pb-16 md:px-10">
+        <section className="mx-auto max-w-[1200px] px-4 pb-16 sm:px-6 lg:px-8">
           <h2 className="font-display mb-7 text-[24px] font-extrabold tracking-[-0.02em] text-ink">
             More from the blog
           </h2>

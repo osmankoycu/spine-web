@@ -7,7 +7,7 @@ import { PostCard } from "@/components/blog/PostCard";
 export const metadata: Metadata = {
   title: "Blog · Spine",
   description:
-    "Playbooks and cost math on benefits, compliance, and people ops — for teams leaving the PEO and modernizing their stack.",
+    "Playbooks and cost math on benefits, compliance, and people ops, for teams leaving the PEO and modernizing their stack.",
   alternates: {
     canonical: "/blog",
     types: { "application/rss+xml": "/blog/rss.xml" },
@@ -27,7 +27,7 @@ export default async function BlogIndex() {
             The Spine Blog
           </span>
           <h1 className="font-display mt-4 max-w-[760px] text-[40px] font-extrabold leading-[1.02] tracking-[-0.035em] sm:text-[52px] lg:text-[58px]">
-            Benefits, compliance & people ops — decoded.
+            Benefits, compliance & people ops, decoded.
           </h1>
           <p className="mt-5 max-w-[560px] text-[18px] leading-[1.55] text-body">
             Playbooks, cost math, and hard-won lessons for teams leaving the PEO and

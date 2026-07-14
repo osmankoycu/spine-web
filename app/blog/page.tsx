@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   title: "Blog · Spine",
   description:
     "Playbooks and cost math on benefits, compliance, and people ops — for teams leaving the PEO and modernizing their stack.",
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: "/blog",
+    types: { "application/rss+xml": "/blog/rss.xml" },
+  },
 };
 
 export default async function BlogIndex() {

@@ -21,6 +21,10 @@
 # sanity studio build artifacts
 /studio/dist
 /studio/.sanity
+/studio/schema.json
+
+# transient blog import source (ported markdown + generated hero images)
+/content-import
 
 # production
 /build

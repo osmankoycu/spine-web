@@ -7,7 +7,10 @@ export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-05-15",
-  useCdn: true, // fast edge reads; freshness comes from tag-based revalidation
+  // Read from the API, not the CDN: our ISR layer already absorbs load, and the
+  // API is immediately consistent after a publish (the CDN can lag a few
+  // seconds, which otherwise caches an empty/stale result right after an edit).
+  useCdn: false,
 });
 
 // Cache Components is off (see next.config.ts), so we use the classic fetch

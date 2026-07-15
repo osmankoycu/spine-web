@@ -80,9 +80,9 @@ export function EmployeeBenefits() {
   }, [auto]);
 
   return (
-    <div ref={rootRef} className="grid gap-15 lg:grid-cols-[1fr_384px] lg:items-stretch lg:gap-18">
-      {/* Left column */}
-      <div className="flex flex-col">
+    <div ref={rootRef} className="grid gap-15 lg:grid-cols-[384px_1fr] lg:items-stretch lg:gap-18">
+      {/* Copy column — sits on the RIGHT on desktop (order-2), phone on the left */}
+      <div className="flex flex-col lg:order-2">
         <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span>
         </p>
@@ -120,11 +120,10 @@ export function EmployeeBenefits() {
         </div>
       </div>
 
-      {/* Phone — centred when stacked (< lg); the grid cell at lg. The bottom
-          padding keeps its floor off the separator by ~the block's top gap, so
-          the phone sits with matching breathing room top and bottom while the
-          avatars still rest on the line. */}
-      <div className="mx-auto w-full max-w-[384px] lg:h-full lg:pb-8">
+      {/* Phone — centred when stacked (< lg); LEFT grid cell at lg (order-1). The
+          bottom padding keeps its floor off the separator by ~the block's top
+          gap, so the phone sits with matching breathing room top and bottom. */}
+      <div className="mx-auto w-full max-w-[384px] lg:order-1 lg:h-full lg:pb-8">
         <AgentPhone agent={agent} />
       </div>
     </div>

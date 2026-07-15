@@ -35,16 +35,17 @@ const PLAN_TYPES = [
 
 export function EmployerBenefits() {
   return (
-    <div className="grid gap-15 lg:grid-cols-[1fr_384px] lg:items-stretch lg:gap-18">
-      {/* Left: employer app window — the "Why this mix" scenario map */}
-      <div className="mx-auto w-full lg:h-full">
+    <div className="grid gap-15 lg:grid-cols-[384px_1fr] lg:items-stretch lg:gap-18">
+      {/* Employer app window — the "Why this mix" scenario map; RIGHT cell on
+          desktop (order-2), copy on the left */}
+      <div className="mx-auto w-full lg:order-2 lg:h-full">
         <EmployerWindow />
       </div>
 
-      {/* Right: employer copy — mirrors the employee heading block (same eyebrow
-          treatment + title + subtitle, cobalt accent) so the two halves read as
-          a matched pair. */}
-      <div className="flex flex-col justify-center">
+      {/* Employer copy — LEFT cell on desktop (order-1); mirrors the employee
+          heading block (same eyebrow treatment + title + subtitle, cobalt
+          accent) so the two halves read as a matched pair. */}
+      <div className="flex flex-col justify-center lg:order-1">
         <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           01 · Benefits <span className="ml-1 text-orange/50">/ Employer</span>
         </p>

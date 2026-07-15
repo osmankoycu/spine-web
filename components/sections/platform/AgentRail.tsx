@@ -33,7 +33,7 @@ export function AgentRail({
           >
             <span
               className={cn(
-                "whitespace-pre-line rounded-[12px] px-2.5 py-1.5 text-center text-[12.5px] font-bold leading-[1.15] transition-colors duration-200",
+                "flex h-[44px] items-center justify-center whitespace-pre-line rounded-[12px] px-2.5 text-center text-[12.5px] font-bold leading-[1.15] transition-colors duration-200",
                 active
                   ? "bg-aqua-400 text-white"
                   : "bg-aqua-100/60 text-aqua-400 group-hover:bg-aqua-100",
@@ -50,6 +50,7 @@ export function AgentRail({
               <img
                 src={`/agents/${agent.id}.png`}
                 alt={agent.name}
+                style={agent.railBottom ? { bottom: agent.railBottom } : undefined}
                 className={cn(
                   "absolute inset-x-0 bottom-0 mx-auto w-[112px] max-w-full transition-transform duration-300 ease-out will-change-transform",
                   active ? "translate-y-0" : "translate-y-1.5 group-hover:translate-y-0",

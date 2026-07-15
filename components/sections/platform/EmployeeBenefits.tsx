@@ -16,15 +16,15 @@ type Feature = { title: string; sub: string };
 const FEATURES: Feature[] = [
   {
     title: "The Heal app",
-    sub: "Every plan, claim, and member card in one simple place.",
+    sub: "Benefits, claims, ID cards, and coverage in one place.",
   },
   {
     title: "24/7 concierge",
-    sub: "Message or call a real benefits expert, any hour, any day.",
+    sub: "Get help anytime by chat or phone.",
   },
   {
-    title: "Care & bill defense",
-    sub: "We steer people to in-network care and dispute wrong bills.",
+    title: "Medical bill defense",
+    sub: "Catch errors and negotiate medical bills.",
   },
 ];
 
@@ -80,20 +80,21 @@ export function EmployeeBenefits() {
   }, [auto]);
 
   return (
-    <div ref={rootRef} className="grid gap-15 lg:grid-cols-[1fr_384px] lg:items-stretch lg:gap-18">
-      {/* Left column */}
-      <div className="flex flex-col">
+    <div ref={rootRef} className="grid gap-15 lg:grid-cols-[384px_1fr] lg:items-stretch lg:gap-18">
+      {/* Copy column — sits on the RIGHT on desktop (order-2), phone on the left */}
+      <div className="flex flex-col lg:order-2">
         <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span>
         </p>
         <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
-          Care your
+          One place for every
           <br />
-          <span className="text-aqua-500">team will love.</span>
+          <span className="text-aqua-500">healthcare question.</span>
         </h2>
         <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
-          Every employee gets a 24/7 concierge in one app, to find the right
-          care, get answers fast, and dispute wrong bills.
+          Every employee gets a 24/7 concierge to understand their benefits,
+          find in-network providers, get answers fast, and negotiate medical
+          bills.
         </p>
 
         {/* Feature card — outline only; three equal columns split by hairlines
@@ -120,11 +121,10 @@ export function EmployeeBenefits() {
         </div>
       </div>
 
-      {/* Phone — centred when stacked (< lg); the grid cell at lg. The bottom
-          padding keeps its floor off the separator by ~the block's top gap, so
-          the phone sits with matching breathing room top and bottom while the
-          avatars still rest on the line. */}
-      <div className="mx-auto w-full max-w-[384px] lg:h-full lg:pb-8">
+      {/* Phone — centred when stacked (< lg); LEFT grid cell at lg (order-1). The
+          bottom padding keeps its floor off the separator by ~the block's top
+          gap, so the phone sits with matching breathing room top and bottom. */}
+      <div className="mx-auto w-full max-w-[384px] lg:order-1 lg:h-full lg:pb-8">
         <AgentPhone agent={agent} />
       </div>
     </div>

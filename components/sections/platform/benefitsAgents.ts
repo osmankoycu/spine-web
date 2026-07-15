@@ -12,6 +12,9 @@ export type BenefitsAgent = {
   bubble: string; // label pill above the avatar (\n splits to two lines)
   question: string; // employee's incoming message (left, white bubble)
   answer: string[]; // the agent's reply, one bubble per line (right, aqua)
+  railBottom?: string; // per-avatar bottom offset in the rail; used to sink a
+  // figure whose lower body is white-on-white (would otherwise read as floating)
+  // below the mask so its coloured mass rests on the floor line.
 };
 
 export const BENEFITS_AGENTS: BenefitsAgent[] = [
@@ -19,50 +22,50 @@ export const BENEFITS_AGENTS: BenefitsAgent[] = [
     id: "care",
     name: "Care Finder",
     bubble: "Care\nFinder",
-    question: "I got a $1,200 ER bill, is this right?",
+    question: "I need a dermatologist who speaks Spanish.",
     answer: [
-      "Looking into it now, hang tight.",
-      "Found it, you were billed out-of-network by mistake. We're disputing it for you.",
+      "Looking for in-network dermatologists near you...",
+      "I found four in-network dermatologists within 15 minutes. Two speak Spanish and the earliest appointment is tomorrow at 9:30 AM.",
     ],
   },
   {
     id: "plan",
-    name: "Plan Comparison",
-    bubble: "Plan\nComparison",
-    question: "Which plan is actually better for my family?",
+    name: "Plan Picker",
+    bubble: "Plan\nPicker",
+    question: "My wife is pregnant. Which plan should we choose?",
     answer: [
-      "Comparing your options now.",
-      "The PPO saves you about $840 a year for how your family uses care. Want me to switch you at open enrollment?",
+      "Comparing your plan options based on your expected healthcare needs...",
+      "I'd recommend the PPO. It costs about $45 more per paycheck, but you'll likely save around $2,300 this year based on your expected care.",
     ],
   },
   {
     id: "pharmacy",
-    name: "Pharmacy Navigation",
-    bubble: "Pharmacy\nNavigation",
-    question: "My prescription is $180 this month?",
+    name: "Meds Finder",
+    bubble: "Meds\nFinder",
+    question: "Ozempic isn't covered. What are my options?",
     answer: [
-      "Checking pharmacy pricing.",
-      "There's a covered generic at $12, I sent the switch to your pharmacy for pickup.",
+      "Checking your plan and covered alternatives...",
+      "Wegovy requires prior authorization, but Zepbound is covered with a $30 copay. I can also help you start the prior authorization if you'd prefer Ozempic.",
     ],
   },
   {
     id: "benefits",
-    name: "Benefits & Coverage",
-    bubble: "Benefits &\nCoverage",
-    question: "Is my MRI going to be covered?",
+    name: "Check Coverage",
+    bubble: "Check\nCoverage",
+    question: "Does my plan cover therapy?",
     answer: [
-      "Pulling up your coverage.",
-      "Yes, covered at 90% after your deductible, so your share is about $140.",
+      "Let me check your benefits.",
+      "Yes. Therapy is covered after a $25 copay when you see an in-network provider. I can also help you find one nearby.",
     ],
   },
   {
     id: "fightback",
-    name: "FightBack Agent",
-    bubble: "FightBack\nAgent",
-    question: "My claim got denied. Can you help?",
+    name: "FightBack",
+    bubble: "FightBack",
+    question: "I got a $1,200 ER bill. Is this right?",
     answer: [
-      "On it, reviewing the denial reason.",
-      "This was denied in error. I've filed an appeal with the records to get it overturned.",
+      "Looking into it now, hang tight.",
+      "Found it—you were billed out-of-network by mistake. We're disputing it for you.",
     ],
   },
 ];

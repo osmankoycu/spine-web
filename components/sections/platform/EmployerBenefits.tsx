@@ -9,16 +9,16 @@ type Point = { title: string; sub: string };
 
 const COMPANY_POINTS: Point[] = [
   {
-    title: "AI plan optimization",
-    sub: "Our models benchmark your plans against the market and right-size them at every renewal.",
+    title: "AI plan design",
+    sub: "Benchmark your plans against the market and recommend the best carrier and plan mix every renewal.",
   },
   {
     title: "Every carrier, every renewal",
-    sub: "We shop the full market each year and negotiate so you never overpay for coverage.",
+    sub: "Compare every major carrier and negotiate the best pricing every year.",
   },
   {
     title: "Dedicated consultant",
-    sub: "A named, in-house benefits expert who knows your company and replies within hours.",
+    sub: "A dedicated benefits consultant who knows your company and responds within hours.",
   },
 ];
 
@@ -55,8 +55,8 @@ export function EmployerBenefits() {
           <span className="text-cobalt-400">Lower premiums.</span>
         </h2>
         <p className="mt-3.5 max-w-[460px] text-[16px] leading-[1.5] text-[#7c7c77]">
-          AI continuously optimizes and right-sizes your plans, reducing
-          healthcare costs by 15% on average.
+          AI analyzes your workforce and continuously optimizes your benefits
+          plans, reducing healthcare costs by 15% on average.
         </p>
 
         {/* Feature card — outline only; rows split by full-width hairlines that

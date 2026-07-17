@@ -17,9 +17,9 @@ export const footerColumns: FooterColumn[] = [
     links: [
       { label: "For employees", href: "/platform/for-employees" },
       { label: "For employers", href: "/platform/for-employers" },
-      { label: "AI Concierge", href: "/platform/ai-concierge" },
-      { label: "Plan optimizer", href: "/platform/plan-optimizer" },
-      { label: "Compliance", href: "/platform/compliance" },
+      { label: "AI Concierge", href: "/platform/employee-concierge" },
+      { label: "Plan optimizer", href: "/platform/plan-optimization" },
+      { label: "Compliance", href: "/platform/healthcare-compliance" },
     ],
   },
   {

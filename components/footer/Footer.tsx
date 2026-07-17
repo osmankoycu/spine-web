@@ -21,7 +21,7 @@ export function Footer() {
       {/* Inset card — side gutters match the header width, top corners rounded. */}
       <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#15140f] px-8 pb-8 pt-12 sm:pt-14 md:rounded-t-[40px] lg:px-14 lg:pb-9 lg:pt-16">
         {/* Top — brand + link columns */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[2.3fr_repeat(4,1fr)] lg:gap-x-10">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[2.3fr_repeat(3,1fr)] lg:gap-x-10">
           {/* Brand */}
           <div className="md:max-w-[360px]">
             <SpineLogo fill="#ffffff" dotFill="#ff6c16" className="!h-[52px] md:!h-[70px]" />

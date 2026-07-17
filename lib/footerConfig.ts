@@ -33,21 +33,10 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Resources",
     links: [
+      { label: "Blog", href: "/blog" },
       { label: "Free cost audit", href: "/request-a-demo" },
       { label: "PEO exit guide", href: "/resources/peo-exit-guide" },
       { label: "Benefits benchmarks", href: "/resources/benefits-benchmarks" },
-      { label: "Blog", href: "/blog" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Customers", href: "/customers" },
-      { label: "Careers", href: "/careers" },
-      { label: "Security", href: "/security" },
-      { label: "Contact", href: "/contact" },
     ],
   },
 ];

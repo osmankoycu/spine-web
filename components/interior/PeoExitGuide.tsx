@@ -247,7 +247,7 @@ export async function PeoExitGuide() {
               full on the Spine blog.
             </p>
           </div>
-          <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-11 grid max-w-[900px] gap-4 sm:grid-cols-2">
             {posts.map((p) => (
               <Link
                 key={p._id}

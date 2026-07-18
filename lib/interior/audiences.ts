@@ -46,7 +46,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       steps: [
         { icon: "MagnifyingGlass", day: "Day 0–2", title: "Free cost audit", sub: "Plans modeled, savings projected in 48h." },
         { icon: "Signature", day: "Day 2–3", title: "BOR letter signed", sub: "Spine becomes your broker of record." },
-        { icon: "PlugsConnected", day: "Day 3–9", title: "Carriers set up · plans live", sub: "Employees onboarded in the Spine app." },
+        { icon: "PlugsConnected", day: "Day 3–9", title: "Carriers set up · plans live", sub: "Employees onboarded in the Heal app." },
         { icon: "Check", day: "Day 10", title: "Compliance & payroll integrated", sub: "ACA, multi-state, filings, on autopilot.", last: true },
       ],
     },
@@ -119,7 +119,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       intro: "Whether you're starting from scratch or already have something, we get you live fast, and scale with you.",
       steps: [
         { icon: "MagnifyingGlass", day: "Step 1", title: "Free audit", sub: "Got something? We audit it. If not, we build from scratch." },
-        { icon: "PlugsConnected", day: "Step 2", title: "Live in 7–10 days", sub: "Plans live, team on the Spine app, compliance and payroll integrated." },
+        { icon: "PlugsConnected", day: "Step 2", title: "Live in 7–10 days", sub: "Plans live, team on the Heal app, compliance and payroll integrated." },
         { icon: "Check", day: "Ongoing", title: "We grow with you", sub: "Add hires, states, complexity, Spine scales without a rebuild.", last: true },
       ],
     },
@@ -210,7 +210,7 @@ export const audiencePages: Record<string, AudiencePage> = {
         { icon: "CurrencyCircleDollar", title: "Free for your company", body: "We earn carrier commission. No setup, no admin, no per-employee fees." },
         { icon: "ShieldCheck", title: "Compliance handled", body: "ACA, ERISA, COBRA, multi-state tax and hiring, all on autopilot." },
         { icon: "UserCircle", title: "Dedicated team", body: "A senior benefits consultant, backed by AI + in-house experts. No call center." },
-        { icon: "ChatCircleText", title: "Employee experience", body: "The Spine app gives every employee 24/7 support, bill negotiation, and care navigation." },
+        { icon: "ChatCircleText", title: "Employee experience", body: "The Heal app gives every employee 24/7 support, bill negotiation, and care navigation." },
       ],
     },
     testimonial: {
@@ -284,7 +284,7 @@ export const audiencePages: Record<string, AudiencePage> = {
         { icon: "Globe", title: "Multi-state, multi-entity", body: "Any combination of states, EINs, and entity structures. Spine scales with your complexity." },
         { icon: "ChartBar", title: "Claims-data leverage", body: "We counter every renewal with aggregated claims data. Avg. 4–6% reduction on the ask." },
         { icon: "ShieldCheck", title: "Compliance at scale", body: "ACA, ERISA, COBRA, 5500, state mandates, monitored and executed across your footprint." },
-        { icon: "Headset", title: "Concierge for everyone", body: "Every employee gets 24/7 support via the Spine app. Cuts HR ticket volume 70%+." },
+        { icon: "Headset", title: "Concierge for everyone", body: "Every employee gets 24/7 support via the Heal app. Cuts HR ticket volume 70%+." },
       ],
     },
     testimonial: {
@@ -635,7 +635,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       steps: [
         { icon: "MagnifyingGlass", day: "Day 0", title: "Free audit, fast", sub: "48-hour turnaround. Plans modeled for current and projected headcount." },
         { icon: "Signature", day: "Day 3", title: "BOR & carriers", sub: "Carriers contacted, plans set up, no 60-day implementation." },
-        { icon: "PlugsConnected", day: "Day 7", title: "Live on the Spine app", sub: "Employees onboarded, plan picker, digital cards, concierge." },
+        { icon: "PlugsConnected", day: "Day 7", title: "Live on the Heal app", sub: "Employees onboarded, plan picker, digital cards, concierge." },
         { icon: "Check", day: "Ongoing", title: "We absorb the growth", sub: "Hire 50 in a quarter or add 10 states? Every layer scales automatically.", last: true },
       ],
     },
@@ -651,7 +651,7 @@ export const audiencePages: Record<string, AudiencePage> = {
       cards: [
         { icon: "Globe", title: "Global team support", body: "US employees end-to-end, with EOR coordination for international hires (Deel, Remote, Oyster)." },
         { icon: "Lightbulb", title: "Equity-aware benefits", body: "Your equity story is your benefits story, we align messaging with your comp framework." },
-        { icon: "ChatCircleText", title: "AI-native concierge", body: "Employees expect AI-native UX. The Spine app answers instantly, with humans as backup." },
+        { icon: "ChatCircleText", title: "AI-native concierge", body: "Employees expect AI-native UX. The Heal app answers instantly, with humans as backup." },
         { icon: "ChartBar", title: "Fast-feedback dashboards", body: "Real-time headcount, cost, and compliance visibility, move at investor speed." },
       ],
     },

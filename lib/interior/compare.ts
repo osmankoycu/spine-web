@@ -138,14 +138,14 @@ export const comparePages: Record<string, ComparePage> = {
       steps: [
         { title: "Free exit audit", body: "We map your TriNet plans, rates and renewal timing, then model what your own optimized plans would cost. You see the savings in 48 hours." },
         { title: "Set up your group", body: "We stand up your own carrier plans on your EIN, sign the broker-of-record letter, and sequence the transition around your renewal so nobody loses coverage." },
-        { title: "Go live in 7–10 days", body: "Employees onboard in the Spine app, compliance and multi-state tax move onto autopilot, and payroll keeps running on your existing stack." },
+        { title: "Go live in 7–10 days", body: "Employees onboard in the Heal app, compliance and multi-state tax move onto autopilot, and payroll keeps running on your existing stack." },
       ],
     },
     faq: {
       eyebrow: "Common questions",
       heading: { pre: "Switching from a PEO,", accent: "answered." },
       items: [
-        { q: "Do my employees lose coverage when we leave TriNet?", a: "No. We time the move around your renewal and stand up your own plans before the PEO plans end, so coverage is continuous. Digital cards are live in the Spine app on day one." },
+        { q: "Do my employees lose coverage when we leave TriNet?", a: "No. We time the move around your renewal and stand up your own plans before the PEO plans end, so coverage is continuous. Digital cards are live in the Heal app on day one." },
         { q: "Is Spine a PEO too?", a: "No. Spine is an AI-native brokerage and service layer. There's no co-employment — your team stays on your EIN and your own group plans." },
         { q: "How is it free if TriNet charges per employee?", a: "Spine is paid by carriers through standard broker commission, the same way any broker is. There are no setup fees, admin fees, or per-employee charges to your company." },
         { q: "Do we have to change payroll?", a: "No. Spine runs on top of whatever you use — Gusto, Rippling, ADP, Justworks or Deel. Leaving the PEO doesn't mean a payroll migration." },
@@ -281,7 +281,7 @@ export const comparePages: Record<string, ComparePage> = {
       steps: [
         { title: "Connect your Rippling", body: "We link to your existing Rippling for payroll and HRIS data — read/write access in under 10 minutes. No migration, no rip-and-replace." },
         { title: "We take over benefits & compliance", body: "Sign the broker-of-record letter. Spine shops your plans, moves ACA/ERISA/5500 and multi-state tax onto autopilot, and staffs a named consultant." },
-        { title: "Employees go live in days", body: "Your team gets the Spine app for concierge, cards and bill defense — while payroll keeps running on the Rippling you already know." },
+        { title: "Employees go live in days", body: "Your team gets the Heal app for concierge, cards and bill defense — while payroll keeps running on the Rippling you already know." },
       ],
     },
     faq: {
@@ -424,7 +424,7 @@ export const comparePages: Record<string, ComparePage> = {
       steps: [
         { title: "Connect your Gusto", body: "We link to your existing Gusto for payroll and census data in under 10 minutes. No migration — Gusto stays exactly where it is." },
         { title: "We replace the broker", body: "Sign the broker-of-record letter. Spine shops your plans across every carrier, and moves ACA, 5500, multi-state tax and notices onto autopilot." },
-        { title: "Live in 7–10 days", body: "Your team gets the Spine app for concierge and bill defense, and a named consultant picks up your renewals — while payroll keeps running on Gusto." },
+        { title: "Live in 7–10 days", body: "Your team gets the Heal app for concierge and bill defense, and a named consultant picks up your renewals — while payroll keeps running on Gusto." },
       ],
     },
     faq: {

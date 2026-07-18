@@ -156,7 +156,7 @@ export const platformPages: Record<string, PlatformPage> = {
       intro: "From signed offer to vested equity exit, we run the workflow. Your team feels welcomed; your records stay clean.",
       items: [
         { icon: "NotePencil", title: "I-9 & E-Verify", body: "Within 24 hours of hire. Federal compliance, securely stored, audit-ready." },
-        { icon: "Gift", title: "Benefits enrollment", body: "Day-1 benefits ready. Plan picker in the Spine app, dependents added, cards issued." },
+        { icon: "Gift", title: "Benefits enrollment", body: "Day-1 benefits ready. Plan picker in the Heal app, dependents added, cards issued." },
         { icon: "CreditCard", title: "Payroll setup", body: "Direct deposit, tax forms, withholdings, all configured before their first paycheck." },
         { icon: "Package", title: "Equipment & access", body: "Coordination with IT for laptops, accounts, software access. Day-1 productivity." },
         { icon: "HandWaving", title: "Offboarding workflow", body: "Final paychecks calculated, equipment retrieval scheduled, access revoked across systems." },
@@ -227,7 +227,7 @@ export const platformPages: Record<string, PlatformPage> = {
       heading: { pre: "Day-to-day,", accent: "on autopilot." },
       steps: [
         { title: "Plug into your stack", body: "We integrate with your HRIS, payroll, and benefits. Spine becomes the people-ops layer on top." },
-        { title: "Employees route to Spine", body: "They ask questions, request PTO, update records, through the Spine app or directly to us." },
+        { title: "Employees route to Spine", body: "They ask questions, request PTO, update records, through the Heal app or directly to us." },
         { title: "You focus on the work", body: "We handle the chatter. You see the dashboard. Your team feels supported." },
       ],
     },
@@ -430,13 +430,13 @@ export const platformPages: Record<string, PlatformPage> = {
     accent: "employee", // the employee app → aqua, not the employer cobalt
     breadcrumb: crumb("Benefits", "Employee concierge"),
     eyebrow: "Benefits · Employee app",
-    h1: { pre: "The Spine app.", accent: "Benefits in their pocket." },
+    h1: { pre: "The Heal app.", accent: "Benefits in their pocket." },
     lead: "Live now for all employees. Plan selection, digital cards, pharmacy navigation, claims help, bill negotiation, 24/7, in-house team + AI. Free for every employee on a Spine plan.",
     primary: demo,
     secondary: explore,
     checks: ["Live for all employees", "iOS + Android", "24/7 in-house team + AI"],
     mockup: {
-      title: "The Spine app · Live",
+      title: "The Heal app · Live",
       status: "Available now",
       rows: [
         { tone: "ok", title: "Chat your benefits questions", sub: "Real human + AI · responds in seconds" },
@@ -449,7 +449,7 @@ export const platformPages: Record<string, PlatformPage> = {
     features: {
       eyebrow: "What you get",
       heading: { pre: "24/7 support,", accent: "in your team's pocket." },
-      intro: "Your benefits aren't useful if employees can't figure them out. The Spine app makes every benefit immediate, navigable, and actionable.",
+      intro: "Your benefits aren't useful if employees can't figure them out. The Heal app makes every benefit immediate, navigable, and actionable.",
       items: [
         { icon: "ChatCircleText", title: "AI-first concierge", body: "Ask any benefits question, open enrollment, claims, networks, prescriptions. AI answers instantly; humans step in when needed." },
         { icon: "CreditCard", title: "Digital insurance cards", body: "Insurance cards in Apple Wallet. Share directly with providers, no more digging through paperwork." },
@@ -479,7 +479,7 @@ export const platformPages: Record<string, PlatformPage> = {
       ],
     },
     cta: {
-      heading: { pre: "Roll out the Spine app", accent: "to your team." },
+      heading: { pre: "Roll out the Heal app", accent: "to your team." },
       lead: "The app is included with every Spine benefits plan, free for every employee. Onboard your team in under 10 minutes.",
       button: { label: "Get started", href: "#demo" },
     },

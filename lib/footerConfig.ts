@@ -17,9 +17,9 @@ export const footerColumns: FooterColumn[] = [
     links: [
       { label: "For employees", href: "/platform/for-employees" },
       { label: "For employers", href: "/platform/for-employers" },
-      { label: "AI Concierge", href: "/platform/ai-concierge" },
-      { label: "Plan optimizer", href: "/platform/plan-optimizer" },
-      { label: "Compliance", href: "/platform/compliance" },
+      { label: "AI Concierge", href: "/platform/employee-concierge" },
+      { label: "Plan optimizer", href: "/platform/plan-optimization" },
+      { label: "Compliance", href: "/platform/healthcare-compliance" },
     ],
   },
   {
@@ -33,21 +33,10 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Resources",
     links: [
+      { label: "Blog", href: "/blog" },
       { label: "Free cost audit", href: "/request-a-demo" },
       { label: "PEO exit guide", href: "/resources/peo-exit-guide" },
       { label: "Benefits benchmarks", href: "/resources/benefits-benchmarks" },
-      { label: "Blog", href: "/blog" },
-      { label: "Partners", href: "/partners" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Customers", href: "/customers" },
-      { label: "Careers", href: "/careers" },
-      { label: "Security", href: "/security" },
-      { label: "Contact", href: "/contact" },
     ],
   },
 ];

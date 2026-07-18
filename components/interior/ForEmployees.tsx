@@ -10,10 +10,10 @@ import { cn } from "@/lib/cn";
 // Platform column. The employee counterpart to ForEmployers: employee accent =
 // aqua (the employee-app colour). Same interior chrome (white hero + dark stat
 // bar + tag-field closer) and the homepage concierge chat mockup (ChatApp), then
-// a custom "old benefits experience → the Spine app" shift and the real agent
+// a custom "old benefits experience → the Heal app" shift and the real agent
 // scripts. Copy is pulled from EmployeeBenefits, benefitsAgents and the
-// employee-concierge page so the two read as one system. (We say "the Spine
-// app", not the legacy "Heal" name still lingering on the homepage.)
+// employee-concierge page so the two read as one system. (The employee app is
+// named Heal — the platform is Spine, the employee-facing app is the Heal app.)
 
 const STATS = [
   { figure: "$340", label: "Average savings per employee, per year" },
@@ -106,7 +106,7 @@ export function ForEmployees() {
               />
             </div>
 
-            {/* The Spine app — concierge chat mockup. */}
+            {/* The Heal app — concierge chat mockup. */}
             <div className="mx-auto w-full max-w-[400px] lg:h-full">
               <ChatApp />
             </div>
@@ -136,14 +136,14 @@ export function ForEmployees() {
         </div>
       </section>
 
-      {/* ── THE SHIFT — old benefits experience → the Spine app ── */}
+      {/* ── THE SHIFT — old benefits experience → the Heal app ── */}
       <section className={`${container} py-16`}>
         <div className="mx-auto max-w-[680px] text-center">
           <Eyebrow>The shift</Eyebrow>
           <h2 className={`mt-4 ${sectionHeading}`}>How benefits used to feel. How they feel now.</h2>
           <p className="mx-auto mt-3 max-w-[560px] text-[17px] leading-[1.55] text-body-2">
             Most people never use half their benefits because no one makes them
-            usable. The Spine app puts a real answer one message away.
+            usable. The Heal app puts a real answer one message away.
           </p>
         </div>
 
@@ -165,10 +165,10 @@ export function ForEmployees() {
             </ul>
           </div>
 
-          {/* With the Spine app — aqua, the employee-app accent */}
+          {/* With the Heal app — aqua, the employee-app accent */}
           <div className="rounded-[24px] border border-aqua-400/30 bg-aqua-400/[0.05] p-7 sm:p-8">
             <div className="mb-5 text-[13px] font-bold uppercase tracking-[0.12em] text-aqua-600">
-              With the Spine app
+              With the Heal app
             </div>
             <ul className="space-y-4">
               {AFTER.map((t) => (
@@ -243,7 +243,7 @@ export function ForEmployees() {
             Free for employees · iOS + Android
           </p>
           <h2 className="font-display mx-auto max-w-[720px] text-[32px] font-extrabold leading-[1.03] tracking-[-0.035em] text-ink sm:text-[44px]">
-            The Spine app is{" "}
+            The Heal app is{" "}
             <span
               className="text-orange"
               style={{ borderBottom: "3px dotted #f4a072", paddingBottom: "2px" }}
@@ -263,7 +263,7 @@ export function ForEmployees() {
       <PlatformCloser
         cta={{
           heading: { pre: "Benefits in every", accent: "pocket." },
-          lead: "The Spine app is included with every Spine benefits plan — free for your whole team. Onboard everyone in under 10 minutes.",
+          lead: "The Heal app is included with every Spine benefits plan — free for your whole team. Onboard everyone in under 10 minutes.",
           button: { label: "Get started", href: "#demo" },
         }}
       />

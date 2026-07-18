@@ -32,7 +32,7 @@ const STEPS = [
   },
   {
     title: "Go live in 7–10 days",
-    body: "Employees onboard in the Spine app, compliance and multi-state tax move onto autopilot, and payroll keeps running on your existing stack.",
+    body: "Employees onboard in the Heal app, compliance and multi-state tax move onto autopilot, and payroll keeps running on your existing stack.",
   },
 ];
 
@@ -74,7 +74,7 @@ const CHANGES = [
 const FAQ = [
   {
     q: "Do my employees lose coverage when we leave the PEO?",
-    a: "No. We time the move around your renewal and stand up your own plans before the PEO plans end, so coverage is continuous. Digital cards are live in the Spine app on day one.",
+    a: "No. We time the move around your renewal and stand up your own plans before the PEO plans end, so coverage is continuous. Digital cards are live in the Heal app on day one.",
   },
   {
     q: "Is Spine a PEO too?",

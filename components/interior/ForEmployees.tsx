@@ -1,15 +1,19 @@
-import { Check, X } from "@phosphor-icons/react/dist/ssr";
-import { ForEmployeesHero } from "@/components/interior/ForEmployeesHero";
+import Link from "next/link";
+import { ArrowRight, Check, X } from "@phosphor-icons/react/dist/ssr";
+import { ChatApp } from "@/components/sections/platform/ChatApp";
 import { PlatformCloser } from "@/components/interior/PlatformCloser";
-import { Eyebrow } from "@/components/interior/parts";
+import { InteriorIcon } from "@/components/interior/icons";
+import { Button, CheckRow, Eyebrow } from "@/components/interior/parts";
 import { cn } from "@/lib/cn";
 
 // "For employees" — bespoke benefits-explainer landing linked from the footer's
-// Platform column. The hero IS the interactive concierge showcase (rail +
-// swappable phone) reused from the homepage — see ForEmployeesHero. Below it:
-// employee stats, a custom "how benefits used to feel → the Spine app" shift, the
-// free-for-employees band, and the tag-field closer. Employee accent = aqua.
-// (We say "the Spine app", not the legacy "Heal".)
+// Platform column. The employee counterpart to ForEmployers: employee accent =
+// aqua (the employee-app colour). Same interior chrome (white hero + dark stat
+// bar + tag-field closer) and the homepage concierge chat mockup (ChatApp), then
+// a custom "old benefits experience → the Spine app" shift and the real agent
+// scripts. Copy is pulled from EmployeeBenefits, benefitsAgents and the
+// employee-concierge page so the two read as one system. (We say "the Spine
+// app", not the legacy "Heal" name still lingering on the homepage.)
 
 const STATS = [
   { figure: "$340", label: "Average savings per employee, per year" },
@@ -36,6 +40,40 @@ const AFTER = [
   "Cheaper generics, coupons, and lower-cost pharmacies for every Rx",
 ];
 
+// The real concierge agents (from benefitsAgents.ts) — one everyday question each.
+const AGENTS = [
+  {
+    icon: "FirstAidKit",
+    name: "Care Finder",
+    q: "I need a dermatologist who speaks Spanish.",
+    blurb: "Finds in-network providers that fit and books the soonest appointment.",
+  },
+  {
+    icon: "Scales",
+    name: "Plan Picker",
+    q: "My wife is pregnant — which plan should we choose?",
+    blurb: "Models every option against your expected care, down to the dollar.",
+  },
+  {
+    icon: "Pill",
+    name: "Meds Finder",
+    q: "Ozempic isn't covered. What are my options?",
+    blurb: "Finds covered alternatives and coupons, and starts prior authorization.",
+  },
+  {
+    icon: "MagnifyingGlass",
+    name: "Check Coverage",
+    q: "Does my plan cover therapy?",
+    blurb: "Instant, plan-specific answers on exactly what's covered.",
+  },
+  {
+    icon: "HandCoins",
+    name: "FightBack",
+    q: "I got a $1,200 ER bill — is this right?",
+    blurb: "Reviews every bill for errors and disputes the wrong ones for you.",
+  },
+];
+
 const container = "mx-auto max-w-[1240px] px-6 md:px-10";
 const sectionHeading =
   "text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]";
@@ -43,8 +81,38 @@ const sectionHeading =
 export function ForEmployees() {
   return (
     <main className="bg-surface-page text-ink">
-      {/* ── HERO — interactive concierge showcase (reused from the homepage) ── */}
-      <ForEmployeesHero />
+      {/* ── HERO (white) ── */}
+      <section className="bg-white">
+        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+            <div>
+              <Eyebrow>For employees</Eyebrow>
+              <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
+                <span className="text-ink">One place for every</span>
+                <br />
+                <span className="text-orange">healthcare question.</span>
+              </h1>
+              <p className="mb-[30px] max-w-[520px] text-[18px] leading-[1.55] text-body">
+                Every employee on a Spine plan gets a 24/7 concierge — AI plus a
+                real in-house team — to understand their benefits, find in-network
+                care, cut prescription costs, and fight wrong medical bills.
+              </p>
+              <div className="mb-[26px] flex flex-wrap gap-3">
+                <Button cta={{ label: "Request a demo", href: "#demo" }} arrow />
+                <Button cta={{ label: "See the platform", href: "/" }} variant="secondary" />
+              </div>
+              <CheckRow
+                items={["Live for all employees", "iOS + Android", "24/7 in-house team + AI"]}
+              />
+            </div>
+
+            {/* The Spine app — concierge chat mockup. */}
+            <div className="mx-auto w-full max-w-[400px] lg:h-full">
+              <ChatApp />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── STAT BAR (dark) ── */}
       <section className="mx-auto max-w-[1240px] px-6 py-10 md:px-10">
@@ -115,6 +183,56 @@ export function ForEmployees() {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      {/* ── THE CONCIERGE — the real agent scripts ── */}
+      <section className={`${container} pb-4`}>
+        <div className="mx-auto max-w-[680px] text-center">
+          <Eyebrow>24/7 concierge</Eyebrow>
+          <h2 className={`mt-4 ${sectionHeading}`}>Ask Spine anything.</h2>
+          <p className="mx-auto mt-3 max-w-[560px] text-[17px] leading-[1.55] text-body-2">
+            AI answers in seconds; a real in-house team steps in when it matters.
+            Here&apos;s the kind of thing your team asks every day.
+          </p>
+        </div>
+
+        <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {AGENTS.map((a) => (
+            <div
+              key={a.name}
+              className="rounded-[20px] border border-hairline bg-white px-6 py-[26px]"
+            >
+              <span className="mb-4 grid size-12 place-items-center rounded-[13px] bg-aqua-100">
+                <InteriorIcon name={a.icon} size={24} className="text-aqua-500" />
+              </span>
+              <div className="text-[12px] font-bold uppercase tracking-[0.08em] text-aqua-600">
+                {a.name}
+              </div>
+              <p className="mt-2 text-[15px] font-semibold leading-snug text-[#2e2d28]">
+                “{a.q}”
+              </p>
+              <p className="mt-2 text-[13.5px] leading-[1.5] text-body-2">{a.blurb}</p>
+            </div>
+          ))}
+
+          {/* Link out to the full employee-app page. */}
+          <Link
+            href="/platform/employee-concierge"
+            className="group flex flex-col justify-center rounded-[20px] border border-aqua-400/30 bg-aqua-400/[0.05] px-6 py-[26px]"
+          >
+            <div className="text-[16px] font-extrabold tracking-[-0.01em] text-[#15140f]">
+              Digital cards, pharmacy savings, claims tracking, and more.
+            </div>
+            <span className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-aqua-600">
+              See the employee app
+              <ArrowRight
+                size={14}
+                weight="bold"
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
+              />
+            </span>
+          </Link>
         </div>
       </section>
 

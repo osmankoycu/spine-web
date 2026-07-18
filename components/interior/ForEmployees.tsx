@@ -1,16 +1,15 @@
 import { Check, X } from "@phosphor-icons/react/dist/ssr";
-import { AgentShowcase } from "@/components/interior/AgentShowcase";
+import { ForEmployeesHero } from "@/components/interior/ForEmployeesHero";
 import { PlatformCloser } from "@/components/interior/PlatformCloser";
-import { Button, CheckRow, Eyebrow } from "@/components/interior/parts";
+import { Eyebrow } from "@/components/interior/parts";
 import { cn } from "@/lib/cn";
 
 // "For employees" — bespoke benefits-explainer landing linked from the footer's
-// Platform column. The employee counterpart to ForEmployers: employee accent =
-// aqua (the employee-app colour). Interior chrome (white hero + dark stat bar +
-// tag-field closer), the interactive concierge showcase reused from the homepage
-// (AgentShowcase = AgentRail + AgentPhone), a custom "how benefits used to feel →
-// the Spine app" shift. Copy is pulled from EmployeeBenefits, benefitsAgents and
-// the employee-concierge page. (We say "the Spine app", not the legacy "Heal".)
+// Platform column. The hero IS the interactive concierge showcase (rail +
+// swappable phone) reused from the homepage — see ForEmployeesHero. Below it:
+// employee stats, a custom "how benefits used to feel → the Spine app" shift, the
+// free-for-employees band, and the tag-field closer. Employee accent = aqua.
+// (We say "the Spine app", not the legacy "Heal".)
 
 const STATS = [
   { figure: "$340", label: "Average savings per employee, per year" },
@@ -44,31 +43,8 @@ const sectionHeading =
 export function ForEmployees() {
   return (
     <main className="bg-surface-page text-ink">
-      {/* ── HERO (white) ── */}
-      <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
-          <div className="max-w-[820px]">
-            <Eyebrow>For employees</Eyebrow>
-            <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
-              <span className="text-ink">One place for every</span>
-              <br />
-              <span className="text-orange">healthcare question.</span>
-            </h1>
-            <p className="mb-[30px] max-w-[600px] text-[18px] leading-[1.55] text-body">
-              Every employee on a Spine plan gets a 24/7 concierge — AI plus a real
-              in-house team — to understand their benefits, find in-network care,
-              cut prescription costs, and fight wrong medical bills.
-            </p>
-            <div className="mb-[26px] flex flex-wrap gap-3">
-              <Button cta={{ label: "Request a demo", href: "#demo" }} arrow />
-              <Button cta={{ label: "See the platform", href: "/" }} variant="secondary" />
-            </div>
-            <CheckRow
-              items={["Live for all employees", "iOS + Android", "24/7 in-house team + AI"]}
-            />
-          </div>
-        </div>
-      </section>
+      {/* ── HERO — interactive concierge showcase (reused from the homepage) ── */}
+      <ForEmployeesHero />
 
       {/* ── STAT BAR (dark) ── */}
       <section className="mx-auto max-w-[1240px] px-6 py-10 md:px-10">
@@ -90,11 +66,6 @@ export function ForEmployees() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* ── THE CONCIERGE — interactive agent showcase (reused from the homepage) ── */}
-      <section className={`${container} py-10`}>
-        <AgentShowcase />
       </section>
 
       {/* ── THE SHIFT — old benefits experience → the Spine app ── */}

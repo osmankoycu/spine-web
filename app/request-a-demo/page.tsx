@@ -64,16 +64,16 @@ export default function RequestADemoPage() {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white) — value prop left, the estimate form right ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div className="lg:pt-6">
               <Eyebrow>Free cost audit</Eyebrow>
-              <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
+              <h1 className="mb-5 mt-4 text-[34px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[44px] md:text-[52px] lg:text-[60px]">
                 <span className="text-ink">See how much</span>
                 <br />
                 <span className="text-orange">you&apos;d save.</span>
               </h1>
-              <p className="mb-[30px] max-w-[520px] text-[18px] leading-[1.55] text-body">
+              <p className="mb-[30px] max-w-[520px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
                 Send us where you are today. We pull your current plans, run them
                 against our optimization engine, and show you exactly what Spine
                 saves you on benefits, compliance, and payroll — in 48 hours.
@@ -83,7 +83,7 @@ export default function RequestADemoPage() {
               />
             </div>
 
-            <div id="estimate" className="scroll-mt-[140px]">
+            <div id="estimate" className="order-first scroll-mt-[140px] lg:order-none">
               <EstimateForm />
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function RequestADemoPage() {
             <div
               key={s.label}
               className={cn(
-                "px-7 py-8",
+                "px-5 py-6 sm:px-7 sm:py-8",
                 i % 2 === 0 && "border-r border-white/10",
                 "lg:border-r lg:last:border-r-0",
                 i < 2 && "border-b border-white/10 lg:border-b-0",
@@ -162,7 +162,7 @@ export default function RequestADemoPage() {
           <div className="mt-10 text-center">
             <a
               href="#estimate"
-              className="inline-flex cursor-pointer items-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:inline-flex sm:w-auto"
             >
               Get my estimate →
             </a>

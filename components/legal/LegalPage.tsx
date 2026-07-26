@@ -13,12 +13,15 @@ export function LegalPage({
 }) {
   return (
     <main className="bg-bg">
-      <div className="mx-auto max-w-[760px] px-5 pb-24 pt-[132px] sm:px-6 sm:pb-28 sm:pt-[164px]">
+      <div className="mx-auto max-w-[760px] px-6 pb-24 pt-[132px] sm:pb-28 sm:pt-[164px]">
         <h1 className="font-display text-[36px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[46px]">
           {title}
         </h1>
         <p className="mt-4 text-[14px] font-medium text-grey-text">{updated}</p>
-        <div className="mt-10 space-y-9 sm:mt-12">{children}</div>
+        {/* 36px between sections was not enough to signal "new section" in a
+            375px column — a hairline plus real air makes a 9-section policy
+            scannable with a thumb, without needing a table of contents. */}
+        <div className="mt-10 space-y-10 sm:mt-12 sm:space-y-9">{children}</div>
       </div>
     </main>
   );
@@ -26,11 +29,17 @@ export function LegalPage({
 
 export function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section>
-      <h2 className="font-display text-[20px] font-bold tracking-[-0.01em] text-ink sm:text-[22px]">
+    // The h2 competed with the bold `Lead` run-ins inside the prose, so at
+    // thumb-scroll speed a section heading and a lead-in read at the same
+    // weight. A rule above each section (from the second on) plus a larger
+    // heading restores the hierarchy.
+    <section className="border-t border-black/[0.07] pt-8 first:border-0 first:pt-0">
+      <h2 className="font-display text-[22px] font-bold tracking-[-0.01em] text-ink">
         {title}
       </h2>
-      <div className="mt-3 space-y-3 text-[16px] leading-[1.7] text-[#54534d]">{children}</div>
+      {/* space-y must EXCEED the 27px line spacing (16px × 1.7), or paragraphs
+          pack tighter than their own lines and read as one grey slab. */}
+      <div className="mt-4 space-y-5 text-[16px] leading-[1.7] text-[#54534d]">{children}</div>
     </section>
   );
 }

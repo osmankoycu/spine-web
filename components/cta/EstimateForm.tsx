@@ -106,8 +106,16 @@ export function EstimateForm() {
         Tell us who you are and pick a 30-minute slot — free, no commitment.
       </p>
 
+      {/* Every field carries a real label. They were placeholder-only, so the
+          field's identity vanished the moment you typed and screen readers got
+          nothing — worst on a phone, where the three inputs stack tightly and
+          autofill is in play. */}
       <div className="mt-6 space-y-3">
+        <label htmlFor="estimate-email" className="sr-only">
+          Work email
+        </label>
         <input
+          id="estimate-email"
           type="email"
           required
           value={email}
@@ -116,23 +124,37 @@ export function EstimateForm() {
           autoComplete="email"
           className={inputCls}
         />
-        <div className="grid grid-cols-2 gap-3">
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First name"
-            autoComplete="given-name"
-            className={inputCls}
-          />
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last name"
-            autoComplete="family-name"
-            className={inputCls}
-          />
+        {/* Side by side, each name field had ~80px of typing room at 375px —
+            "First name" alone measures 75px. Stack them below sm. */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div>
+            <label htmlFor="estimate-first" className="sr-only">
+              First name
+            </label>
+            <input
+              id="estimate-first"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First name"
+              autoComplete="given-name"
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label htmlFor="estimate-last" className="sr-only">
+              Last name
+            </label>
+            <input
+              id="estimate-last"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last name"
+              autoComplete="family-name"
+              className={inputCls}
+            />
+          </div>
         </div>
       </div>
 

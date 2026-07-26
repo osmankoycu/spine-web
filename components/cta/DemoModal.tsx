@@ -126,7 +126,11 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      // Scrollable, top-aligned below sm. The card is ~640px tall at 375px —
+      // already taller than an iPhone SE — and once the keyboard opens the
+      // visual viewport halves, so with a centred non-scrolling overlay the
+      // submit button was simply unreachable.
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 py-6 sm:items-center sm:py-4"
       role="dialog"
       aria-modal="true"
       aria-label="See how much you'd save"
@@ -216,8 +220,15 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               <span>30 min</span>
             </div>
 
+            {/* Labels + a stacked name row below sm, matching EstimateForm —
+                see the comments there for why placeholders alone aren't enough
+                and why 2-up names don't fit at 375px. */}
             <form onSubmit={onSubmit} className="mt-8">
+              <label htmlFor="demo-email" className="sr-only">
+                Work email
+              </label>
               <input
+                id="demo-email"
                 type="email"
                 required
                 value={email}
@@ -226,23 +237,35 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                 autoComplete="email"
                 className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
               />
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="First name"
-                  autoComplete="given-name"
-                  className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
-                />
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Last name"
-                  autoComplete="family-name"
-                  className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
-                />
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="demo-first" className="sr-only">
+                    First name
+                  </label>
+                  <input
+                    id="demo-first"
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First name"
+                    autoComplete="given-name"
+                    className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="demo-last" className="sr-only">
+                    Last name
+                  </label>
+                  <input
+                    id="demo-last"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Last name"
+                    autoComplete="family-name"
+                    className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
+                  />
+                </div>
               </div>
 
               {error && (

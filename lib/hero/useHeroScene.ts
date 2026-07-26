@@ -2,7 +2,6 @@
 
 import { useCallback, useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/reducedMotion";
 import { HeroRestController } from "./HeroRestController";
 
@@ -36,17 +35,16 @@ export function useHeroScene() {
       const stage = stageRef.current;
       if (!stage) return;
 
-      // Reduced motion: render the resting HERO_REST state statically (no flow).
-      if (prefersReducedMotion()) {
-        gsap.set(stage.querySelectorAll("[data-h-line],[data-subtitle],[data-cta]"), {
-          opacity: 1,
-          y: 0,
-        });
-        gsap.set(stage.querySelectorAll("[data-tag]"), { opacity: 0.5 });
-        return;
-      }
+      // Reduced motion: build the SAME controller in its reduced mode and open
+      // it immediately. Its enter() sets the centre content and then runs
+      // TagFlow.settle(), which solves the tag/text collisions synchronously —
+      // so the tags part around the headline exactly as they do with motion,
+      // with no animation. (Previously this branch returned early and merely
+      // dimmed the tags, which left the headline and lead sitting unreadable on
+      // top of the pills — worst at mobile widths, where the field is densest.)
+      const reduced = prefersReducedMotion();
 
-      const heroRest = new HeroRestController(stage, false);
+      const heroRest = new HeroRestController(stage, reduced);
       heroRestRef.current = heroRest;
 
       // If the pop-in finished before this effect ran, open now.

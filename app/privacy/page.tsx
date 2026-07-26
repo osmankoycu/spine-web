@@ -98,6 +98,24 @@ export default function PrivacyPage() {
       <Section title="9. Children's Privacy">
         <P>Spine is not intended for use by children under the age of 18.</P>
       </Section>
+
+      {/* §6 grants access / correction / deletion / consent-withdrawal rights,
+          but the page offered no way to exercise any of them — and on a phone
+          the only tappable path off the page was the marketing CTA. Mirrors the
+          Contact Us section on /terms. */}
+      <Section title="10. Contact Us">
+        <P>
+          To exercise any of the rights above, or if you have questions about this Privacy
+          Policy, contact us at{" "}
+          <a
+            href="mailto:hello@joinspine.ai"
+            className="font-medium text-ink underline underline-offset-2 hover:text-orange"
+          >
+            hello@joinspine.ai
+          </a>
+          .
+        </P>
+      </Section>
     </LegalPage>
   );
 }

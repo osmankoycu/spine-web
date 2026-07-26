@@ -64,20 +64,20 @@ export function BenefitsBenchmarks() {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white) ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="max-w-[760px]">
             <Eyebrow>Resources · Benefits benchmarks</Eyebrow>
-            <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
+            <h1 className="mb-5 mt-4 text-[34px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[44px] md:text-[52px] lg:text-[60px]">
               <span className="text-ink">Benefits benchmarks.</span>
               <br />
               <span className="text-orange">See where you stand.</span>
             </h1>
-            <p className="mb-[30px] max-w-[620px] text-[18px] leading-[1.55] text-body">
+            <p className="mb-[30px] max-w-[620px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
               What Spine sees across the companies we run benefits for — typical
               spend, savings, and PEO fees by team size. Use it to sanity-check
               your own numbers, then get a custom estimate for your workforce.
             </p>
-            <div className="mb-[26px] flex flex-wrap gap-3">
+            <div className="mb-[26px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button cta={{ label: "Get your custom benchmark", href: "#demo" }} arrow />
               <Button cta={{ label: "See the platform", href: "/" }} variant="secondary" />
             </div>
@@ -93,7 +93,7 @@ export function BenefitsBenchmarks() {
               across both the 2-col (mobile) and 3-col (desktop) wraps. */}
           <div className="grid grid-cols-2 gap-px bg-white/10 lg:grid-cols-3">
             {METRICS.map((m) => (
-              <div key={m.label} className="bg-[#15140f] px-7 py-8">
+              <div key={m.label} className="bg-[#15140f] px-5 py-6 sm:px-7 sm:py-8">
                 <div className="whitespace-nowrap text-[28px] font-extrabold tracking-[-0.03em] text-white sm:text-[32px]">
                   {m.figure}
                 </div>
@@ -115,7 +115,46 @@ export function BenefitsBenchmarks() {
           </p>
         </div>
 
-        <div className="mt-11 overflow-hidden rounded-[24px] border border-hairline bg-white">
+        {/* Below md the four columns need 560px, so the outer rounded card clipped
+            two of them — "Typical saving" sliced mid-glyph and "PEO fees removed"
+            gone entirely, with no scrollbar to hint at it. One card per team size
+            instead: the size is the heading, the three figures are label→value
+            rows with the value carrying the weight. */}
+        <ul className="mt-11 space-y-3 md:hidden">
+          {TABLE.rows.map((r) => (
+            <li
+              key={r.size}
+              className={cn(
+                "rounded-[20px] border border-hairline bg-white px-5 py-4",
+                r.highlight && "border-cobalt-400/30 bg-cobalt-400/[0.05]",
+              )}
+            >
+              <p className="text-[12px] font-bold uppercase tracking-[0.08em] text-muted">
+                {r.size}
+              </p>
+              <dl className="mt-3 space-y-2">
+                {[
+                  [TABLE.columns[1], r.spend, "text-body"],
+                  [
+                    TABLE.columns[2],
+                    r.saving,
+                    r.highlight ? "text-cobalt-400" : "text-cobalt-500",
+                  ],
+                  [TABLE.columns[3], r.peo, "text-body"],
+                ].map(([label, value, tone]) => (
+                  <div key={label} className="flex items-baseline justify-between gap-3">
+                    <dt className="text-[14px] text-body-2">{label}</dt>
+                    <dd className={cn("text-[16px] font-extrabold", tone)}>
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-11 hidden overflow-hidden rounded-[24px] border border-hairline bg-white md:block">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[560px] border-collapse text-left">
               <thead>
@@ -161,8 +200,11 @@ export function BenefitsBenchmarks() {
         <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-hairline bg-white px-5 py-4">
           <Info size={18} weight="bold" className="mt-px shrink-0 text-muted" />
           <p className="text-[13px] leading-[1.5] text-body-2">
-            {TABLE.caption} These are Spine&apos;s own figures from the companies we
-            run benefits for — not a third-party survey.
+            {/* Explicit {" "} — the text node spans lines, so JSX trims the
+                leading space and renders "…geography.These are…". */}
+            {TABLE.caption}{" "}
+            These are Spine&apos;s own figures from the companies we run benefits
+            for — not a third-party survey.
           </p>
         </div>
       </section>

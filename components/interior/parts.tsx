@@ -97,8 +97,13 @@ export function Button({ cta, variant = "primary", size = "md", arrow }: ButtonP
     secondary: "border border-btn-line bg-white text-ink hover:border-muted",
     ink: "bg-ink text-white hover:bg-black",
   }[variant];
+  // Full-width below sm. Hero CTA pairs sit in a flex-wrap row, so at phone
+  // widths they broke onto two lines but kept their content widths — a ~260px
+  // pill above a ~170px one, ragged on the right and reading as an accident.
+  // Full-bleed stacking gives them a shared edge and lets fill (not width)
+  // carry the primary/secondary hierarchy. Inline widths return from sm up.
   const cls = cn(
-    "inline-flex cursor-pointer items-center gap-2 rounded-pill font-bold transition-colors",
+    "flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill font-bold transition-colors sm:inline-flex sm:w-auto",
     pad,
     styles,
   );

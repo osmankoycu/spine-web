@@ -14,17 +14,17 @@ export function TemplateB({ page }: { page: AudiencePage }) {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white, split — text left, image right, menu-wide) ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div>
               <Eyebrow>{page.pillLabel}</Eyebrow>
-              <h1 className="mt-4 text-[44px] font-extrabold leading-[1.02] tracking-[-0.038em] sm:text-[52px] lg:text-[58px]">
+              <h1 className="mt-4 text-[34px] font-extrabold leading-[1.02] tracking-[-0.038em] sm:text-[44px] md:text-[52px] lg:text-[58px]">
                 <TwoToneText parts={page.h1} />
               </h1>
-              <p className="mb-8 mt-5 max-w-[520px] text-[18px] leading-[1.55] text-body">
+              <p className="mb-8 mt-5 max-w-[520px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
                 {page.lead}
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button cta={page.primary} arrow />
                 <Button cta={page.secondary} variant="secondary" />
               </div>
@@ -57,7 +57,7 @@ export function TemplateB({ page }: { page: AudiencePage }) {
             <div
               key={s.label}
               className={cn(
-                "px-7 py-8",
+                "px-5 py-6 sm:px-7 sm:py-8",
                 i % 2 === 0 && "border-r border-white/10",
                 "lg:border-r lg:last:border-r-0",
                 i < 2 && "border-b border-white/10 lg:border-b-0",
@@ -74,12 +74,15 @@ export function TemplateB({ page }: { page: AudiencePage }) {
 
       {/* ── BENTO (what you get) ── */}
       <section className="mx-auto max-w-[1240px] px-6 py-14 md:px-10">
-        <h2 className="mb-9 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+        <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+          {page.bento.eyebrow}
+        </p>
+        <h2 className="mb-9 mt-3 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
           <TwoToneText parts={page.bento.heading} mono />
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:[grid-auto-rows:1fr]">
           {/* feature tile — employer-blue tint, spans full width (sm) / tall (lg) */}
-          <div className="flex flex-col justify-between rounded-[22px] border border-cobalt-200 bg-cobalt-100 p-8 sm:col-span-2 lg:col-span-1 lg:row-span-2">
+          <div className="flex flex-col justify-between rounded-[22px] border border-cobalt-200 bg-cobalt-100 p-[26px] sm:col-span-2 sm:p-8 lg:col-span-1 lg:row-span-2">
             <div>
               <span className="mb-[18px] grid size-12 place-items-center rounded-[13px] bg-white">
                 <InteriorIcon name={page.bento.feature.icon} size={24} className="text-cobalt-400" />

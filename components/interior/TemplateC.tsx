@@ -17,17 +17,17 @@ export function TemplateC({ page }: { page: PartnerPage }) {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white, split — text left, referral-economics card right) ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div>
               <Eyebrow>{page.eyebrow}</Eyebrow>
-              <h1 className="mb-5 mt-4 text-[40px] font-extrabold leading-[1.02] tracking-[-0.035em] sm:text-[50px] lg:text-[56px]">
+              <h1 className="mb-5 mt-4 text-[33px] font-extrabold leading-[1.02] tracking-[-0.035em] sm:text-[40px] md:text-[50px] lg:text-[56px]">
                 <TwoToneText parts={page.h1} />
               </h1>
-              <p className="mb-[30px] max-w-[520px] text-[18px] leading-[1.55] text-body">
+              <p className="mb-[30px] max-w-[520px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
                 {page.lead}
               </p>
-              <div className="mb-[26px] flex flex-wrap gap-3">
+              <div className="mb-[26px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button cta={page.primary} arrow />
                 <Button cta={page.secondary} variant="secondary" />
               </div>
@@ -51,10 +51,13 @@ export function TemplateC({ page }: { page: PartnerPage }) {
                       l.border && "border-b border-hairline-2 pb-3.5",
                     )}
                   >
-                    <span className="text-[14px] text-ink-2">{l.label}</span>
+                    <span className="min-w-0 pr-3 text-[14px] text-ink-2">{l.label}</span>
+                    {/* nowrap: U+2212 and "$" are both break class PR, so
+                        "−$96,000/yr" was breaking after the minus and leaving a
+                        stray dash alone on the first line. */}
                     <span
                       className={cn(
-                        "text-[16px] font-bold",
+                        "shrink-0 whitespace-nowrap text-[16px] font-bold",
                         l.success ? "text-success" : "text-ink",
                       )}
                     >
@@ -78,7 +81,10 @@ export function TemplateC({ page }: { page: PartnerPage }) {
                     <TrendDown size={34} weight="duotone" className="text-cobalt-400" />
                   </div>
                   {/* your win — blue bottom */}
-                  <div className="flex items-center justify-between gap-4 bg-cobalt-100 px-[18px] py-4">
+                  {/* The 130px hard-capped note left ~121px for a 22px headline,
+                      so the value and the note each rag over three lines with
+                      two competing edges. Stack them below sm. */}
+                  <div className="flex flex-col items-start gap-1 bg-cobalt-100 px-[18px] py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                     <div>
                       <div className="text-[12px] font-bold uppercase tracking-[0.04em] text-cobalt-600">
                         {page.economics.earn.label}
@@ -87,7 +93,7 @@ export function TemplateC({ page }: { page: PartnerPage }) {
                         {page.economics.earn.value}
                       </div>
                     </div>
-                    <span className="max-w-[130px] text-right text-[12px] text-cobalt-500">
+                    <span className="text-[12px] text-cobalt-500 sm:max-w-[130px] sm:text-right">
                       {page.economics.earn.note}
                     </span>
                   </div>
@@ -105,7 +111,7 @@ export function TemplateC({ page }: { page: PartnerPage }) {
             <div
               key={s.label}
               className={cn(
-                "px-7 py-8",
+                "px-5 py-6 sm:px-7 sm:py-8",
                 i % 2 === 0 && "border-r border-white/10",
                 "lg:border-r lg:last:border-r-0",
                 i < 2 && "border-b border-white/10 lg:border-b-0",
@@ -122,14 +128,21 @@ export function TemplateC({ page }: { page: PartnerPage }) {
 
       {/* ── WHY PARTNERS REFER (numbered rows) ── */}
       <section className={`${container} pb-16 pt-6`}>
-        <h2 className="mb-9 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+        <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+          {page.why.eyebrow}
+        </p>
+        <h2 className="mb-9 mt-3 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
           <TwoToneText parts={page.why.heading} mono />
         </h2>
         <div className="flex flex-col gap-2">
           {page.why.rows.map((r) => (
             <div
               key={r.n}
-              className="grid grid-cols-[52px_1fr] items-center gap-4 rounded-[18px] border border-hairline bg-white px-7 py-6 sm:grid-cols-[60px_1fr] sm:gap-5"
+              // Icon-beside-text left the copy a 203px column at 375px, and
+              // items-center floated the icon level with the middle of the body
+              // rather than the title it belongs to. Stack below sm, matching
+              // Template A's feature cards and B's bento cards.
+              className="grid grid-cols-1 gap-3 rounded-[18px] border border-hairline bg-white px-5 py-5 sm:grid-cols-[60px_1fr] sm:items-center sm:gap-5 sm:px-7 sm:py-6"
             >
               <span className="grid size-11 place-items-center rounded-[13px] bg-cobalt-100 sm:size-12">
                 <InteriorIcon name={r.icon} size={24} className="text-cobalt-400" />
@@ -145,11 +158,48 @@ export function TemplateC({ page }: { page: PartnerPage }) {
 
       {/* ── SAVINGS-BY-SIZE TABLE ── */}
       <section className={`${container} pb-16`}>
-        <h2 className="mb-8 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+        <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+          {page.table.eyebrow}
+        </p>
+        <h2 className="mb-8 mt-3 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
           <TwoToneText parts={page.table.heading} mono />
         </h2>
-        <div className="overflow-hidden rounded-[22px] border border-hairline bg-white">
-          <div className="grid grid-cols-4 border-b border-hairline-2 bg-surface-inset px-7 py-4">
+        {/* Four columns in a 327px card gave ~68px each, so adjacent figures
+            touched outright ("$975K/yr $430K/yr") and no header lined up with
+            its column. One card per client size below md, matching the
+            benchmarks table treatment. */}
+        <ul className="space-y-3 md:hidden">
+          {page.table.rows.map((r) => (
+            <li
+              key={r.size}
+              className={cn(
+                "rounded-[18px] border border-hairline bg-white px-5 py-4",
+                r.highlight && "border-cobalt-200 bg-cobalt-400/[0.06]",
+              )}
+            >
+              <p className="text-[11.5px] font-extrabold uppercase tracking-[0.08em] text-muted">
+                {r.size}
+              </p>
+              <dl className="mt-3 space-y-2">
+                {[
+                  [page.table.columns[1], r.spend, "text-ink"],
+                  [page.table.columns[2], r.saving, "text-success"],
+                  [page.table.columns[3], r.peo, "text-ink"],
+                ].map(([label, value, tone]) => (
+                  <div key={label} className="flex items-baseline justify-between gap-3">
+                    <dt className="text-[14px] text-body-2">{label}</dt>
+                    <dd className={cn("whitespace-nowrap text-[16px] font-bold", tone)}>
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden overflow-hidden rounded-[22px] border border-hairline bg-white md:block">
+          <div className="grid grid-cols-4 gap-x-3 border-b border-hairline-2 bg-surface-inset px-7 py-4">
             {page.table.columns.map((c, i) => (
               <span
                 key={c}
@@ -166,7 +216,7 @@ export function TemplateC({ page }: { page: PartnerPage }) {
             <div
               key={r.size}
               className={cn(
-                "grid grid-cols-4 items-center px-7 py-[18px]",
+                "grid grid-cols-4 items-center gap-x-3 px-7 py-[18px]",
                 i < page.table.rows.length - 1 && "border-b border-hairline-2",
                 r.highlight && "bg-cobalt-400/[0.06]",
               )}
@@ -183,7 +233,10 @@ export function TemplateC({ page }: { page: PartnerPage }) {
 
       {/* ── HOW IT WORKS (3-step ledger, dark box) ── */}
       <section className={`${container} pb-16`}>
-        <h2 className="mb-9 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+        <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+          {page.ledger.eyebrow}
+        </p>
+        <h2 className="mb-9 mt-3 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
           <TwoToneText parts={page.ledger.heading} mono />
         </h2>
         <div className="grid overflow-hidden rounded-[22px] border border-white/10 bg-[#15140f] shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] lg:grid-cols-3">

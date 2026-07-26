@@ -116,21 +116,21 @@ export async function PeoExitGuide() {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white) ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="max-w-[760px]">
             <Eyebrow>Resources · PEO exit guide</Eyebrow>
-            <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
+            <h1 className="mb-5 mt-4 text-[34px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[44px] md:text-[52px] lg:text-[60px]">
               <span className="text-ink">Leaving your PEO?</span>
               <br />
               <span className="text-orange">We&apos;ll get you out clean.</span>
             </h1>
-            <p className="mb-[30px] max-w-[620px] text-[18px] leading-[1.55] text-body">
+            <p className="mb-[30px] max-w-[620px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
               A PEO exit usually means re-securing benefits, re-rating, and
               re-implementing. It doesn&apos;t have to. Spine stands up your own
               plans on your own entity and sequences the switch around your
               renewal — so nobody loses coverage.
             </p>
-            <div className="mb-[26px] flex flex-wrap gap-3">
+            <div className="mb-[26px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button cta={{ label: "Get your PEO exit plan", href: "#demo" }} arrow />
               <Button cta={{ label: "Compare vs TriNet", href: "/compare/trinet" }} variant="secondary" />
             </div>
@@ -142,15 +142,15 @@ export async function PeoExitGuide() {
       {/* ── SIGNALS ── */}
       <section className={`${container} py-16`}>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14">
-          <div>
+          <div className="text-center lg:text-left">
             <Eyebrow>Is it time?</Eyebrow>
             <h2 className={`mt-4 ${sectionHeading}`}>Five signs you&apos;ve outgrown your PEO.</h2>
-            <p className="mt-3 max-w-[440px] text-[17px] leading-[1.55] text-body-2">
+            <p className="mx-auto mt-3 max-w-[440px] text-[17px] leading-[1.55] text-body-2 lg:mx-0">
               PEOs are a good on-ramp. But as you scale, the pooled plans and
               per-head fees start working against you.
             </p>
           </div>
-          <div className="rounded-[24px] border border-hairline bg-white p-7 sm:p-8">
+          <div className="rounded-[24px] border border-hairline bg-white p-5 text-left sm:p-7 lg:p-8">
             <ul className="space-y-4">
               {SIGNALS.map((s) => (
                 <li key={s} className="flex items-start gap-3">

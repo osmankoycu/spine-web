@@ -50,7 +50,10 @@ export function CompareMatrix({
 
   return (
     <div
-      className="relative overflow-hidden rounded-[32px] px-6 py-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 sm:py-12 lg:px-[56px] lg:pb-[52px] lg:pt-[56px]"
+      // px-4 below sm: section px-6 + this shell + the card's own px-4 stacked
+      // to ~45% of a 375px screen, leaving a ~207px measure that wrapped every
+      // matrix row to three lines.
+      className="relative overflow-hidden rounded-[32px] px-4 py-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 sm:py-12 lg:px-[56px] lg:pb-[52px] lg:pt-[56px]"
       style={{ background: RADIAL }}
     >
       {/* Matrix — desktop */}
@@ -95,10 +98,15 @@ export function CompareMatrix({
         ))}
       </div>
 
-      {/* Stacked per-side cards — mobile (Spine first) */}
-      <div className="space-y-4 lg:hidden">
-        <MobileCard side="spine" competitor={competitor} competitorSub={competitorSub} rows={rows} />
-        <MobileCard side="them" competitor={competitor} competitorSub={competitorSub} rows={rows} />
+      {/* Mobile: one card PER DIMENSION, not per side. Stacking the two sides as
+          two full-length cards put ~950px between a claim and its counter-claim,
+          so nothing was ever compared — the page's whole argument was lost. Each
+          card here is a self-contained head-to-head, and the duplicated column
+          headers disappear. */}
+      <div className="space-y-3 lg:hidden">
+        {rows.map((row) => (
+          <MobileRowCard key={row.label} row={row} competitor={competitor} lit={lit} />
+        ))}
       </div>
     </div>
   );
@@ -159,71 +167,62 @@ function PosCell({ text, lit }: { text: string; lit: boolean }) {
   );
 }
 
-function MobileCard({
-  side,
+// One comparison dimension as a self-contained card: the dimension is the
+// header (with the icon the desktop grid uses), then Spine's answer directly
+// above the competitor's so the contrast is readable without scrolling.
+function MobileRowCard({
+  row,
   competitor,
-  competitorSub,
-  rows,
+  lit,
 }: {
-  side: "spine" | "them";
+  row: CompareRow;
   competitor: string;
-  competitorSub: string;
-  rows: CompareRow[];
+  lit: boolean;
 }) {
-  const spine = side === "spine";
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-[22px] border",
-        spine
-          ? "border-orange/40 bg-[rgba(247,101,27,0.08)]"
-          : "border-white/10 bg-white/[0.03]",
-      )}
-    >
+    <div className="overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.03]">
+      <div className="flex items-center gap-2.5 border-b border-white/10 bg-white/[0.03] px-4 py-3.5">
+        <InteriorIcon name={row.icon} size={18} className="shrink-0 text-orange" />
+        {/* #7e7c77 on this card measured ~4.1:1 — under AA for 11px text, and
+            this label is the wayfinding for the whole comparison. */}
+        <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#a3a19b]">
+          {row.label}
+        </span>
+      </div>
+
       <div
         className={cn(
-          "px-6 py-5",
-          spine ? "bg-gradient-to-b from-orange to-orange-600" : "border-b border-white/10",
+          "flex items-start gap-2.5 px-4 py-3.5 transition-colors duration-700",
+          lit ? "bg-[rgba(247,101,27,0.1)]" : "bg-transparent",
         )}
       >
-        {spine ? (
-          <SpineLogo fill="#ffffff" className="!h-[22px] w-auto" />
-        ) : (
-          <div className="text-[17px] font-extrabold text-[#e9e8e4]">{competitor}</div>
-        )}
-        <div className={cn("mt-1 text-[12px]", spine ? "text-[#ffe3d2]" : "text-[#7e7c77]")}>
-          {spine ? "AI-native brokerage" : competitorSub}
+        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange text-white">
+          <Check size={11} weight="bold" />
+        </span>
+        <div className="min-w-0">
+          <SpineLogo fill="#e9e8e4" className="!h-[13px] w-auto" />
+          <p
+            className={cn(
+              "mt-1 text-[14px] font-semibold leading-snug transition-colors duration-700",
+              lit ? "text-[#ffcdb0]" : "text-[#c9c7c2]",
+            )}
+          >
+            {row.spine}
+          </p>
         </div>
       </div>
-      <ul className="divide-y divide-white/10 px-5">
-        {rows.map((row) => (
-          <li key={row.label} className="flex items-start gap-3 py-4">
-            <span
-              className={cn(
-                "mt-0.5 flex shrink-0 items-center justify-center rounded-full",
-                spine
-                  ? "h-5 w-5 bg-orange text-white"
-                  : "h-[18px] w-[18px] border-[1.5px] border-white/[0.18] text-[#6f6d68]",
-              )}
-            >
-              {spine ? <Check size={11} weight="bold" /> : <X size={10} weight="bold" />}
-            </span>
-            <div className="min-w-0">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#7e7c77]">
-                {row.label}
-              </div>
-              <div
-                className={cn(
-                  "mt-0.5 text-[14px] leading-snug",
-                  spine ? "font-semibold text-[#ffcdb0]" : "text-[#8c8a85]",
-                )}
-              >
-                {spine ? row.spine : row.them}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+
+      <div className="flex items-start gap-2.5 border-t border-white/10 px-4 py-3.5">
+        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-[1.5px] border-white/[0.18] text-[#6f6d68]">
+          <X size={10} weight="bold" />
+        </span>
+        <div className="min-w-0">
+          <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#a3a19b]">
+            {competitor}
+          </div>
+          <p className="mt-1 text-[14px] leading-snug text-[#8c8a85]">{row.them}</p>
+        </div>
+      </div>
     </div>
   );
 }

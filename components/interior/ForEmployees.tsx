@@ -83,21 +83,21 @@ export function ForEmployees() {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white) ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div>
               <Eyebrow>For employees</Eyebrow>
-              <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
+              <h1 className="mb-5 mt-4 text-[34px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[44px] md:text-[52px] lg:text-[60px]">
                 <span className="text-ink">One place for every</span>
                 <br />
                 <span className="text-orange">healthcare question.</span>
               </h1>
-              <p className="mb-[30px] max-w-[520px] text-[18px] leading-[1.55] text-body">
+              <p className="mb-[30px] max-w-[520px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
                 Every employee on a Spine plan gets a 24/7 concierge — AI plus a
                 real in-house team — to understand their benefits, find in-network
                 care, cut prescription costs, and fight wrong medical bills.
               </p>
-              <div className="mb-[26px] flex flex-wrap gap-3">
+              <div className="mb-[26px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button cta={{ label: "Request a demo", href: "#demo" }} arrow />
                 <Button cta={{ label: "See the platform", href: "/" }} variant="secondary" />
               </div>
@@ -121,7 +121,7 @@ export function ForEmployees() {
             <div
               key={s.label}
               className={cn(
-                "px-7 py-8",
+                "px-5 py-6 sm:px-7 sm:py-8",
                 i % 2 === 0 && "border-r border-white/10",
                 "lg:border-r lg:last:border-r-0",
                 i < 2 && "border-b border-white/10 lg:border-b-0",
@@ -238,11 +238,11 @@ export function ForEmployees() {
 
       {/* ── FREE band ── */}
       <section className={`${container} py-14`}>
-        <div className="overflow-hidden rounded-[28px] border border-hairline bg-white px-8 py-14 text-center">
+        <div className="overflow-hidden rounded-[28px] border border-hairline bg-white px-5 py-12 text-center sm:px-8 sm:py-14">
           <p className="mb-5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
             Free for employees · iOS + Android
           </p>
-          <h2 className="font-display mx-auto max-w-[720px] text-[32px] font-extrabold leading-[1.03] tracking-[-0.035em] text-ink sm:text-[44px]">
+          <h2 className="font-display mx-auto max-w-[720px] text-[26px] font-extrabold leading-[1.03] tracking-[-0.035em] text-ink sm:text-[32px] md:text-[44px]">
             The Heal app is{" "}
             <span
               className="text-orange"

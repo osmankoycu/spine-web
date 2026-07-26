@@ -52,17 +52,17 @@ export function TemplateA({ page }: { page: PlatformPage }) {
       {/* Hero spans the nav's width (max-w-1480) and its left inset matches the
           header logo (36 / 52 / 60px), so the hero content lines up under it. */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div>
               <Eyebrow>{page.eyebrow}</Eyebrow>
-              <h1 className="mb-5 mt-4 text-[44px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[52px] lg:text-[60px]">
+              <h1 className="mb-5 mt-4 text-[34px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[44px] md:text-[52px] lg:text-[60px]">
                 <TwoToneText parts={page.h1} block />
               </h1>
-              <p className="mb-[30px] max-w-[520px] text-[18px] leading-[1.55] text-body">
+              <p className="mb-[30px] max-w-[520px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
                 {page.lead}
               </p>
-              <div className="mb-[26px] flex flex-wrap gap-3">
+              <div className="mb-[26px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button cta={page.primary} arrow />
                 <Button cta={page.secondary} variant="secondary" />
               </div>
@@ -149,7 +149,7 @@ export function TemplateA({ page }: { page: PlatformPage }) {
             <div
               key={s.label}
               className={cn(
-                "px-7 py-8",
+                "px-5 py-6 sm:px-7 sm:py-8",
                 i % 2 === 0 && "border-r border-white/10",
                 "lg:border-r lg:last:border-r-0",
                 i < 2 && "border-b border-white/10 lg:border-b-0",
@@ -167,7 +167,14 @@ export function TemplateA({ page }: { page: PlatformPage }) {
       {/* ── WHAT YOU GET ── */}
       <section className={`${container} py-16`}>
         <div className="text-center">
-          <h2 className="text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
+          {/* Every section in platform.ts carries an eyebrow and none of them
+              reached the page — Template D renders its equivalents. On mobile
+              sections arrive one at a time with no side-by-side context, so
+              that micro-label is exactly the missing wayfinding cue. */}
+          <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+            {page.features.eyebrow}
+          </p>
+          <h2 className="mt-3 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
             <TwoToneText parts={page.features.heading} mono />
           </h2>
           <p className="mx-auto mb-10 mt-3 max-w-[620px] text-[17px] leading-[1.55] text-body-2">
@@ -195,7 +202,10 @@ export function TemplateA({ page }: { page: PlatformPage }) {
       {/* ── HOW IT WORKS (dark box) ── */}
       <section className={`${container} pb-16 pt-6`}>
         <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#15140f] px-7 pb-9 pt-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
-          <h2 className="mb-10 text-center text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[40px]">
+          <p className="text-center text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange">
+            {page.how.eyebrow}
+          </p>
+          <h2 className="mb-10 mt-3 text-center text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[40px]">
             <TwoToneText parts={page.how.heading} light mono />
           </h2>
           <div className="grid grid-cols-1 divide-y divide-white/10 lg:grid-cols-3 lg:divide-y-0">

@@ -23,18 +23,18 @@ export function TemplateD({ page }: { page: ComparePage }) {
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white) ── */}
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1480px] px-9 pb-16 pt-[132px] sm:px-[52px] lg:px-[60px]">
+        <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[132px] sm:px-[52px] lg:px-[60px]">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <div>
               <Breadcrumbs items={page.breadcrumb} />
               <Eyebrow>{page.eyebrow}</Eyebrow>
-              <h1 className="mb-5 mt-4 text-[42px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[50px] lg:text-[58px]">
+              <h1 className="mb-5 mt-4 text-[33px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[42px] md:text-[50px] lg:text-[58px]">
                 <TwoToneText parts={page.h1} block />
               </h1>
-              <p className="mb-[30px] max-w-[540px] text-[18px] leading-[1.55] text-body">
+              <p className="mb-[30px] max-w-[540px] text-[16px] leading-[1.55] text-body sm:text-[18px]">
                 {page.lead}
               </p>
-              <div className="mb-[26px] flex flex-wrap gap-3">
+              <div className="mb-[26px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button cta={page.primary} arrow />
                 <Button cta={page.secondary} variant="secondary" />
               </div>
@@ -109,7 +109,10 @@ export function TemplateD({ page }: { page: ComparePage }) {
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {/* Them */}
-          <div className="rounded-[24px] border border-hairline bg-white px-7 py-8">
+          {/* order-2 below md: stacked, the competitor's case used to run for
+              ~700px before Spine's ever appeared — two screens arguing for the
+              competitor on a page whose job is to win the switch. */}
+          <div className="order-2 rounded-[24px] border border-hairline bg-white px-5 py-6 sm:px-7 sm:py-8 md:order-1">
             <h3 className="mb-6 flex items-center gap-2.5 text-[16px] font-extrabold tracking-[-0.01em]">
               <span className="grid size-7 place-items-center rounded-pill bg-ink/[0.06] text-muted">
                 <Minus size={15} weight="bold" />
@@ -126,7 +129,7 @@ export function TemplateD({ page }: { page: ComparePage }) {
             </ul>
           </div>
           {/* Spine */}
-          <div className="rounded-[24px] border border-orange/25 bg-[rgba(247,101,27,0.05)] px-7 py-8">
+          <div className="order-1 rounded-[24px] border border-orange/25 bg-[rgba(247,101,27,0.05)] px-5 py-6 sm:px-7 sm:py-8 md:order-2">
             <h3 className="mb-6 flex items-center gap-2.5 text-[16px] font-extrabold tracking-[-0.01em]">
               <span className="grid size-7 place-items-center rounded-pill bg-orange text-white">
                 <Plus size={15} weight="bold" />
@@ -155,7 +158,7 @@ export function TemplateD({ page }: { page: ComparePage }) {
             <div
               key={s.label}
               className={[
-                "px-7 py-8",
+                "px-5 py-6 sm:px-7 sm:py-8",
                 i % 2 === 0 ? "border-r border-white/10" : "",
                 "lg:border-r lg:last:border-r-0",
                 i < 2 ? "border-b border-white/10 lg:border-b-0" : "",
@@ -251,7 +254,10 @@ function SnapshotCard({
         <span className="text-[12px] font-bold uppercase tracking-[0.06em] text-muted">
           {snapshot.title}
         </span>
-        <span className="flex items-center gap-1.5 rounded-pill bg-orange/10 px-[11px] py-[5px] text-[11.5px] font-bold text-orange-700">
+        {/* Hidden below sm: in a 263px header both this pill and the title
+            broke to two lines and nearly touched — and the title already says
+            "Spine vs {competitor}". */}
+        <span className="hidden items-center gap-1.5 rounded-pill bg-orange/10 px-[11px] py-[5px] text-[11.5px] font-bold text-orange-700 sm:flex">
           Spine vs {competitor}
         </span>
       </div>

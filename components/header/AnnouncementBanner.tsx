@@ -43,7 +43,10 @@ export function AnnouncementBanner() {
       {/* Fixed-height content band, so the close button's vertical centring never
           drifts while the outer wrapper animates its height on dismiss. */}
       <div className="relative h-[44px]">
-        <div className="mx-auto flex h-full max-w-[1480px] items-center px-4 sm:px-6 lg:px-8">
+        {/* pr-12 keeps the truncation boundary clear of the absolutely-placed
+            close button — without it a longer announcement ellipsises directly
+            underneath the ×. */}
+        <div className="mx-auto flex h-full max-w-[1480px] items-center px-4 pr-12 sm:px-6 sm:pr-12 lg:px-8 lg:pr-14">
           <a
             href={HEAL_APP_URL}
             target="_blank"
@@ -71,7 +74,10 @@ export function AnnouncementBanner() {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss announcement"
-          className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+          // The circle stays 28px for the balance described above; the tap area
+          // is grown to 44px with a transparent ::before so touch users get a
+          // real target without the visual growing.
+          className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-white/50 transition-colors before:absolute before:-inset-2 before:content-[''] hover:bg-white/10 hover:text-white"
         >
           <X size={15} weight="bold" />
         </button>

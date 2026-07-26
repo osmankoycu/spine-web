@@ -133,7 +133,11 @@ export function Header() {
             className={cn(
               // Pill surface appears ONLY on scroll — opening a menu at the top of
               // the page does NOT bring it in (the panel floats on its own there).
-              "absolute inset-0 rounded-pill bg-white/55 shadow-[0_8px_30px_rgba(0,0,0,0.07)] ring-1 ring-black/[0.06] backdrop-blur-xl transition-opacity duration-500 ease-out",
+              // 55% white reads as glass over the mostly-white desktop layout,
+              // but below lg the pill spans nearly the full width and the page
+              // has full-bleed near-black cards — at 55% it turned muddy grey
+              // and the content behind it stayed legible through the pill.
+              "absolute inset-0 rounded-pill bg-white/85 shadow-[0_8px_30px_rgba(0,0,0,0.07)] ring-1 ring-black/[0.06] backdrop-blur-xl transition-opacity duration-500 ease-out lg:bg-white/55",
               scrolled ? "opacity-100" : "opacity-0",
             )}
           />
@@ -238,7 +242,11 @@ export function Header() {
           mobileOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <div className="h-full overflow-y-auto px-5 pb-12 pt-[96px]">
+        {/* The sheet is inset-0, so it starts at the very top of the viewport —
+            behind the banner AND the fixed header bar (both above it in z). Its
+            top padding must clear BOTH or the first nav row renders under the
+            logo and, because the header is z-50, can't be tapped at all. */}
+        <div className="h-full overflow-y-auto px-5 pb-12 pt-[calc(var(--banner-h,0px)+var(--header-h)+8px)]">
           <nav>
             {nav.map((item) =>
               item.menu ? (

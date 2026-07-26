@@ -19,7 +19,7 @@ export function Footer() {
   return (
     <footer className="bg-white px-4 text-white sm:px-6 lg:px-8">
       {/* Inset card — side gutters match the header width, top corners rounded. */}
-      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#15140f] px-8 pb-8 pt-12 sm:pt-14 md:rounded-t-[40px] lg:px-14 lg:pb-9 lg:pt-16">
+      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#15140f] px-6 pb-8 pt-12 sm:px-8 sm:pt-14 md:rounded-t-[40px] lg:px-14 lg:pb-9 lg:pt-16">
         {/* Top — brand + link columns */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[2.3fr_repeat(3,1fr)] lg:gap-x-10">
           {/* Brand */}
@@ -30,19 +30,26 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Link columns — 2-col grid on mobile, individual grid cells on md+ */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:contents">
+          {/* Link columns. There are THREE of them, so a 2-up mobile grid always
+              orphans the last one and leaves an empty bottom-right quadrant —
+              stack them instead below sm, then 2-up, then individual grid cells
+              on lg+ where the parent supplies the track. */}
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:contents">
             {footerColumns.map((col) => (
               <div key={col.title}>
                 <h3 className="text-[13px] font-bold uppercase tracking-[0.08em] text-orange">
                   {col.title}
                 </h3>
-                <ul className="mt-5 space-y-3">
+                {/* space-y-0 + per-link padding: same visual rhythm, but each
+                    link's hit area is ~46px instead of the 22px text box.
+                    nowrap only from lg, where the column track guarantees room —
+                    below that it pushed long labels out of the card padding. */}
+                <ul className="mt-3 space-y-0">
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="whitespace-nowrap text-[15px] text-white/60 transition-colors hover:text-white"
+                        className="inline-block py-[11px] text-[15px] text-white/60 transition-colors hover:text-white lg:py-1.5 lg:whitespace-nowrap"
                       >
                         {l.label}
                       </Link>

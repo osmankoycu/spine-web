@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { ArrowRight } from "@phosphor-icons/react";
 import { useDemoModal } from "@/components/cta/DemoModal";
 import { TagField } from "@/components/footer/TagField";
 import { hasOwnCloser } from "@/lib/interior/closers";
@@ -18,9 +19,9 @@ export function TagDrop() {
   if (hasOwnCloser(pathname)) return null;
 
   return (
-    <TagField className="h-[620px] sm:h-[720px] lg:h-[800px]">
-      <div className="mx-auto flex max-w-[760px] flex-col items-center px-6 pt-[88px] text-center sm:pt-[110px] lg:pt-[120px]">
-        <h2 className="font-display text-[40px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[52px] lg:text-[64px]">
+    <TagField className="min-h-[560px] sm:h-[720px] lg:h-[800px]">
+      <div className="mx-auto flex max-w-[760px] flex-col items-center px-6 pb-0 pt-[72px] text-center sm:pt-[110px] lg:pt-[120px]">
+        <h2 className="font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[52px] lg:text-[64px]">
           Offload your <span className="text-orange">people stack</span> in 30 minutes.
         </h2>
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.55] text-grey-text sm:text-[18px]">
@@ -30,9 +31,10 @@ export function TagDrop() {
         <button
           type="button"
           onClick={open}
-          className="pointer-events-auto mt-9 cursor-pointer rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:px-[30px] sm:py-[18px] sm:text-[18px]"
+          className="pointer-events-auto mt-9 flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:w-auto sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
-          Request your free audit →
+          Request your free audit
+          <ArrowRight size={18} weight="bold" />
         </button>
         <p className="mt-6 text-[15px] text-grey-text">
           Or email{" "}

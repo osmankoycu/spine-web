@@ -43,7 +43,14 @@ export function TagField({
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // The physics never runs here, and the tags are positioned ONLY by the
+      // simulation (they start absolute at 0,0 with opacity 0) — so without
+      // this the whole band renders permanently blank. Flip the box into a
+      // static settled pile; the CSS below keys off this attribute.
+      box.dataset.static = "true";
+      return;
+    }
 
     let cancelled = false;
     let teardown: (() => void) | null = null;
@@ -84,26 +91,34 @@ export function TagField({
           return { body, el };
         });
 
-        const mouse = Mouse.create(box);
-        const mc = MouseConstraint.create(engine, {
-          mouse,
-          constraint: { stiffness: 0.16, damping: 0.12, render: { visible: false } },
-        });
-        Composite.add(engine.world, mc);
-        const mw = (mouse as unknown as { mousewheel: EventListener }).mousewheel;
-        box.removeEventListener("wheel", mw);
-        box.removeEventListener("mousewheel", mw);
+        // Drag-to-fling is wired for FINE POINTERS ONLY. Matter's Mouse binds a
+        // non-passive `touchmove` that calls preventDefault() on every move —
+        // not just while dragging a tag — so on a phone this full-bleed box
+        // swallowed vertical swipes and the page could not be scrolled past the
+        // closer. The tags still spawn, fall and pile on touch; only the drag
+        // affordance is dropped, which is the right trade for scrollability.
+        if (window.matchMedia("(pointer: fine)").matches) {
+          const mouse = Mouse.create(box);
+          const mc = MouseConstraint.create(engine, {
+            mouse,
+            constraint: { stiffness: 0.16, damping: 0.12, render: { visible: false } },
+          });
+          Composite.add(engine.world, mc);
+          const mw = (mouse as unknown as { mousewheel: EventListener }).mousewheel;
+          box.removeEventListener("wheel", mw);
+          box.removeEventListener("mousewheel", mw);
 
-        const draggedEl = (e: unknown) =>
-          (e as { body?: { __el?: HTMLElement } }).body?.__el ?? null;
-        Events.on(mc, "startdrag", (e) => {
-          const el = draggedEl(e);
-          if (el) el.dataset.active = "true";
-        });
-        Events.on(mc, "enddrag", (e) => {
-          const el = draggedEl(e);
-          if (el) delete el.dataset.active;
-        });
+          const draggedEl = (e: unknown) =>
+            (e as { body?: { __el?: HTMLElement } }).body?.__el ?? null;
+          Events.on(mc, "startdrag", (e) => {
+            const el = draggedEl(e);
+            if (el) el.dataset.active = "true";
+          });
+          Events.on(mc, "enddrag", (e) => {
+            const el = draggedEl(e);
+            if (el) delete el.dataset.active;
+          });
+        }
 
         const runner = Runner.create();
         Runner.run(runner, engine);
@@ -173,7 +188,16 @@ export function TagField({
 
   return (
     <section className={cn("relative overflow-hidden bg-white", className)}>
-      <div ref={boxRef} className="absolute inset-0 z-0 select-none">
+      {/* `data-static` is set by the effect under reduced motion; the group-data
+          variants below turn the absolutely-positioned physics bodies into a
+          bottom-anchored wrap that reads as an already-settled pile. */}
+      <div
+        ref={boxRef}
+        // Under data-static the box drops its top edge to mid-section so the
+        // settled pile occupies the lower band only — the same zone the falling
+        // pills come to rest in — instead of climbing over the copy above it.
+        className="group absolute inset-0 z-0 select-none data-[static=true]:top-1/2 data-[static=true]:flex data-[static=true]:flex-wrap data-[static=true]:content-end data-[static=true]:items-end data-[static=true]:justify-center data-[static=true]:gap-2 data-[static=true]:overflow-hidden data-[static=true]:p-4 sm:data-[static=true]:gap-3 sm:data-[static=true]:p-6"
+      >
         {TAGS.map((label, i) => (
           <div
             key={label}
@@ -182,7 +206,7 @@ export function TagField({
             }}
             data-tag
             style={{ top: 0, left: 0 }}
-            className="pointer-events-none absolute whitespace-nowrap rounded-pill bg-[#e7eaef] px-[22px] py-[16px] text-[16px] font-medium leading-none tracking-[-0.02em] text-white opacity-0 transition-opacity duration-300 will-change-transform data-[active=true]:bg-black sm:px-[30px] sm:py-[21px] sm:text-[20px] lg:px-[36px] lg:py-[25px] lg:text-[22px]"
+            className="pointer-events-none absolute whitespace-nowrap rounded-pill bg-[#e7eaef] px-[22px] py-[16px] text-[16px] font-medium leading-none tracking-[-0.02em] text-white opacity-0 transition-opacity duration-300 will-change-transform group-data-[static=true]:relative group-data-[static=true]:opacity-100 data-[active=true]:bg-black sm:px-[30px] sm:py-[21px] sm:text-[20px] lg:px-[36px] lg:py-[25px] lg:text-[22px]"
           >
             {label}
           </div>

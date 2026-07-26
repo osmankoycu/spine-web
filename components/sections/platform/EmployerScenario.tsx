@@ -169,8 +169,11 @@ export function EmployerScenario() {
               className="absolute inset-x-0 top-0 rounded-t-[10px] bg-[#e9eefb]"
               style={{ height: `${((FIT_MAX - FIT_ZONE) / (FIT_MAX - FIT_MIN)) * 100}%` }}
             >
-              <span className="absolute right-2.5 top-2 text-[10px] font-bold uppercase tracking-[0.04em] text-[#1e54b8]">
-                Strong fit · Spine recommends here
+              {/* The plot is ~219px wide at 375px, so the full caption wrapped
+                  to two lines straight over the bubbles beneath it. Keep the
+                  qualifier for wider screens only. */}
+              <span className="absolute right-2.5 top-2 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.04em] text-[#1e54b8]">
+                Strong fit<span className="hidden sm:inline"> · Spine recommends here</span>
               </span>
             </div>
             {/* zone divider line (y = 75) */}
@@ -202,10 +205,15 @@ export function EmployerScenario() {
                         sel ? "size-7 bg-[#1e54b8]" : "size-[26px] bg-[#b9b9b3]",
                       )}
                     />
+                    {/* At 375px the four nowrap labels are wider than the gaps
+                        between their bubbles, so they printed over each other
+                        and over neighbouring bubbles. Below sm only the
+                        recommended arch is labelled — the one the copy above
+                        actually names. */}
                     <span
                       className={cn(
                         "absolute left-1/2 top-[calc(100%+4px)] -translate-x-1/2 whitespace-nowrap text-[11px] font-semibold",
-                        sel ? "text-[#15140f]" : "text-[#8a897f]",
+                        sel ? "text-[#15140f]" : "hidden text-[#8a897f] sm:inline",
                       )}
                     >
                       {a.label}
@@ -243,19 +251,23 @@ export function EmployerScenario() {
             · 3 plans included
           </span>
         </div>
-        <div className="mt-2 grid grid-cols-3 gap-2">
+        {/* 3-up gave each chip ~65px of content at 375px, so every carrier name
+            truncated to "UHC Ch…" / "STANDAR…" — the two UHC plans became
+            indistinguishable and the evidence for "3 plans included" was gone.
+            Stack full-width below sm and drop the truncation. */}
+        <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
           {portfolio.plans.map((p, i) => (
             <div
               key={p.name}
               className={cn(
-                "rounded-lg border-[1.5px] bg-white px-2.5 py-1.5",
+                "flex items-baseline justify-between gap-2 rounded-lg border-[1.5px] bg-white px-2.5 py-1.5 sm:block",
                 CHIP_BORDERS[i % CHIP_BORDERS.length],
               )}
             >
-              <div className="truncate text-[11.5px] font-bold text-[#15140f]">
+              <div className="text-[11.5px] font-bold text-[#15140f] sm:truncate">
                 {p.name}
               </div>
-              <div className="mt-0.5 truncate text-[9.5px] font-bold uppercase tracking-[0.04em] text-[#a9a9a3]">
+              <div className="text-[9.5px] font-bold uppercase tracking-[0.04em] text-[#a9a9a3] sm:mt-0.5 sm:truncate">
                 {p.meta}
               </div>
             </div>
@@ -343,8 +355,13 @@ function SliderRow({
         onChange={(e) => onChange(Number(e.target.value))}
         aria-label={label}
         style={{
-          background: `linear-gradient(to right, var(--color-cobalt-200) ${pct}%, #e6e6e2 ${pct}%)`,
+          // backgroundImage, NOT the `background` shorthand — the shorthand
+          // resets background-clip, which globals.css relies on to keep the
+          // track 6px tall inside the padded-out touch target.
+          backgroundImage: `linear-gradient(to right, var(--color-cobalt-200) ${pct}%, #e6e6e2 ${pct}%)`,
         }}
+        // Stays a 6px track visually; on coarse pointers globals.css pads the
+        // box out to a ~40px touch target without thickening the track.
         className="scenario-slider h-1.5 w-full cursor-pointer appearance-none rounded-full"
       />
     </div>

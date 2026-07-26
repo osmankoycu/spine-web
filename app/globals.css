@@ -163,7 +163,29 @@ body {
 }
 
 /* Employer-scenario range sliders: light-blue filled track (set inline as a
-   gradient per value) + a cobalt thumb. */
+   gradient per value) + a cobalt thumb.
+
+   On touch these are the only interactive controls in the employer mockup, and
+   the whole "drag to explore" story depends on them — but a 6px track with a
+   16px thumb is far under the ~44px touch minimum. On coarse pointers the box
+   is padded out to ~40px and the inline gradient is clipped to the content box,
+   so the target grows while the track still paints at 6px. */
+@media (pointer: coarse) {
+  .scenario-slider {
+    box-sizing: content-box;
+    padding-block: 17px;
+    background-clip: content-box;
+  }
+  .scenario-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+  }
+  .scenario-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+  }
+}
+
 .scenario-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;

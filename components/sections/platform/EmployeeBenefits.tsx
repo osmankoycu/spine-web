@@ -82,7 +82,11 @@ export function EmployeeBenefits() {
   return (
     <div ref={rootRef} className="grid gap-15 lg:grid-cols-[384px_1fr] lg:items-stretch lg:gap-18">
       {/* Copy column — sits on the RIGHT on desktop (order-2), phone on the left */}
-      <div className="flex flex-col lg:order-2">
+      {/* min-w-0: this is a grid item, so its automatic minimum size is its
+          content — the agent rail's horizontal scroll strip would otherwise
+          stretch this column to 552px and get clipped by the card's
+          overflow-hidden instead of scrolling. */}
+      <div className="flex min-w-0 flex-col lg:order-2">
         <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span>
         </p>

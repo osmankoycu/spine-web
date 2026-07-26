@@ -20,7 +20,15 @@ export function AgentRail({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="grid grid-cols-5 gap-2 sm:gap-3">
+    // Five equal tracks at 375px give each agent ~59px, but the pills size to
+    // their content — so "Check Coverage" and "FightBack" spilled out of their
+    // tracks and printed over each other, and the 112px avatars shrank to
+    // thumbnails. Below sm this becomes a snap-scrolling rail at a legible
+    // width; from sm up it's the original 5-up grid.
+    // min-w-0 + w-full are load-bearing: without them the 552px of scroll
+    // content wins the parent's automatic minimum size and stretches the whole
+    // section past the viewport instead of scrolling inside this box.
+    <div className="flex w-full min-w-0 snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-5 sm:gap-3 sm:overflow-visible">
       {agents.map((agent) => {
         const active = agent.id === selected;
         return (
@@ -29,11 +37,11 @@ export function AgentRail({
             type="button"
             onClick={() => onSelect(agent.id)}
             aria-pressed={active}
-            className="group flex cursor-pointer flex-col items-center focus:outline-none"
+            className="group flex w-[104px] shrink-0 cursor-pointer snap-start flex-col items-center focus:outline-none sm:w-auto sm:shrink"
           >
             <span
               className={cn(
-                "flex h-[44px] items-center justify-center whitespace-pre-line rounded-[12px] px-2.5 text-center text-[12.5px] font-bold leading-[1.15] transition-colors duration-200",
+                "flex h-[44px] w-full items-center justify-center whitespace-pre-line rounded-[12px] px-2.5 text-center text-[12.5px] font-bold leading-[1.15] transition-colors duration-200",
                 active
                   ? "bg-aqua-400 text-white"
                   : "bg-aqua-100/60 text-aqua-400 group-hover:bg-aqua-100",

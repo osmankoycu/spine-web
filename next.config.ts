@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       // The HR Console is a standalone, self-contained HTML bundle living at
       // public/admin/hr-console.html. Serve it at a clean, extensionless URL.
       { source: "/admin/hr-console", destination: "/admin/hr-console.html" },
+      // The mobile app is a multi-file static export in
+      // public/admin/hr-console/mobile-app/. Its assets are relative and a
+      // <base> tag anchors them, so we only need to map the entry URL.
+      { source: "/admin/hr-console/mobile-app", destination: "/admin/hr-console/mobile-app/index.html" },
     ];
   },
 };

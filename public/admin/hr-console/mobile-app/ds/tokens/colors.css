@@ -1,0 +1,117 @@
+/* ============================================================
+   Heal — Color tokens
+   Primitive ramps (where hex lives) + semantic aliases (roles).
+   Component code should reference SEMANTIC tokens only.
+   ============================================================ */
+
+:root {
+  /* ---- Foundation -------------------------------------------------- */
+  --surface: #FAFAFA;          /* default page background everywhere */
+  --ink: #0E1419;              /* default text color */
+  --pure-white: #FFFFFF;       /* rising card on Surface */
+  --pure-black: #000000;       /* CMYK keyline / foil only */
+
+  /* ---- Cobalt · Employer / Primary (brand spine) ------------------- */
+  --cobalt-100: #DBE5FA;
+  --cobalt-200: #A9C0F2;
+  --cobalt-300: #5B82DE;
+  --cobalt-400: #1E54B8;       /* ★ brand identity, primary CTA, hero */
+  --cobalt-500: #163E89;       /* hover / pressed */
+  --cobalt-600: #0E2756;       /* deep surface, dark poster */
+  --cobalt-700: #0B1D45;       /* dark mode chrome */
+
+  /* ---- Aqua · Employee / Contextual -------------------------------- */
+  --aqua-100: #C8EAF2;
+  --aqua-200: #94D7E5;
+  --aqua-300: #56C2D8;
+  --aqua-400: #2BB0C9;         /* ★ employee surface primary */
+  --aqua-500: #1E7E92;         /* hover / pressed / text on light */
+  --aqua-600: #114E5C;         /* deep accent, text on aqua */
+  --aqua-700: #093F4B;         /* mobile dark mode */
+
+  /* ---- Marigold · Accent / Emphasis (rare) ------------------------- */
+  --marigold-100: #FEE0CE;
+  --marigold-200: #FCC29F;
+  --marigold-300: #FA9C6C;
+  --marigold-400: #F67439;     /* ★ accent main — italic word, NEW badge */
+  --marigold-500: #D75A1A;     /* vivid burnt orange — headline, attribution */
+  --marigold-600: #933A09;     /* deep burnt sienna — body on light (AAA) */
+  --marigold-700: #4D1E04;     /* burnt umber — annual report, emboss */
+
+  /* ---- Heal Gray · 13-step cool ramp (H215 S8–15%) ----------------- */
+  --gray-50:   #FAFAFA;        /* = Surface */
+  --gray-100:  #F2F4F6;        /* subtle surface, hover, alt row */
+  --gray-200:  #E5E9ED;        /* raised surface, card background */
+  --gray-300:  #D1D7DE;        /* subtle divider, default card border */
+  --gray-400:  #B1BAC4;        /* default input border, button outline */
+  --gray-500:  #8B95A1;        /* strong border, focus, disabled text */
+  --gray-600:  #6C7682;        /* muted text (helper, caption) */
+  --gray-700:  #525B66;        /* tertiary text */
+  --gray-800:  #3B424B;        /* secondary text */
+  --gray-900:  #262C34;        /* primary body text */
+  --gray-950:  #181D24;        /* display heading text */
+  --gray-975:  #11171D;        /* near-ink */
+  --gray-1000: #0E1419;        /* ★ Ink — max contrast / dark surface */
+
+  /* ---- Semantic states (Bg / Soft / Default / Strong) -------------- */
+  --success-bg:      #E1F6EC;
+  --success-soft:    #8FD9B0;
+  --success:         #1E9E5D;
+  --success-strong:  #0C4E2D;
+
+  --error-bg:        #FCE6E6;
+  --error-soft:      #F1A8A8;
+  --error:           #C72424;
+  --error-strong:    #5C0E0E;
+
+  --warning-bg:      #FCEFC9;
+  --warning-soft:    #F4CD5A;
+  --warning:         #D49813;
+  --warning-strong:  #6E4B00;
+
+  --info-bg:         #DBE5FA;
+  --info-soft:       #A9C0F2;
+  --info:            #1E54B8;
+  --info-strong:     #0E2756;
+
+  /* ---- Decorative palette · categorical UI only (never state) ------ */
+  /* Light tile: bg.light fill + stroke.light 1.5px border + bg.dark text */
+  --dec-brick-bg:      #F8DBD4;  --dec-brick-stroke:      #ECB4A8;  --dec-brick-dark:      #5C1A0F;
+  --dec-sun-bg:        #FAEFC8;  --dec-sun-stroke:        #DFC571;  --dec-sun-dark:        #5C4109;
+  --dec-olive-bg:      #E5EBC0;  --dec-olive-stroke:      #BFCB86;  --dec-olive-dark:      #3D5215;
+  --dec-mint-bg:       #DAF1E3;  --dec-mint-stroke:       #ABDCBE;  --dec-mint-dark:       #1B4D2E;
+  --dec-teal-bg:       #D3EEEE;  --dec-teal-stroke:       #ABD8D8;  --dec-teal-dark:       #1E5050;
+  --dec-sky-bg:        #DCE9F5;  --dec-sky-stroke:        #B6CDE8;  --dec-sky-dark:        #1E3B5C;
+  --dec-periwinkle-bg: #DCDDF8;  --dec-periwinkle-stroke: #B0B3E8;  --dec-periwinkle-dark: #21267A;
+  --dec-iris-bg:       #ECD9F0;  --dec-iris-stroke:       #C8A0D4;  --dec-iris-dark:       #5A1A66;
+  --dec-rose-bg:       #F8DBE7;  --dec-rose-stroke:       #EEB7CA;  --dec-rose-dark:       #5C1B3A;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in component code
+     ============================================================ */
+  --brand:            var(--cobalt-400);
+  --brand-hover:      var(--cobalt-500);
+  --brand-deep:       var(--cobalt-600);
+  --accent:           var(--marigold-400);
+  --accent-strong:    var(--marigold-500);
+  --contextual:       var(--aqua-400);   /* employee surface */
+  --contextual-text:  var(--aqua-600);
+
+  --surface-raised:   var(--pure-white);  /* rising card on Surface */
+  --surface-subtle:   var(--gray-100);    /* inset within card */
+  --surface-card:     var(--gray-200);
+
+  --text:             var(--gray-900);
+  --text-strong:      var(--gray-1000);
+  --text-secondary:   var(--gray-800);
+  --text-tertiary:    var(--gray-700);
+  --text-muted:       var(--gray-600);
+  --text-disabled:    var(--gray-500);
+  --text-on-dark:     var(--gray-100);
+  --text-link:        var(--cobalt-400);
+
+  --border:           var(--gray-300);    /* default hairline border */
+  --border-input:     var(--gray-400);
+  --border-strong:    var(--gray-500);
+  --border-focus:     var(--cobalt-400);
+}

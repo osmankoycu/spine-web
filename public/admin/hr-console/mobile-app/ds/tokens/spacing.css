@@ -1,0 +1,19 @@
+/* ============================================================
+   Heal — Spacing tokens (Tailwind-aligned, 4px base)
+   Snap to the scale. Never use arbitrary values.
+   ============================================================ */
+
+:root {
+  --space-0:   0;
+  --space-xs:  4px;    /* icon-to-text gap, dense table padding */
+  --space-sm:  8px;    /* compact button padding, tight tag spacing */
+  --space-md:  12px;   /* default button vertical padding, list gap */
+  --space-lg:  16px;   /* ★ default content gap — card inner, paragraph */
+  --space-xl:  20px;   /* section gap inside cards */
+  --space-2xl: 24px;   /* card outer padding, panel section gap */
+  --space-3xl: 32px;   /* large block separation, dialog padding */
+  --space-4xl: 40px;   /* page horizontal padding (mobile), hero gap */
+  --space-5xl: 48px;   /* major section separator, deck slide padding */
+  --space-6xl: 64px;   /* hero internal padding, top-of-page gap */
+  --space-7xl: 96px;   /* marketing section separator, slide hero padding */
+}

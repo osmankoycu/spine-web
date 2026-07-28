@@ -1,0 +1,43 @@
+/* ============================================================
+   Heal — Effects: radius · border · shadow · opacity · motion
+   Heal is shadow-light. Borders carry hierarchy.
+   ============================================================ */
+
+:root {
+  /* ---- Corner radius --------------------------------------------- */
+  --radius-sharp:  0;
+  --radius-subtle: 4px;     /* tags, small chips */
+  --radius-input:  6px;     /* form inputs */
+  --radius-button: 8px;     /* buttons, secondary cards, badges */
+  --radius-card:   12px;    /* ★ default card, surface block */
+  --radius-hero:   16px;    /* hero block, feature card, poster */
+  --radius-modal:  24px;    /* modals, large overlay panels */
+  --radius-full:   9999px;  /* avatars, circles, pill buttons */
+
+  /* ---- Border weights -------------------------------------------- */
+  --border-hairline: 0.5px;  /* ★ default card border, table dividers */
+  --border-default:  1px;    /* form inputs, default buttons */
+  --border-emphasis: 1.5px;  /* selected states, decorative tiles */
+  --border-focus:    2px;    /* focus ring, active selection */
+
+  /* ---- Shadow (intentionally limited; Ink at low opacity) -------- */
+  --shadow-none:     none;                              /* ★ default */
+  --shadow-card:     0 1px 3px rgba(14,20,25,0.04);     /* rising white card */
+  --shadow-modal:    0 4px 16px rgba(14,20,25,0.08);    /* modals, sheets */
+  --shadow-dropdown: 0 8px 32px rgba(14,20,25,0.12);    /* popovers, menus */
+
+  /* ---- Opacity (semantic aliases) -------------------------------- */
+  --opacity-hover-bg:      0.04;  /* @kind other */
+  --opacity-hover-overlay: 0.08;  /* @kind other */
+  --opacity-pressed:       0.12;  /* @kind other */
+  --opacity-scrim:         0.32;  /* @kind other */
+  --opacity-disabled:      0.40;  /* @kind other */
+  --opacity-muted:         0.60;  /* @kind other */
+  --opacity-secondary:     0.80;  /* @kind other */
+
+  /* ---- Motion ---------------------------------------------------- */
+  --ease-out-quart: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --duration-fast: 120ms; /* @kind other */
+  --duration-base: 200ms; /* @kind other */
+  --duration-slow: 320ms; /* @kind other */
+}

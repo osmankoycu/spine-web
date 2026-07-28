@@ -1,0 +1,17 @@
+/* ============================================================
+   Heal — Fonts
+   ------------------------------------------------------------
+   Brand spec calls for ADOBE FONTS:
+     • Neue Haas Grotesk (Display + Text)  → working voice
+     • STIX Two Text                        → evidence / editorial
+     • Geist Mono                           → data / numbers
+   Adobe fonts cannot be shipped here, so this file loads the
+   nearest open substitutes from Google Fonts:
+     • Neue Haas Grotesk  →  GEIST  (clean neo-grotesque; flagged)
+     • STIX Two Text      →  STIX Two Text   (exact match, free)
+     • Geist Mono         →  Geist Mono      (exact match, free)
+   Swap in the real Adobe webfonts for production by replacing the
+   @import below with @font-face rules pointing at the Adobe kit.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');

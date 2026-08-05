@@ -146,15 +146,14 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
                 dark ? "lg:[&:not(:last-child)]:border-white/10" : "lg:[&:not(:last-child)]:border-[#ededea]",
               )}
             >
-              <div className="h-1 w-[30px] rounded-[2px] bg-orange" />
+              {/* No accent rule above the figure — the orange lives in the
+                  number itself, so the colour carries meaning instead of
+                  decorating it. */}
               <div
                 ref={(el) => {
                   numRefs.current[i] = el;
                 }}
-                className={cn(
-                  "mt-[22px] font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] sm:text-[54px] lg:text-[64px]",
-                  dark ? "text-white" : "text-[#15140f]",
-                )}
+                className="font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-orange sm:text-[54px] lg:text-[64px]"
               >
                 {s.value}
               </div>

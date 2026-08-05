@@ -283,13 +283,16 @@ function BlockView({ block }: { block: Block }) {
                 <div className="text-[10px] font-bold uppercase tracking-[0.06em] text-[#8a8a8a]">
                   {s.label}
                 </div>
-                <div className="flex items-baseline gap-1.5">
+                {/* Value and note sit side by side once there's room; below sm
+                    the note drops under the figure rather than truncating to
+                    nothing in a ~96px column. */}
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-1.5">
                   <span className="text-[19px] font-extrabold leading-tight tracking-[-0.03em] text-[#15140f]">
                     {s.value}
                   </span>
                   <span
                     className={cn(
-                      "truncate text-[11px] font-semibold",
+                      "text-[11px] font-semibold leading-snug sm:truncate",
                       s.good ? "text-[#2a8b3f]" : "text-[#8a8a8a]",
                     )}
                   >
@@ -309,7 +312,9 @@ function BlockView({ block }: { block: Block }) {
     case "person":
       return (
         <Attachment className="border-l-[#4a154b] bg-[#f5f2f6]">
-          <div className="flex items-center gap-2.5">
+          {/* Wraps below sm: the button drops to its own line instead of
+              squeezing the name and role into ~60px. */}
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
             <span
               className="grid size-[30px] flex-none place-items-center rounded-[5px] text-[11px] font-extrabold text-white"
               style={{ background: "#1d1c1d" }}
@@ -369,7 +374,9 @@ function TaskLine({ row, first }: { row: TaskRow; first?: boolean }) {
       ) : (
         <Clock size={13} weight="bold" className="flex-none text-orange" />
       )}
-      <span className="min-w-0 truncate">{row.label}</span>
+      {/* Wraps on a phone; only truncates once the column is wide enough that a
+          clipped label is the lesser evil. */}
+      <span className="min-w-0 leading-snug sm:truncate">{row.label}</span>
       <span
         className={cn(
           "ml-auto flex-none text-[10px] font-bold uppercase tracking-[0.05em]",
@@ -395,8 +402,8 @@ function Composer() {
           Message #{workspace.channel}
         </span>
         <Smiley size={15} />
-        <At size={15} />
-        <Paperclip size={15} />
+        <At size={15} className="hidden sm:block" />
+        <Paperclip size={15} className="hidden sm:block" />
         <span className="grid size-[24px] flex-none place-items-center rounded bg-[#007a5a]">
           <PaperPlaneRight size={11} weight="fill" className="text-white" />
         </span>

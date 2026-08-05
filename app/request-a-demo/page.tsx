@@ -164,7 +164,7 @@ export default function RequestADemoPage() {
               href="#estimate"
               className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:inline-flex sm:w-auto"
             >
-              Get my estimate →
+              Pick a time →
             </a>
           </div>
         </div>

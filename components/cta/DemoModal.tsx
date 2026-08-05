@@ -130,7 +130,10 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       // already taller than an iPhone SE — and once the keyboard opens the
       // visual viewport halves, so with a centred non-scrolling overlay the
       // submit button was simply unreachable.
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 py-6 sm:items-center sm:py-4"
+      // The overlay is the ONLY scroll container; the card centres via my-auto
+      // rather than items-center, which would clip the top of a card taller
+      // than the viewport (the booking step is ~740px) with no way to scroll to it.
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 py-6 sm:py-4"
       role="dialog"
       aria-modal="true"
       aria-label="See how much you'd save"
@@ -146,7 +149,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       {/* Card — the same sheet throughout; it widens and loses its generous
           padding once the scheduler takes it over. */}
       <div
-        className={`relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-[28px] bg-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[opacity,scale,translate,max-width] duration-300 ease-out ${
+        className={`relative z-10 my-auto w-full rounded-[28px] bg-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[opacity,scale,translate,max-width] duration-300 ease-out ${
           step === "booking"
             ? "max-w-[720px] p-4 sm:p-5"
             : "max-w-[560px] p-6 sm:p-8 md:p-10"

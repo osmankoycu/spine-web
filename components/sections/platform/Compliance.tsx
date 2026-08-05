@@ -218,13 +218,17 @@ export function Compliance() {
             </div>
           </div>
 
-          {/* Body grid */}
+          {/* Body grid. min-w-0 on every cell is load-bearing: the filter-chip
+              strip below is ~600px of scroll content, and a grid item's
+              automatic minimum size is its content — without this the strip wins
+              and stretches the whole console past the card, which then clips it.
+              (Same trap as the agent rail.) */}
           <div className="grid lg:grid-cols-[200px_1fr_244px]">
             {/* Sidebar */}
-            <div className="flex flex-col gap-3 border-b border-[#d6d6d1] px-3 py-3 lg:gap-[3px] lg:border-b-0 lg:border-r lg:px-[14px] lg:py-[18px]">
+            <div className="flex min-w-0 flex-col gap-3 border-b border-[#d6d6d1] px-3 py-3 lg:gap-[3px] lg:border-b-0 lg:border-r lg:px-[14px] lg:py-[18px]">
               {/* A sidebar at lg; below it, the app's filter chips — scrolled
                   edge to edge, so the negative margins cancel the row padding. */}
-              <div className="-mx-3 flex gap-1.5 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:flex-col lg:gap-[3px] lg:overflow-visible lg:px-0">
+              <div className="-mx-3 flex w-[calc(100%+24px)] min-w-0 gap-1.5 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:w-full lg:flex-col lg:gap-[3px] lg:overflow-visible lg:px-0">
                 {NAV.map(({ label, icon: Icon, count }) => {
                   const active = label === cat.nav;
                   return (
@@ -274,12 +278,12 @@ export function Compliance() {
             {/* Feed — the cell keeps a stable background/border; ComplianceFeed
                 remounts per category (key) so the content fades in and the
                 processing→Done animation replays on each pick. */}
-            <div className="border-b border-[#d6d6d1] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
+            <div className="min-w-0 border-b border-[#d6d6d1] bg-[#fcfcfb] lg:border-b-0 lg:border-r">
               <ComplianceFeed key={cat.id} feed={cat.feed} />
             </div>
 
             {/* Right rail — updates in place (progress bar transitions its width) */}
-            <div className="flex flex-col gap-2.5 p-3 lg:gap-[14px] lg:p-[18px] short:gap-[10px] short:p-3">
+            <div className="flex min-w-0 flex-col gap-2.5 p-3 lg:gap-[14px] lg:p-[18px] short:gap-[10px] short:p-3">
               <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-3.5 lg:p-4 short:p-3">
                 <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-cobalt-400">
                   Next deadline
@@ -327,13 +331,16 @@ export function Compliance() {
                   onClick={() => pick(i)}
                   aria-pressed={sel}
                   className={cn(
-                    "flex flex-1 cursor-pointer flex-col items-center gap-1 px-1 pb-3 pt-2.5 transition-colors",
+                    "flex min-w-0 flex-1 cursor-pointer flex-col items-center gap-1 px-1 pb-3 pt-2.5 transition-colors",
                     sel ? "text-cobalt-400" : "text-[#a9a9a3]",
                   )}
                 >
                   <Ico size={19} weight={sel ? "fill" : "regular"} />
                   <span
-                    className={cn("text-[10.5px] leading-tight", sel && "font-bold")}
+                    className={cn(
+                      "max-w-full truncate text-[10.5px] leading-tight",
+                      sel && "font-bold",
+                    )}
                   >
                     {c.nav}
                   </span>

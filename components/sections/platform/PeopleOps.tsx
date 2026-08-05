@@ -1,160 +1,42 @@
-import { cn } from "@/lib/cn";
 import { stackLogos } from "@/lib/platformLogos";
 import { Reveal } from "@/components/sections/Reveal";
-import { CountUp } from "@/components/sections/CountUp";
 import { WorkflowTimeline } from "./WorkflowTimeline";
+import { SlackWindow } from "./SlackWindow";
 
 // Platform pillar "03 · People Ops" (design handoff). ONE padded block only —
 // the parent supplies the white card + dividers. Left: headline + a vertical
-// workflow timeline pushed to the column bottom. Right: a payroll console.
-// Neutral hex + success green (#2a8b3f) are exact handoff values; oranges use
-// our brand token (text-orange / bg-orange), tint via bg-orange/[0.07].
-
-type QueueRow = {
-  glyph: string;
-  tone: "green" | "orange";
-  title: string;
-  status: string;
-};
-
-const queue: QueueRow[] = [
-  {
-    glyph: "✓",
-    tone: "green",
-    title: "Onboarded Sarah K. · Eng, remote-TX",
-    status: "Day 1 ready",
-  },
-  {
-    glyph: "↻",
-    tone: "orange",
-    title: "3 PTO requests pending",
-    status: "Reviewing",
-  },
-  {
-    glyph: "✓",
-    tone: "green",
-    title: "Final paycheck issued · J. Chen",
-    status: "Complete",
-  },
-  {
-    glyph: "✓",
-    tone: "green",
-    title: "E-Verify cleared · 2 new hires",
-    status: "Verified",
-  },
-  {
-    glyph: "↻",
-    tone: "orange",
-    title: "Benefits enrollment · open window",
-    status: "5 days left",
-  },
-];
-
+// workflow timeline pushed to the column bottom. Right: the same workflow as it
+// actually happens for the customer — a Slack thread where Spine onboards the
+// hire, runs payroll, and pulls in a human specialist.
 
 export function PeopleOps() {
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
-      <div className="mb-7">
-        <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
-          03 · People Ops
-        </span>
-      </div>
-
-      <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-        {/* Left column: headline + workflow timeline */}
+      <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-stretch lg:gap-8">
+        {/* Left column: eyebrow + headline + workflow timeline. The eyebrow sits
+            INSIDE this column (as in the Benefits pillar) so the window in the
+            right column starts at the same top line. */}
         <div className="flex flex-col">
+          <p className="mb-7 inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+            03 · People Ops
+          </p>
           <h2 className="font-display text-[34px] font-extrabold leading-[1.0] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
             You hire.
             <br />
             <span className="text-orange">We run the rest.</span>
           </h2>
           <p className="mt-3.5 max-w-[420px] text-[16px] leading-[1.5] text-[#7c7c77]">
-            Payroll, onboarding, records, and offboarding, on top of the stack
-            you already use.
+            Payroll, onboarding, records, and offboarding — in your Slack, on top
+            of the stack you already use.
           </p>
 
           {/* Vertical workflow timeline (client island: draws top-to-bottom) */}
           <WorkflowTimeline />
         </div>
 
-        {/* Right column: payroll console */}
+        {/* Right column: the same workflow, live in Slack */}
         <Reveal className="lg:h-full">
-          <div className="h-full overflow-hidden rounded-[20px] border border-[#d6d6d1] bg-[#fcfcfb] shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]">
-          {/* Top bar */}
-          <div className="flex items-center gap-3.5 border-b border-[#d6d6d1] bg-white px-5 py-[15px]">
-            <div className="flex gap-[7px]">
-              <span className="size-[11px] rounded-full bg-[#dcdbd6]" />
-              <span className="size-[11px] rounded-full bg-[#dcdbd6]" />
-              <span className="size-[11px] rounded-full bg-[#dcdbd6]" />
-            </div>
-            <span className="ml-auto text-[11px] tracking-[0.06em] text-[#a9a9a3]">
-              spine · people ops
-            </span>
-          </div>
-
-          <div className="p-[22px]">
-            {/* Stat cards */}
-            <div className="mb-[18px] grid grid-cols-[1.4fr_1fr] gap-3">
-              <div className="rounded-[14px] border border-[#ececea] bg-white px-[18px] py-4">
-                <div className="text-[11px] font-semibold tracking-[0.04em] text-[#a9a9a3]">
-                  Payroll · this week
-                </div>
-                <CountUp
-                  to={293}
-                  prefix="$"
-                  suffix="K"
-                  className="mt-1 block text-[32px] font-extrabold tracking-[-0.03em] text-[#15140f]"
-                />
-                <div className="mt-1 text-[12px] font-semibold text-[#2a8b3f]">
-                  ✓ Processed Friday
-                </div>
-              </div>
-              <div className="rounded-[14px] border border-[#ececea] bg-white px-[18px] py-4">
-                <div className="text-[11px] font-semibold tracking-[0.04em] text-[#a9a9a3]">
-                  Active
-                </div>
-                <CountUp
-                  to={47}
-                  className="mt-1 block text-[32px] font-extrabold tracking-[-0.03em] text-[#15140f]"
-                />
-                <div className="mt-1 text-[12px] font-semibold text-[#86857e]">
-                  +3 onboarding
-                </div>
-              </div>
-            </div>
-
-            {/* Queue */}
-            <div className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">
-              This week&apos;s queue
-            </div>
-            {queue.map((row, i) => (
-              <div
-                key={row.title}
-                className={cn(
-                  "flex items-center gap-[13px] py-[13px]",
-                  i !== queue.length - 1 && "border-b border-[#ededea]",
-                )}
-              >
-                <span
-                  className={cn(
-                    "grid size-7 flex-none place-items-center rounded-lg text-[13px] font-extrabold",
-                    row.tone === "green"
-                      ? "bg-[#eafaef] text-[#2a8b3f]"
-                      : "bg-orange/[0.07] text-orange",
-                  )}
-                >
-                  {row.glyph}
-                </span>
-                <div className="flex-1 text-[13.5px] font-semibold text-[#2e2d28]">
-                  {row.title}
-                </div>
-                <span className="flex-none text-[11px] text-[#a9a9a3]">
-                  {row.status}
-                </span>
-              </div>
-            ))}
-          </div>
-          </div>
+          <SlackWindow />
         </Reveal>
       </div>
 

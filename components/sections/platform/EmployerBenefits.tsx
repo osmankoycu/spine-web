@@ -64,7 +64,7 @@ export function EmployerBenefits() {
             run edge to edge (matches the employee card treatment). */}
         <div className="mt-9 flex w-full flex-col divide-y divide-[#e6e6e2] rounded-[20px] border border-[#e6e6e2]">
           {COMPANY_POINTS.map((p) => (
-            <div key={p.title} className="flex items-start justify-center gap-2.5 px-5 py-4 text-left sm:px-6 lg:justify-start">
+            <div key={p.title} className="flex items-start gap-2.5 px-5 py-4 text-left sm:px-6">
               <Check size={15} weight="bold" className="mt-[3px] shrink-0 text-cobalt-400" />
               <div>
                 <div className="text-[14px] font-bold text-[#15140f]">{p.title}</div>

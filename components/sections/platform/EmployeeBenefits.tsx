@@ -115,7 +115,7 @@ export function EmployeeBenefits() {
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="flex items-start justify-center gap-2.5 text-left sm:justify-start sm:px-6 sm:py-5 sm:first:pl-0 sm:last:pr-0"
+              className="flex items-start gap-2.5 text-left sm:px-6 sm:py-5 sm:first:pl-0 sm:last:pr-0"
             >
               <Check size={15} weight="bold" className="mt-[3px] shrink-0 text-aqua-500" />
               <div>

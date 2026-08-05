@@ -95,7 +95,7 @@ export function WhySpine() {
         style={{ background: RADIAL }}
       >
         {/* Header */}
-        <div className="mb-10 grid gap-7 md:mb-11 md:grid-cols-[1.2fr_0.8fr] md:items-end md:gap-10">
+        <div className="mb-10 grid gap-7 text-center md:mb-11 md:grid-cols-[1.2fr_0.8fr] md:items-end md:gap-10 md:text-left">
           <div>
             <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-orange">
               Why Spine
@@ -242,12 +242,12 @@ function MobileCard({ kind }: { kind: "spine" | "peo" | "broker" }) {
     >
       <div
         className={cn(
-          "px-4 py-4 sm:px-6 sm:py-5",
+          "px-4 py-4 text-center sm:px-6 sm:py-5 sm:text-left",
           spine ? "bg-gradient-to-b from-orange to-orange-600" : "border-b border-white/10",
         )}
       >
         {spine ? (
-          <SpineLogo fill="#ffffff" className="!h-[22px] w-auto" />
+          <SpineLogo fill="#ffffff" className="!h-[22px] w-auto mx-auto sm:mx-0" />
         ) : (
           <div className="text-[17px] font-extrabold text-[#e9e8e4]">{head.name}</div>
         )}

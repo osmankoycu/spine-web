@@ -182,7 +182,7 @@ export function Compliance() {
   return (
     <div ref={rootRef} className="px-3 py-7 sm:px-10 sm:py-14 lg:px-12 lg:py-14 short:py-7">
       {/* Header */}
-      <div className="mb-8 short:mb-4">
+      <div className="mb-8 text-center lg:text-left short:mb-4">
         <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           02 · Compliance
         </span>

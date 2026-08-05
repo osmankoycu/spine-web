@@ -14,7 +14,7 @@ export function HrCommunity() {
           {/* Top region: pitch + coverage chips */}
           <div className="grid md:grid-cols-[1.25fr_1fr]">
             {/* Left cell */}
-            <div className="p-8 sm:p-12 md:p-[52px]">
+            <div className="p-6 text-center sm:p-12 md:p-[52px] md:text-left">
               <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#b0afa9]">
                 The people layer
               </p>
@@ -23,7 +23,7 @@ export function HrCommunity() {
                 <br className="hidden sm:inline" /> We&apos;ll connect you with the{" "}
                 <span className="whitespace-nowrap text-orange">right partner</span>.
               </h2>
-              <p className="mt-5 max-w-[460px] text-[16.5px] leading-[1.6] text-[#7c7c77]">
+              <p className="mx-auto mt-5 max-w-[460px] text-[16.5px] leading-[1.6] text-[#7c7c77] md:mx-0">
                 Need more than benefits, payroll, and compliance? We&apos;ll match
                 you with the right fractional HR leader based on your
                 company&apos;s needs.
@@ -31,7 +31,7 @@ export function HrCommunity() {
             </div>
 
             {/* Right cell */}
-            <div className="bg-[#fafaf9] p-8 sm:p-12 md:border-l md:border-[#ededea] md:p-[52px]">
+            <div className="bg-[#fafaf9] p-6 text-center sm:p-12 md:border-l md:border-[#ededea] md:p-[52px] md:text-left">
               <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#b0afa9]">
                 Areas they cover
               </p>
@@ -41,19 +41,19 @@ export function HrCommunity() {
 
           {/* Bottom stat strip */}
           <div className="grid divide-y divide-[#ededea] border-t border-[#ededea] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-            <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center gap-2.5 px-4 py-6 sm:px-6 sm:py-7 lg:justify-start lg:px-8">
               <span className="text-[24px] font-extrabold leading-none text-orange">50+</span>
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">
                 fractional HR leaders
               </span>
             </div>
-            <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center gap-2.5 px-4 py-6 sm:px-6 sm:py-7 lg:justify-start lg:px-8">
               <SealCheck size={19} weight="bold" className="shrink-0 text-orange" />
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">
                 Matched based on your needs
               </span>
             </div>
-            <div className="flex items-center gap-2.5 px-6 py-7 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center gap-2.5 px-4 py-6 sm:px-6 sm:py-7 lg:justify-start lg:px-8">
               <Clock size={19} weight="bold" className="shrink-0 text-orange" />
               <span className="whitespace-nowrap text-[15px] text-[#7c7c77]">
                 Hourly or ongoing engagements

@@ -93,8 +93,8 @@ export function EmployeeBenefits() {
           content — the agent rail's horizontal scroll strip would otherwise
           stretch this column to 552px and get clipped by the card's
           overflow-hidden instead of scrolling. */}
-      <div className="order-1 flex min-w-0 flex-col lg:col-start-2 lg:row-start-1">
-        <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+      <div className="order-1 flex min-w-0 flex-col items-center text-center lg:col-start-2 lg:row-start-1 lg:items-start lg:text-left">
+        <p className="inline-flex w-fit items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span>
         </p>
         <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
@@ -111,11 +111,11 @@ export function EmployeeBenefits() {
         {/* Feature card — outline only; three equal columns split by hairlines
             that sit exactly on the thirds (padding insets content, not the grid
             lines, so the dividers halve the gaps evenly). */}
-        <div className="mt-9 grid gap-y-5 rounded-[20px] border border-[#e6e6e2] px-6 py-5 sm:grid-cols-3 sm:gap-y-0 sm:py-0 sm:divide-x sm:divide-[#e6e6e2]">
+        <div className="mt-9 grid w-full gap-y-5 rounded-[20px] border border-[#e6e6e2] px-5 py-5 sm:grid-cols-3 sm:gap-y-0 sm:divide-x sm:divide-[#e6e6e2] sm:px-6 sm:py-0">
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="flex items-start gap-2.5 sm:px-6 sm:py-5 sm:first:pl-0 sm:last:pr-0"
+              className="flex items-start justify-center gap-2.5 text-left sm:justify-start sm:px-6 sm:py-5 sm:first:pl-0 sm:last:pr-0"
             >
               <Check size={15} weight="bold" className="mt-[3px] shrink-0 text-aqua-500" />
               <div>

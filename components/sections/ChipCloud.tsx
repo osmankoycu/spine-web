@@ -65,7 +65,7 @@ export function ChipCloud() {
   }, []);
 
   return (
-    <div ref={ref} className="mt-5 flex flex-wrap gap-2.5">
+    <div ref={ref} className="mt-5 flex flex-wrap justify-center gap-2.5 md:justify-start">
       {CHIPS.map(({ label, Icon }) => (
         <span
           key={label}

@@ -16,8 +16,8 @@ export function PeopleOps() {
         {/* Left column: eyebrow + headline + workflow timeline. The eyebrow sits
             INSIDE this column (as in the Benefits pillar) so the window in the
             right column starts at the same top line. */}
-        <div className="flex flex-col">
-          <p className="mb-7 inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+          <p className="mb-7 inline-flex w-fit items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
             03 · People Ops
           </p>
           <h2 className="font-display text-[34px] font-extrabold leading-[1.0] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">

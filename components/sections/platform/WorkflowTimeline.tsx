@@ -85,7 +85,10 @@ export function WorkflowTimeline() {
   }, []);
 
   return (
-    <ol ref={ref} className="mt-7">
+        // Centred as a BLOCK below lg — the icons and their text keep their own
+    // left alignment (a rail with centred rows reads as a mistake), the
+    // column just sits in the middle like every other stacked block.
+    <ol ref={ref} className="mt-7 w-fit self-center text-left lg:w-auto lg:self-auto">
       {workflow.map((step, i) => {
         const Glyph = step.icon;
         const isLast = i === workflow.length - 1;

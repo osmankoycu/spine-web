@@ -80,13 +80,20 @@ export function EmployeeBenefits() {
   }, [auto]);
 
   return (
-    <div ref={rootRef} className="grid gap-15 lg:grid-cols-[384px_1fr] lg:items-stretch lg:gap-18">
-      {/* Copy column — sits on the RIGHT on desktop (order-2), phone on the left */}
+    // Stacked, the three blocks read copy → phone → agents, so the phone is on
+    // screen before the rail and the rail lands on the card's bottom edge. At lg
+    // the phone spans both rows on the left and the copy/rail stack on the
+    // right, which is the original two-column layout.
+    <div
+      ref={rootRef}
+      className="grid gap-10 sm:gap-15 lg:grid-cols-[384px_1fr] lg:grid-rows-[1fr_auto] lg:items-stretch lg:gap-x-18 lg:gap-y-0"
+    >
+      {/* Copy column */}
       {/* min-w-0: this is a grid item, so its automatic minimum size is its
           content — the agent rail's horizontal scroll strip would otherwise
           stretch this column to 552px and get clipped by the card's
           overflow-hidden instead of scrolling. */}
-      <div className="flex min-w-0 flex-col lg:order-2">
+      <div className="order-1 flex min-w-0 flex-col lg:col-start-2 lg:row-start-1">
         <p className="inline-flex w-fit items-center self-start rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span>
         </p>
@@ -119,17 +126,22 @@ export function EmployeeBenefits() {
           ))}
         </div>
 
-        {/* Agent rail — pinned to the bottom so it lines up with the phone floor */}
-        <div className="mt-auto pt-16">
-          <AgentRail agents={BENEFITS_AGENTS} selected={selected} onSelect={pick} />
-        </div>
       </div>
 
-      {/* Phone — centred when stacked (< lg); LEFT grid cell at lg (order-1). The
+      {/* Phone — centred when stacked; LEFT cell at lg, spanning both rows. The
           bottom padding keeps its floor off the separator by ~the block's top
           gap, so the phone sits with matching breathing room top and bottom. */}
-      <div className="mx-auto w-full max-w-[384px] lg:order-1 lg:h-full lg:pb-8">
+      <div className="order-2 mx-auto w-full max-w-[384px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:pb-8">
         <AgentPhone agent={agent} />
+      </div>
+
+      {/* Agent rail — last block stacked, so it lands flush on the card's bottom
+          edge (the pillar sets no bottom padding); at lg it returns to the foot
+          of the copy column, level with the phone's floor. The negative inline
+          margins cancel the pillar's mobile side padding so the rail can scroll
+          edge to edge instead of inside a 12px inset. */}
+      <div className="order-3 -mx-3 min-w-0 px-3 sm:mx-0 sm:px-0 lg:col-start-2 lg:row-start-2 lg:mt-auto lg:pt-16">
+        <AgentRail agents={BENEFITS_AGENTS} selected={selected} onSelect={pick} />
       </div>
     </div>
   );

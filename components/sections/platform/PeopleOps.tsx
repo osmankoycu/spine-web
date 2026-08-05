@@ -11,7 +11,7 @@ import { SlackWindow } from "./SlackWindow";
 
 export function PeopleOps() {
   return (
-    <div className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
+    <div className="px-3 py-7 sm:px-10 sm:py-14 lg:px-12 lg:py-14">
       <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-stretch lg:gap-8">
         {/* Left column: eyebrow + headline + workflow timeline. The eyebrow sits
             INSIDE this column (as in the Benefits pillar) so the window in the

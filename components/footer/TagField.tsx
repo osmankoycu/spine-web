@@ -30,6 +30,9 @@ const TAGS = [
   "Updated withholding",
 ];
 
+// How many of them fall below sm — see the effect for why the rest are dropped.
+const MOBILE_TAGS = 8;
+
 export function TagField({
   children,
   className,
@@ -43,6 +46,17 @@ export function TagField({
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
+
+    // A phone-width box can't lay these side by side, so all 14 pile straight
+    // up: ~450px of stack, which climbs over the headline and the CTA. Drop the
+    // tail on narrow screens — the pile then settles in the lower band only.
+    const narrow = window.matchMedia("(max-width: 639px)").matches;
+    if (narrow) {
+      tagRefs.current.slice(MOBILE_TAGS).forEach((el) => {
+        if (el) el.style.display = "none";
+      });
+    }
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       // The physics never runs here, and the tags are positioned ONLY by the
       // simulation (they start absolute at 0,0 with opacity 0) — so without
@@ -75,7 +89,9 @@ export function TagField({
         const ceil = Bodies.rectangle(W / 2, -T / 2 - 120, W * 3, T, wall);
         Composite.add(engine.world, [floor, left, right, ceil]);
 
-        const els = tagRefs.current.filter((el): el is HTMLDivElement => el != null);
+        const els = tagRefs.current
+          .slice(0, narrow ? MOBILE_TAGS : undefined)
+          .filter((el): el is HTMLDivElement => el != null);
         const items = els.map((el) => {
           const w = el.offsetWidth;
           const h = el.offsetHeight;
@@ -142,8 +158,10 @@ export function TagField({
             window.setTimeout(() => {
               if (cancelled) return;
               Body.setPosition(it.body, {
+                // Spawn lower on a phone: at 0.4 the pills fall THROUGH the
+                // copy for most of their trip, which is the mess in the mockup.
                 x: W / 2 + (Math.random() * 2 - 1) * W * 0.16,
-                y: H * 0.4,
+                y: H * (narrow ? 0.62 : 0.4),
               });
               Body.setAngle(it.body, (Math.random() * 2 - 1) * 0.5);
               Body.setVelocity(it.body, { x: (Math.random() * 2 - 1) * 2, y: 1 });
@@ -206,7 +224,7 @@ export function TagField({
             }}
             data-tag
             style={{ top: 0, left: 0 }}
-            className="pointer-events-none absolute whitespace-nowrap rounded-pill bg-[#e7eaef] px-[22px] py-[16px] text-[16px] font-medium leading-none tracking-[-0.02em] text-white opacity-0 transition-opacity duration-300 will-change-transform group-data-[static=true]:relative group-data-[static=true]:opacity-100 data-[active=true]:bg-black sm:px-[30px] sm:py-[21px] sm:text-[20px] lg:px-[36px] lg:py-[25px] lg:text-[22px]"
+            className="pointer-events-none absolute whitespace-nowrap rounded-pill bg-[#e7eaef] px-[15px] py-[11px] text-[13px] font-medium leading-none tracking-[-0.02em] text-white opacity-0 transition-opacity duration-300 will-change-transform group-data-[static=true]:relative group-data-[static=true]:opacity-100 data-[active=true]:bg-black sm:px-[30px] sm:py-[21px] sm:text-[20px] lg:px-[36px] lg:py-[25px] lg:text-[22px]"
           >
             {label}
           </div>

@@ -126,6 +126,10 @@ const NAV: { label: string; icon: Icon; count: string }[] = [
   { label: "Notices", icon: EnvelopeSimple, count: "1" },
 ];
 
+// Each category lights up one nav entry; below lg that entry's icon also labels
+// the category's tab in the console's bottom tab bar.
+const NAV_ICON = Object.fromEntries(NAV.map((n) => [n.label, n.icon])) as Record<string, Icon>;
+
 export function Compliance() {
   const [selected, setSelected] = useState(0);
   const cat = CATEGORIES[selected];
@@ -176,7 +180,7 @@ export function Compliance() {
   }, []);
 
   return (
-    <div ref={rootRef} className="px-6 py-12 sm:px-10 sm:py-14 lg:px-12 lg:py-14 short:py-7">
+    <div ref={rootRef} className="px-3 py-7 sm:px-10 sm:py-14 lg:px-12 lg:py-14 short:py-7">
       {/* Header */}
       <div className="mb-8 short:mb-4">
         <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
@@ -190,20 +194,25 @@ export function Compliance() {
         </p>
       </div>
 
-      {/* Console */}
+      {/* Console — a desktop window at lg, an app screen below it: app bar on
+          top, the coverage selector as a bottom tab bar, and a device-ish radius
+          instead of traffic lights. */}
       <Reveal>
-        <div className="overflow-hidden rounded-[20px] border border-[#d6d6d1] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)]">
-          {/* Top bar */}
-          <div className="flex items-center gap-3.5 border-b border-[#d6d6d1] px-5 py-[11px]">
-            <div className="flex gap-[7px]">
+        <div className="overflow-hidden rounded-[24px] border border-[#d6d6d1] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)] lg:rounded-[20px]">
+          {/* Top bar / app bar */}
+          <div className="flex items-center gap-3 border-b border-[#d6d6d1] px-4 py-3 lg:gap-3.5 lg:px-5 lg:py-[11px]">
+            <div className="hidden gap-[7px] lg:flex">
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
             </div>
-            <span className="text-[11px] tracking-[0.06em] text-[#a9a9a3]">
+            <span className="text-[14px] font-extrabold tracking-[-0.01em] text-[#15140f] lg:hidden">
+              Compliance
+            </span>
+            <span className="hidden text-[11px] tracking-[0.06em] text-[#a9a9a3] lg:inline">
               spine · HR dashboard
             </span>
-            <div className="ml-auto flex items-center gap-2 rounded-full bg-[#eafaef] px-[11px] py-[5px] text-[11.5px] font-semibold text-[#2a8b3f]">
+            <div className="ml-auto flex items-center gap-2 rounded-full bg-[#eafaef] px-[9px] py-[5px] text-[11px] font-semibold text-[#2a8b3f] lg:px-[11px] lg:text-[11.5px]">
               <span className="h-[6px] w-[6px] rounded-full bg-[#2a8b3f]" />
               {cat.status}
             </div>
@@ -212,32 +221,41 @@ export function Compliance() {
           {/* Body grid */}
           <div className="grid lg:grid-cols-[200px_1fr_244px]">
             {/* Sidebar */}
-            <div className="flex flex-col gap-3 border-b border-[#d6d6d1] px-[14px] py-[18px] lg:gap-[3px] lg:border-b-0 lg:border-r">
-              <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-[3px] lg:overflow-visible">
+            <div className="flex flex-col gap-3 border-b border-[#d6d6d1] px-3 py-3 lg:gap-[3px] lg:border-b-0 lg:border-r lg:px-[14px] lg:py-[18px]">
+              {/* A sidebar at lg; below it, the app's filter chips — scrolled
+                  edge to edge, so the negative margins cancel the row padding. */}
+              <div className="-mx-3 flex gap-1.5 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:flex-col lg:gap-[3px] lg:overflow-visible lg:px-0">
                 {NAV.map(({ label, icon: Icon, count }) => {
                   const active = label === cat.nav;
                   return (
                     <div
                       key={label}
                       className={cn(
-                        "flex shrink-0 items-center gap-[11px] rounded-[10px] px-3 py-[10px] transition-colors short:py-[7px]",
-                        active && "bg-cobalt-400/[0.08]",
+                        "flex shrink-0 items-center gap-2 rounded-pill border px-2.5 py-1.5 transition-colors lg:gap-[11px] lg:rounded-[10px] lg:border-transparent lg:px-3 lg:py-[10px] short:py-[7px]",
+                        active
+                          ? "border-cobalt-200 bg-cobalt-400/[0.08]"
+                          : "border-[#ececea] lg:bg-transparent",
                       )}
                     >
                       <Icon
-                        size={17}
+                        size={15}
                         weight={active ? "fill" : "regular"}
-                        className={active ? "text-cobalt-400" : "text-[#b0afa9]"}
+                        className={cn("lg:size-[17px]", active ? "text-cobalt-400" : "text-[#b0afa9]")}
                       />
                       <span
                         className={cn(
-                          "flex-1 whitespace-nowrap text-[13.5px]",
+                          "flex-1 whitespace-nowrap text-[12px] lg:text-[13.5px]",
                           active ? "font-bold text-[#15140f]" : "text-[#6e6e68]",
                         )}
                       >
                         {label}
                       </span>
-                      <span className={cn("text-[11px]", active ? "font-bold text-cobalt-400" : "text-[#b0afa9]")}>
+                      <span
+                        className={cn(
+                          "hidden text-[11px] lg:inline",
+                          active ? "font-bold text-cobalt-400" : "text-[#b0afa9]",
+                        )}
+                      >
                         {count}
                       </span>
                     </div>
@@ -261,8 +279,8 @@ export function Compliance() {
             </div>
 
             {/* Right rail — updates in place (progress bar transitions its width) */}
-            <div className="flex flex-col gap-[14px] p-[18px] short:gap-[10px] short:p-3">
-              <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-4 short:p-3">
+            <div className="flex flex-col gap-2.5 p-3 lg:gap-[14px] lg:p-[18px] short:gap-[10px] short:p-3">
+              <div className="rounded-[14px] border border-cobalt-200 bg-cobalt-400/[0.08] p-3.5 lg:p-4 short:p-3">
                 <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-cobalt-400">
                   Next deadline
                 </div>
@@ -275,8 +293,8 @@ export function Compliance() {
                   />
                 </div>
               </div>
-              <div className="rounded-[14px] border border-[#ececea] bg-[#fafaf9] p-4 short:p-3">
-                <div className="mb-[14px] text-[11px] font-bold uppercase tracking-[0.06em] text-[#b0afa9] short:mb-2">
+              <div className="rounded-[14px] border border-[#ececea] bg-[#fafaf9] p-3.5 lg:p-4 short:p-3">
+                <div className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-[#b0afa9] lg:mb-[14px] short:mb-2">
                   This quarter
                 </div>
                 <div className="mb-3 flex items-baseline gap-2 short:mb-2">
@@ -294,11 +312,41 @@ export function Compliance() {
               </div>
             </div>
           </div>
+
+          {/* Bottom tab bar (below lg) — the same coverage selector that sits
+              under the console on desktop, but as the app's own tabs, so the
+              screen reads as one mobile surface rather than a shrunk window. */}
+          <div className="flex border-t border-[#e6e6e2] bg-white lg:hidden">
+            {CATEGORIES.map((c, i) => {
+              const sel = i === selected;
+              const Ico = NAV_ICON[c.nav] ?? Pulse;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => pick(i)}
+                  aria-pressed={sel}
+                  className={cn(
+                    "flex flex-1 cursor-pointer flex-col items-center gap-1 px-1 pb-3 pt-2.5 transition-colors",
+                    sel ? "text-cobalt-400" : "text-[#a9a9a3]",
+                  )}
+                >
+                  <Ico size={19} weight={sel ? "fill" : "regular"} />
+                  <span
+                    className={cn("text-[10.5px] leading-tight", sel && "font-bold")}
+                  >
+                    {c.nav}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </Reveal>
 
-      {/* Coverage selector — drives the console above */}
-      <div className="mt-8 grid gap-2 sm:grid-cols-3 short:mt-4">
+      {/* Coverage selector — drives the console above. Desktop only: below lg
+          the tab bar inside the console does this job. */}
+      <div className="mt-8 hidden gap-2 sm:grid-cols-3 lg:grid lg:grid-cols-3 short:mt-4">
         {CATEGORIES.map((c, i) => {
           const sel = i === selected;
           return (

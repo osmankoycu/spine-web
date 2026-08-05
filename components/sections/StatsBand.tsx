@@ -121,35 +121,32 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
   }, []);
 
   return (
-    <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-bg px-1 py-8 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
       <div
         className={cn(
-          "relative z-10 mx-auto max-w-[1360px] overflow-hidden rounded-[32px] border px-7 pb-9 pt-10 sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]",
+          "relative z-10 mx-auto max-w-[1360px] overflow-hidden rounded-[22px] border px-4 pb-7 pt-7 sm:rounded-[32px] sm:px-10 sm:pb-11 sm:pt-12 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]",
           dark
             ? "border-white/10 bg-[#15140f] shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)]"
             : "border-[#ededea] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)]",
         )}
       >
         {/* Stats */}
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4">
           {STATS.map((s, i) => {
             const last = i === STATS.length - 1;
             return (
             <div
               key={s.value}
               className={cn(
-                // Stacked: a hairline between each pair.
-                "py-8",
-                i === 0 && "pt-0",
-                last ? "pb-0" : "border-b",
-                // 2×2 (sm–lg): the rule belongs under the TOP ROW and down the
-                // middle. divide-y drew it on the top-RIGHT cell and not the
-                // top-left, and sm:py-0 left the two rows touching.
-                "sm:py-7",
-                i < 2 ? "sm:pt-0" : "sm:border-b-0 sm:pb-0",
-                i % 2 === 0 ? "sm:border-r sm:pr-8" : "sm:pl-8",
-                // Row of four: verticals only, outer edges flush with the card.
-                "lg:border-b-0 lg:py-0",
+                // 2×2 all the way to lg: four short stats read fine two-up even
+                // at 375px, and stacking them made the band ~4 screens long.
+                // Rule under the top row, rule down the middle, content centred.
+                "flex flex-col items-center px-1.5 py-6 text-center",
+                i < 2 ? "border-b pt-0" : "pb-0",
+                i % 2 === 0 ? "border-r" : "",
+                "sm:px-4 sm:py-7",
+                // Row of four: verticals only, left-aligned, edges flush.
+                "lg:items-start lg:border-b-0 lg:py-0 lg:text-left",
                 i === 0 ? "lg:pl-0" : "lg:pl-9",
                 last ? "lg:border-r-0 lg:pr-0" : "lg:border-r lg:pr-9",
                 dark ? "border-white/10" : "border-[#ededea]",
@@ -162,13 +159,13 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
                 ref={(el) => {
                   numRefs.current[i] = el;
                 }}
-                className="font-display text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-orange sm:text-[54px] lg:text-[64px]"
+                className="font-display text-[34px] font-extrabold leading-[0.95] tracking-[-0.04em] text-orange sm:text-[46px] lg:text-[64px]"
               >
                 {s.value}
               </div>
               <p
                 className={cn(
-                  "mt-[18px] max-w-[200px] text-[15px] font-medium leading-[1.45]",
+                  "mt-2.5 max-w-[200px] text-[13px] font-medium leading-[1.4] sm:mt-4 sm:text-[15px] lg:mt-[18px]",
                   dark ? "text-white/55" : "text-[#86857e]",
                 )}
               >
@@ -180,12 +177,17 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
         </div>
 
         {/* Divider */}
-        <div className={cn("mb-10 mt-[52px] h-px", dark ? "bg-white/10" : "bg-[#ededea]")} />
+        <div
+          className={cn(
+            "mb-6 mt-7 h-px sm:mb-10 sm:mt-[52px]",
+            dark ? "bg-white/10" : "bg-[#ededea]",
+          )}
+        />
 
         {/* Trusted by */}
         <p
           className={cn(
-            "mb-8 text-center text-[12px] font-bold uppercase tracking-[0.18em]",
+            "mb-5 text-center text-[10.5px] font-bold uppercase tracking-[0.14em] sm:mb-8 sm:text-[12px] sm:tracking-[0.18em]",
             dark ? "text-white/40" : "text-[#a9a9a3]",
           )}
         >

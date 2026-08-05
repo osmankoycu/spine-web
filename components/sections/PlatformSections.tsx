@@ -7,11 +7,11 @@ import { PeopleOps } from "./platform/PeopleOps";
 // one contiguous card split by hairline dividers). Each pillar renders just its
 // padded block; the card wrapper lives here.
 const CARD =
-  "overflow-hidden rounded-[32px] border border-[#ededea] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-52px_rgba(20,20,18,0.2)]";
+  "overflow-hidden rounded-[22px] border border-[#ededea] bg-white sm:rounded-[32px] shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-52px_rgba(20,20,18,0.2)]";
 
 export function PlatformSections() {
   return (
-    <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-bg px-1 py-8 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
       <div className="relative z-10 mx-auto flex max-w-[1360px] flex-col gap-22 lg:gap-28">
         <div className={CARD}>
           <Benefits />

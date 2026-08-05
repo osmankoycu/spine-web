@@ -17,11 +17,11 @@ const SHOW_SOCIALS = false;
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-white px-4 text-white sm:px-6 lg:px-8">
+    <footer className="bg-white px-1 text-white sm:px-6 lg:px-8">
       {/* Inset card — side gutters match the header width, top corners rounded. */}
-      <div className="mx-auto max-w-[1480px] rounded-t-[28px] bg-[#15140f] px-6 pb-8 pt-12 sm:px-8 sm:pt-14 md:rounded-t-[40px] lg:px-14 lg:pb-9 lg:pt-16">
+      <div className="mx-auto max-w-[1480px] rounded-t-[22px] bg-[#15140f] px-4 pb-8 pt-9 sm:rounded-t-[28px] sm:px-8 sm:pt-14 md:rounded-t-[40px] lg:px-14 lg:pb-9 lg:pt-16">
         {/* Top — brand + link columns */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[2.3fr_repeat(3,1fr)] lg:gap-x-10">
+        <div className="grid grid-cols-1 gap-9 sm:gap-12 lg:grid-cols-[2.3fr_repeat(3,1fr)] lg:gap-x-10">
           {/* Brand */}
           <div className="md:max-w-[360px]">
             <SpineLogo fill="#ffffff" dotFill="#ff6c16" className="!h-[52px] md:!h-[70px]" />
@@ -30,11 +30,11 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Link columns. There are THREE of them, so a 2-up mobile grid always
-              orphans the last one and leaves an empty bottom-right quadrant —
-              stack them instead below sm, then 2-up, then individual grid cells
-              on lg+ where the parent supplies the track. */}
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:contents">
+          {/* Link columns — 2-up from the smallest width. Three columns do leave
+              the bottom-right quadrant empty, but stacking them made the footer
+              roughly three screens long on a phone; the short last column reads
+              as a deliberate step, not a hole. lg+ hands each one its own track. */}
+          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-8 sm:gap-y-10 lg:contents">
             {footerColumns.map((col) => (
               <div key={col.title}>
                 <h3 className="text-[13px] font-bold uppercase tracking-[0.08em] text-orange">
@@ -49,7 +49,7 @@ export function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="inline-block py-[11px] text-[15px] text-white/60 transition-colors hover:text-white lg:py-1.5 lg:whitespace-nowrap"
+                        className="inline-block py-2 text-[14px] leading-snug text-white/60 transition-colors hover:text-white sm:py-[11px] sm:text-[15px] lg:py-1.5 lg:whitespace-nowrap"
                       >
                         {l.label}
                       </Link>
@@ -62,7 +62,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar — copyright · legal links (+ socials, hidden for now) */}
-        <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-7 md:mt-16 md:flex-row md:items-center md:justify-between">
+        <div className="mt-10 flex flex-col gap-5 border-t border-white/10 pt-6 sm:mt-14 sm:gap-6 sm:pt-7 md:mt-16 md:flex-row md:items-center md:justify-between">
           <span className="text-[14px] text-white/45">
             © {year} Spine. All rights reserved.
           </span>

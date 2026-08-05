@@ -4,7 +4,7 @@
 
 export function FreeHero() {
   return (
-    <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-bg px-1 py-8 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-[820px] text-center">
         <p className="mb-[22px] text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
           Free for employers · Paired support

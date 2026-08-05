@@ -139,7 +139,7 @@ export function ComplianceFeed({ feed }: { feed: FeedRow[] }) {
     // auto-advance. A remount (parent `key`) resets the row animation cleanly
     // WITHOUT any container fade — the rows just re-enter at their pending state
     // and flip to Done, so switches are crisp, never flashing.
-    <div ref={ref} className="h-full px-[22px] py-[18px] short:py-3">
+    <div ref={ref} className="h-full px-3.5 py-3 lg:px-[22px] lg:py-[18px] short:py-3">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b0afa9]">Live feed</span>
         <span className="text-[11.5px] text-[#b0afa9]">This month</span>

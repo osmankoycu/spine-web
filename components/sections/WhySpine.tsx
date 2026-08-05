@@ -89,9 +89,9 @@ export function WhySpine() {
   }, []);
 
   return (
-    <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-bg px-1 py-8 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
       <div
-        className="relative z-10 mx-auto max-w-[1360px] overflow-hidden rounded-[32px] px-6 py-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 sm:py-12 lg:px-[56px] lg:pb-[56px] lg:pt-[64px]"
+        className="relative z-10 mx-auto max-w-[1360px] overflow-hidden rounded-[22px] px-3.5 py-7 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:rounded-[32px] sm:px-10 sm:py-12 lg:px-[56px] lg:pb-[56px] lg:pt-[64px]"
         style={{ background: RADIAL }}
       >
         {/* Header */}
@@ -159,11 +159,13 @@ export function WhySpine() {
           })}
         </div>
 
-        {/* Stacked per-provider cards — mobile (Spine first) */}
-        <div className="space-y-4 lg:hidden">
-          <MobileCard kind="spine" />
+        {/* Stacked per-provider cards — mobile. The alternatives come FIRST and
+            Spine lands last: the argument only pays off once you've read what
+            you'd be leaving, and the section closes on our column. */}
+        <div className="space-y-3.5 sm:space-y-4 lg:hidden">
           <MobileCard kind="peo" />
           <MobileCard kind="broker" />
+          <MobileCard kind="spine" />
         </div>
       </div>
     </section>
@@ -234,13 +236,13 @@ function MobileCard({ kind }: { kind: "spine" | "peo" | "broker" }) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[22px] border",
+        "overflow-hidden rounded-[18px] border sm:rounded-[22px]",
         spine ? "border-orange/40 bg-[rgba(247,101,27,0.08)]" : "border-white/10 bg-white/[0.03]",
       )}
     >
       <div
         className={cn(
-          "px-6 py-5",
+          "px-4 py-4 sm:px-6 sm:py-5",
           spine ? "bg-gradient-to-b from-orange to-orange-600" : "border-b border-white/10",
         )}
       >
@@ -253,9 +255,9 @@ function MobileCard({ kind }: { kind: "spine" | "peo" | "broker" }) {
           {head.sub}
         </div>
       </div>
-      <ul className="divide-y divide-white/10 px-5">
+      <ul className="divide-y divide-white/10 px-4 sm:px-5">
         {ROWS.map((row) => (
-          <li key={row.label} className="flex items-start gap-3 py-4">
+          <li key={row.label} className="flex items-start gap-3 py-3.5 sm:py-4">
             <span
               className={cn(
                 "mt-0.5 flex shrink-0 items-center justify-center rounded-full",

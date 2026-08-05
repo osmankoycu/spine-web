@@ -8,7 +8,7 @@ import { ChipCloud } from "./ChipCloud";
 
 export function HrCommunity() {
   return (
-    <section className="bg-bg px-4 py-11 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-bg px-1 py-8 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-[1360px]">
         <div className="relative z-10 overflow-hidden rounded-[32px] border border-[#ededea] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02),0_40px_80px_-48px_rgba(20,20,18,0.2)]">
           {/* Top region: pitch + coverage chips */}

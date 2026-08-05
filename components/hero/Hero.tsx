@@ -30,7 +30,13 @@ const REF_W = 1200; // reference labelled-block width (for the width fit)
 // On phones we fit a NARROWER reference width → larger scale → the tags read big,
 // only the centre region shows, and we let the motto wrap. It's a "zoom in", not
 // a shrink.
-const REF_W_MOBILE = 480;
+// 540, not 480: at 480 the motto, subtitle and CTA filled the screen edge to
+// edge. Widening the reference pulls the whole scene down ~11%, and because
+// EVERY hero measurement is expressed in these same unscaled units — the tag
+// corridor, the CTA's tag-height pill, the row pitch TagFlow collides against —
+// the proportions and the choreography are untouched. Sizing any one of them on
+// its own is what would break it.
+const REF_W_MOBILE = 540;
 const MOBILE_MAX_W = 640; // below this viewport width we treat it as mobile
 const FILLER_MIN_W = 72;
 const FILLER_MAX_W = 300;

@@ -186,13 +186,14 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
           </div>
         ) : step === "booking" ? (
           <div className="pt-1">
-            <div className="px-2 pb-3 text-center">
+            {/* px-11 keeps the header clear of the close button, which sits at
+                right-5 while this step's card padding is only p-4. */}
+            <div className="px-11 pb-3 text-center">
               <h2 className="font-display text-[21px] font-extrabold tracking-[-0.02em] text-ink">
                 Pick a time
               </h2>
-              <p className="mt-1 text-[13.5px] text-grey-text">
-                30 minutes with a Spine specialist · we&apos;ll walk you through your
-                numbers live
+              <p className="mt-1 text-[13.5px] leading-snug text-grey-text">
+                30 minutes with a Spine specialist
               </p>
             </div>
             <CalendlyEmbed

@@ -72,9 +72,8 @@ export function EstimateForm() {
           <h2 className="mt-1.5 text-[21px] font-extrabold tracking-[-0.02em] text-ink">
             Pick a time
           </h2>
-          <p className="mt-1 text-[13.5px] text-grey-text">
-            30 minutes with a Spine specialist · we&apos;ll walk you through your
-            numbers live
+          <p className="mt-1 text-[13.5px] leading-snug text-grey-text">
+            30 minutes with a Spine specialist
           </p>
         </div>
         <CalendlyEmbed

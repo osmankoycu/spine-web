@@ -104,7 +104,10 @@ export function SlackWindow() {
 function Sidebar() {
   return (
     <aside
-      className="hidden w-[152px] flex-none flex-col pb-4 text-[13px] text-white/70 sm:flex"
+      // md, not sm: at sm the gutters grow AND the sidebar arrives at once, so
+      // the message body would drop from ~487px to ~280px crossing 640px —
+      // narrower than on a phone. Holding it to md keeps the width monotonic.
+      className="hidden w-[152px] flex-none flex-col pb-4 text-[13px] text-white/70 md:flex"
       style={{ background: AUBERGINE }}
     >
       <div className="flex h-[46px] flex-none items-center justify-between border-b border-white/10 px-3">
@@ -202,7 +205,11 @@ function MessageRow({ msg }: { msg: Message }) {
         <div
           data-step
           data-typing
-          className="pointer-events-none relative h-0 overflow-visible"
+          // opacity-0 by default: the replay reveals it via an inline style, so
+          // with no JS — or under reduced motion, where the replay is skipped
+          // and every message is already shown — the bubble never appears
+          // floating over a finished thread.
+          className="pointer-events-none relative h-0 overflow-visible opacity-0"
         >
           <div className="absolute left-[40px] top-2 flex items-center gap-2">
             <span className="flex items-center gap-1 rounded-full bg-[#f4f4f2] px-2.5 py-1.5">
@@ -283,16 +290,16 @@ function BlockView({ block }: { block: Block }) {
                 <div className="text-[10px] font-bold uppercase tracking-[0.06em] text-[#8a8a8a]">
                   {s.label}
                 </div>
-                {/* Value and note sit side by side once there's room; below sm
-                    the note drops under the figure rather than truncating to
-                    nothing in a ~96px column. */}
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-1.5">
+                {/* Side by side only once the column can hold both (~163px is
+                    needed; md gives 160, lg gives 229). Below that the note
+                    drops under the figure instead of truncating to nothing. */}
+                <div className="flex flex-col lg:flex-row lg:items-baseline lg:gap-1.5">
                   <span className="text-[19px] font-extrabold leading-tight tracking-[-0.03em] text-[#15140f]">
                     {s.value}
                   </span>
                   <span
                     className={cn(
-                      "text-[11px] font-semibold leading-snug sm:truncate",
+                      "text-[11px] font-semibold leading-snug lg:truncate",
                       s.good ? "text-[#2a8b3f]" : "text-[#8a8a8a]",
                     )}
                   >
@@ -374,9 +381,9 @@ function TaskLine({ row, first }: { row: TaskRow; first?: boolean }) {
       ) : (
         <Clock size={13} weight="bold" className="flex-none text-orange" />
       )}
-      {/* Wraps on a phone; only truncates once the column is wide enough that a
-          clipped label is the lesser evil. */}
-      <span className="min-w-0 leading-snug sm:truncate">{row.label}</span>
+      {/* Wraps until md — that's where the row first has room (~257px) for the
+          longest label. Below it, truncating would cut the label mid-word. */}
+      <span className="min-w-0 leading-snug md:truncate">{row.label}</span>
       <span
         className={cn(
           "ml-auto flex-none text-[10px] font-bold uppercase tracking-[0.05em]",

@@ -131,19 +131,28 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
         )}
       >
         {/* Stats */}
-        <div
-          ref={gridRef}
-          className={cn(
-            "grid grid-cols-1 divide-y sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0",
-            dark ? "divide-white/10" : "divide-[#ededea]",
-          )}
-        >
-          {STATS.map((s, i) => (
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {STATS.map((s, i) => {
+            const last = i === STATS.length - 1;
+            return (
             <div
               key={s.value}
               className={cn(
-                "px-0 py-8 first:pt-0 last:pb-0 sm:px-9 sm:py-0 lg:first:pl-0 lg:last:pr-0 lg:[&:not(:last-child)]:border-r",
-                dark ? "lg:[&:not(:last-child)]:border-white/10" : "lg:[&:not(:last-child)]:border-[#ededea]",
+                // Stacked: a hairline between each pair.
+                "py-8",
+                i === 0 && "pt-0",
+                last ? "pb-0" : "border-b",
+                // 2×2 (sm–lg): the rule belongs under the TOP ROW and down the
+                // middle. divide-y drew it on the top-RIGHT cell and not the
+                // top-left, and sm:py-0 left the two rows touching.
+                "sm:py-7",
+                i < 2 ? "sm:pt-0" : "sm:border-b-0 sm:pb-0",
+                i % 2 === 0 ? "sm:border-r sm:pr-8" : "sm:pl-8",
+                // Row of four: verticals only, outer edges flush with the card.
+                "lg:border-b-0 lg:py-0",
+                i === 0 ? "lg:pl-0" : "lg:pl-9",
+                last ? "lg:border-r-0 lg:pr-0" : "lg:border-r lg:pr-9",
+                dark ? "border-white/10" : "border-[#ededea]",
               )}
             >
               {/* No accent rule above the figure — the orange lives in the
@@ -166,7 +175,8 @@ export function StatsBand({ variant = "light" }: { variant?: "light" | "dark" })
                 {s.caption}
               </p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Divider */}

@@ -10,11 +10,14 @@ import {
 } from "react";
 import { CheckCircle, X } from "@phosphor-icons/react";
 import { getLenis } from "@/lib/lenis";
+import { CalendlyEmbed } from "./CalendlyEmbed";
 
-// Lead-capture modal opened by the "See how much you'd save" CTA (and any other
-// CTA that calls useDemoModal().open()). Collects work email + name and (TODO)
-// posts it; for now it shows a success state. Content is Spine's own — a savings
-// estimate, not a generic demo booking.
+// Booking modal opened by the "See how much you'd save" CTA (and any other CTA
+// that calls useDemoModal().open()). Three steps in the SAME sheet:
+//   form → the sheet becomes the Calendly scheduler (name/email prefilled) →
+//   "you're booked".
+// The lead still goes out by email on step one, so an abandoned booking is not a
+// lost lead.
 
 type Ctx = { open: () => void };
 const DemoModalCtx = createContext<Ctx | null>(null);
@@ -38,7 +41,7 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
 function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [render, setRender] = useState(false);
   const [shown, setShown] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState<"form" | "booking" | "booked">("form");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -63,7 +66,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
     setShown(false);
     const t = setTimeout(() => {
       setRender(false);
-      setSubmitted(false);
+      setStep("form");
       setEmail("");
       setFirstName("");
       setLastName("");
@@ -89,6 +92,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
     };
   }, [open, onClose]);
 
+  const onScheduled = useCallback(() => setStep("booked"), []);
+
   if (!render) return null;
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -100,18 +105,22 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, firstName, lastName }),
+        body: JSON.stringify({ email, firstName, lastName, intent: "meeting" }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
+      // A 400 is about what they typed — worth showing. Anything else is our
+      // problem (mail misconfigured, provider down) and must NOT stand between
+      // the visitor and the calendar: Calendly captures them on booking anyway.
+      if (res.status === 400) {
+        setError(data.error ?? "Please check your details and try again.");
         setSending(false);
         return;
       }
-      setSubmitted(true);
-    } catch {
-      setError("Network error. Please try again.");
-      setSending(false);
+      if (!res.ok) console.error("Lead capture failed:", res.status, data.error);
+      setStep("booking");
+    } catch (err) {
+      console.error("Lead capture failed:", err);
+      setStep("booking");
     }
   };
 
@@ -130,9 +139,14 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         }`}
       />
 
-      {/* Card */}
+      {/* Card — the same sheet throughout; it widens and loses its generous
+          padding once the scheduler takes it over. */}
       <div
-        className={`relative z-10 w-full max-w-[560px] rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[opacity,scale,translate] duration-300 ease-out sm:p-8 md:p-10 ${
+        className={`relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-[28px] bg-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[opacity,scale,translate,max-width] duration-300 ease-out ${
+          step === "booking"
+            ? "max-w-[720px] p-4 sm:p-5"
+            : "max-w-[560px] p-6 sm:p-8 md:p-10"
+        } ${
           shown ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-95 opacity-0"
         }`}
       >
@@ -145,14 +159,15 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
           <X size={18} weight="bold" />
         </button>
 
-        {submitted ? (
+        {step === "booked" ? (
           <div className="flex flex-col items-center py-6 text-center">
             <CheckCircle size={56} weight="fill" className="text-orange" />
             <h2 className="font-display mt-5 text-[28px] font-extrabold tracking-[-0.02em] text-ink">
-              You&apos;re all set
+              You&apos;re booked
             </h2>
             <p className="mt-3 max-w-[400px] text-[16px] leading-relaxed text-grey-text">
-              Check your inbox. Your personalized Spine savings estimate is on its way.
+              The calendar invite is on its way to {email || "your inbox"}. We&apos;ll
+              bring your savings numbers to the call.
             </p>
             <button
               type="button"
@@ -162,6 +177,25 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               Done
             </button>
           </div>
+        ) : step === "booking" ? (
+          <div className="pt-1">
+            <div className="px-2 pb-3 text-center">
+              <h2 className="font-display text-[21px] font-extrabold tracking-[-0.02em] text-ink">
+                Pick a time
+              </h2>
+              <p className="mt-1 text-[13.5px] text-grey-text">
+                30 minutes with a Spine specialist · we&apos;ll walk you through your
+                numbers live
+              </p>
+            </div>
+            <CalendlyEmbed
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              onScheduled={onScheduled}
+              className="h-[560px] sm:h-[620px]"
+            />
+          </div>
         ) : (
           <>
             <h2 className="font-display mx-auto max-w-[400px] px-6 text-center text-[27px] font-extrabold leading-[1.12] tracking-[-0.02em] text-ink sm:text-[31px]">
@@ -170,8 +204,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               you&apos;d save
             </h2>
             <p className="mx-auto mt-6 max-w-[440px] text-center text-[16px] leading-relaxed text-grey-text">
-              Tell us where to send it and we&apos;ll put together a personalized estimate of what
-              Spine saves you on benefits, compliance, and payroll.
+              Pick a 30-minute slot and we&apos;ll walk you through exactly what Spine
+              saves you on benefits, compliance, and payroll.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[13px] font-medium text-ink/65">
@@ -179,7 +213,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               <span className="text-ink/20">•</span>
               <span>No commitment</span>
               <span className="text-ink/20">•</span>
-              <span>Estimate in minutes</span>
+              <span>30 min</span>
             </div>
 
             <form onSubmit={onSubmit} className="mt-8">
@@ -231,7 +265,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                 disabled={sending}
                 className="mt-7 w-full cursor-pointer rounded-pill bg-black px-8 py-4 text-[16px] font-semibold text-white transition-colors hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                {sending ? "Sending…" : "Get my estimate →"}
+                {sending ? "Opening the calendar…" : "Pick a time →"}
               </button>
             </form>
           </>

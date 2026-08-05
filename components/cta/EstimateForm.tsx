@@ -1,19 +1,23 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useCallback, useState, type FormEvent } from "react";
 import { CheckCircle } from "@phosphor-icons/react";
+import { CalendlyEmbed } from "./CalendlyEmbed";
 
-// On-page version of the savings-estimate capture (the same lead form as the
-// DemoModal, embedded directly in the /request-a-demo cost-audit page). Posts
-// work email + name to /api/estimate, then shows the success state in place.
+// On-page version of the booking flow (same three steps as the DemoModal,
+// embedded directly in the /request-a-demo cost-audit page): the card takes the
+// details, emails us the lead, then becomes the Calendly scheduler in place —
+// same card, no page change — and finally the confirmation.
 
 export function EstimateForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState<"form" | "booking" | "booked">("form");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const onScheduled = useCallback(() => setStep("booked"), []);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,31 +28,62 @@ export function EstimateForm() {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, firstName, lastName }),
+        body: JSON.stringify({ email, firstName, lastName, intent: "meeting" }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
+      // Only a 400 (bad details) is worth blocking on — see DemoModal.
+      if (res.status === 400) {
+        setError(data.error ?? "Please check your details and try again.");
         setSending(false);
         return;
       }
-      setSubmitted(true);
-    } catch {
-      setError("Network error. Please try again.");
-      setSending(false);
+      if (!res.ok) console.error("Lead capture failed:", res.status, data.error);
+      setStep("booking");
+    } catch (err) {
+      console.error("Lead capture failed:", err);
+      setStep("booking");
     }
   };
 
-  if (submitted) {
+  if (step === "booked") {
     return (
       <div className="flex flex-col items-center rounded-[28px] border border-hairline bg-white p-8 text-center shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-10">
         <CheckCircle size={56} weight="fill" className="text-orange" />
         <h2 className="font-display mt-5 text-[28px] font-extrabold tracking-[-0.02em] text-ink">
-          You&apos;re all set
+          You&apos;re booked
         </h2>
         <p className="mt-3 max-w-[400px] text-[16px] leading-relaxed text-grey-text">
-          Check your inbox. Your personalized Spine savings estimate is on its way.
+          The calendar invite is on its way to {email || "your inbox"}. We&apos;ll
+          bring your savings numbers to the call.
         </p>
+      </div>
+    );
+  }
+
+  // Same card, now the scheduler: tighter padding so the calendar gets the
+  // width, and it stretches a little into the column gap on desktop.
+  if (step === "booking") {
+    return (
+      <div className="rounded-[28px] border border-hairline bg-white p-3 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-4 lg:-mx-6">
+        <div className="px-2 pb-2 pt-2 text-center">
+          <div className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+            Free cost audit
+          </div>
+          <h2 className="mt-1.5 text-[21px] font-extrabold tracking-[-0.02em] text-ink">
+            Pick a time
+          </h2>
+          <p className="mt-1 text-[13.5px] text-grey-text">
+            30 minutes with a Spine specialist · we&apos;ll walk you through your
+            numbers live
+          </p>
+        </div>
+        <CalendlyEmbed
+          firstName={firstName}
+          lastName={lastName}
+          email={email}
+          onScheduled={onScheduled}
+          className="h-[560px] sm:h-[640px]"
+        />
       </div>
     );
   }
@@ -68,7 +103,7 @@ export function EstimateForm() {
         Get your savings estimate
       </h2>
       <p className="mt-2 text-[14.5px] leading-[1.5] text-body-2">
-        Tell us where to send it. Estimate in 48 hours — free, no commitment.
+        Tell us who you are and pick a 30-minute slot — free, no commitment.
       </p>
 
       <div className="mt-6 space-y-3">
@@ -112,7 +147,7 @@ export function EstimateForm() {
         disabled={sending}
         className="mt-6 w-full cursor-pointer rounded-pill bg-black px-8 py-4 text-[16px] font-semibold text-white transition-colors hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {sending ? "Sending…" : "Get my estimate →"}
+        {sending ? "Opening the calendar…" : "Pick a time →"}
       </button>
 
       <p className="mt-5 text-center text-[12.5px] leading-relaxed text-grey-text">

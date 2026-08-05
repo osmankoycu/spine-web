@@ -39,6 +39,13 @@ export async function POST(request: Request) {
   const email = clean(data.email);
   const firstName = clean(data.firstName, 80);
   const lastName = clean(data.lastName, 80);
+  // The booking flow sends intent:"meeting" — the visitor was handed the
+  // Calendly scheduler right after this, so a lead with no Calendly invite
+  // behind it means they dropped out at the calendar.
+  const booking = clean(data.intent, 20) === "meeting";
+  const intentLine = booking
+    ? "Sent to the Calendly scheduler (30-min call)"
+    : "Estimate request";
 
   if (!EMAIL_RE.test(email)) {
     return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
@@ -52,12 +59,13 @@ export async function POST(request: Request) {
       from: FROM,
       to: TO,
       replyTo: email,
-      subject: `New savings estimate request: ${email}`,
-      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\n`,
+      subject: `${booking ? "New booking lead" : "New savings estimate request"}: ${email}`,
+      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nNext step: ${intentLine}\n`,
       html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
   <tr><td style="padding:4px 12px 4px 0;color:#777">Name</td><td>${esc(name)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Work email</td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Next step</td><td>${esc(intentLine)}</td></tr>
 </table>`,
     });
 

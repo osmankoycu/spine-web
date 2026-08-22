@@ -1,0 +1,6 @@
+Employee number,Direct manager,Personal email,Work email,Nationality,Country,State,City,Zip,Date of birth
+1001,Sam Lead,jane@example.com,jane@corp.com,US,US,FL,Miami,33101,1990-02-27
+1002,Sam Lead,john@example.com,john@corp.com,US,US,FL,Tampa,33601,1987-07-19
+1003,Kim Chief,ann@example.com,ann@corp.com,US,US,GA,Atlanta,30301,1999-11-02
+1004,Kim Chief,sam@example.com,sam@corp.com,US,US,FL,Orlando,32801,1994-05-08
+1005,Sam Lead,max@example.com,max@corp.com,US,US,TX,Austin,73301,1983-09-12

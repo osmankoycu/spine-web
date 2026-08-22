@@ -1,0 +1,7 @@
+Full Name,DOB,Home State,Notes
+"Lee, Pat",1994-03-08,NY,"has a comma, in quotes"
+Sky Kim,3/8/94,California,two-digit year
+Ray Wu,,TX,missing dob — row skipped
+Kit Cho,08/30/2001,Texas,birthday not yet passed this year
+Ash Roy,13/40/1990,NY,invalid date — row skipped
+Jo March,1971-12-01,Narnia,unknown state still counts for age

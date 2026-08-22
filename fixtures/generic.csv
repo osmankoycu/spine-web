@@ -1,0 +1,6 @@
+name,email,age,state,coverage
+Pat Lee,pat@example.com,29,New York,EE
+Sky Kim,sky@example.com,34,NY,EE + Spouse
+Ray Wu,ray@example.com,41,New Jersey,Family
+Kit Cho,kit@example.com,26,NY,EE
+Ash Roy,ash@example.com,52,CT,EE + Children

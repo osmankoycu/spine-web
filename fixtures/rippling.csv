@@ -1,0 +1,9 @@
+Legal first name,Legal last name,Date of birth,Home - Street address,Home - City,Home - State code,Home - Zip,Work location - State code,Coverage tier
+Ada,Lovelace,3/14/1994,1 Analytical Way,New York,NY,10001,NY,Employee Only
+Grace,Hopper,7/2/1999,2 Compiler Ct,Brooklyn,NY,11201,NY,Employee Only
+Alan,Turing,11/30/1988,3 Enigma St,San Francisco,CA,94103,CA,Employee + Spouse
+Katherine,Johnson,1/15/1965,4 Orbit Rd,Austin,TX,73301,TX,Family
+Edsger,Dijkstra,9/9/1996,5 Shortest Path,New York,NY,10002,NY,Employee Only
+Margaret,Hamilton,5/21/2001,6 Apollo Ave,Los Angeles,CA,90210,CA,Employee Only
+Donald,Knuth,12/5/1978,7 Volume Dr,Dallas,TX,75001,TX,Employee + Children
+Barbara,Liskov,4/1/1990,8 Substitution Ln,New York,NY,10003,NY,Family

@@ -38,11 +38,13 @@ export function BenchmarkPreview({
   onChange,
   onCta,
   variant,
+  bridge,
 }: {
   value: PreviewInputs;
   onChange: (v: PreviewInputs) => void;
   onCta: () => void;
   variant: AuditVariant | null;
+  bridge?: React.ReactNode; // quiet cross-funnel card when the team reads early-stage
 }) {
   const lowRef = useRef<HTMLSpanElement>(null);
   const highRef = useRef<HTMLSpanElement>(null);
@@ -293,6 +295,8 @@ export function BenchmarkPreview({
           </span>
           <IconChevronDown size={16} className="animate-bounce" />
         </button>
+
+        {bridge && <div className="mx-auto mt-6 max-w-[560px]">{bridge}</div>}
       </div>
     </section>
   );

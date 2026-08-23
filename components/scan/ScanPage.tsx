@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/reducedMotion";
 import { track } from "@/lib/audit/track";
 import { variantFromRef } from "@/lib/audit/ycVariant";
+import { headcountForBucket, isTeamSize } from "@/lib/funnel/teamSize";
 import { buildScanLeadPayload } from "@/lib/scan/scanLead";
+import { IconArrowRight } from "@/components/audit/icons";
 import {
   runScan,
   severityCounts,
@@ -26,6 +29,7 @@ import { ScanTheater } from "./ScanTheater";
 
 type Stage =
   | { kind: "question"; index: number }
+  | { kind: "bridge"; nextIndex: number } // "Group plan already" → audit hand-off
   | { kind: "email" }
   | { kind: "scanning" }
   | { kind: "report" };
@@ -33,6 +37,10 @@ type Stage =
 export function ScanPage() {
   const searchParams = useSearchParams();
   const variant = variantFromRef(searchParams.get("ref"));
+  // Router prefill (/start carries ?size=…); feeds the lead subject's size
+  // bucket and the audit bridge's headcount.
+  const sizeParam = searchParams.get("size");
+  const teamSize = isTeamSize(sizeParam) ? sizeParam : null;
 
   const [stage, setStage] = useState<Stage>({ kind: "question", index: 0 });
   const [answers, setAnswers] = useState<ScanAnswers>({});
@@ -86,12 +94,26 @@ export function ScanPage() {
     const q = SCAN_QUESTIONS[index];
     setAnswers((a) => ({ ...a, [q.id]: value }));
     track("scan_question_answered", ev({ index }));
+    // Bridge: a group plan means they're past setup — offer the renewal audit
+    // instead of finishing a scan built for people without one.
+    if (q.id === "health" && value === "Group plan already") {
+      setStage({ kind: "bridge", nextIndex: index + 1 });
+      return;
+    }
     setStage(
       index < SCAN_QUESTIONS.length - 1
         ? { kind: "question", index: index + 1 }
         : { kind: "email" },
     );
   };
+
+  const auditBridgeHref = (() => {
+    const params = new URLSearchParams();
+    if (variant) params.set("ref", variant.ref);
+    if (teamSize) params.set("headcount", String(headcountForBucket(teamSize)));
+    const qs = params.toString();
+    return qs ? `/audit?${qs}` : "/audit";
+  })();
 
   // Forgiveness policy: only a 400 (bad email) blocks the report.
   const onEmailSubmit = async (email: string): Promise<{ ok: boolean; error?: string }> => {
@@ -100,7 +122,7 @@ export function ScanPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          buildScanLeadPayload({ email, ref: variant?.ref ?? null, answers }),
+          buildScanLeadPayload({ email, ref: variant?.ref ?? null, answers, teamSize }),
         ),
       });
       if (res.status === 400) {
@@ -185,6 +207,40 @@ export function ScanPage() {
               onAnswer={onAnswer(stage.index)}
             />
           )}
+          {stage.kind === "bridge" && (
+            <div className="py-2">
+              <h2 className="text-[22px] font-extrabold tracking-[-0.02em] text-ink sm:text-[26px]">
+                You&apos;re past the setup stage.
+              </h2>
+              <p className="mt-2 max-w-[480px] text-[14.5px] leading-[1.55] text-body-2">
+                A group plan means the setup scan isn&apos;t your tool. The
+                better question: is that plan priced right? Our 90-second audit
+                checks your renewal.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link
+                  href={auditBridgeHref}
+                  className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
+                >
+                  Check your renewal instead
+                  <IconArrowRight size={18} />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setStage(
+                      stage.nextIndex < SCAN_QUESTIONS.length
+                        ? { kind: "question", index: stage.nextIndex }
+                        : { kind: "email" },
+                    )
+                  }
+                  className="cursor-pointer text-[13.5px] font-semibold text-grey-text underline underline-offset-2 hover:text-ink"
+                >
+                  Finish the scan anyway
+                </button>
+              </div>
+            </div>
+          )}
           {stage.kind === "email" && <ScanEmailGate onSubmit={onEmailSubmit} />}
           {stage.kind === "scanning" && (
             <ScanTheater onDone={() => setStage({ kind: "report" })} />
@@ -192,6 +248,12 @@ export function ScanPage() {
           {stage.kind === "report" && (
             <ScanReport
               findings={findings}
+              handoffBody={{
+                funnel: "scan",
+                answers,
+                ...(teamSize ? { teamSize } : {}),
+                ...(variant ? { ref: variant.ref } : {}),
+              }}
               onSlackCta={() => track("scan_slack_cta_clicked", ev())}
               onCallCta={() => track("scan_call_cta_clicked", ev())}
             />

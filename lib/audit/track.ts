@@ -31,7 +31,10 @@ export type AuditEventName =
   | "scan_report_viewed"
   | "scan_slack_cta_clicked"
   | "scan_call_cta_clicked"
-  | "scan_lead_send_failed";
+  | "scan_lead_send_failed"
+  // The /start router entry (funnel:"router"); routed carries size + destination.
+  | "router_view"
+  | "router_routed";
 
 type EventProps = Record<string, string | number | boolean>;
 

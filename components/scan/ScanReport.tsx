@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/reducedMotion";
 import {
@@ -12,15 +11,13 @@ import {
   type Severity,
 } from "@/lib/scan/scanRules";
 import { IconArrowRight } from "@/components/audit/icons";
-import { IconSlack, ScanIcon } from "./icons";
+import { SlackCta } from "@/components/funnel/SlackCta";
+import { ScanIcon } from "./icons";
 
-// The exposure report: severity pills, the findings timeline, and the CTA
-// card. Slack is the primary CTA; without NEXT_PUBLIC_SLACK_INSTALL_URL the
-// specialist call takes its place (same graceful degradation as Calendly).
-// Zero red+amber findings get a first-class "in good shape" headline — the
-// honest state, not manufactured alarm.
-
-export const SLACK_INSTALL_URL = (process.env.NEXT_PUBLIC_SLACK_INSTALL_URL ?? "").trim();
+// The exposure report: severity pills, the findings timeline, and the shared
+// Slack-primary CTA (which mints the handoff token — see SlackCta). Zero
+// red+amber findings get a first-class "in good shape" headline — the honest
+// state, not manufactured alarm.
 
 const SEV_STYLES: Record<Severity, { dot: string; chip: string }> = {
   red: { dot: "bg-[#b42318]", chip: "bg-[#fbecea] text-[#a61b12]" },
@@ -30,10 +27,12 @@ const SEV_STYLES: Record<Severity, { dot: string; chip: string }> = {
 
 export function ScanReport({
   findings,
+  handoffBody,
   onSlackCta,
   onCallCta,
 }: {
   findings: ScanFinding[];
+  handoffBody: Record<string, unknown>;
   onSlackCta: () => void;
   onCallCta: () => void;
 }) {
@@ -124,48 +123,14 @@ export function ScanReport({
         </div>
       </div>
 
-      {/* CTA card */}
-      <div className="mt-8 rounded-[20px] bg-[#15140f] p-6 sm:p-7">
-        <p className="text-[17px] font-extrabold leading-snug text-white sm:text-[19px]">
-          Your specialist starts today.
-        </p>
-        <p className="mt-2 max-w-[560px] text-[13.5px] leading-[1.55] text-white/60">
-          An AI teammate does the work, backed by licensed brokers and
-          compliance specialists who sign off on every filing. Add them to your
-          Slack and the first item is done before you&apos;re back from lunch.
-        </p>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-          {SLACK_INSTALL_URL ? (
-            <>
-              <a
-                href={SLACK_INSTALL_URL}
-                onClick={onSlackCta}
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
-              >
-                <IconSlack size={18} />
-                Add to Slack
-              </a>
-              <Link
-                href="/request-a-demo"
-                onClick={onCallCta}
-                className="inline-flex cursor-pointer items-center justify-center rounded-pill border border-white/25 px-7 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
-              >
-                Talk to a specialist
-              </Link>
-            </>
-          ) : (
-            // No Slack install URL configured yet: the specialist call is the
-            // primary until the env lands (same degradation as Calendly).
-            <Link
-              href="/request-a-demo"
-              onClick={onCallCta}
-              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
-            >
-              Talk to a specialist
-              <IconArrowRight size={18} />
-            </Link>
-          )}
-        </div>
+      <div className="mt-8">
+        <SlackCta
+          headline="Your specialist starts today."
+          body="An AI teammate does the work, backed by licensed brokers and compliance specialists who sign off on every filing. Add them to your Slack and the first item is done before you're back from lunch."
+          handoffBody={handoffBody}
+          onSlackCta={onSlackCta}
+          onCallCta={onCallCta}
+        />
       </div>
     </div>
   );

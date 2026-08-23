@@ -8,6 +8,7 @@ import {
 } from "@/lib/audit/renewal";
 import type { AuditLeadPayload } from "@/lib/audit/leadPayload";
 import { sanitizeAnswers } from "@/lib/scan/scanLead";
+import { isTeamSize } from "@/lib/funnel/teamSize";
 import {
   runScan,
   severityCounts,
@@ -101,6 +102,7 @@ function scanLeadContent(raw: Record<string, unknown>): {
 } {
   const ycRef = raw.ref === "yc";
   const answers = sanitizeAnswers((raw.answers ?? {}) as ScanAnswers);
+  const teamSize = isTeamSize(raw.teamSize) ? raw.teamSize : undefined;
   const findings = runScan(answers);
   const counts = severityCounts(findings);
 
@@ -108,7 +110,9 @@ function scanLeadContent(raw: Record<string, unknown>): {
   if (answers.states && answers.states.length > 0) {
     subjectParts.push(answers.states.join("+"));
   }
-  if (answers.team) subjectParts.push(answers.team);
+  // Size bucket (router prefill) beats the composition label in the subject.
+  if (teamSize) subjectParts.push(teamSize);
+  else if (answers.team) subjectParts.push(answers.team);
 
   const rows: [string, string][] = [];
   rows.push(["Source", ycRef ? "Bookface/YC" : "Website /scan"]);
@@ -120,6 +124,7 @@ function scanLeadContent(raw: Record<string, unknown>): {
     rows.push([`Finding ${i + 1}`, `[${SEVERITY_LABELS[f.sev]}] ${f.title}`]);
   });
   if (answers.states) rows.push(["States", answers.states.join(", ")]);
+  if (teamSize) rows.push(["Team size", teamSize]);
   if (answers.team) rows.push(["Team", answers.team]);
   if (answers.payroll) rows.push(["Payroll", answers.payroll]);
   if (answers.health) rows.push(["Health coverage", answers.health]);

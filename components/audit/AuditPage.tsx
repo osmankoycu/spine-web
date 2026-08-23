@@ -15,7 +15,10 @@ import {
   type AuditLeadPayload,
   type CensusState,
 } from "@/lib/audit/leadPayload";
+import { bucketForHeadcount } from "@/lib/funnel/teamSize";
+import { toStateCode } from "@/lib/audit/usStates";
 import { Reveal } from "@/components/sections/Reveal";
+import { ScanBridgeCard } from "@/components/funnel/ScanBridgeCard";
 import { BenchmarkPreview, type PreviewInputs } from "./BenchmarkPreview";
 import { CompanyBasics, parsePremium, type BasicsValue } from "./CompanyBasics";
 import { CensusUpload } from "./CensusUpload";
@@ -39,10 +42,15 @@ export function AuditPage() {
   const variant = variantFromRef(searchParams.get("ref"));
 
   const [stage, setStage] = useState<Stage>("preview");
-  const [preview, setPreview] = useState<PreviewInputs>({
-    headcount: 25,
-    state: "",
-    avgAge: 40,
+  // Router/bridge prefills: /start and the scan bridge pass ?headcount= (and
+  // optionally ?state=); invalid values fall back to the defaults.
+  const [preview, setPreview] = useState<PreviewInputs>(() => {
+    const h = parseInt(searchParams.get("headcount") ?? "", 10);
+    return {
+      headcount: Number.isFinite(h) ? Math.min(200, Math.max(5, h)) : 25,
+      state: toStateCode(searchParams.get("state") ?? "") ?? "",
+      avgAge: 40,
+    };
   });
   const [basics, setBasics] = useState<BasicsValue>({
     carrier: "",
@@ -209,6 +217,14 @@ export function AuditPage() {
     advance("census", "audit-step-2");
   };
 
+  const scanBridgeHref = (() => {
+    const params = new URLSearchParams();
+    if (variant) params.set("ref", variant.ref);
+    params.set("size", bucketForHeadcount(preview.headcount));
+    return `/scan?${params.toString()}`;
+  })();
+  const earlyStage = preview.headcount <= 10;
+
   return (
     <main className="bg-surface-page text-ink">
       <BenchmarkPreview
@@ -216,6 +232,7 @@ export function AuditPage() {
         onChange={setPreview}
         onCta={() => advance("basics", "audit-step-1")}
         variant={variant}
+        bridge={earlyStage ? <ScanBridgeCard href={scanBridgeHref} /> : null}
       />
 
       <div className="mx-auto max-w-[1080px] space-y-10 px-6 pb-24 md:px-10">
@@ -243,7 +260,12 @@ export function AuditPage() {
           <section id="audit-step-3" className="scroll-mt-6">
             {gateEmail === null ? (
               <Reveal>
-                <EmailGate onSubmit={onGateSubmit} />
+                <div className="space-y-4">
+                  {census.kind === "skipped" && earlyStage && (
+                    <ScanBridgeCard href={scanBridgeHref} />
+                  )}
+                  <EmailGate onSubmit={onGateSubmit} />
+                </div>
               </Reveal>
             ) : (
               <ResultsPanel
@@ -252,6 +274,7 @@ export function AuditPage() {
                 variant={variant}
                 onEmailCopy={onEmailCopy}
                 onBookCta={() => track("audit_call_cta_clicked", withRef())}
+                onSlackCta={() => track("audit_slack_cta_clicked", withRef())}
               />
             )}
           </section>

@@ -5,6 +5,7 @@
 // no field free text could travel in: every value must be one of the
 // question's own option labels or it is dropped.
 import { SCAN_QUESTIONS, type ScanAnswers } from "./scanRules.ts";
+import { isTeamSize, type TeamSizeId } from "../funnel/teamSize.ts";
 
 export type ScanLeadPayload = {
   funnel: "scan";
@@ -12,6 +13,7 @@ export type ScanLeadPayload = {
   email: string;
   ref?: string; // "yc" when arriving via the Bookface link
   answers: ScanAnswers;
+  teamSize?: TeamSizeId; // router prefill; the scan itself never asks headcount
 };
 
 const OPTIONS_BY_ID = new Map(SCAN_QUESTIONS.map((q) => [q.id, new Set(q.options)]));
@@ -36,6 +38,7 @@ export function buildScanLeadPayload(args: {
   email: string;
   ref: string | null;
   answers: ScanAnswers;
+  teamSize?: string | null;
 }): ScanLeadPayload {
   return {
     funnel: "scan",
@@ -43,5 +46,6 @@ export function buildScanLeadPayload(args: {
     email: args.email,
     ...(args.ref ? { ref: args.ref } : {}),
     answers: sanitizeAnswers(args.answers),
+    ...(isTeamSize(args.teamSize) ? { teamSize: args.teamSize } : {}),
   };
 }

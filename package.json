@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test lib/audit/*.test.ts lib/scan/*.test.ts"
+    "test": "node --test lib/audit/*.test.ts lib/scan/*.test.ts lib/funnel/*.test.ts"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",

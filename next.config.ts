@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
       // Friendly alias for the 45-second setup scan.
       { source: "/setup", destination: "/scan", permanent: true },
       // YC campaign short link (Bookface). Temporary on purpose: campaign URLs
-      // stay repointable.
-      { source: "/yc", destination: "/audit?ref=yc", permanent: false },
+      // stay repointable. Lands on the router, which sorts by team size.
+      { source: "/yc", destination: "/start?ref=yc", permanent: false },
     ];
   },
   async rewrites() {

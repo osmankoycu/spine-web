@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/reducedMotion";
 import { estimate, type AuditInput, type AuditResult } from "@/lib/audit/auditEngine";
@@ -9,9 +8,10 @@ import { RANGE_BY_CONFIDENCE, type Confidence } from "@/lib/audit/rates";
 import { overpaymentBucket, track } from "@/lib/audit/track";
 import { parsePremium } from "./CompanyBasics";
 import type { AuditVariant } from "@/lib/audit/ycVariant";
+import { SlackCta } from "@/components/funnel/SlackCta";
 import { ArchetypeCards } from "./ArchetypeCards";
 import { SpendGauge } from "./SpendGauge";
-import { IconArrowRight, IconCheckCircle, IconZap } from "./icons";
+import { IconCheckCircle, IconZap } from "./icons";
 
 // The payoff. Count-up verdict, gauge, archetype directions, CTAs. When the
 // visitor didn't give an invoice total, an inline field sits under the verdict
@@ -34,12 +34,14 @@ export function ResultsPanel({
   variant,
   onEmailCopy,
   onBookCta,
+  onSlackCta,
 }: {
   baseInput: AuditInput; // without currentMonthlyTotal
   initialPremium: number | null;
   variant: AuditVariant | null;
   onEmailCopy: (result: AuditResult, premium: number | null) => Promise<boolean>;
   onBookCta: () => void;
+  onSlackCta: () => void;
 }) {
   const [premium, setPremium] = useState<number | null>(initialPremium);
   const [premiumRaw, setPremiumRaw] = useState("");
@@ -245,43 +247,45 @@ export function ResultsPanel({
         <ArchetypeCards archetypes={result.archetypes} wellPriced={result.wellPriced} />
       </div>
 
-      {/* ── CTA ── */}
-      <div className="mt-9 rounded-[20px] bg-[#15140f] p-6 sm:p-8">
-        <p className="text-[17px] font-extrabold leading-snug text-white sm:text-[19px]">
-          One call. We&apos;ll tell you exactly whether you&apos;re overpaying,
-          and by how much.
-        </p>
-        {variant && (
-          <p className="mt-2 text-[13.5px] font-semibold text-orange">{variant.perk}</p>
-        )}
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <Link
-            href="/request-a-demo"
-            onClick={onBookCta}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
-          >
-            {result.wellPriced ? "Verify it in one call" : "Get your exact number. Book the call"}
-            <IconArrowRight size={18} />
-          </Link>
-          <button
-            type="button"
-            onClick={emailCopy}
-            disabled={copyState === "sending" || copyState === "sent"}
-            className="inline-flex cursor-pointer items-center justify-center rounded-pill border border-white/25 px-7 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-white/10 disabled:cursor-default disabled:opacity-70"
-          >
-            {copyState === "sent"
-              ? "Sent. Check your inbox."
-              : copyState === "sending"
-                ? "Sending…"
-                : copyState === "failed"
-                  ? "Could not send. Try again"
-                  : "Email me this result"}
-          </button>
-        </div>
-        <p className="mt-4 text-[12.5px] text-white/45">
-          30 minutes, free, no commitment. Spine is free for employers. Carriers
-          pay us.
-        </p>
+      {/* ── CTA: Slack primary on every verdict state ── */}
+      <div className="mt-9">
+        <SlackCta
+          headline={
+            result.wellPriced
+              ? "Confirm it in your Slack."
+              : "Your exact number lands in your Slack."
+          }
+          body="Add Spine and a licensed specialist picks this up today. One conversation, the exact answer to whether you're overpaying, and by how much. Free, no sales loop. Carriers pay us."
+          note={variant?.perk}
+          handoffBody={{
+            funnel: "audit",
+            result: {
+              wellPriced: result.wellPriced,
+              annualOverpaymentLow: result.annualOverpaymentLow,
+              annualOverpaymentHigh: result.annualOverpaymentHigh,
+              confidence: result.confidence,
+            },
+            ...(variant ? { ref: variant.ref } : {}),
+          }}
+          onSlackCta={onSlackCta}
+          onCallCta={onBookCta}
+          extra={
+            <button
+              type="button"
+              onClick={emailCopy}
+              disabled={copyState === "sending" || copyState === "sent"}
+              className="cursor-pointer text-[13px] font-semibold text-white/55 underline underline-offset-2 transition-colors hover:text-white disabled:cursor-default disabled:no-underline"
+            >
+              {copyState === "sent"
+                ? "Sent. Check your inbox."
+                : copyState === "sending"
+                  ? "Sending…"
+                  : copyState === "failed"
+                    ? "Could not send. Try again"
+                    : "Email me this result"}
+            </button>
+          }
+        />
       </div>
     </div>
   );

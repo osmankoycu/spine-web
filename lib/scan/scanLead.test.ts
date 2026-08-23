@@ -15,14 +15,30 @@ const ANSWERS = {
 };
 
 test("payload carries only whitelisted keys and option-label values", () => {
-  const p = buildScanLeadPayload({ email: "founder@startup.com", ref: "yc", answers: ANSWERS });
+  const p = buildScanLeadPayload({
+    email: "founder@startup.com",
+    ref: "yc",
+    answers: ANSWERS,
+    teamSize: "5-10",
+  });
   assert.deepEqual(
     Object.keys(p).sort(),
-    ["answers", "email", "funnel", "mode", "ref"],
+    ["answers", "email", "funnel", "mode", "ref", "teamSize"],
   );
   assert.equal(p.funnel, "scan");
   assert.equal(p.mode, "lead");
+  assert.equal(p.teamSize, "5-10");
   assert.deepEqual(p.answers, ANSWERS);
+});
+
+test("unknown team-size values are dropped like any free text", () => {
+  const p = buildScanLeadPayload({
+    email: "founder@startup.com",
+    ref: null,
+    answers: ANSWERS,
+    teamSize: "about twelve",
+  });
+  assert.ok(!("teamSize" in p));
 });
 
 test("free text and unknown values are dropped, not forwarded", () => {

@@ -17,9 +17,21 @@ export type AuditEventName =
   | "audit_email_submitted"
   | "audit_result_viewed"
   | "audit_call_cta_clicked"
+  // Wired in the funnel-CTA rework (Slack primary everywhere); reserved now so
+  // both funnels' result_viewed → slack_cta_clicked KPI read identically.
+  | "audit_slack_cta_clicked"
   // The gate lets the visitor through when the lead POST fails (forgiveness
   // policy) — this event keeps the lost lead visible once analytics is live.
-  | "audit_lead_send_failed";
+  | "audit_lead_send_failed"
+  // Scan funnel (/scan). Every event carries funnel:"scan"; the audit events
+  // carry funnel:"audit" so the two funnels compare directly.
+  | "scan_view"
+  | "scan_question_answered"
+  | "scan_email_submitted"
+  | "scan_report_viewed"
+  | "scan_slack_cta_clicked"
+  | "scan_call_cta_clicked"
+  | "scan_lead_send_failed";
 
 type EventProps = Record<string, string | number | boolean>;
 

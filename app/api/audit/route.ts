@@ -7,13 +7,23 @@ import {
   QUOTE_DAYS,
 } from "@/lib/audit/renewal";
 import type { AuditLeadPayload } from "@/lib/audit/leadPayload";
+import { sanitizeAnswers } from "@/lib/scan/scanLead";
+import {
+  runScan,
+  severityCounts,
+  SEVERITY_LABELS,
+  type ScanAnswers,
+} from "@/lib/scan/scanRules";
 
-// Lead endpoint for the instant benefits audit (/audit). Mirrors the
-// /api/estimate Resend pattern and reuses its env vars. Receives AGGREGATES
-// only (see lib/audit/leadPayload.ts) — never the census file or rows.
-// mode "lead" emails the Spine inbox; mode "copy" emails the visitor their
-// own result instead.
-// TODO: audit leads currently reuse the ESTIMATE_TO recipients (tryheal.ai
+// Single lead endpoint for the funnel surface, discriminated by `funnel`:
+// the instant benefits audit (/audit, aggregates only — see
+// lib/audit/leadPayload.ts) and the 45-second setup scan (/scan, whitelisted
+// answers only — see lib/scan/scanLead.ts; findings are re-computed here from
+// the answers, so a tampered payload can't inject email content). Mirrors the
+// /api/estimate Resend pattern and reuses its env vars. mode "lead" emails
+// the Spine inbox; mode "copy" (audit only) emails the visitor their result.
+// The /api/audit path predates the scan funnel; kept to avoid churn.
+// TODO: leads currently reuse the ESTIMATE_TO recipients (tryheal.ai
 // inboxes). Add a dedicated AUDIT_TO once sales wants a separate stream.
 
 const TO = (process.env.ESTIMATE_TO ?? "Tech@tryheal.ai,onur@tryheal.ai")
@@ -62,6 +72,61 @@ const CONFIDENCE_LABELS: Record<string, string> = {
 };
 
 const usd = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+
+// Shared email rendering for both funnels.
+const emailText = (heading: string, email: string, rows: [string, string][]) =>
+  `${heading}\n\nWork email: ${email}\n${rows.map(([l, v]) => `${l}: ${v}`).join("\n")}\n`;
+
+const emailHtml = (
+  heading: string,
+  email: string,
+  rows: [string, string][],
+) => `<h2 style="font-family:sans-serif">${esc(heading)}</h2>
+<table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Work email</td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+${rows
+  .map(
+    ([l, v]) =>
+      `  <tr><td style="padding:4px 12px 4px 0;color:#777;vertical-align:top">${esc(l)}</td><td>${esc(v)}</td></tr>`,
+  )
+  .join("\n")}
+</table>`;
+
+// ── Scan branch ──
+// Findings are recomputed here from the whitelisted answers; nothing in the
+// email body originates from free-form payload content.
+function scanLeadContent(raw: Record<string, unknown>): {
+  subject: string;
+  rows: [string, string][];
+} {
+  const ycRef = raw.ref === "yc";
+  const answers = sanitizeAnswers((raw.answers ?? {}) as ScanAnswers);
+  const findings = runScan(answers);
+  const counts = severityCounts(findings);
+
+  const subjectParts = [`${findings.length} findings (${counts.red} red)`];
+  if (answers.states && answers.states.length > 0) {
+    subjectParts.push(answers.states.join("+"));
+  }
+  if (answers.team) subjectParts.push(answers.team);
+
+  const rows: [string, string][] = [];
+  rows.push(["Source", ycRef ? "Bookface/YC" : "Website /scan"]);
+  rows.push([
+    "Summary",
+    `${counts.red} fix now · ${counts.amber} should fix · ${counts.green} handled`,
+  ]);
+  findings.forEach((f, i) => {
+    rows.push([`Finding ${i + 1}`, `[${SEVERITY_LABELS[f.sev]}] ${f.title}`]);
+  });
+  if (answers.states) rows.push(["States", answers.states.join(", ")]);
+  if (answers.team) rows.push(["Team", answers.team]);
+  if (answers.payroll) rows.push(["Payroll", answers.payroll]);
+  if (answers.health) rows.push(["Health coverage", answers.health]);
+  if (answers.hire) rows.push(["Next hire", answers.hire]);
+  if (answers.entity) rows.push(["Entity", answers.entity]);
+  return { subject: `Scan lead: ${subjectParts.join(", ")}`, rows };
+}
 
 // Defensive parsing: numbers clamped, strings whitelisted or dropped. The
 // output goes into an email, so nothing here needs to be clever — it needs to
@@ -231,13 +296,41 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  const clean = cleanPayload((body ?? {}) as Record<string, unknown>);
+  const raw = (body ?? {}) as Record<string, unknown>;
+  const resend = new Resend(apiKey);
+
+  if (raw.funnel === "scan") {
+    const email = typeof raw.email === "string" ? raw.email.trim().slice(0, 200) : "";
+    if (!EMAIL_RE.test(email)) {
+      return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
+    }
+    try {
+      const { subject, rows } = scanLeadContent(raw);
+      const { error } = await resend.emails.send({
+        from: FROM,
+        to: TO,
+        replyTo: email,
+        subject,
+        text: emailText("New setup-scan lead", email, rows),
+        html: emailHtml("New setup-scan lead", email, rows),
+      });
+      if (error) {
+        console.error("Scan lead send failed:", error);
+        return Response.json({ error: "Could not send right now." }, { status: 502 });
+      }
+      return Response.json({ ok: true });
+    } catch (err) {
+      console.error("Scan send failed:", err);
+      return Response.json({ error: "Something went wrong." }, { status: 500 });
+    }
+  }
+
+  const clean = cleanPayload(raw);
   if (!clean) {
     return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
   }
 
   const now = new Date();
-  const resend = new Resend(apiKey);
 
   try {
     if (clean.mode === "copy") {
@@ -264,19 +357,8 @@ export async function POST(request: Request) {
       to: TO,
       replyTo: clean.email,
       subject: leadSubject(clean, now),
-      text: `New instant-audit lead\n\nWork email: ${clean.email}\n${rows
-        .map(([l, v]) => `${l}: ${v}`)
-        .join("\n")}\n`,
-      html: `<h2 style="font-family:sans-serif">New instant-audit lead</h2>
-<table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
-  <tr><td style="padding:4px 12px 4px 0;color:#777">Work email</td><td><a href="mailto:${esc(clean.email)}">${esc(clean.email)}</a></td></tr>
-${rows
-  .map(
-    ([l, v]) =>
-      `  <tr><td style="padding:4px 12px 4px 0;color:#777">${esc(l)}</td><td>${esc(v)}</td></tr>`,
-  )
-  .join("\n")}
-</table>`,
+      text: emailText("New instant-audit lead", clean.email, rows),
+      html: emailHtml("New instant-audit lead", clean.email, rows),
     });
 
     if (error) {

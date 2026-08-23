@@ -14,7 +14,7 @@ const NOW = new Date(2026, 7, 23);
 const PREVIEW = { headcount: 25, state: "NY", avgAge: 27 };
 
 const ALLOWED_KEYS = new Set([
-  "mode", "email", "ref", "headcount", "state", "states", "avgAge",
+  "funnel", "mode", "email", "ref", "headcount", "state", "states", "avgAge",
   "ageBands", "tierCounts", "carrier", "renewalMonth", "premiumMonthly",
   "censusSource", "result",
 ]);

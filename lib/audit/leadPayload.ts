@@ -17,6 +17,10 @@ export type AuditLeadResult = {
 };
 
 export type AuditLeadPayload = {
+  // Which funnel produced this lead. The lead route branches on it; the scan
+  // side's payload lives in lib/scan/scanLead.ts. Optional for back-compat —
+  // the server treats a missing funnel as "audit".
+  funnel?: "audit";
   // "lead" emails the Spine inbox (the default); "copy" emails the visitor
   // their own result instead ("Email me this result").
   mode?: "lead" | "copy";
@@ -68,6 +72,7 @@ export function buildAuditLeadPayload(args: {
 }): AuditLeadPayload {
   const aggregates = args.census.kind === "parsed" ? args.census.aggregates : null;
   return {
+    funnel: "audit",
     mode: args.mode,
     email: args.email,
     ...(args.ref ? { ref: args.ref } : {}),

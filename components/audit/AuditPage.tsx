@@ -52,8 +52,11 @@ export function AuditPage() {
   const [census, setCensus] = useState<CensusState>({ kind: "none" });
   const [gateEmail, setGateEmail] = useState<string | null>(null);
 
-  const withRef = (props: Record<string, string | number | boolean> = {}) =>
-    variant ? { ...props, ref: variant.ref } : props;
+  const withRef = (props: Record<string, string | number | boolean> = {}) => ({
+    funnel: "audit",
+    ...props,
+    ...(variant ? { ref: variant.ref } : {}),
+  });
 
   const viewedRef = useRef(false);
   useEffect(() => {

@@ -102,6 +102,7 @@ export function BenchmarkPreview({
     if (touchedRef.current.has(control)) return;
     touchedRef.current.add(control);
     track("audit_preview_interacted", {
+      funnel: "audit",
       control,
       ...(variant ? { ref: variant.ref } : {}),
     });

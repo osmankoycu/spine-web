@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
       // Memorable alias for the instant benefits audit. Permanent — the tool
       // lives at /audit.
       { source: "/overpaying", destination: "/audit", permanent: true },
+      // Friendly alias for the 45-second setup scan.
+      { source: "/setup", destination: "/scan", permanent: true },
       // YC campaign short link (Bookface). Temporary on purpose: campaign URLs
       // stay repointable.
       { source: "/yc", destination: "/audit?ref=yc", permanent: false },

@@ -57,6 +57,7 @@ export function ResultsPanel({
     if (seenConfidence.current.has(result.confidence)) return;
     seenConfidence.current.add(result.confidence);
     track("audit_result_viewed", {
+      funnel: "audit",
       overpayment_bucket: overpaymentBucket(
         result.annualOverpaymentLow,
         result.annualOverpaymentHigh,
@@ -72,7 +73,13 @@ export function ResultsPanel({
   useEffect(() => {
     const el = rootRef.current;
     if (!el || prefersReducedMotion()) return;
-    gsap.from(el, { opacity: 0, y: 18, duration: 0.6, ease: "power3.out" });
+    const tween = gsap.from(el, { opacity: 0, y: 18, duration: 0.6, ease: "power3.out" });
+    // Kill + clear on cleanup so StrictMode's dev double-mount can't pin the
+    // panel at a mid-tween opacity (see ScanReport for the visible case).
+    return () => {
+      tween.kill();
+      gsap.set(el, { clearProps: "opacity,transform" });
+    };
   }, []);
 
   // Count-up: 0 → range on mount, current → new range when it tightens.

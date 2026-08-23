@@ -67,7 +67,9 @@ export function AuditPage() {
     const el = document.getElementById(anchor);
     if (!el) return;
     const lenis = getLenis();
-    if (lenis) lenis.scrollTo(el, { offset: -110 });
+    // Standalone shell has no fixed header; the small offset is just breathing
+    // room above the card.
+    if (lenis) lenis.scrollTo(el, { offset: -24 });
     else el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
   };
 
@@ -215,7 +217,7 @@ export function AuditPage() {
 
       <div className="mx-auto max-w-[1080px] space-y-10 px-6 pb-24 md:px-10">
         {reached(stage, "basics") && (
-          <section id="audit-step-1" className="scroll-mt-[110px]">
+          <section id="audit-step-1" className="scroll-mt-6">
             <Reveal>
               <CompanyBasics
                 value={basics}
@@ -227,7 +229,7 @@ export function AuditPage() {
         )}
 
         {reached(stage, "census") && (
-          <section id="audit-step-2" className="scroll-mt-[110px]">
+          <section id="audit-step-2" className="scroll-mt-6">
             <Reveal>
               <CensusUpload onParsed={onCensusParsed} onSkip={onCensusSkip} />
             </Reveal>
@@ -235,7 +237,7 @@ export function AuditPage() {
         )}
 
         {reached(stage, "results") && (
-          <section id="audit-step-3" className="scroll-mt-[110px]">
+          <section id="audit-step-3" className="scroll-mt-6">
             {gateEmail === null ? (
               <Reveal>
                 <EmailGate onSubmit={onGateSubmit} />

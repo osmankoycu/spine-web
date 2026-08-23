@@ -111,7 +111,8 @@ export function BenchmarkPreview({
 
   return (
     <section className="bg-white">
-      <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-[140px] sm:px-[52px] lg:px-[60px]">
+      {/* Standalone shell: no fixed site header above, so no 140px clearance. */}
+      <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-8 sm:px-[52px] sm:pt-12 lg:px-[60px]">
         {/* ── Hero copy ── */}
         <div className="mx-auto max-w-[780px] text-center">
           {variant ? (

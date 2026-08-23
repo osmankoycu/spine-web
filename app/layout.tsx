@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/app/providers/SmoothScrollProvider";
-import { Header } from "@/components/header/Header";
-import { AnnouncementBanner } from "@/components/header/AnnouncementBanner";
-import { TagDrop } from "@/components/footer/TagDrop";
-import { Footer } from "@/components/footer/Footer";
-import { DemoModalProvider } from "@/components/cta/DemoModal";
+
+// Root layout carries only the document shell: fonts, global CSS, scroll
+// behavior. The marketing-site chrome (header/banner/footer) lives in
+// (site)/layout.tsx; the funnel pages (audit/scan) get their own minimal
+// shell in (funnel)/layout.tsx.
 
 export const metadata: Metadata = {
   title: "Spine: Replace your broker and your PEO",
@@ -44,15 +44,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full antialiased">
-        <SmoothScrollProvider>
-          <DemoModalProvider>
-            <AnnouncementBanner />
-            <Header />
-            {children}
-            <TagDrop />
-            <Footer />
-          </DemoModalProvider>
-        </SmoothScrollProvider>
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
   );

@@ -134,10 +134,10 @@ export function ResultsPanel({
   return (
     <div
       ref={rootRef}
-      className="rounded-[28px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8 lg:p-10"
+      className="rounded-[24px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8"
     >
       <div className="flex flex-wrap items-center gap-3">
-        <div className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+        <div className="text-[11.5px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
           Your result
         </div>
         <span

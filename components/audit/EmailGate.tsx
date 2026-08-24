@@ -30,11 +30,11 @@ export function EmailGate({
   };
 
   return (
-    <div className="rounded-[28px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8 lg:p-10">
-      <div className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+    <div className="rounded-[24px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8">
+      <div className="text-[11.5px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
         Step 3 · Your number
       </div>
-      <h2 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-ink sm:text-[28px]">
+      <h2 className="mt-2 text-[22px] font-extrabold tracking-[-0.02em] text-ink sm:text-[26px]">
         Your estimate is ready.
       </h2>
       <p className="mt-2 max-w-[520px] text-[14.5px] leading-[1.5] text-body-2">

@@ -113,9 +113,13 @@ export function BenchmarkPreview({
   const sliderPct = ((value.headcount - 5) / (200 - 5)) * 100;
 
   return (
-    <section className="bg-white">
-      {/* Standalone shell: no fixed site header above, so no 140px clearance. */}
-      <div className="mx-auto w-full max-w-[1480px] px-6 pb-16 pt-8 sm:px-[52px] sm:pt-12 lg:px-[60px]">
+    // No surface of its own: the page runs one uniform background, like the
+    // scan does.
+    <section>
+      {/* Same column as the steps below and as the scan, so every card on the
+          funnel surface lands on the identical width. No fixed site header
+          above either, so no top clearance. */}
+      <div className="mx-auto w-full max-w-[1080px] px-6 pb-8 pt-2 sm:pt-6 md:px-10">
         {/* ── Hero copy ── */}
         <div className="mx-auto max-w-[780px] text-center">
           {variant ? (
@@ -123,25 +127,28 @@ export function BenchmarkPreview({
               {variant.eyebrow}
             </div>
           ) : (
-            <div className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
+            <div className="text-[11.5px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
               Instant benefits audit
             </div>
           )}
-          <h1 className="mt-4 text-[36px] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[48px] lg:text-[58px]">
+          <h1 className="mt-3 text-[27px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[34px]">
             <span className="text-ink">Find out if you&apos;re overpaying</span>
             <br />
             <span className="text-orange">for health insurance.</span>
           </h1>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[14.5px] text-body">
+          <p className="mx-auto mt-3 max-w-[520px] text-[14.5px] leading-[1.55] text-body-2">
+            Move the three inputs and watch the market band. Drop in your census
+            and it gets real. Free, carriers pay us, not you.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] text-muted">
             <span className="inline-flex items-center gap-1.5">
-              <IconTimer size={16} className="text-orange" />
+              <IconTimer size={15} className="text-orange" />
               About 90 seconds
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <IconLock size={16} className="text-orange" />
+              <IconLock size={15} className="text-orange" />
               Your census never leaves your browser
             </span>
-            <span>Free, no commitment</span>
           </div>
           {variant && (
             <p className="mt-3 text-[14.5px] font-semibold text-ink-2">{variant.note}</p>
@@ -149,7 +156,7 @@ export function BenchmarkPreview({
         </div>
 
         {/* ── The instrument ── */}
-        <div className="mx-auto mt-10 max-w-[1080px] rounded-[28px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8 lg:p-10">
+        <div className="mt-8 rounded-[24px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8">
           <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
             {/* Controls */}
             <div className="space-y-7">

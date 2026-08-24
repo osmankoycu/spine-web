@@ -4,13 +4,13 @@
 // structure (ids, types) is ours. Pure data + pure function, no UI imports —
 // unit-tested in scanRules.test.ts and re-run server-side by the lead route so
 // emailed findings can't be spoofed by a tampered payload.
-import { US_STATES } from "../audit/usStates.ts";
+import { COMMON_STATE_CODES, US_STATES } from "../audit/usStates.ts";
 
 // The mock shipped eight hand-picked states plus a catch-all. Those eight stay
 // as the fast path (they cover most early-stage teams), but every state is
 // selectable now: the full list comes from the same source the audit's tile
 // map uses, so the two funnels can never disagree on state codes.
-export const SCAN_COMMON_STATES = ["CA", "NY", "TX", "WA", "CO", "FL", "IL", "MA"];
+export const SCAN_COMMON_STATES = COMMON_STATE_CODES;
 export const SCAN_REMOTE_OPTION = "Other / remote";
 
 const ALL_STATE_CODES = US_STATES.map((s) => s.code).sort();

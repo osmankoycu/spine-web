@@ -23,10 +23,6 @@ const HEADER_LABELS: Record<string, { title: string; note: string }> = {
   },
 };
 
-// Routes that render FunnelHeader themselves, because they feed its centre
-// slot from page state.
-const PAGE_OWNS_HEADER = new Set(["/scan"]);
-
 export default function FunnelLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -37,9 +33,7 @@ export default function FunnelLayout({
     <div
       className={`flex min-h-screen flex-col ${videoPage ? "bg-[#fbfbfb]" : "bg-surface-page"}`}
     >
-      {/* /scan renders its own header: the stepper sits in the centre slot and
-          that state lives in the page. */}
-      {!PAGE_OWNS_HEADER.has(pathname ?? "") && <FunnelHeader label={label} />}
+      <FunnelHeader label={label} />
       <div className="flex flex-1 flex-col">{children}</div>
       <footer className="flex items-center justify-center gap-4 px-6 py-2 text-[12.5px] text-muted">
         <span>© {new Date().getFullYear()} Spine</span>

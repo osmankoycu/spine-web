@@ -10,7 +10,6 @@ import { variantFromRef } from "@/lib/audit/ycVariant";
 import { headcountForBucket, isTeamSize } from "@/lib/funnel/teamSize";
 import { buildScanLeadPayload } from "@/lib/scan/scanLead";
 import { IconArrowRight } from "@/components/audit/icons";
-import { FunnelHeader } from "@/components/funnel/FunnelHeader";
 import {
   runScan,
   severityCounts,
@@ -149,10 +148,10 @@ export function ScanPage() {
   const dotsDone = stage.kind === "question" ? stage.index + 1 : dotsTotal;
   const showDots = stage.kind === "question" || stage.kind === "email";
 
-  // The stepper rides in the header's centre slot, so it stays in one fixed
-  // place instead of moving with the card.
+  // The stepper sits directly above the card and spans the same width, so the
+  // progress reads as belonging to the box it describes.
   const stepper = showDots ? (
-    <div className="flex w-full items-center gap-1.5 sm:w-[280px]">
+    <div className="mb-4 flex w-full items-center gap-1.5">
       {Array.from({ length: dotsTotal }, (_, i) => (
         <span key={i} className="contents">
           <span
@@ -175,20 +174,14 @@ export function ScanPage() {
   ) : null;
 
   return (
-    <>
-      <FunnelHeader center={stepper} />
-      <main className="text-ink">
-        {/* Same 1080px column the audit uses, so the two tools share a rhythm. */}
-        <div className="mx-auto w-full max-w-[1080px] px-6 pb-16 pt-2 sm:pt-6 md:px-10">
+    <main className="text-ink">
+      {/* Same 1080px column the audit uses, so the two tools share a rhythm. */}
+      <div className="mx-auto w-full max-w-[1080px] px-6 pb-16 pt-2 sm:pt-6 md:px-10">
         {stage.kind === "question" && (
           <div className="mb-8 text-center">
-            {variant ? (
+            {variant && (
               <div className="mb-3 inline-flex items-center rounded-pill border border-orange-150 bg-orange-100 px-4 py-1.5 text-[12px] font-extrabold text-orange-ink">
                 {variant.eyebrow}
-              </div>
-            ) : (
-              <div className="mb-3 text-[11.5px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
-                45-second setup scan
               </div>
             )}
             <h1 className="text-[27px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[34px]">
@@ -203,6 +196,8 @@ export function ScanPage() {
             </p>
           </div>
         )}
+
+        {stepper}
 
         <div
           ref={cardRef}
@@ -267,9 +262,8 @@ export function ScanPage() {
               onCallCta={() => track("scan_call_cta_clicked", ev())}
             />
           )}
-          </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }

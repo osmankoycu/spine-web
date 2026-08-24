@@ -62,6 +62,11 @@ export const US_STATES: UsState[] = [
   { code: "FL", name: "Florida", gridCol: 9, gridRow: 8 },
 ];
 
+// The states most early-stage teams actually sit in. Both funnels show these
+// as the fast path and keep the rest one tap away, so the two pickers can't
+// drift apart.
+export const COMMON_STATE_CODES = ["CA", "NY", "TX", "WA", "CO", "FL", "IL", "MA"];
+
 const BY_NAME = new Map(
   US_STATES.map((s) => [s.name.toLowerCase(), s.code] as const),
 );

@@ -27,8 +27,9 @@ export type AuditLeadPayload = {
   email: string;
   ref?: string; // "yc" when the visitor came via the Bookface link
   headcount: number;
-  state?: string; // dominant state (census mode) or the picked one
-  states?: Record<string, number>; // census state mix
+  state?: string; // dominant state (census mode) or the first picked one
+  states?: Record<string, number>; // census state mix, employees per state
+  statesPicked?: string[]; // hand-picked in step 0; no headcounts behind them
   avgAge?: number;
   ageBands?: { label: string; count: number }[];
   tierCounts?: Partial<Record<Tier, number>>;
@@ -63,7 +64,7 @@ export function buildAuditLeadPayload(args: {
   mode: "lead" | "copy";
   email: string;
   ref: string | null;
-  preview: { headcount: number; state: string; avgAge: number };
+  preview: { headcount: number; states: string[]; avgAge: number };
   carrier: CarrierId | "";
   renewalMonth: number; // 0 = not set
   premium: number | null;
@@ -79,8 +80,11 @@ export function buildAuditLeadPayload(args: {
     headcount: aggregates?.employeeCount ?? args.preview.headcount,
     state:
       (aggregates ? dominantState(aggregates.states) : undefined) ??
-      (args.preview.state || undefined),
+      args.preview.states[0],
     states: aggregates?.states,
+    ...(aggregates || args.preview.states.length === 0
+      ? {}
+      : { statesPicked: args.preview.states }),
     avgAge: aggregates?.avgAge ?? args.preview.avgAge,
     ageBands: aggregates?.ageBands,
     tierCounts: aggregates?.tierCounts,

@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/reducedMotion";
 import { benchmarkBand } from "@/lib/audit/auditEngine";
-import { US_STATES } from "@/lib/audit/usStates";
+import { COMMON_STATE_CODES, US_STATES } from "@/lib/audit/usStates";
 import { track } from "@/lib/audit/track";
 import type { AuditVariant } from "@/lib/audit/ycVariant";
-import { IconArrowRight, IconChevronDown, IconLock, IconTimer } from "./icons";
+import { IconArrowRight, IconChevronDown } from "./icons";
 
 // Step 0: the hook. Three inputs are live before any signup; every move
 // re-renders the "companies like yours typically pay" band with a fast springy
@@ -15,9 +15,42 @@ import { IconArrowRight, IconChevronDown, IconLock, IconTimer } from "./icons";
 
 export type PreviewInputs = {
   headcount: number;
-  state: string; // 2-letter code, or "" for the national average
+  states: string[]; // 2-letter codes; empty = national average
   avgAge: number;
 };
+
+const REST_STATE_CODES = US_STATES.map((s) => s.code)
+  .filter((c) => !COMMON_STATE_CODES.includes(c))
+  .sort();
+
+function StateChip({
+  code,
+  active,
+  onClick,
+  compact,
+}: {
+  code: string;
+  active: boolean;
+  onClick: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      className={`cursor-pointer rounded-xl border text-center font-bold transition-colors ${
+        compact ? "px-1 py-2 text-[12px]" : "px-2 py-2.5 text-[14px]"
+      } ${
+        active
+          ? "border-black bg-black text-white"
+          : "border-black/15 bg-white text-ink-2 hover:border-orange hover:bg-orange-100/40"
+      }`}
+    >
+      {code}
+    </button>
+  );
+}
 
 export const AGE_PRESETS = [
   { label: "Mostly 20s", age: 27 },
@@ -54,6 +87,7 @@ export function BenchmarkPreview({
   // already correct).
   const proxyRef = useRef<{ low: number; high: number } | null>(null);
   const touchedRef = useRef<Set<string>>(new Set());
+  const [showAllStates, setShowAllStates] = useState(false);
 
   const band = benchmarkBand(value);
 
@@ -110,6 +144,16 @@ export function BenchmarkPreview({
     });
   };
 
+  const toggleState = (code: string) => {
+    touched("state");
+    onChange({
+      ...value,
+      states: value.states.includes(code)
+        ? value.states.filter((s) => s !== code)
+        : [...value.states, code],
+    });
+  };
+
   const sliderPct = ((value.headcount - 5) / (200 - 5)) * 100;
 
   return (
@@ -122,16 +166,12 @@ export function BenchmarkPreview({
       <div className="mx-auto w-full max-w-[1080px] px-6 pb-8 pt-2 sm:pt-6 md:px-10">
         {/* ── Hero copy ── */}
         <div className="mx-auto max-w-[780px] text-center">
-          {variant ? (
-            <div className="inline-flex items-center rounded-pill border border-orange-150 bg-orange-100 px-4 py-1.5 text-[12.5px] font-extrabold text-orange-ink">
+          {variant && (
+            <div className="mb-3 inline-flex items-center rounded-pill border border-orange-150 bg-orange-100 px-4 py-1.5 text-[12.5px] font-extrabold text-orange-ink">
               {variant.eyebrow}
             </div>
-          ) : (
-            <div className="text-[11.5px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
-              Instant benefits audit
-            </div>
           )}
-          <h1 className="mt-3 text-[27px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[34px]">
+          <h1 className="text-[27px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[34px]">
             <span className="text-ink">Find out if you&apos;re overpaying</span>
             <br />
             <span className="text-orange">for health insurance.</span>
@@ -140,16 +180,6 @@ export function BenchmarkPreview({
             Move the three inputs and watch the market band. Drop in your census
             and it gets real. Free, carriers pay us, not you.
           </p>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] text-muted">
-            <span className="inline-flex items-center gap-1.5">
-              <IconTimer size={15} className="text-orange" />
-              About 90 seconds
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <IconLock size={15} className="text-orange" />
-              Your census never leaves your browser
-            </span>
-          </div>
           {variant && (
             <p className="mt-3 text-[14.5px] font-semibold text-ink-2">{variant.note}</p>
           )}
@@ -188,31 +218,61 @@ export function BenchmarkPreview({
               </div>
 
               <div>
-                <label htmlFor="audit-state" className="text-[13px] font-extrabold uppercase tracking-[0.12em] text-ink-2">
-                  State
-                </label>
-                <div className="relative mt-3">
-                  <select
-                    id="audit-state"
-                    value={value.state}
-                    onChange={(e) => {
-                      touched("state");
-                      onChange({ ...value, state: e.target.value });
-                    }}
-                    className="w-full cursor-pointer appearance-none rounded-2xl border border-black/15 bg-white px-5 py-3.5 text-[16px] text-ink outline-none transition-colors focus:border-orange focus:ring-4 focus:ring-orange/15"
-                  >
-                    <option value="">Anywhere, USA</option>
-                    {US_STATES.map((s) => (
-                      <option key={s.code} value={s.code}>
-                        {s.name}
-                      </option>
-                    ))}
-                  </select>
-                  <IconChevronDown
-                    size={18}
-                    className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-grey-text"
-                  />
+                <span className="text-[13px] font-extrabold uppercase tracking-[0.12em] text-ink-2">
+                  States
+                  <span className="ml-1.5 font-medium normal-case tracking-normal text-muted">
+                    {value.states.length > 0
+                      ? "tap all where your team works"
+                      : "leave empty for the national average"}
+                  </span>
+                </span>
+                {/* Same picker shape as the scan: the common states are one tap
+                    away, the rest sit behind the expander. Premiums are rated
+                    per work location, so multiple states blend the rate. */}
+                <div className="mt-3 grid grid-cols-4 gap-2">
+                  {COMMON_STATE_CODES.map((code) => (
+                    <StateChip
+                      key={code}
+                      code={code}
+                      active={value.states.includes(code)}
+                      onClick={() => toggleState(code)}
+                    />
+                  ))}
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAllStates((v) => !v)}
+                  className="mt-2.5 inline-flex cursor-pointer items-center gap-1 text-[12.5px] font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-600"
+                >
+                  {showAllStates ? "Hide the rest" : "Somewhere else? Show all states"}
+                  <IconChevronDown
+                    size={14}
+                    className={showAllStates ? "rotate-180" : undefined}
+                  />
+                </button>
+                {showAllStates && (
+                  // Capped and scrollable: 43 more chips would otherwise double
+                  // the card's height. data-lenis-prevent is required — Lenis
+                  // owns the wheel globally and would scroll the page instead of
+                  // this box; overscroll-contain stops the scroll chaining on
+                  // once you hit either end.
+                  <div
+                    data-lenis-prevent
+                    className="mt-2.5 max-h-[196px] overflow-y-auto overscroll-contain pr-1"
+                  >
+                    <div className="grid grid-cols-6 gap-1.5">
+                      {REST_STATE_CODES.map((code) => (
+                        <StateChip
+                          key={code}
+                          code={code}
+                          active={value.states.includes(code)}
+                          onClick={() => toggleState(code)}
+                          compact
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -245,8 +305,10 @@ export function BenchmarkPreview({
               </div>
             </div>
 
-            {/* Live band */}
-            <div className="flex flex-col justify-between rounded-[20px] bg-surface-inset p-6 ring-1 ring-hairline sm:p-8">
+            {/* Live band. self-start so it keeps its own height instead of
+                stretching to match the controls (the state list can make that
+                column tall), and sticky so it stays in view while you pick. */}
+            <div className="flex flex-col gap-8 rounded-[20px] bg-surface-inset p-6 ring-1 ring-hairline sm:p-8 lg:sticky lg:top-6 lg:self-start">
               <div>
                 <div className="text-[13.5px] font-medium text-body-2">
                   Companies like yours typically pay
@@ -263,7 +325,7 @@ export function BenchmarkPreview({
                 <div className="text-[14px] text-body-2">per employee, per month</div>
               </div>
 
-              <div className="mt-8">
+              <div>
                 <div className="relative h-3 rounded-pill bg-grey-pill">
                   <div
                     ref={bandRef}
@@ -280,7 +342,7 @@ export function BenchmarkPreview({
               <button
                 type="button"
                 onClick={onCta}
-                className="mt-8 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
+                className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
               >
                 Get your number
                 <IconArrowRight size={18} />

@@ -19,7 +19,10 @@ import {
 
 export type AuditInput = {
   headcount: number;
-  state?: string; // 2-letter code
+  states?: string[]; // 2-letter codes; empty or absent = national average
+  // Employees per state, when a census gives us the real split. Without it
+  // the states above are weighted evenly.
+  stateWeights?: Record<string, number>;
   ages?: number[]; // per-employee, from a parsed census (wins over avgAge)
   avgAge?: number; // slider proxy when there's no census
   carrier?: CarrierId;
@@ -77,6 +80,26 @@ export function stateFactor(state?: string): number {
   return STATE_FACTORS[state.toUpperCase()] ?? DEFAULT_STATE_FACTOR;
 }
 
+// Premiums are rated per work location, so a team split across states pays a
+// blend. With a census we know the real headcount per state and weight by it;
+// with hand-picked states we can only assume an even split, which is why the
+// band around the result stays wide.
+export function blendedStateFactor(
+  states?: string[],
+  weights?: Record<string, number>,
+): number {
+  if (!states || states.length === 0) return DEFAULT_STATE_FACTOR;
+  let totalWeight = 0;
+  let weightedSum = 0;
+  for (const s of states) {
+    const w = weights?.[s.toUpperCase()] ?? 1;
+    if (w <= 0) continue;
+    totalWeight += w;
+    weightedSum += w * stateFactor(s);
+  }
+  return totalWeight > 0 ? weightedSum / totalWeight : DEFAULT_STATE_FACTOR;
+}
+
 // Enrollment-mix multiplier: weighted average tier factor. Without tier data we
 // assume employee-only across the board. TODO: when an invoice total includes
 // dependents but the census has no tier column, this understates expected spend
@@ -96,7 +119,7 @@ function tierMultiplier(tierCounts?: Partial<Record<Tier, number>>): number {
 // Expected market total, $/mo, for the whole company at single-coverage rates
 // times the enrollment-mix multiplier.
 function expectedTotal(input: AuditInput): { total: number; headcount: number } {
-  const sf = stateFactor(input.state);
+  const sf = blendedStateFactor(input.states, input.stateWeights);
   const tm = tierMultiplier(input.tierCounts);
   if (input.ages && input.ages.length > 0) {
     const sum = input.ages.reduce((acc, a) => acc + ageFactor(a), 0);
@@ -113,10 +136,10 @@ const roundUp100 = (v: number) => Math.max(0, Math.ceil(v / 100) * 100);
 // Step-0 preview: the "companies like yours typically pay" band, $/employee/mo.
 export function benchmarkBand(input: {
   headcount: number;
-  state?: string;
+  states?: string[];
   avgAge?: number;
 }): { pepm: number; pepmLow: number; pepmHigh: number } {
-  const pepm = BASELINE_PEPM * stateFactor(input.state) * ageFactor(input.avgAge ?? 40);
+  const pepm = BASELINE_PEPM * blendedStateFactor(input.states) * ageFactor(input.avgAge ?? 40);
   return {
     pepm: Math.round(pepm),
     pepmLow: Math.round(pepm * (1 - BENCHMARK_BAND)),

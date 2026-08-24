@@ -11,7 +11,6 @@ import type { CensusAggregates } from "@/lib/audit/censusParse";
 import type { HrisFormatId } from "@/lib/audit/hrisFormats";
 import {
   buildAuditLeadPayload,
-  dominantState,
   type AuditLeadPayload,
   type CensusState,
 } from "@/lib/audit/leadPayload";
@@ -48,7 +47,11 @@ export function AuditPage() {
     const h = parseInt(searchParams.get("headcount") ?? "", 10);
     return {
       headcount: Number.isFinite(h) ? Math.min(200, Math.max(5, h)) : 25,
-      state: toStateCode(searchParams.get("state") ?? "") ?? "",
+      // ?state= accepts one code or a comma-separated list (router prefill).
+      states: (searchParams.get("state") ?? "")
+        .split(",")
+        .map((s) => toStateCode(s))
+        .filter((s): s is string => s !== null),
       avgAge: 40,
     };
   });
@@ -80,8 +83,16 @@ export function AuditPage() {
     const lenis = getLenis();
     // Standalone shell has no fixed header; the small offset is just breathing
     // room above the card.
-    if (lenis) lenis.scrollTo(el, { offset: -24 });
-    else el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    if (lenis) {
+      // Revealing a step just made the page taller, but Lenis only learns that
+      // from a ResizeObserver, which fires after this. Without the forced
+      // recalculation it clamps the target to the OLD page height and the
+      // scroll stops short of the new card.
+      lenis.resize();
+      lenis.scrollTo(el, { offset: -24 });
+    } else {
+      el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    }
   };
 
   // A newly revealed step mounts on the stage change; the effect below runs
@@ -106,19 +117,21 @@ export function AuditPage() {
 
   // ── Estimate assembly ──
   const aggregates = census.kind === "parsed" ? census.aggregates : null;
-  const baseInput: AuditInput = useMemo(
-    () => ({
+  const baseInput: AuditInput = useMemo(() => {
+    // A parsed census knows the real per-state split, so it both replaces the
+    // hand-picked list and weights the blend by headcount.
+    const censusStates = aggregates ? Object.keys(aggregates.states) : [];
+    const fromCensus = censusStates.length > 0;
+    return {
       headcount: aggregates?.employeeCount ?? preview.headcount,
-      state:
-        (aggregates ? dominantState(aggregates.states) : undefined) ??
-        (preview.state || undefined),
+      states: fromCensus ? censusStates : preview.states,
+      stateWeights: fromCensus ? aggregates?.states : undefined,
       ages: aggregates?.ages,
       avgAge: aggregates ? undefined : preview.avgAge,
       carrier: basics.carrier || undefined,
       tierCounts: aggregates?.tierCounts,
-    }),
-    [aggregates, preview, basics.carrier],
-  );
+    };
+  }, [aggregates, preview, basics.carrier]);
   const initialPremium = useMemo(() => parsePremium(basics.premiumRaw), [basics.premiumRaw]);
 
   // ── Lead posting ──

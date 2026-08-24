@@ -149,6 +149,7 @@ type Clean = {
   headcount: number;
   state?: string;
   states: [string, number][];
+  statesPicked: string[];
   avgAge?: number;
   ageBands: [string, number][];
   tierCounts: [string, number][];
@@ -181,6 +182,9 @@ function cleanPayload(body: Record<string, unknown>): Clean | null {
       if (stateOk(k) && n) states.push([k, n]);
     }
   }
+  const statesPicked = Array.isArray(p.statesPicked)
+    ? p.statesPicked.filter(stateOk).slice(0, 60)
+    : [];
   const ageBands: [string, number][] = [];
   if (Array.isArray(p.ageBands)) {
     for (const b of p.ageBands.slice(0, 8)) {
@@ -205,6 +209,7 @@ function cleanPayload(body: Record<string, unknown>): Clean | null {
     headcount: num(p.headcount, 1, 100_000) ?? 0,
     state: stateOk(p.state) ? p.state : undefined,
     states,
+    statesPicked,
     avgAge: num(p.avgAge, 14, 100),
     ageBands,
     tierCounts,
@@ -246,7 +251,11 @@ function leadRows(c: Clean, now: Date): [string, string][] {
   ]);
   rows.push(["Headcount", String(c.headcount)]);
   if (c.states.length > 0) {
+    // Census-derived: real headcount per state.
     rows.push(["States", c.states.map(([s, n]) => `${s} ×${n}`).join(", ")]);
+  } else if (c.statesPicked.length > 0) {
+    // Hand-picked in step 0: no headcounts behind them, so no counts shown.
+    rows.push(["States picked", c.statesPicked.join(", ")]);
   } else if (c.state) {
     rows.push(["State", c.state]);
   }

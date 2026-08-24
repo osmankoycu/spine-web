@@ -1,7 +1,7 @@
 // Engine unit tests — run with `npm test` (node:test, TS type-stripping).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ageFactor, benchmarkBand, estimate } from "./auditEngine.ts";
+import { ageFactor, benchmarkBand, blendedStateFactor, estimate } from "./auditEngine.ts";
 
 test("ageFactor hits control points and interpolates between them", () => {
   assert.equal(ageFactor(40), 1.0);
@@ -16,17 +16,50 @@ test("ageFactor clamps outside the curve", () => {
 });
 
 test("benchmarkBand applies state and age factors around the baseline", () => {
-  const b = benchmarkBand({ headcount: 20, state: "NY", avgAge: 40 });
+  const b = benchmarkBand({ headcount: 20, states: ["NY"], avgAge: 40 });
   assert.equal(b.pepm, 1150); // 1000 × 1.15 × 1.0
   assert.equal(b.pepmLow, 1012);
   assert.equal(b.pepmHigh, 1288);
+});
+
+test("multiple states blend: evenly when hand-picked, by headcount with a census", () => {
+  // NY 1.15, TX 1.00 → even split lands halfway.
+  assert.ok(Math.abs(blendedStateFactor(["NY", "TX"]) - 1.075) < 1e-9);
+  // Three quarters of the team in NY pulls the blend toward NY.
+  assert.ok(
+    Math.abs(blendedStateFactor(["NY", "TX"], { NY: 3, TX: 1 }) - 1.1125) < 1e-9,
+  );
+  // Weights for states that were not selected are ignored.
+  assert.ok(Math.abs(blendedStateFactor(["TX"], { NY: 99, TX: 1 }) - 1.0) < 1e-9);
+  // No selection is the national average, as is an unknown code.
+  assert.equal(blendedStateFactor([]), 1.0);
+  assert.equal(blendedStateFactor(undefined), 1.0);
+  assert.equal(blendedStateFactor(["ZZ"]), 1.0);
+});
+
+test("the blend flows through the estimate", () => {
+  // 10 people at age 40: NY-only expects 1150 PEPM, TX-only 1000, split 1075.
+  const ny = estimate({ headcount: 10, states: ["NY"], avgAge: 40 });
+  const tx = estimate({ headcount: 10, states: ["TX"], avgAge: 40 });
+  const both = estimate({ headcount: 10, states: ["NY", "TX"], avgAge: 40 });
+  assert.equal(ny.expectedPEPM, 1150);
+  assert.equal(tx.expectedPEPM, 1000);
+  assert.equal(both.expectedPEPM, 1075);
+  // Census weights sharpen it: 8 of 10 in NY.
+  const weighted = estimate({
+    headcount: 10,
+    states: ["NY", "TX"],
+    stateWeights: { NY: 8, TX: 2 },
+    avgAge: 40,
+  });
+  assert.equal(weighted.expectedPEPM, 1120);
 });
 
 test("reported premium: ±30% range in $100 steps", () => {
   // TX factor 1.0, age 40 factor 1.0 → expected $10,000/mo for 10 people.
   const r = estimate({
     headcount: 10,
-    state: "TX",
+    states: ["TX"],
     avgAge: 40,
     currentMonthlyTotal: 13_000,
   });
@@ -42,7 +75,7 @@ test("reported premium: ±30% range in $100 steps", () => {
 test("paying under market → honest well-priced state, no negative range", () => {
   const r = estimate({
     headcount: 10,
-    state: "TX",
+    states: ["TX"],
     avgAge: 40,
     currentMonthlyTotal: 9_000,
   });
@@ -56,7 +89,7 @@ test("negligible overpayment collapses to well-priced", () => {
   // $50/mo over on a $10k/mo bill → $780/yr at the high end, under the floor.
   const r = estimate({
     headcount: 10,
-    state: "TX",
+    states: ["TX"],
     avgAge: 40,
     currentMonthlyTotal: 10_050,
   });
@@ -64,7 +97,7 @@ test("negligible overpayment collapses to well-priced", () => {
 });
 
 test("no premium, no census → rough confidence from carrier medians", () => {
-  const r = estimate({ headcount: 10, state: "TX", avgAge: 40, carrier: "uhc" });
+  const r = estimate({ headcount: 10, states: ["TX"], avgAge: 40, carrier: "uhc" });
   assert.equal(r.confidence, "rough");
   assert.equal(r.currentMonthlyTotal, 11_200); // expected × 1.12
   // over = $1,200/mo → $14,400/yr, ±60%
@@ -108,7 +141,7 @@ test("archetype picks: older team adds Protection-focused", () => {
 });
 
 test("archetype price bands are derived from expected PEPM", () => {
-  const r = estimate({ headcount: 10, state: "TX", avgAge: 40, currentMonthlyTotal: 13_000 });
+  const r = estimate({ headcount: 10, states: ["TX"], avgAge: 40, currentMonthlyTotal: 13_000 });
   const cost = r.archetypes.find((a) => a.id === "cost")!;
   assert.equal(cost.pepmLow, 860); // 1000 × 0.86
   assert.equal(cost.pepmHigh, 960);

@@ -11,12 +11,12 @@ import { estimate } from "./auditEngine.ts";
 import { buildAuditLeadPayload, type CensusState } from "./leadPayload.ts";
 
 const NOW = new Date(2026, 7, 23);
-const PREVIEW = { headcount: 25, state: "NY", avgAge: 27 };
+const PREVIEW = { headcount: 25, states: ["NY"], avgAge: 27 };
 
 const ALLOWED_KEYS = new Set([
-  "funnel", "mode", "email", "ref", "headcount", "state", "states", "avgAge",
-  "ageBands", "tierCounts", "carrier", "renewalMonth", "premiumMonthly",
-  "censusSource", "result",
+  "funnel", "mode", "email", "ref", "headcount", "state", "states",
+  "statesPicked", "avgAge", "ageBands", "tierCounts", "carrier",
+  "renewalMonth", "premiumMonthly", "censusSource", "result",
 ]);
 
 // PII strings that appear in the fixtures. None may reach the wire. DOB
@@ -52,7 +52,7 @@ function parsedCensus(name: string): CensusState {
 test("auto-detect path: payload is aggregates-only, census wins over sliders", () => {
   const census = parsedCensus("rippling.csv");
   const agg = census.kind === "parsed" ? census.aggregates : null!;
-  const result = estimate({ headcount: 25, state: "NY", ages: agg.ages, carrier: "uhc" });
+  const result = estimate({ headcount: 25, states: ["NY"], ages: agg.ages, carrier: "uhc" });
   const payload = buildAuditLeadPayload({
     mode: "lead",
     email: "founder@startup.com",
@@ -107,7 +107,7 @@ test("manual-mapper path: derived aggregates stay row-free", () => {
 });
 
 test("skip path: slider values, source marked skipped", () => {
-  const result = estimate({ headcount: 25, state: "NY", avgAge: 27, carrier: "aetna" });
+  const result = estimate({ headcount: 25, states: ["NY"], avgAge: 27, carrier: "aetna" });
   const payload = buildAuditLeadPayload({
     mode: "lead",
     email: "founder@startup.com",
@@ -123,7 +123,28 @@ test("skip path: slider values, source marked skipped", () => {
   assert.equal(payload.headcount, 25);
   assert.equal(payload.avgAge, 27);
   assert.equal(payload.censusSource, "skipped");
+  // No census means no per-state headcounts, only what they tapped.
   assert.equal(payload.states, undefined);
+  assert.deepEqual(payload.statesPicked, ["NY"]);
+  assert.equal(payload.state, "NY");
+});
+
+test("a census replaces the hand-picked states with real counts", () => {
+  const census = parsedCensus("rippling.csv");
+  const payload = buildAuditLeadPayload({
+    mode: "lead",
+    email: "founder@startup.com",
+    ref: null,
+    preview: { headcount: 25, states: ["MA", "CO"], avgAge: 30 },
+    carrier: "",
+    renewalMonth: 0,
+    premium: null,
+    census,
+    result: estimate({ headcount: 8, states: ["NY", "CA", "TX"] }),
+  });
+  assertAggregatesOnly(payload);
+  assert.deepEqual(payload.states, { NY: 4, CA: 2, TX: 2 });
+  assert.ok(!("statesPicked" in payload), "census counts supersede the taps");
 });
 
 test("tightener copy re-submit: premium present, still aggregates-only", () => {

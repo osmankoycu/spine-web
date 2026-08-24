@@ -22,7 +22,7 @@ export function TileMap({ active }: { active: Record<string, number> }) {
             key={s.code}
             data-audit-tile={isActive ? "active" : undefined}
             title={isActive ? `${s.name}: ${active[s.code]}` : s.name}
-            className={`grid aspect-square place-items-center rounded-[4px] text-[8px] font-bold leading-none ${
+            className={`grid aspect-square place-items-center rounded-[5px] text-[9.5px] font-bold leading-none ${
               isActive ? "bg-orange text-white" : "bg-grey-pill/55 text-muted"
             }`}
             style={{ gridColumnStart: s.gridCol, gridRowStart: s.gridRow }}

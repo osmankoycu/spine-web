@@ -60,7 +60,9 @@ export function StartRouter() {
   const auditHref = variant ? `/audit?ref=${variant.ref}` : "/audit";
 
   return (
-    <main className="flex flex-1 flex-col bg-white text-ink">
+    // No background of its own: the shell paints #fbfbfb for this route, and a
+    // pure-white main here would band against the header above it.
+    <main className="flex flex-1 flex-col text-ink">
       {/* ── Hero video: frameless, melts into the page (see .start-video) ── */}
       <div className="flex flex-col items-center pt-2 sm:pt-6">
         {variant && (
@@ -91,7 +93,8 @@ export function StartRouter() {
       <div className="flex-1" />
 
       {/* ── Team-size bar, docked at the bottom ── */}
-      <div className="w-full px-6 pb-2">
+      {/* pb keeps the bar + link block clear of the footer below. */}
+      <div className="w-full px-6 pb-12">
         <div className="mx-auto w-full max-w-[880px] rounded-[20px] border border-hairline bg-white p-4 shadow-[0_18px_50px_-30px_rgba(20,20,18,0.3)] sm:p-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="shrink-0">
@@ -116,7 +119,7 @@ export function StartRouter() {
             </div>
           </div>
         </div>
-        <p className="mt-3 text-center text-[13px] text-body-2">
+        <p className="mt-7 text-center text-[13px] text-body-2">
           Already have a group health plan?{" "}
           <Link
             href={auditHref}

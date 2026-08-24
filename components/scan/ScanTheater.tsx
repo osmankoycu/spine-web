@@ -6,10 +6,7 @@ import { SCAN_LINES } from "@/lib/scan/scanRules";
 
 // The ~2s scan beat between the email gate and the report. Honest by design:
 // the findings compute locally and instantly; this paces the reveal and
-// narrates what the rules actually check. Bars pulse via CSS (frozen by the
-// global reduced-motion rule); line rotation is a timer.
-
-const BAR_WIDTHS = [76, 98, 120, 98, 76];
+// narrates what the rules actually check.
 
 export function ScanTheater({ onDone }: { onDone: () => void }) {
   const lineRef = useRef<HTMLParagraphElement>(null);
@@ -40,15 +37,10 @@ export function ScanTheater({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="py-10 text-center">
-      <div className="mx-auto mb-7 flex w-fit flex-col items-center gap-1.5">
-        {BAR_WIDTHS.map((w, i) => (
-          <div
-            key={i}
-            className="h-2 animate-pulse rounded-pill bg-orange"
-            style={{ width: `${w}px`, animationDelay: `${i * 120}ms` }}
-          />
-        ))}
-      </div>
+      {/* Plain ring spinner: the beat is short and the status line carries the
+          meaning, so the visual just needs to say "working". Frozen under the
+          global reduced-motion rule, which is the right resting state. */}
+      <span className="mx-auto mb-6 block size-9 animate-spin rounded-full border-[3px] border-grey-pill border-t-orange" />
       <p className="text-[19px] font-extrabold tracking-[-0.01em] text-ink">
         Building your spine
       </p>

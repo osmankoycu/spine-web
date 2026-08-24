@@ -9,6 +9,7 @@ import { overpaymentBucket, track } from "@/lib/audit/track";
 import { parsePremium } from "./CompanyBasics";
 import type { AuditVariant } from "@/lib/audit/ycVariant";
 import { SlackCta } from "@/components/funnel/SlackCta";
+import { SlackPreview } from "@/components/funnel/SlackPreview";
 import { ArchetypeCards } from "./ArchetypeCards";
 import { SpendGauge } from "./SpendGauge";
 import { IconCheckCircle, IconZap } from "./icons";
@@ -269,6 +270,43 @@ export function ResultsPanel({
           }}
           onSlackCta={onSlackCta}
           onCallCta={onBookCta}
+          preview={
+            <SlackPreview
+              channel="spine"
+              message={
+                result.wellPriced ? (
+                  <>
+                    Hey, I have your audit. You look{" "}
+                    <b className="font-extrabold">well-priced</b> against the market
+                    band for a team your size. I&apos;m verifying it against live
+                    carrier rates and I&apos;ll tell you either way.
+                  </>
+                ) : (
+                  <>
+                    Hey, I have your audit. You&apos;re running{" "}
+                    <b className="font-extrabold">
+                      {usd(result.annualOverpaymentLow)} to{" "}
+                      {usd(result.annualOverpaymentHigh)} a year
+                    </b>{" "}
+                    above the market band. I&apos;m pulling real quotes to pin the
+                    exact number.
+                  </>
+                )
+              }
+              itemsTitle="What I'm starting on"
+              items={[
+                {
+                  label: `Verify your ${usd(result.currentPEPM)} per employee against filed rates`,
+                  tag: CONFIDENCE_CHIPS[result.confidence].label,
+                },
+                {
+                  label: `Quote the ${result.archetypes[0]?.label ?? "best-fit"} mix with three carriers`,
+                  tag: "This week",
+                },
+                { label: "Your census, parsed and ready", tag: "Done", done: true },
+              ]}
+            />
+          }
           extra={
             <button
               type="button"

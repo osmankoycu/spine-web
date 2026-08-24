@@ -12,6 +12,7 @@ import {
 } from "@/lib/scan/scanRules";
 import { IconArrowRight } from "@/components/audit/icons";
 import { SlackCta } from "@/components/funnel/SlackCta";
+import { SlackPreview } from "@/components/funnel/SlackPreview";
 import { ScanIcon } from "./icons";
 
 // The exposure report: severity pills, the findings timeline, and the shared
@@ -38,6 +39,10 @@ export function ScanReport({
 }) {
   const counts = severityCounts(findings);
   const clean = counts.red === 0 && counts.amber === 0;
+  // What the bot would open with: the first red, else the first finding that
+  // actually needs doing.
+  const top =
+    findings.find((f) => f.sev === "red") ?? findings.find((f) => f.sev === "amber");
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -130,6 +135,31 @@ export function ScanReport({
           handoffBody={handoffBody}
           onSlackCta={onSlackCta}
           onCallCta={onCallCta}
+          preview={
+            <SlackPreview
+              channel="spine"
+              message={
+                top ? (
+                  <>
+                    Hey, I have your scan. Top item is{" "}
+                    <b className="font-extrabold">{top.title}</b>. I&apos;ve drafted
+                    what&apos;s needed and I&apos;m starting there. No action from you.
+                  </>
+                ) : (
+                  <>
+                    Hey, I have your scan. Nothing urgent in your setup, so I&apos;m
+                    keeping the background items current and watching your deadlines.
+                  </>
+                )
+              }
+              itemsTitle={`Picked up from your scan · ${findings.length} items`}
+              items={findings.slice(0, 3).map((f) => ({
+                label: f.title,
+                tag: f.sev === "green" ? "Handled" : f.tag,
+                done: f.sev === "green",
+              }))}
+            />
+          }
         />
       </div>
     </div>

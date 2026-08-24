@@ -23,6 +23,7 @@ export function SlackCta({
   onSlackCta,
   onCallCta,
   extra,
+  preview,
 }: {
   headline: string;
   body: string;
@@ -31,6 +32,7 @@ export function SlackCta({
   onSlackCta: () => void;
   onCallCta: () => void;
   extra?: ReactNode; // tertiary row (e.g. the audit's "Email me this result")
+  preview?: ReactNode; // SlackPreview: what the specialist opens with
 }) {
   const [token, setToken] = useState<string | null>(null);
 
@@ -79,6 +81,7 @@ export function SlackCta({
       </p>
       <p className="mt-2 max-w-[560px] text-[13.5px] leading-[1.55] text-white/60">{body}</p>
       {note && <p className="mt-2 text-[13.5px] font-semibold text-orange">{note}</p>}
+      {preview && <div className="mt-5 max-w-[560px]">{preview}</div>}
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
         {slackHref ? (
           <>

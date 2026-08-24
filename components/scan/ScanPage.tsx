@@ -10,6 +10,7 @@ import { variantFromRef } from "@/lib/audit/ycVariant";
 import { headcountForBucket, isTeamSize } from "@/lib/funnel/teamSize";
 import { buildScanLeadPayload } from "@/lib/scan/scanLead";
 import { IconArrowRight } from "@/components/audit/icons";
+import { FunnelHeader } from "@/components/funnel/FunnelHeader";
 import {
   runScan,
   severityCounts,
@@ -142,16 +143,45 @@ export function ScanPage() {
     return { ok: true };
   };
 
-  const answeredCount = Object.keys(answers).length;
   const dotsTotal = SCAN_QUESTIONS.length + 1; // six questions + the email step
-  const dotsDone = answeredCount + (stage.kind === "scanning" || stage.kind === "report" ? 1 : 0);
+  // The step you are ON counts as reached, so the first dot is lit the moment
+  // the page opens. The email step is the last one, hence all of them.
+  const dotsDone = stage.kind === "question" ? stage.index + 1 : dotsTotal;
   const showDots = stage.kind === "question" || stage.kind === "email";
 
+  // The stepper rides in the header's centre slot, so it stays in one fixed
+  // place instead of moving with the card.
+  const stepper = showDots ? (
+    <div className="flex w-full items-center gap-1.5 sm:w-[280px]">
+      {Array.from({ length: dotsTotal }, (_, i) => (
+        <span key={i} className="contents">
+          <span
+            className={`size-2.5 shrink-0 rounded-pill ${
+              i < dotsDone ? "bg-orange" : "bg-grey-pill"
+            }`}
+          />
+          {i < dotsTotal - 1 && (
+            // One behind the dots: the connector only fills once the step
+            // after it is reached, so the trail never runs ahead of you.
+            <span
+              className={`h-0.5 flex-1 rounded-pill ${
+                i < dotsDone - 1 ? "bg-orange-150" : "bg-grey-pill"
+              }`}
+            />
+          )}
+        </span>
+      ))}
+    </div>
+  ) : null;
+
   return (
-    <main className="text-ink">
-      <div className="mx-auto w-full max-w-[720px] px-6 pb-16 pt-6 sm:pt-10">
+    <>
+      <FunnelHeader center={stepper} />
+      <main className="text-ink">
+        {/* Same 1080px column the audit uses, so the two tools share a rhythm. */}
+        <div className="mx-auto w-full max-w-[1080px] px-6 pb-16 pt-2 sm:pt-6 md:px-10">
         {stage.kind === "question" && (
-          <div className="mb-8">
+          <div className="mb-8 text-center">
             {variant ? (
               <div className="mb-3 inline-flex items-center rounded-pill border border-orange-150 bg-orange-100 px-4 py-1.5 text-[12px] font-extrabold text-orange-ink">
                 {variant.eyebrow}
@@ -166,32 +196,11 @@ export function ScanPage() {
               <br />
               <span className="text-orange">Handled by a teammate, not a tool.</span>
             </h1>
-            <p className="mt-3 max-w-[520px] text-[14.5px] leading-[1.55] text-body-2">
+            <p className="mx-auto mt-3 max-w-[520px] text-[14.5px] leading-[1.55] text-body-2">
               Answer six questions. We scan your setup for what&apos;s missing,
               then a licensed specialist starts clearing it today. Free,
               carriers pay us, not you.
             </p>
-          </div>
-        )}
-
-        {showDots && (
-          <div className="mb-6 flex items-center gap-1.5">
-            {Array.from({ length: dotsTotal }, (_, i) => (
-              <span key={i} className="contents">
-                <span
-                  className={`size-2.5 shrink-0 rounded-pill ${
-                    i < dotsDone ? "bg-orange" : "bg-grey-pill"
-                  }`}
-                />
-                {i < dotsTotal - 1 && (
-                  <span
-                    className={`h-0.5 flex-1 rounded-pill ${
-                      i < dotsDone ? "bg-orange-150" : "bg-grey-pill"
-                    }`}
-                  />
-                )}
-              </span>
-            ))}
           </div>
         )}
 
@@ -258,8 +267,9 @@ export function ScanPage() {
               onCallCta={() => track("scan_call_cta_clicked", ev())}
             />
           )}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SpineLogo } from "@/components/SpineLogo";
+import { FunnelHeader } from "@/components/funnel/FunnelHeader";
 
 // Standalone shell for the funnel surface (/audit, /scan, the router entry):
 // no site header, no nav, no site footer. Just the wordmark (home = the
@@ -23,6 +23,10 @@ const HEADER_LABELS: Record<string, { title: string; note: string }> = {
   },
 };
 
+// Routes that render FunnelHeader themselves, because they feed its centre
+// slot from page state.
+const PAGE_OWNS_HEADER = new Set(["/scan"]);
+
 export default function FunnelLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -33,23 +37,9 @@ export default function FunnelLayout({
     <div
       className={`flex min-h-screen flex-col ${videoPage ? "bg-[#fbfbfb]" : "bg-surface-page"}`}
     >
-      {/* Phones stack it centred (logo over label); from sm up the label sits
-          opposite the wordmark. */}
-      <header className="flex flex-col items-center gap-3 px-6 py-5 text-center sm:flex-row sm:items-start sm:justify-between sm:gap-5 sm:px-10 sm:text-left">
-        <Link href="/" aria-label="Spine home" className="inline-block shrink-0">
-          <SpineLogo className="!h-[26px]" />
-        </Link>
-        {label && (
-          <div className="max-w-[320px] sm:max-w-none sm:text-right">
-            <p className="text-[13px] font-extrabold leading-snug tracking-[-0.01em] text-ink sm:text-[15px]">
-              {label.title}
-            </p>
-            <p className="mt-0.5 text-[11.5px] leading-snug text-muted sm:text-[12.5px]">
-              {label.note}
-            </p>
-          </div>
-        )}
-      </header>
+      {/* /scan renders its own header: the stepper sits in the centre slot and
+          that state lives in the page. */}
+      {!PAGE_OWNS_HEADER.has(pathname ?? "") && <FunnelHeader label={label} />}
       <div className="flex flex-1 flex-col">{children}</div>
       <footer className="flex items-center justify-center gap-4 px-6 py-2 text-[12.5px] text-muted">
         <span>© {new Date().getFullYear()} Spine</span>

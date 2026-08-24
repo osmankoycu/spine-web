@@ -4,7 +4,7 @@
 // report, never manufactured alarm).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runScan, severityCounts, type ScanAnswers } from "./scanRules.ts";
+import { runScan, severityCounts, SCAN_STATES, type ScanAnswers } from "./scanRules.ts";
 
 const ids = (a: ScanAnswers) => runScan(a).map((f) => f.id);
 
@@ -112,6 +112,29 @@ test("honest minimum: a clean setup yields only the baseline green", () => {
   });
   assert.deepEqual(findings.map((f) => f.id), ["baseline-paperwork"]);
   assert.deepEqual(severityCounts(findings), { red: 0, amber: 0, green: 1 });
+});
+
+test("every US state is selectable, common ones first", () => {
+  assert.equal(SCAN_STATES.length, 52); // 50 states + DC + the catch-all
+  assert.deepEqual(SCAN_STATES.slice(0, 8), ["CA", "NY", "TX", "WA", "CO", "FL", "IL", "MA"]);
+  assert.equal(SCAN_STATES.at(-1), "Other / remote");
+  for (const code of ["AK", "HI", "DC", "WY", "VT"]) {
+    assert.ok(SCAN_STATES.includes(code), code);
+  }
+});
+
+test('"Other / remote" alone never gets named as a place', () => {
+  const savings = runScan({ states: ["Other / remote"], health: "Nothing yet" }).find(
+    (f) => f.id === "overpaying-coverage",
+  );
+  assert.ok(savings);
+  assert.match(savings.detail, /available in your state/);
+  // A real state alongside the catch-all still wins the wording.
+  const mixed = runScan({ states: ["Other / remote", "TX"], health: "Nothing yet" }).find(
+    (f) => f.id === "overpaying-coverage",
+  );
+  assert.ok(mixed);
+  assert.match(mixed.detail, /available in TX/);
 });
 
 test("entity answers are mutually exclusive rules", () => {

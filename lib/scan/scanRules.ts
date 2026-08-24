@@ -4,10 +4,22 @@
 // structure (ids, types) is ours. Pure data + pure function, no UI imports —
 // unit-tested in scanRules.test.ts and re-run server-side by the lead route so
 // emailed findings can't be spoofed by a tampered payload.
+import { US_STATES } from "../audit/usStates.ts";
 
-export const SCAN_STATES = [
-  "CA", "NY", "TX", "WA", "CO", "FL", "IL", "MA", "Other / remote",
-] as const;
+// The mock shipped eight hand-picked states plus a catch-all. Those eight stay
+// as the fast path (they cover most early-stage teams), but every state is
+// selectable now: the full list comes from the same source the audit's tile
+// map uses, so the two funnels can never disagree on state codes.
+export const SCAN_COMMON_STATES = ["CA", "NY", "TX", "WA", "CO", "FL", "IL", "MA"];
+export const SCAN_REMOTE_OPTION = "Other / remote";
+
+const ALL_STATE_CODES = US_STATES.map((s) => s.code).sort();
+
+export const SCAN_STATES: string[] = [
+  ...SCAN_COMMON_STATES,
+  ...ALL_STATE_CODES.filter((c) => !SCAN_COMMON_STATES.includes(c)),
+  SCAN_REMOTE_OPTION,
+];
 
 export type ScanQuestion = {
   id: "states" | "team" | "payroll" | "health" | "hire" | "entity";
@@ -16,6 +28,9 @@ export type ScanQuestion = {
   q: string;
   hint: string;
   options: readonly string[];
+  // When set, these options render as the fast path and the rest sit behind a
+  // "show all" expander, so a 50-option question stays tap-friendly.
+  common?: readonly string[];
 };
 
 export const SCAN_QUESTIONS: ScanQuestion[] = [
@@ -26,6 +41,7 @@ export const SCAN_QUESTIONS: ScanQuestion[] = [
     q: "Where does your team work?",
     hint: "Tap all that apply. This drives what you're required to register for.",
     options: SCAN_STATES,
+    common: [...SCAN_COMMON_STATES, SCAN_REMOTE_OPTION],
   },
   {
     id: "team",
@@ -215,7 +231,10 @@ export function runScan(a: ScanAnswers): ScanFinding[] {
       a.health ?? "",
     )
   ) {
-    const st = inCA ? "California" : states[0] || "your state";
+    // "Other / remote" is a catch-all, not a place: naming it would read as
+    // "available in Other / remote". Fall back to the generic wording instead.
+    const named = states.filter((s) => s !== SCAN_REMOTE_OPTION);
+    const st = inCA ? "California" : named[0] || "your state";
     f.push({
       id: "overpaying-coverage",
       sev: "amber",

@@ -12,7 +12,7 @@ export const nav: NavItem[] = [
 
 // kind: "route" today; later could become "modal" | "external" with no Header change.
 export const actions = {
-  login: { label: "Log in", href: "/login", kind: "route" as const },
+  login: { label: "Log in", href: "https://hr.joinspine.ai/", kind: "external" as const },
   demo: { label: "Request a demo", href: "/request-a-demo", kind: "route" as const },
 };
 

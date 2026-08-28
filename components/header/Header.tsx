@@ -193,12 +193,12 @@ export function Header() {
           </nav>
 
           <div className="relative z-10 flex items-center gap-2 sm:gap-2.5">
-            <Link
+            <a
               href={actions.login.href}
               className="hidden cursor-pointer rounded-pill px-3.5 py-2 text-[15px] font-semibold text-[#3b424b] transition-[color,box-shadow] duration-200 hover:text-ink hover:ring-1 hover:ring-inset hover:ring-black/15 lg:block"
             >
               {actions.login.label}
-            </Link>
+            </a>
             <button
               type="button"
               onClick={openModal}
@@ -271,13 +271,13 @@ export function Header() {
               ),
             )}
           </nav>
-          <Link
+          <a
             href={actions.login.href}
             onClick={() => setMobileOpen(false)}
             className="mt-8 block rounded-pill border border-black/15 py-4 text-center text-[16px] font-semibold text-ink"
           >
             {actions.login.label}
-          </Link>
+          </a>
         </div>
       </div>
     </header>

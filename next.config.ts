@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
       // YC campaign short link (Bookface). Temporary on purpose: campaign URLs
       // stay repointable. Lands on the router, which sorts by team size.
       { source: "/yc", destination: "/start?ref=yc", permanent: false },
+      // Login lives in the HR app, not on the marketing site. Any old /login
+      // link (bookmarks, emails, indexed pages) lands there instead.
+      { source: "/login", destination: "https://hr.joinspine.ai/", permanent: false },
     ];
   },
   async rewrites() {

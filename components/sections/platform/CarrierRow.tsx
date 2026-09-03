@@ -1,7 +1,7 @@
 import { carrierLogos } from "./carrierLogos";
 
 // One-line proof closing the employer half of the Benefits pillar: the claim as
-// a sentence with the four carrier wordmarks standing in for their names.
+// a sentence with the carrier wordmarks standing in for their names.
 //
 // It's a flex row rather than inline <img>s in a <p> because the UnitedHealthcare
 // mark is a two-line lockup — in normal text flow it would drag the baseline

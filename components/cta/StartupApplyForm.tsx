@@ -63,7 +63,7 @@ export function StartupApplyForm() {
 
   if (step === "booked") {
     return (
-      <div className="flex flex-col items-center rounded-[28px] border border-hairline bg-white p-8 text-center shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-10">
+      <div className="flex flex-col items-center rounded-[28px] border border-hairline bg-white p-8 text-center sm:p-10">
         <CheckCircle size={56} weight="fill" className="text-orange" />
         <h2 className="font-display mt-5 text-[28px] font-extrabold tracking-[-0.02em] text-ink">
           You&apos;re booked
@@ -80,12 +80,9 @@ export function StartupApplyForm() {
   // width (mirrors EstimateForm).
   if (step === "booking") {
     return (
-      <div className="rounded-[28px] border border-hairline bg-white p-3 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-4 lg:-mx-6">
+      <div className="rounded-[28px] border border-hairline bg-white p-3 sm:p-4 lg:-mx-6">
         <div className="px-2 pb-2 pt-2 text-center">
-          <div className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
-            Startup program
-          </div>
-          <h2 className="mt-1.5 text-[21px] font-extrabold tracking-[-0.02em] text-ink">
+          <h2 className="text-[21px] font-extrabold tracking-[-0.02em] text-ink">
             Pick a time
           </h2>
           <p className="mt-1 text-[13.5px] leading-snug text-grey-text">
@@ -109,12 +106,9 @@ export function StartupApplyForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative rounded-[28px] border border-hairline bg-white p-6 shadow-[0_30px_80px_-40px_rgba(20,20,18,0.35)] sm:p-8"
+      className="relative rounded-[28px] border border-hairline bg-white p-6 sm:p-8"
     >
-      <div className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
-        Startup program
-      </div>
-      <h2 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-ink">
+      <h2 className="text-[24px] font-extrabold tracking-[-0.02em] text-ink">
         Apply in 2 minutes
       </h2>
       <p className="mt-2 text-[14.5px] leading-[1.5] text-body-2">

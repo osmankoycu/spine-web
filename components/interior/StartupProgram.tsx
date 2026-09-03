@@ -6,21 +6,24 @@ import { CarrierRow } from "@/components/sections/platform/CarrierRow";
 import { StartupApplyForm } from "@/components/cta/StartupApplyForm";
 import { Faq } from "@/components/interior/Faq";
 import { InteriorIcon } from "@/components/interior/icons";
-import { StartupCloser } from "@/components/interior/StartupCloser";
-import { Button, CheckRow, Eyebrow } from "@/components/interior/parts";
+import { Button } from "@/components/interior/parts";
 
 // "/startups" — the startup program campaign page (attio.com/startups shape,
 // Spine content). Standalone campaign URL: linked from the footer's Resources
 // column only, meant to be hit from ads/links/YC channels. Copy is pulled from
 // the audience pages (lib/interior/audiences.ts startups/founders), FreeHero and
 // the PEO exit guide so it reads as one system with the rest of the site. The
-// global TagDrop closer is suppressed for this route (lib/interior/closers.ts);
-// the page ends with its own closer anchored to the application form.
+// global TagDrop closer is suppressed for this route (lib/interior/closers.ts):
+// the page ends on the application form, which carries the closing copy itself.
 
+// The four terms that matter to this audience. Labels are kept short enough to
+// hold one line in a quarter-width cell — a wrapped label puts the figures on a
+// ragged baseline and the band stops scanning as a row. Whatever appears here is
+// then cut from the offer list below rather than said twice (see OFFER).
 const STATS = [
   { figure: "7–10d", label: "From signed BOR to live" },
-  { figure: "$0", label: "Cost to your company. Always." },
-  { figure: "25%", label: "Average reduction in healthcare costs" },
+  { figure: "$0", label: "Cost to your company" },
+  { figure: "25%", label: "Average healthcare savings" },
   { figure: "2+", label: "Minimum team size" },
 ];
 
@@ -28,15 +31,15 @@ const STATS = [
 const OFFER = [
   "Free cost audit, savings modeled in 48 hours",
   "Your own carrier plans, on your own EIN",
-  "Live in 7–10 days from the signed BOR letter",
+  "ACA, ERISA, COBRA and Form 5500, monitored and filed",
   "A dedicated senior benefits consultant",
   "The Heal app for every employee: plan picker, digital cards, 24/7 concierge",
   "Multi-state registration, withholding, and filings handled",
 ];
 
 const ELIGIBILITY = [
-  { title: "2+ W-2 employees", sub: "On your own entity. That's the whole bar." },
-  { title: "US companies, pre-seed through Series A", sub: "Later stage? Same product, same price: free." },
+  { title: "Any US company", sub: "Two or more W-2 employees, on your own entity." },
+  { title: "Pre-seed through Series A", sub: "Past that? Still a fit, same program." },
   { title: "With or without existing coverage", sub: "Got plans? We audit them. If not, we build from scratch." },
 ];
 
@@ -181,90 +184,69 @@ export function StartupProgram() {
       <section className={`${container} pb-16 pt-4`}>
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[24px] border border-white/10 bg-white/10 lg:grid-cols-4">
           {STATS.map((s) => (
-            <div key={s.label} className="flex flex-col justify-between bg-[#15140f] px-7 py-8 lg:px-8">
+            <div key={s.label} className="bg-[#15140f] px-7 py-8 lg:px-8">
               <div className="text-[40px] font-extrabold tracking-[-0.03em] text-white sm:text-[46px]">
                 {s.figure}
               </div>
-              <p className="mt-3 text-[13.5px] leading-snug text-white/55">{s.label}</p>
+              <p className="mt-2.5 text-[13.5px] leading-snug text-white/55 lg:whitespace-nowrap">
+                {s.label}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── THE OFFER + ELIGIBILITY ── */}
+      {/* One card, not a column of slabs. The pricing line moved up to be the
+          section's sub (it reads as the headline's caveat, not as a list item),
+          and eligibility moved in as the card's foot. */}
       <section className={`${container} pb-16`}>
-        <div className="mx-auto max-w-[680px] text-center">
-          <Eyebrow>What you get</Eyebrow>
-          <h2 className={`mt-4 ${sectionHeading}`}>
+        <div className="mx-auto max-w-[700px] text-center">
+          <h2 className={sectionHeading}>
             Everything a benefits team does. Priced at zero.
           </h2>
+          <p className="mx-auto mt-4 max-w-[560px] text-[17px] leading-[1.55] text-body-2">
+            No setup fees. No admin fees. No per-employee charges. We get paid by
+            carriers, just like every broker.
+          </p>
         </div>
-        <div className="mt-11 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="flex flex-col rounded-[24px] border border-hairline bg-white p-5 sm:p-7 lg:p-8">
-            <ul className="space-y-4">
-              {OFFER.map((s) => (
-                <li key={s} className="flex items-start gap-3">
-                  <span className="mt-px flex size-[20px] shrink-0 items-center justify-center rounded-full bg-orange/10 text-orange">
-                    <Check size={12} weight="bold" />
-                  </span>
-                  <span className="text-[15px] leading-[1.5] text-[#2e2d28]">{s}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-auto border-t border-hairline pt-5 text-[14px] leading-[1.55] text-body-2 max-lg:mt-6">
-              No setup fees. No admin fees. No per-employee charges. We get paid
-              by carriers, just like every broker.
-            </p>
-          </div>
-          <div className="rounded-[24px] border border-orange/25 bg-orange/[0.04] p-5 sm:p-7 lg:p-8">
-            <h3 className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-orange-700">
-              Who it&apos;s for
-            </h3>
-            <ul className="mt-5 space-y-5">
-              {ELIGIBILITY.map((e) => (
-                <li key={e.title} className="flex items-start gap-3">
-                  <CheckCircle size={20} weight="bold" className="mt-px shrink-0 text-orange" />
-                  <div>
-                    <div className="text-[15px] font-extrabold text-ink">{e.title}</div>
-                    <div className="mt-0.5 text-[13.5px] leading-[1.5] text-body-2">{e.sub}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
 
-      {/* ── YC FAST-TRACK BAND ── */}
-      <section className={`${container} pb-16`}>
-        <div className="flex flex-col items-start gap-6 rounded-[28px] border border-white/10 bg-[#15140f] px-7 py-8 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-[52px] lg:py-10">
-          <div>
-            <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange">
-              Built by a YC F26 company, for YC companies
-            </p>
-            <h2 className="mt-3 text-[24px] font-extrabold leading-[1.1] tracking-[-0.02em] text-white sm:text-[28px]">
-              In the current batch? Skip the form.
-            </h2>
-            <p className="mt-2 max-w-[520px] text-[14.5px] leading-[1.55] text-white/55">
-              Book straight onto a founder call. One call, your exact number, no
-              sales loop.
-            </p>
+        {/* Eligibility lives in the same box as the offer, footed off by a
+            full-bleed rule and a half-step of tint: it's the terms of the thing
+            listed above it, not a peer block. overflow-hidden so the tinted
+            foot takes the card's bottom radius. */}
+        <div className="mt-11 overflow-hidden rounded-[24px] border border-hairline bg-white">
+          <ul className="grid gap-x-10 gap-y-5 p-6 sm:grid-cols-2 sm:p-8 lg:px-10 lg:py-9">
+            {OFFER.map((s) => (
+              <li key={s} className="flex items-start gap-3">
+                <span className="mt-px flex size-[20px] shrink-0 items-center justify-center rounded-full bg-orange/10 text-orange">
+                  <Check size={12} weight="bold" />
+                </span>
+                <span className="text-[15px] leading-[1.5] text-[#2e2d28]">{s}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="grid gap-6 border-t border-hairline bg-[#fbfbfa] p-6 sm:grid-cols-3 sm:gap-8 sm:p-8 lg:px-10 lg:py-7">
+            {ELIGIBILITY.map((e) => (
+              <div key={e.title} className="flex items-start gap-2.5">
+                <CheckCircle size={16} weight="bold" className="mt-[3px] shrink-0 text-orange" />
+                <div>
+                  <div className="text-[14px] font-extrabold leading-snug text-ink">
+                    {e.title}
+                  </div>
+                  <div className="mt-1 text-[13px] leading-[1.45] text-body-2">{e.sub}</div>
+                </div>
+              </div>
+            ))}
           </div>
-          <Link
-            href="/yc"
-            className="flex w-full shrink-0 cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[15px] font-bold text-white transition-colors hover:bg-orange-600 sm:inline-flex sm:w-auto"
-          >
-            Take the YC fast track
-            <ArrowRight size={15} weight="bold" />
-          </Link>
         </div>
       </section>
 
       {/* ── FEATURE CARDS ── */}
       <section className={`${container} pb-16`}>
         <div className="mx-auto max-w-[680px] text-center">
-          <Eyebrow>Built for your stage</Eyebrow>
-          <h2 className={`mt-4 ${sectionHeading}`}>Startup-ready, enterprise-grade.</h2>
+          <h2 className={sectionHeading}>Startup-ready, enterprise-grade.</h2>
         </div>
         <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((c) => (
@@ -283,10 +265,7 @@ export function StartupProgram() {
       <section className={`${container} pb-16`}>
         <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#15140f] px-7 pb-9 pt-10 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] sm:px-10 lg:px-[60px] lg:pb-[52px] lg:pt-[56px]">
           <div className="mb-10 text-center">
-            <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-orange">
-              Your first 10 days
-            </p>
-            <h2 className="mt-4 text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[40px]">
+            <h2 className="text-[32px] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[40px]">
               Startup → Spine, in a week.
             </h2>
             <p className="mx-auto mt-3 max-w-[520px] text-[15px] leading-[1.55] text-white/55">
@@ -325,9 +304,13 @@ export function StartupProgram() {
             Spine felt like having a benefits team before we could afford
             one.&rdquo;
           </blockquote>
+          {/* Unlike the personas on the audience pages, this names a real
+              customer — so the stage-and-headcount parenthetical is gone (an
+              unverified claim about them) and the person still needs to be a
+              real, quotable one before this ships. */}
           <figcaption className="mt-5 text-[14.5px] text-body-2">
             <span className="font-bold text-ink">Dana Reyes</span> · Co-founder
-            &amp; COO · Northwind (Seed, 14 people)
+            &amp; COO · HockeyStack
           </figcaption>
         </figure>
         <CarrierRow />
@@ -337,8 +320,7 @@ export function StartupProgram() {
       <section className={`${container} pb-20`}>
         <div className="mx-auto max-w-[720px]">
           <div className="text-center">
-            <Eyebrow>Common questions</Eyebrow>
-            <h2 className={`mt-4 ${sectionHeading}`}>The startup program, answered.</h2>
+            <h2 className={sectionHeading}>The startup program, answered.</h2>
           </div>
           <div className="mt-10">
             <Faq items={FAQ_ITEMS} />
@@ -346,31 +328,44 @@ export function StartupProgram() {
         </div>
       </section>
 
-      {/* ── APPLY ── */}
-      {/* scroll-mt clears the fixed header when the hero CTA anchors down. */}
-      <section id="apply" className={`${container} scroll-mt-[120px] pb-20`}>
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+      {/* ── APPLY (also the closer) ── */}
+      {/* The page's one conversion point. It used to be this section plus a
+          tag-field closer underneath, whose button only scrolled back up here —
+          two asks stacked, the last one pointing backwards. The closer's copy
+          now heads the form instead, and the page ends on the form itself.
+          scroll-mt clears the fixed header when the hero CTA anchors down. */}
+      {/* White band, like the hero: it lifts the conversion zone off the
+          surface-page grey the rest of the page runs on and bookends the page. */}
+      <section id="apply" className="scroll-mt-[120px] bg-white">
+        <div className={`${container} grid gap-10 pb-24 pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:pb-32 lg:pt-24`}>
           <div className="text-center lg:text-left">
-            <Eyebrow>Apply</Eyebrow>
-            <h2 className={`mt-4 ${sectionHeading}`}>
-              Two minutes now.
+            <h2 className={sectionHeading}>
+              <span className="text-ink">Real benefits,</span>
               <br />
-              Benefits in ten days.
+              <span className="text-orange">from your first hire.</span>
             </h2>
-            <p className="mx-auto mt-3 max-w-[440px] text-[17px] leading-[1.55] text-body-2 lg:mx-0">
-              Tell us who you are and pick a slot. A specialist brings your free
-              cost audit to the call, savings modeled in 48 hours.
+            <p className="mx-auto mt-4 max-w-[440px] text-[17px] leading-[1.55] text-body-2 lg:mx-0">
+              No PEO. No admin fees. No co-employment. Pick a slot and a
+              specialist brings your free cost audit to the call, savings
+              modeled in 48 hours.
             </p>
-            <div className="mt-7 flex justify-center lg:justify-start">
-              <CheckRow items={["Free for your company", "No commitment", "48-hour cost audit"]} />
-            </div>
+            {/* The YC route used to be a full dark band of its own, which gave a
+                minority of visitors more weight than the form. It's a line now,
+                next to the thing it lets you skip. */}
+            <p className="mt-7 text-[14px] leading-[1.55] text-body-2">
+              Built by a YC F26 company. In the current batch?{" "}
+              <Link
+                href="/yc"
+                className="inline-flex items-center gap-1 font-semibold text-orange-700 underline underline-offset-2 hover:text-orange"
+              >
+                Skip the form and book a founder call
+                <ArrowRight size={13} weight="bold" />
+              </Link>
+            </p>
           </div>
           <StartupApplyForm />
         </div>
       </section>
-
-      {/* ── CLOSER ── */}
-      <StartupCloser />
     </main>
   );
 }

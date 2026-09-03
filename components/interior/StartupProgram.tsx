@@ -128,20 +128,20 @@ export function StartupProgram() {
   return (
     <main className="bg-surface-page text-ink">
       {/* ── HERO (white, centred) ── */}
-      <section className="relative overflow-hidden bg-white">
-        {/* Reserved backdrop slot for the future 3D-character scene. All hero
-            sizing lives on the content column below (min-h + padding), so a
-            wide image or video can drop in here with zero layout shift: give
-            it absolute inset-0 + object-cover, borrow the .start-video feather
-            mask if it ships as a video, and add a radial white wash above it
-            so the centred copy stays legible. Today it's clean white. */}
-        <div aria-hidden="true" className="absolute inset-0" />
-
-        <div className="relative mx-auto flex min-h-[540px] w-full max-w-[880px] flex-col items-center px-6 pb-20 pt-[150px] text-center lg:min-h-[600px] lg:pt-[170px]">
-          <div className="inline-flex items-center rounded-pill border border-orange-150 bg-orange-100 px-4 py-1.5 text-[12px] font-extrabold text-orange-ink">
-            The startup program
-          </div>
-          <h1 className="mt-6 text-[38px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[52px] lg:text-[64px]">
+      <section className="bg-white">
+        <div className="mx-auto flex w-full max-w-[880px] flex-col items-center px-6 pb-20 pt-[130px] text-center lg:pt-[150px]">
+          {/* The scene opens the hero, in place of an eyebrow. Pure white
+              ground, same as the section, so it needs no frame or cut-out — it
+              just sits on the page above the headline. The crop is tight, so
+              the gap to the headline is a real margin here rather than the
+              image's own padding. */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- static local render, nothing to optimise */}
+          <img
+            src="/startups/hero.webp"
+            alt=""
+            className="mb-6 block w-full max-w-[560px] sm:mb-8"
+          />
+          <h1 className="text-[38px] font-extrabold leading-[0.99] tracking-[-0.035em] sm:text-[52px] lg:text-[64px]">
             <span className="text-ink">From first hire to Series A.</span>
             <br />
             <span className="text-orange">No PEO needed.</span>
@@ -153,11 +153,6 @@ export function StartupProgram() {
           <div className="mt-[30px] flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-center">
             <Button cta={{ label: "Apply in 2 minutes", href: "#apply" }} arrow />
             <Button cta={{ label: "YC company? Fast track", href: "/yc" }} variant="secondary" />
-          </div>
-          <div className="mt-[26px] flex justify-center">
-            <CheckRow
-              items={["Free for your company", "2+ employees to start", "Live in 7–10 days"]}
-            />
           </div>
         </div>
       </section>

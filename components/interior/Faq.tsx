@@ -10,11 +10,25 @@ import { cn } from "@/lib/cn";
 // globals.css flattens the animation with no extra code here. Single-open:
 // opening a row closes the previous one. Answers are ReactNode so an item can
 // embed a link (the YC row points at /yc).
-export function Faq({ items }: { items: { q: string; a: React.ReactNode }[] }) {
+// `plain` drops the card chrome for use on a white band, where a white card
+// with a hairline border has nothing to sit against; the rows keep their
+// dividers and carry the structure on their own.
+export function Faq({
+  items,
+  plain,
+}: {
+  items: { q: string; a: React.ReactNode }[];
+  plain?: boolean;
+}) {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="divide-y divide-hairline overflow-hidden rounded-[24px] border border-hairline bg-white">
+    <div
+      className={cn(
+        "divide-y divide-hairline",
+        !plain && "overflow-hidden rounded-[24px] border border-hairline bg-white",
+      )}
+    >
       {items.map((f, i) => {
         const isOpen = open === i;
         return (
@@ -23,7 +37,10 @@ export function Faq({ items }: { items: { q: string; a: React.ReactNode }[] }) {
               type="button"
               aria-expanded={isOpen}
               onClick={() => setOpen(isOpen ? null : i)}
-              className="flex w-full cursor-pointer items-center justify-between gap-4 px-7 py-6 text-left"
+              className={cn(
+                "flex w-full cursor-pointer items-center justify-between gap-4 py-6 text-left",
+                !plain && "px-7",
+              )}
             >
               <span className="text-[16.5px] font-extrabold tracking-[-0.01em] text-ink">
                 {f.q}
@@ -44,7 +61,9 @@ export function Faq({ items }: { items: { q: string; a: React.ReactNode }[] }) {
               )}
             >
               <div className="overflow-hidden">
-                <p className="px-7 pb-6 text-[14.5px] leading-[1.55] text-body-2">{f.a}</p>
+                <p className={cn("pb-6 text-[14.5px] leading-[1.55] text-body-2", !plain && "px-7")}>
+                  {f.a}
+                </p>
               </div>
             </div>
           </div>

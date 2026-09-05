@@ -316,28 +316,17 @@ export function StartupProgram() {
         <CarrierRow />
       </section>
 
-      {/* ── FAQ ── */}
-      <section className={`${container} pb-20`}>
-        <div className="mx-auto max-w-[720px]">
-          <div className="text-center">
-            <h2 className={sectionHeading}>The startup program, answered.</h2>
-          </div>
-          <div className="mt-10">
-            <Faq items={FAQ_ITEMS} />
-          </div>
-        </div>
-      </section>
-
       {/* ── APPLY (also the closer) ── */}
       {/* The page's one conversion point. It used to be this section plus a
           tag-field closer underneath, whose button only scrolled back up here —
           two asks stacked, the last one pointing backwards. The closer's copy
-          now heads the form instead, and the page ends on the form itself.
+          heads the form instead. White, lifting the conversion zone off the page
+          grey that runs under every section above it, and continuous with the
+          FAQ below — the two are one white close to the page, told apart by the
+          full-bleed rule between them rather than by a change of colour.
           scroll-mt clears the fixed header when the hero CTA anchors down. */}
-      {/* White band, like the hero: it lifts the conversion zone off the
-          surface-page grey the rest of the page runs on and bookends the page. */}
       <section id="apply" className="scroll-mt-[120px] bg-white">
-        <div className={`${container} grid gap-10 pb-24 pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:pb-32 lg:pt-24`}>
+        <div className={`${container} grid gap-10 pb-24 pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:pb-28 lg:pt-24`}>
           <div className="text-center lg:text-left">
             <h2 className={sectionHeading}>
               <span className="text-ink">Real benefits,</span>
@@ -366,6 +355,26 @@ export function StartupProgram() {
           <StartupApplyForm />
         </div>
       </section>
+
+      {/* ── FAQ ── */}
+      {/* Last, after the form: the questions are for whoever didn't fill it in,
+          so they answer objections instead of delaying the ask. Shares the form's
+          white, so the rule at its top edge is what separates them; the
+          accordion drops its card for the same reason — a white card on a white
+          band has nothing to sit against — and runs as bare rows. */}
+      <section className="border-t border-hairline bg-white">
+        <div className={`${container} pb-24 pt-20`}>
+          <div className="mx-auto max-w-[720px]">
+            <div className="text-center">
+              <h2 className={sectionHeading}>The startup program, answered.</h2>
+            </div>
+            <div className="mt-10">
+              <Faq items={FAQ_ITEMS} plain />
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }

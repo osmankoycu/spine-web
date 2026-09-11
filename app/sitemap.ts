@@ -11,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     "",
     "/blog",
+    "/startups",
     ...compareSlugs.map((s) => `/compare/${s}`),
   ].map((path) => ({
     url: `${SITE}${path}`,

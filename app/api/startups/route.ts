@@ -1,11 +1,11 @@
 import { Resend } from "resend";
 
-// Lead-capture endpoint for the "See how much you'd save" modal. Emails the lead
-// to the Spine inbox(es) via Resend. Runs server-side only, so the API key never
-// reaches the client. Configure with env vars (see .env.example):
-//   RESEND_API_KEY  — required, from resend.com
-//   ESTIMATE_FROM   — verified sender, e.g. "Spine <noreply@tryheal.ai>"
-//   ESTIMATE_TO     — comma-separated recipients (defaults to the two below)
+// Lead-capture endpoint for the /startups application form. Emails the
+// application to the Spine inbox(es) via Resend — a structural clone of
+// /api/estimate (same env vars, same inbox; the subject line disambiguates the
+// source; if routing ever needs to diverge, add STARTUPS_TO with an ESTIMATE_TO
+// fallback). No rate limiting, same accepted gap as /api/estimate; the honeypot
+// below is the only spam gate.
 
 const TO = (process.env.ESTIMATE_TO ?? "Tech@tryheal.ai,onur@tryheal.ai")
   .split(",")
@@ -18,6 +18,13 @@ const clean = (v: unknown, max = 200) =>
   typeof v === "string" ? v.trim().slice(0, max) : "";
 const esc = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+
+const TEAM_SIZE_LABELS: Record<string, string> = {
+  "1-4": "1 to 4",
+  "5-10": "5 to 10",
+  "11-25": "11 to 25",
+  "26-plus": "26 or more",
+};
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -36,30 +43,29 @@ export async function POST(request: Request) {
   }
 
   const data = (body ?? {}) as Record<string, unknown>;
+
+  // Honeypot: the "website" field is invisible to humans. If it's filled,
+  // report success without sending — no signal back to the bot.
+  if (clean(data.website, 200)) {
+    return Response.json({ ok: true });
+  }
+
   const email = clean(data.email);
   const firstName = clean(data.firstName, 80);
   const lastName = clean(data.lastName, 80);
   const company = clean(data.company, 120);
-  // `companyWebsite`, not `website`: /api/startups uses a field called
-  // `website` as its honeypot, and a route that treats a real answer there as
-  // bot traffic is one copy-paste away. Left as free text — people type
-  // "acme.com", and a lead is not worth rejecting over a missing scheme.
-  const companyWebsite = clean(data.companyWebsite, 200);
-  // The booking flow sends intent:"meeting" — the visitor was handed the
-  // Calendly scheduler right after this, so a lead with no Calendly invite
-  // behind it means they dropped out at the calendar.
+  const teamSize = TEAM_SIZE_LABELS[clean(data.teamSize, 20)] ?? "(not provided)";
+  const note = clean(data.note, 1000);
   const booking = clean(data.intent, 20) === "meeting";
   const intentLine = booking
     ? "Sent to the Calendly scheduler (30-min call)"
-    : "Estimate request";
+    : "Application only";
 
   if (!EMAIL_RE.test(email)) {
     return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
   }
 
   const name = [firstName, lastName].filter(Boolean).join(" ") || "(not provided)";
-  const companyLine = company || "(not provided)";
-  const websiteLine = companyWebsite || "(not provided)";
   const resend = new Resend(apiKey);
 
   try {
@@ -67,14 +73,15 @@ export async function POST(request: Request) {
       from: FROM,
       to: TO,
       replyTo: email,
-      subject: `${booking ? "New booking lead" : "New savings estimate request"}: ${email}`,
-      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nNext step: ${intentLine}\n`,
-      html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
+      subject: `New startup program application: ${email}`,
+      text: `New /startups application\n\nName: ${name}\nWork email: ${email}\nCompany: ${company || "(not provided)"}\nTeam size: ${teamSize}\nNote: ${note || "(none)"}\nNext step: ${intentLine}\n`,
+      html: `<h2 style="font-family:sans-serif">New startup program application</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
   <tr><td style="padding:4px 12px 4px 0;color:#777">Name</td><td>${esc(name)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Work email</td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
-  <tr><td style="padding:4px 12px 4px 0;color:#777">Company</td><td>${esc(companyLine)}</td></tr>
-  <tr><td style="padding:4px 12px 4px 0;color:#777">Website</td><td>${esc(websiteLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Company</td><td>${esc(company || "(not provided)")}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Team size</td><td>${esc(teamSize)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Note</td><td>${esc(note || "(none)")}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Next step</td><td>${esc(intentLine)}</td></tr>
 </table>`,
     });
@@ -85,7 +92,7 @@ export async function POST(request: Request) {
     }
     return Response.json({ ok: true });
   } catch (err) {
-    console.error("Estimate send failed:", err);
+    console.error("Startup application send failed:", err);
     return Response.json({ error: "Something went wrong." }, { status: 500 });
   }
 }

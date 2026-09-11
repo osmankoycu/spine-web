@@ -36,6 +36,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Blog", href: "/blog" },
       { label: "Free cost audit", href: "/request-a-demo" },
       { label: "PEO exit guide", href: "/resources/peo-exit-guide" },
+      { label: "Startup program", href: "/startups" },
       { label: "Benefits benchmarks", href: "/resources/benefits-benchmarks" },
     ],
   },

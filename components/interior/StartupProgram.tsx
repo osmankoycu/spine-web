@@ -75,6 +75,27 @@ const TIMELINE = [
   { icon: "Check", day: "Day 10", title: "Compliance & payroll integrated", sub: "ACA, multi-state, filings, on autopilot." },
 ];
 
+// Every route from this page into the YC fast track, behind one switch: the
+// hero's second CTA, the line beside the form, and the FAQ row. Held back until
+// that flow is ready to take this page's traffic — flip to true to restore all
+// three, nothing else needs touching. Typed boolean on purpose so the branches
+// stay live code rather than narrowing to dead `false`.
+const SHOW_YC: boolean = false;
+
+const YC_FAQ_ITEM = {
+  q: "We're a YC company.",
+  a: (
+    <>
+      Take the{" "}
+      <Link href="/yc" className="font-semibold text-orange-700 underline underline-offset-2">
+        YC fast track
+      </Link>
+      {" "}— built by a YC F26 company, for YC companies. One call, your exact
+      number, no sales loop.
+    </>
+  ),
+};
+
 const FAQ_ITEMS = [
   {
     q: "Who's eligible for the startup program?",
@@ -104,19 +125,7 @@ const FAQ_ITEMS = [
     q: "How fast are we live?",
     a: "7 to 10 days from the signed BOR letter to live benefits, with compliance and payroll integrated by day 10.",
   },
-  {
-    q: "We're a YC company.",
-    a: (
-      <>
-        Take the{" "}
-        <Link href="/yc" className="font-semibold text-orange-700 underline underline-offset-2">
-          YC fast track
-        </Link>
-        {" "}— built by a YC F26 company, for YC companies. One call, your exact
-        number, no sales loop.
-      </>
-    ),
-  },
+  ...(SHOW_YC ? [YC_FAQ_ITEM] : []),
 ];
 
 // Optical size tuning for the logo strip — same treatment as StatsBand.
@@ -155,7 +164,9 @@ export function StartupProgram() {
           </p>
           <div className="mt-[30px] flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-center">
             <Button cta={{ label: "Apply in 2 minutes", href: "#apply" }} arrow />
-            <Button cta={{ label: "YC company? Fast track", href: "/yc" }} variant="secondary" />
+            {SHOW_YC && (
+              <Button cta={{ label: "YC company? Fast track", href: "/yc" }} variant="secondary" />
+            )}
           </div>
         </div>
       </section>
@@ -341,16 +352,18 @@ export function StartupProgram() {
             {/* The YC route used to be a full dark band of its own, which gave a
                 minority of visitors more weight than the form. It's a line now,
                 next to the thing it lets you skip. */}
-            <p className="mt-7 text-[14px] leading-[1.55] text-body-2">
-              Built by a YC F26 company. In the current batch?{" "}
-              <Link
-                href="/yc"
-                className="inline-flex items-center gap-1 font-semibold text-orange-700 underline underline-offset-2 hover:text-orange"
-              >
-                Skip the form and book a founder call
-                <ArrowRight size={13} weight="bold" />
-              </Link>
-            </p>
+            {SHOW_YC && (
+              <p className="mt-7 text-[14px] leading-[1.55] text-body-2">
+                Built by a YC F26 company. In the current batch?{" "}
+                <Link
+                  href="/yc"
+                  className="inline-flex items-center gap-1 font-semibold text-orange-700 underline underline-offset-2 hover:text-orange"
+                >
+                  Skip the form and book a founder call
+                  <ArrowRight size={13} weight="bold" />
+                </Link>
+              </p>
+            )}
           </div>
           <StartupApplyForm />
         </div>

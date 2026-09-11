@@ -39,6 +39,12 @@ export async function POST(request: Request) {
   const email = clean(data.email);
   const firstName = clean(data.firstName, 80);
   const lastName = clean(data.lastName, 80);
+  const company = clean(data.company, 120);
+  // `companyWebsite`, not `website`: /api/startups uses a field called
+  // `website` as its honeypot, and a route that treats a real answer there as
+  // bot traffic is one copy-paste away. Left as free text — people type
+  // "acme.com", and a lead is not worth rejecting over a missing scheme.
+  const companyWebsite = clean(data.companyWebsite, 200);
   // The booking flow sends intent:"meeting" — the visitor was handed the
   // Calendly scheduler right after this, so a lead with no Calendly invite
   // behind it means they dropped out at the calendar.
@@ -52,6 +58,8 @@ export async function POST(request: Request) {
   }
 
   const name = [firstName, lastName].filter(Boolean).join(" ") || "(not provided)";
+  const companyLine = company || "(not provided)";
+  const websiteLine = companyWebsite || "(not provided)";
   const resend = new Resend(apiKey);
 
   try {
@@ -60,11 +68,13 @@ export async function POST(request: Request) {
       to: TO,
       replyTo: email,
       subject: `${booking ? "New booking lead" : "New savings estimate request"}: ${email}`,
-      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nNext step: ${intentLine}\n`,
+      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nNext step: ${intentLine}\n`,
       html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
   <tr><td style="padding:4px 12px 4px 0;color:#777">Name</td><td>${esc(name)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Work email</td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Company</td><td>${esc(companyLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Website</td><td>${esc(websiteLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Next step</td><td>${esc(intentLine)}</td></tr>
 </table>`,
     });

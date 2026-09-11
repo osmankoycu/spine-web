@@ -19,6 +19,9 @@ import { CalendlyEmbed } from "./CalendlyEmbed";
 // The lead still goes out by email on step one, so an abandoned booking is not a
 // lost lead.
 
+const inputCls =
+  "w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15";
+
 type Ctx = { open: () => void };
 const DemoModalCtx = createContext<Ctx | null>(null);
 
@@ -45,6 +48,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [company, setCompany] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -70,6 +75,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       setEmail("");
       setFirstName("");
       setLastName("");
+      setCompany("");
+      setCompanyWebsite("");
       setError(null);
       setSending(false);
     }, 220);
@@ -105,7 +112,14 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, firstName, lastName, intent: "meeting" }),
+        body: JSON.stringify({
+          email,
+          firstName,
+          lastName,
+          company,
+          companyWebsite,
+          intent: "meeting",
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       // A 400 is about what they typed — worth showing. Anything else is our
@@ -239,7 +253,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Work email"
                 autoComplete="email"
-                className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
+                className={inputCls}
               />
               <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
@@ -253,7 +267,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder="First name"
                     autoComplete="given-name"
-                    className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
+                    className={inputCls}
                   />
                 </div>
                 <div>
@@ -267,7 +281,40 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                     onChange={(e) => setLastName(e.target.value)}
                     placeholder="Last name"
                     autoComplete="family-name"
-                    className="w-full rounded-2xl border border-black/15 bg-white px-5 py-4 text-[16px] text-ink outline-none transition-colors placeholder:text-grey-text/70 focus:border-orange focus:ring-4 focus:ring-orange/15"
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="demo-company" className="sr-only">
+                    Company name
+                  </label>
+                  <input
+                    id="demo-company"
+                    type="text"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    placeholder="Company name"
+                    autoComplete="organization"
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="demo-website" className="sr-only">
+                    Company website
+                  </label>
+                  {/* type="text", not "url": the browser rejects anything
+                      without a scheme, and people type "acme.com". */}
+                  <input
+                    id="demo-website"
+                    type="text"
+                    inputMode="url"
+                    value={companyWebsite}
+                    onChange={(e) => setCompanyWebsite(e.target.value)}
+                    placeholder="Company website"
+                    autoComplete="url"
+                    className={inputCls}
                   />
                 </div>
               </div>

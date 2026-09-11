@@ -12,7 +12,14 @@ export function getLenis(): Lenis | null {
   if (typeof window === "undefined") return null;
   if (prefersReducedMotion()) return null; // native scrolling only
   if (!instance) {
-    instance = new Lenis({ duration: 1.1, smoothWheel: true });
+    // `anchors` is what makes same-page hash links work at all: Lenis drives the
+    // scroll position every frame, so a native hash jump is overwritten before
+    // it lands and the link silently does nothing. Lenis subtracts the target's
+    // scroll-margin-top, so `scroll-mt-*` on the target keeps it clear of the
+    // fixed header on both paths (under reduced motion there is no Lenis and
+    // the browser applies the same margin). `href="#"` has an empty hash and is
+    // left alone, and the "#demo" CTAs render as <button>, not anchors.
+    instance = new Lenis({ duration: 1.1, smoothWheel: true, anchors: true });
     instance.on("scroll", ScrollTrigger.update);
     tickerFn = (time: number) => instance?.raf(time * 1000);
     gsap.ticker.add(tickerFn);

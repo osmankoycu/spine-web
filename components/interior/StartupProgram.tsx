@@ -315,13 +315,13 @@ export function StartupProgram() {
             Spine felt like having a benefits team before we could afford
             one.&rdquo;
           </blockquote>
-          {/* Unlike the personas on the audience pages, this names a real
-              customer — so the stage-and-headcount parenthetical is gone (an
-              unverified claim about them) and the person still needs to be a
-              real, quotable one before this ships. */}
+          {/* Attributed to the role, not a person: unlike the invented personas
+              on the audience pages this is a real customer, so the company
+              carries the quote and no individual is put behind words they
+              didn't write. The company name takes the bold slot the person's
+              name used to hold. */}
           <figcaption className="mt-5 text-[14.5px] text-body-2">
-            <span className="font-bold text-ink">Dana Reyes</span> · Co-founder
-            &amp; COO · HockeyStack
+            <span className="font-bold text-ink">HockeyStack</span> · CFO
           </figcaption>
         </figure>
         <CarrierRow />

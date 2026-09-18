@@ -227,10 +227,10 @@ export const partnerPages: Record<string, PartnerPage> = {
   "fractional-hr": {
     slug: "fractional-hr",
     breadcrumb: [{ label: "Partners", href: "/partners" }, { label: "Fractional HR community", current: true }],
-    eyebrow: "Fractional HR",
+    eyebrow: "FRACTIONAL CFO & FRACTIONAL HR",
     h1: { pre: "The Spine", accent: "HR Community." },
     lead: "Our flagship partner network, 50+ vetted fractional HR practitioners building modern people functions. Spine handles benefits and compliance; you handle people strategy. Both grow together.",
-    primary: become,
+    primary: { label: "Become a partner", href: "https://app.tryheal.ai/member-directory" },
     secondary: refer,
     checks: ["50+ vetted partners", "Hand-picked by Spine", "Mutual referrals"],
     stats: [

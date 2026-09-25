@@ -8,29 +8,20 @@ export const rotatingWords = ["Benefits", "Compliance", "People ops"] as const;
 // Subtitle is segmented so key terms can carry a HEAVIER weight (em) — same text,
 // just emphasised — while the rest stays at the body weight. Rendered in
 // HeadlineMorph.
-export type SubPart = { t: string; em?: boolean };
+export type SubPart = { t: string; em?: boolean; accent?: boolean };
 
 export const copy = {
   rest: {
-    line1: "Let us worry about", // headline line 1
-    line2Prefix: "your", // line 2, before the rotating word
+    headline: {
+      intro: "We handle your",
+      firstService: "benefits,",
+      remainingServices: "payroll & compliance.",
+    },
     subtitle: [
-      { t: "Spine", em: true },
-      { t: " is the modern alternative to " },
-      { t: "brokers", em: true },
-      { t: " and " },
-      { t: "PEOs", em: true },
-      { t: ". One team runs your " },
-      { t: "healthcare", em: true },
-      { t: ", " },
-      { t: "payroll", em: true },
-      { t: ", and " },
-      { t: "compliance", em: true },
-      { t: ", backed by AI. " },
-      { t: "Spine", em: true },
-      { t: " is " },
-      { t: "free", em: true },
-      { t: " for your company. Always." },
+      { t: "Spine is ", em: true },
+      { t: "free", em: true, accent: true },
+      { t: " for your company" },
+      { t: " because we’re paid as your benefits broker. You get a dedicated team, backed by AI, that handles the work across the systems you already use." },
     ] as SubPart[],
   },
   cta: "See how much you'd save →",

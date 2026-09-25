@@ -58,7 +58,7 @@ export class HeroRestController {
     // Line 2's collider is the FIXED-WIDTH [data-h-obstacle] (widest word), not
     // the live (shrinking/growing) text — so word swaps never re-push the field.
     this.flow.setObstacles(
-      [measures[0] ?? null, this.obstacle2, this.subtitle, this.cta],
+      [measures[0] ?? null, this.obstacle2 ?? this.measure1, this.subtitle, this.cta],
       [{ padY: 8 }, { padY: 8 }, { padY: 12 }, { padY: 5 }],
     );
     window.addEventListener("resize", this.onResize);
@@ -142,9 +142,10 @@ export class HeroRestController {
     // field parts exactly ONCE (during the grow ramp) and never again.
     this.revealBeat(tl, this.lines[0], 0, 0.05, "back.out(1.7)", { scale: 0.7 });
     this.revealBeat(tl, this.lines[1], 1, 0.11, "back.out(1.7)", { scale: 0.7 });
-    this.revealBeat(tl, this.subtitle, 2, 0.165, "back.out(1.5)", { scale: 0.8 });
+    const subtitleIndex = this.measure1 ? 2 : 1;
+    this.revealBeat(tl, this.subtitle, subtitleIndex, 0.165, "back.out(1.5)", { scale: 0.8 });
     // CTA pill pops in place (a touch stronger overshoot than the copy).
-    this.revealBeat(tl, this.cta, 3, 0.215, "back.out(2)", { scale: 0.55 });
+    this.revealBeat(tl, this.cta, subtitleIndex + 1, 0.215, "back.out(2)", { scale: 0.55 });
   }
 
   // One reveal beat. The collider GROWS FIRST (at `at`) so the pills start
@@ -207,7 +208,7 @@ export class HeroRestController {
   private startRotation(): void {
     if (this.rotating || this.reduced || this.destroyed) return;
     this.rotating = true;
-    this.scheduleNext();
+    if (this.rword) this.scheduleNext();
     this.startTagDrift();
   }
 

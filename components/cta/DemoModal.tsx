@@ -255,6 +255,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
               <input
                 id="demo-email"
                 type="email"
+                autoFocus
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

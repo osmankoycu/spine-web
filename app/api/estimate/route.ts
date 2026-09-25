@@ -57,6 +57,12 @@ export async function POST(request: Request) {
     return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
   }
 
+  const referralSource = clean(data.referralSource, 80);
+  const referralDetails = clean(data.referralSourceDetails, 300);
+  const referralLine = referralSource === "Other" && referralDetails
+    ? `Other: ${referralDetails}`
+    : referralSource || "(not provided)";
+
   const name = [firstName, lastName].filter(Boolean).join(" ") || "(not provided)";
   const companyLine = company || "(not provided)";
   const websiteLine = companyWebsite || "(not provided)";
@@ -68,13 +74,14 @@ export async function POST(request: Request) {
       to: TO,
       replyTo: email,
       subject: `${booking ? "New booking lead" : "New savings estimate request"}: ${email}`,
-      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nNext step: ${intentLine}\n`,
+      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nWhere did you hear about us?: ${referralLine}\nNext step: ${intentLine}\n`,
       html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
   <tr><td style="padding:4px 12px 4px 0;color:#777">Name</td><td>${esc(name)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Work email</td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Company</td><td>${esc(companyLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Website</td><td>${esc(websiteLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Where did you hear about us?</td><td>${esc(referralLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Next step</td><td>${esc(intentLine)}</td></tr>
 </table>`,
     });

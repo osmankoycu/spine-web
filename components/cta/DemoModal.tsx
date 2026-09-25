@@ -10,6 +10,7 @@ import {
 } from "react";
 import { CheckCircle, X } from "@phosphor-icons/react";
 import { getLenis } from "@/lib/lenis";
+import { ReferralSourceField } from "./ReferralSourceField";
 import { CalendlyEmbed } from "./CalendlyEmbed";
 
 // Booking modal opened by the "See how much you'd save" CTA (and any other CTA
@@ -50,6 +51,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [lastName, setLastName] = useState("");
   const [company, setCompany] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
+  const [referralSource, setReferralSource] = useState("");
+  const [referralSourceDetails, setReferralSourceDetails] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +80,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       setLastName("");
       setCompany("");
       setCompanyWebsite("");
+      setReferralSource("");
+      setReferralSourceDetails("");
       setError(null);
       setSending(false);
     }, 220);
@@ -118,6 +123,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
           lastName,
           company,
           companyWebsite,
+          referralSource,
+          referralSourceDetails,
           intent: "meeting",
         }),
       });
@@ -318,6 +325,15 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                   />
                 </div>
               </div>
+
+              <ReferralSourceField
+                id="demo-referral-source"
+                value={referralSource}
+                details={referralSourceDetails}
+                onChange={setReferralSource}
+                onDetailsChange={setReferralSourceDetails}
+                inputClassName={inputCls}
+              />
 
               {error && (
                 <p role="alert" className="mt-4 text-center text-[13.5px] font-medium text-orange-600">

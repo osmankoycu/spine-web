@@ -2,6 +2,7 @@
 
 import { useCallback, useState, type FormEvent } from "react";
 import { CheckCircle } from "@phosphor-icons/react";
+import { ReferralSourceField } from "./ReferralSourceField";
 import { CalendlyEmbed } from "./CalendlyEmbed";
 
 // On-page version of the booking flow (same three steps as the DemoModal,
@@ -14,6 +15,8 @@ export function EstimateForm() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [referralSource, setReferralSource] = useState("");
+  const [referralSourceDetails, setReferralSourceDetails] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +31,7 @@ export function EstimateForm() {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, firstName, lastName, intent: "meeting" }),
+        body: JSON.stringify({ email, firstName, lastName, referralSource, referralSourceDetails, intent: "meeting" }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       // Only a 400 (bad details) is worth blocking on — see DemoModal.
@@ -156,6 +159,15 @@ export function EstimateForm() {
           </div>
         </div>
       </div>
+
+      <ReferralSourceField
+        id="estimate-referral-source"
+        value={referralSource}
+        details={referralSourceDetails}
+        onChange={setReferralSource}
+        onDetailsChange={setReferralSourceDetails}
+        inputClassName={inputCls}
+      />
 
       {error && (
         <p role="alert" className="mt-4 text-center text-[13.5px] font-medium text-orange-600">

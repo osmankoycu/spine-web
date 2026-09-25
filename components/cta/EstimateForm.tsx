@@ -13,6 +13,7 @@ import { CalendlyEmbed } from "./CalendlyEmbed";
 export function EstimateForm() {
   const [step, setStep] = useState<"form" | "booking" | "booked">("form");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [referralSource, setReferralSource] = useState("");
@@ -31,7 +32,7 @@ export function EstimateForm() {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, firstName, lastName, referralSource, referralSourceDetails, intent: "meeting" }),
+        body: JSON.stringify({ email, phone, firstName, lastName, referralSource, referralSourceDetails, intent: "meeting" }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       // Only a 400 (bad details) is worth blocking on — see DemoModal.
@@ -126,6 +127,21 @@ export function EstimateForm() {
           autoComplete="email"
           className={inputCls}
         />
+        <div>
+          <label htmlFor="estimate-phone" className="sr-only">
+            Phone number (optional)
+          </label>
+          <input
+            id="estimate-phone"
+            type="tel"
+            autoComplete="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Phone number (optional)"
+            maxLength={50}
+            className={inputCls}
+          />
+        </div>
         {/* Side by side, each name field had ~80px of typing room at 375px —
             "First name" alone measures 75px. Stack them below sm. */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

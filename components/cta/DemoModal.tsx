@@ -47,6 +47,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [shown, setShown] = useState(false);
   const [step, setStep] = useState<"form" | "booking" | "booked">("form");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [company, setCompany] = useState("");
@@ -76,6 +77,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       setRender(false);
       setStep("form");
       setEmail("");
+      setPhone("");
       setFirstName("");
       setLastName("");
       setCompany("");
@@ -119,6 +121,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
+          phone,
           firstName,
           lastName,
           company,
@@ -263,6 +266,21 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                 autoComplete="email"
                 className={inputCls}
               />
+              <div className="mt-3">
+                <label htmlFor="demo-phone" className="sr-only">
+                  Phone number (optional)
+                </label>
+                <input
+                  id="demo-phone"
+                  type="tel"
+                  autoComplete="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Phone number (optional)"
+                  maxLength={50}
+                  className={inputCls}
+                />
+              </div>
               <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label htmlFor="demo-first" className="sr-only">

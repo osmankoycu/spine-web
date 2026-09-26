@@ -2,6 +2,7 @@
 
 import { useCallback, useState, type FormEvent } from "react";
 import { CheckCircle } from "@phosphor-icons/react";
+import { CompanyDetailsFields } from "./CompanyDetailsFields";
 import { ReferralSourceField } from "./ReferralSourceField";
 import { CalendlyEmbed } from "./CalendlyEmbed";
 
@@ -16,6 +17,8 @@ export function EstimateForm() {
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [hqState, setHqState] = useState("");
+  const [numberOfEmployees, setNumberOfEmployees] = useState("");
   const [referralSource, setReferralSource] = useState("");
   const [referralSourceDetails, setReferralSourceDetails] = useState("");
   const [sending, setSending] = useState(false);
@@ -32,7 +35,7 @@ export function EstimateForm() {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, phone, firstName, lastName, referralSource, referralSourceDetails, intent: "meeting" }),
+        body: JSON.stringify({ email, phone, firstName, lastName, hqState, numberOfEmployees, referralSource, referralSourceDetails, intent: "meeting" }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       // Only a 400 (bad details) is worth blocking on — see DemoModal.
@@ -175,6 +178,15 @@ export function EstimateForm() {
           </div>
         </div>
       </div>
+
+      <CompanyDetailsFields
+        idPrefix="estimate"
+        hqState={hqState}
+        numberOfEmployees={numberOfEmployees}
+        onHqStateChange={setHqState}
+        onNumberOfEmployeesChange={setNumberOfEmployees}
+        inputClassName={inputCls}
+      />
 
       <ReferralSourceField
         id="estimate-referral-source"

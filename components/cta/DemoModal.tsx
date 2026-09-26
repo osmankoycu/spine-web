@@ -10,6 +10,7 @@ import {
 } from "react";
 import { CheckCircle, X } from "@phosphor-icons/react";
 import { getLenis } from "@/lib/lenis";
+import { CompanyDetailsFields } from "./CompanyDetailsFields";
 import { ReferralSourceField } from "./ReferralSourceField";
 import { CalendlyEmbed } from "./CalendlyEmbed";
 
@@ -52,6 +53,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [lastName, setLastName] = useState("");
   const [company, setCompany] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
+  const [hqState, setHqState] = useState("");
+  const [numberOfEmployees, setNumberOfEmployees] = useState("");
   const [referralSource, setReferralSource] = useState("");
   const [referralSourceDetails, setReferralSourceDetails] = useState("");
   const [sending, setSending] = useState(false);
@@ -82,6 +85,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       setLastName("");
       setCompany("");
       setCompanyWebsite("");
+      setHqState("");
+      setNumberOfEmployees("");
       setReferralSource("");
       setReferralSourceDetails("");
       setError(null);
@@ -126,6 +131,8 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
           lastName,
           company,
           companyWebsite,
+          hqState,
+          numberOfEmployees,
           referralSource,
           referralSourceDetails,
           intent: "meeting",
@@ -344,6 +351,15 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                   />
                 </div>
               </div>
+
+              <CompanyDetailsFields
+                idPrefix="demo"
+                hqState={hqState}
+                numberOfEmployees={numberOfEmployees}
+                onHqStateChange={setHqState}
+                onNumberOfEmployeesChange={setNumberOfEmployees}
+                inputClassName={inputCls}
+              />
 
               <ReferralSourceField
                 id="demo-referral-source"

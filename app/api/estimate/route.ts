@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { US_STATES } from "@/lib/audit/usStates";
 
 // Lead-capture endpoint for the "See how much you'd save" modal. Emails the lead
 // to the Spine inbox(es) via Resend. Runs server-side only, so the API key never
@@ -58,6 +59,25 @@ export async function POST(request: Request) {
     return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
   }
 
+  const hqState = clean(data.hqState, 2);
+  const state = US_STATES.find((state) => state.code === hqState);
+  if (data.hqState != null && data.hqState !== "" &&
+      (typeof data.hqState !== "string" || data.hqState.trim() !== hqState || !state)) {
+    return Response.json({ error: "Please select a valid HQ state." }, { status: 400 });
+  }
+  const numberOfEmployees = typeof data.numberOfEmployees === "string"
+    ? data.numberOfEmployees.trim()
+    : data.numberOfEmployees;
+  if (numberOfEmployees != null && numberOfEmployees !== "" &&
+      ((typeof numberOfEmployees !== "string" && typeof numberOfEmployees !== "number") ||
+       !/^\d+$/.test(String(numberOfEmployees)) ||
+       !Number.isSafeInteger(Number(numberOfEmployees)) || Number(numberOfEmployees) < 1)) {
+    return Response.json({ error: "Please enter a whole number of employees greater than zero." }, { status: 400 });
+  }
+  const hqStateLine = state ? `${state.name} (${state.code})` : "(not provided)";
+  const employeesLine = numberOfEmployees != null && numberOfEmployees !== ""
+    ? String(Number(numberOfEmployees)) : "(not provided)";
+
   const referralSource = clean(data.referralSource, 80);
   const referralDetails = clean(data.referralSourceDetails, 300);
   const referralLine = referralSource === "Other" && referralDetails
@@ -75,7 +95,7 @@ export async function POST(request: Request) {
       to: TO,
       replyTo: email,
       subject: `${booking ? "New booking lead" : "New savings estimate request"}: ${email}`,
-      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nPhone number: ${phone}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nWhere did you hear about us?: ${referralLine}\nNext step: ${intentLine}\n`,
+      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nPhone number: ${phone}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nHQ state: ${hqStateLine}\nNumber of Employees: ${employeesLine}\nWhere did you hear about us?: ${referralLine}\nNext step: ${intentLine}\n`,
       html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
   <tr><td style="padding:4px 12px 4px 0;color:#777">Name</td><td>${esc(name)}</td></tr>
@@ -83,6 +103,8 @@ export async function POST(request: Request) {
   <tr><td style="padding:4px 12px 4px 0;color:#777">Phone number</td><td>${esc(phone)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Company</td><td>${esc(companyLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Website</td><td>${esc(websiteLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">HQ state</td><td>${esc(hqStateLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Number of Employees</td><td>${esc(employeesLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Where did you hear about us?</td><td>${esc(referralLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Next step</td><td>${esc(intentLine)}</td></tr>
 </table>`,

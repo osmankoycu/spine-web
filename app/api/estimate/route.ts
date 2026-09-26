@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { US_STATES } from "@/lib/audit/usStates";
+import { DEMO_INTERESTS } from "@/lib/demoInterests";
 
 // Lead-capture endpoint for the "See how much you'd save" modal. Emails the lead
 // to the Spine inbox(es) via Resend. Runs server-side only, so the API key never
@@ -84,6 +85,16 @@ export async function POST(request: Request) {
     ? `Other: ${referralDetails}`
     : referralSource || "(not provided)";
 
+  if (data.interests != null &&
+      (!Array.isArray(data.interests) || data.interests.length > DEMO_INTERESTS.length ||
+       data.interests.some((interest) => !DEMO_INTERESTS.some((allowed) => allowed === interest)))) {
+    return Response.json({ error: "Please select valid services." }, { status: 400 });
+  }
+  const interestsLine = Array.isArray(data.interests) && data.interests.length
+    ? [...new Set(data.interests)].join(", ") : "(not provided)";
+  const sourceLine = data.source === "demo-page"
+    ? "Standalone demo page (/demo-preview)" : "Website demo form";
+
   const name = [firstName, lastName].filter(Boolean).join(" ") || "(not provided)";
   const companyLine = company || "(not provided)";
   const websiteLine = companyWebsite || "(not provided)";
@@ -95,7 +106,7 @@ export async function POST(request: Request) {
       to: TO,
       replyTo: email,
       subject: `${booking ? "New booking lead" : "New savings estimate request"}: ${email}`,
-      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nPhone number: ${phone}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nHQ state: ${hqStateLine}\nNumber of Employees: ${employeesLine}\nWhere did you hear about us?: ${referralLine}\nNext step: ${intentLine}\n`,
+      text: `New "See how much you'd save" submission\n\nName: ${name}\nWork email: ${email}\nPhone number: ${phone}\nCompany: ${companyLine}\nWebsite: ${websiteLine}\nHQ state: ${hqStateLine}\nNumber of Employees: ${employeesLine}\nInterested in: ${interestsLine}\nWhere did you hear about us?: ${referralLine}\nSource: ${sourceLine}\nNext step: ${intentLine}\n`,
       html: `<h2 style="font-family:sans-serif">New savings estimate request</h2>
 <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
   <tr><td style="padding:4px 12px 4px 0;color:#777">Name</td><td>${esc(name)}</td></tr>
@@ -105,7 +116,9 @@ export async function POST(request: Request) {
   <tr><td style="padding:4px 12px 4px 0;color:#777">Website</td><td>${esc(websiteLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">HQ state</td><td>${esc(hqStateLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Number of Employees</td><td>${esc(employeesLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Interested in</td><td>${esc(interestsLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Where did you hear about us?</td><td>${esc(referralLine)}</td></tr>
+  <tr><td style="padding:4px 12px 4px 0;color:#777">Source</td><td>${esc(sourceLine)}</td></tr>
   <tr><td style="padding:4px 12px 4px 0;color:#777">Next step</td><td>${esc(intentLine)}</td></tr>
 </table>`,
     });

@@ -10,8 +10,8 @@ import { headcountForBucket, TEAM_SIZE_BUCKETS, type TeamSizeId } from "@/lib/fu
 import { IconArrowRight } from "@/components/audit/icons";
 
 // The /start entry: the hero video carries the pitch (white-on-white, no
-// frame — it melts into the page, which the funnel shell paints pure white
-// for this route), and the one-tap team-size bar docked at the bottom sorts
+// frame — it melts into the #fbfbfb funnel shell), and the
+// one-tap team-size bar docked at the bottom sorts
 // visitors between the two funnels with the answer carried as a prefill.
 // Sizes ≤ 10 → the setup scan; bigger → the renewal audit. /audit and /scan
 // stay fully usable standalone — this is a router, not a gate.
@@ -20,6 +20,9 @@ export function StartRouter() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const variant = variantFromRef(searchParams.get("ref"));
+  const videoSrc = variant?.ref === "yc"
+    ? "/start/spine-yc-video.mp4"
+    : "/start/spine-general-video.mp4";
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const ev = (props: Record<string, string | number | boolean> = {}) => ({
@@ -44,7 +47,7 @@ export function StartRouter() {
     if (!v) return;
     if (prefersReducedMotion()) v.pause();
     else v.play().catch(() => {});
-  }, []);
+  }, [videoSrc]);
 
   const refQs = variant ? `ref=${variant.ref}&` : "";
 
@@ -78,7 +81,7 @@ export function StartRouter() {
         <div className="flex w-full justify-center overflow-x-clip">
           <video
             ref={videoRef}
-            src="/start/spine-yc-video.mp4"
+            src={videoSrc}
             autoPlay
             muted
             playsInline

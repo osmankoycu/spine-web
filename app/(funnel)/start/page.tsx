@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { StartRouter } from "@/components/funnel/StartRouter";
 
-// Funnel router entry — /yc lands here (307, ref preserved) and one tap
-// routes to /audit or /scan with prefills. Static; ref resolves client-side.
+// General funnel entry; ref=yc selects the YC video on this same page.
+// One tap routes to /audit or /scan with prefills.
 export const metadata: Metadata = {
   title: "Get started · Spine",
   description:

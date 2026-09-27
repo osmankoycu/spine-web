@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
       // Friendly alias for the 45-second setup scan.
       { source: "/setup", destination: "/scan", permanent: true },
       // YC campaign short link (Bookface). Temporary on purpose: campaign URLs
-      // stay repointable. Lands on the router, which sorts by team size.
+      // stay repointable. Lands on the YC video version of the router.
       { source: "/yc", destination: "/start?ref=yc", permanent: false },
       // Login lives in the HR app, not on the marketing site. Any old /login
       // link (bookmarks, emails, indexed pages) lands there instead.

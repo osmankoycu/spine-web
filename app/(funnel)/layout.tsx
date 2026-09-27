@@ -10,8 +10,8 @@ import { FunnelHeader } from "@/components/funnel/FunnelHeader";
 // Deliberately thin — Osman restyles this page himself later, so structure
 // over styling here.
 //
-// /start runs on #fbfbfb — sampled to match the hero video's own background
-// (its scenes render at 250-252, not pure white), so the video melts into the
+// /start runs on #fbfbfb, matching both hero videos' backgrounds
+// (their scenes render at 250-252, not pure white), so the video melts into the
 // page with no visible edge. The tool pages keep the warm surface.
 // What the visitor is looking at, shown opposite the wordmark. Keyed by route
 // so each funnel surface can name itself; the tool pages carry their own

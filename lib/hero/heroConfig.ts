@@ -13,15 +13,13 @@ export type SubPart = { t: string; em?: boolean; accent?: boolean };
 export const copy = {
   rest: {
     headline: {
-      intro: "We handle your",
-      firstService: "benefits,",
-      remainingServices: "payroll & compliance.",
+      intro: "Offload your",
+      services: "HR & benefits work",
     },
     subtitle: [
       { t: "Spine is ", em: true },
-      { t: "free", em: true, accent: true },
-      { t: " for your company" },
-      { t: " because we’re paid as your benefits broker. You get a dedicated team, backed by AI, that handles the work across the systems you already use." },
+      { t: "free", em: true },
+      { t: " and works on top of your existing HRIS:\nRippling, Deel, Gusto, ADP, and more." },
     ] as SubPart[],
   },
   cta: "See how much you'd save →",

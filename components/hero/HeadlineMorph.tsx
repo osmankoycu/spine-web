@@ -23,17 +23,16 @@ export function HeadlineMorph() {
               the parent canvas, staying proportional to the tags at every size. */}
           <h1
             data-headline
-            className="font-display text-[52px] font-extrabold leading-[1.04] tracking-[-0.03em] text-ink sm:text-[72px] sm:leading-[1.05]"
+            className="font-display text-[58px] font-extrabold leading-[1.04] tracking-[-0.03em] text-ink sm:text-[84px] sm:leading-[1.05]"
           >
             <span data-h-line className="block opacity-0">
               {/* Measure the complete headline as one wrapping text block. */}
               <span data-h-measure className="inline-block max-w-[1100px]">
                 <span className="block">
-                  {copy.rest.headline.intro}{" "}
-                  <span className="text-orange">{copy.rest.headline.firstService}</span>
+                  {copy.rest.headline.intro}
                 </span>{" "}
                 <span className="block text-orange">
-                  {copy.rest.headline.remainingServices}
+                  {copy.rest.headline.services}
                 </span>
               </span>
             </span>
@@ -41,7 +40,7 @@ export function HeadlineMorph() {
 
           <p
             data-subtitle
-            className="mt-[53px] max-w-[720px] text-[26px] leading-[1.5] text-grey-text opacity-0 md:text-[24px] md:leading-[1.5]"
+            className="mt-[53px] max-w-[760px] text-[28px] leading-[1.5] text-grey-text opacity-0 md:text-[26px] md:leading-[1.5]"
           >
             {copy.rest.subtitle.map((s, i) =>
               s.em ? (
@@ -49,7 +48,7 @@ export function HeadlineMorph() {
                   {s.t}
                 </strong>
               ) : (
-                <span key={i}>{s.t}</span>
+                <span key={i} className="whitespace-pre-line">{s.t}</span>
               ),
             )}
           </p>

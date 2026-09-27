@@ -157,14 +157,10 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
   return (
     <div
-      // Scrollable, top-aligned below sm. The card is ~640px tall at 375px —
-      // already taller than an iPhone SE — and once the keyboard opens the
-      // visual viewport halves, so with a centred non-scrolling overlay the
-      // submit button was simply unreachable.
-      // The overlay is the ONLY scroll container; the card centres via my-auto
-      // rather than items-center, which would clip the top of a card taller
-      // than the viewport (the booking step is ~740px) with no way to scroll to it.
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 py-6 sm:py-4"
+      // Keep native touch/wheel scrolling inside the dialog while Lenis is
+      // stopped for the background. my-auto keeps tall cards reachable at both ends.
+      data-lenis-prevent
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto overscroll-contain p-4 py-6 sm:py-4"
       role="dialog"
       aria-modal="true"
       aria-label="See how much you'd save"
@@ -172,7 +168,7 @@ function DemoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-black/55 backdrop-blur-[2px] transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/55 backdrop-blur-[2px] transition-opacity duration-300 ${
           shown ? "opacity-100" : "opacity-0"
         }`}
       />

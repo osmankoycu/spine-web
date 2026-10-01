@@ -80,7 +80,7 @@ function buildGrid(vDist: number, hDist: number): Cell[][] {
 }
 
 export function Hero() {
-  const { stageRef, completeIntro } = useHeroScene();
+  const { stageRef, completeIntro, refreshLayout } = useHeroScene();
   const areaRef = useRef<HTMLDivElement>(null);
   const fitRef = useRef<HTMLDivElement>(null);
   const [rows, setRows] = useState<Cell[][] | null>(null);
@@ -165,6 +165,7 @@ export function Hero() {
       // Already popped (a resize rebuilt the grid) or reduced motion: just show.
       if (popped.current || prefersReducedMotion()) {
         gsap.set(pills, { opacity: target, scale: 1 });
+        if (fired.current) refreshLayout();
         settle();
         return;
       }

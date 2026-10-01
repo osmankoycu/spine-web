@@ -130,7 +130,7 @@ const NAV: { label: string; icon: Icon; count: string }[] = [
 // the category's tab in the console's bottom tab bar.
 const NAV_ICON = Object.fromEntries(NAV.map((n) => [n.label, n.icon])) as Record<string, Icon>;
 
-export function Compliance() {
+export function Compliance({ refined = false }: { refined?: boolean }) {
   const [selected, setSelected] = useState(0);
   const cat = CATEGORIES[selected];
 
@@ -180,11 +180,11 @@ export function Compliance() {
   }, []);
 
   return (
-    <div ref={rootRef} className="px-3 py-7 sm:px-10 sm:py-14 lg:px-12 lg:py-14 short:py-7">
+    <div ref={rootRef} data-compliance-section className="px-3 py-7 sm:px-10 sm:py-14 lg:px-12 lg:py-14 short:py-7">
       {/* Header */}
-      <div className="mb-8 text-center lg:text-left short:mb-4">
+      <div data-compliance-heading className="mb-8 text-center lg:text-left short:mb-4">
         <span className="inline-flex items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
-          02 · Compliance
+          {refined ? "Compliance, handled" : "02 · Compliance"}
         </span>
         <h2 className="font-display mt-[22px] text-[34px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px] short:mt-3 short:text-[32px]">
           Every filing, every deadline. <span className="text-orange">Done.</span>
@@ -198,9 +198,9 @@ export function Compliance() {
           top, the coverage selector as a bottom tab bar, and a device-ish radius
           instead of traffic lights. */}
       <Reveal>
-        <div className="overflow-hidden rounded-[24px] border border-[#d6d6d1] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)] lg:rounded-[20px]">
+        <div data-product-window="compliance" className="overflow-hidden rounded-[24px] border border-[#d6d6d1] bg-white shadow-[0_30px_60px_-40px_rgba(20,20,18,0.28)] lg:rounded-[20px]">
           {/* Top bar / app bar */}
-          <div className="flex items-center gap-3 border-b border-[#d6d6d1] px-4 py-3 lg:gap-3.5 lg:px-5 lg:py-[11px]">
+          <div data-window-toolbar className="flex items-center gap-3 border-b border-[#d6d6d1] px-4 py-3 lg:gap-3.5 lg:px-5 lg:py-[11px]">
             <div className="hidden gap-[7px] lg:flex">
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
               <span className="h-[11px] w-[11px] rounded-full bg-[#dcdbd6]" />
@@ -223,7 +223,7 @@ export function Compliance() {
               automatic minimum size is its content — without this the strip wins
               and stretches the whole console past the card, which then clips it.
               (Same trap as the agent rail.) */}
-          <div className="grid lg:grid-cols-[200px_1fr_244px]">
+          <div data-compliance-body className="grid lg:grid-cols-[200px_1fr_244px]">
             {/* Sidebar */}
             <div className="flex min-w-0 flex-col gap-3 border-b border-[#d6d6d1] px-3 py-3 lg:gap-[3px] lg:border-b-0 lg:border-r lg:px-[14px] lg:py-[18px]">
               {/* A sidebar at lg; below it, the app's filter chips — scrolled
@@ -353,7 +353,7 @@ export function Compliance() {
 
       {/* Coverage selector — drives the console above. Desktop only: below lg
           the tab bar inside the console does this job. */}
-      <div className="mt-8 hidden gap-2 sm:grid-cols-3 lg:grid lg:grid-cols-3 short:mt-4">
+      <div data-compliance-selector className="mt-8 hidden gap-2 sm:grid-cols-3 lg:grid lg:grid-cols-3 short:mt-4">
         {CATEGORIES.map((c, i) => {
           const sel = i === selected;
           return (

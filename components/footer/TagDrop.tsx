@@ -20,7 +20,7 @@ export function TagDrop() {
 
   return (
     <TagField className="min-h-[560px] sm:h-[720px] lg:h-[800px]">
-      <div className="mx-auto flex max-w-[760px] flex-col items-center px-6 pb-0 pt-[72px] text-center sm:pt-[110px] lg:pt-[120px]">
+      <div data-site-closer className="mx-auto flex max-w-[760px] flex-col items-center px-6 pb-0 pt-[72px] text-center sm:pt-[110px] lg:pt-[120px]">
         <h2 className="font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[52px] lg:text-[64px]">
           Offload your <span className="text-orange">people stack</span> in 30 minutes.
         </h2>

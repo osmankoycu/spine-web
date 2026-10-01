@@ -37,6 +37,7 @@ export function AnnouncementBanner() {
 
   return (
     <div
+      data-site-announcement
       className="relative z-[60] overflow-hidden bg-[#101114] text-white transition-[height] duration-300 ease-out"
       style={{ height: visible ? BANNER_H : "0px" }}
     >

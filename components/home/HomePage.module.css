@@ -1,0 +1,182 @@
+.home { background: var(--home-paper); color: var(--home-plum); }
+.container { width: min(1280px, calc(100% - 112px)); margin-inline: auto; }
+.label { margin: 0 0 28px; font-size: 15px; font-weight: 500; letter-spacing: -.015em; color: var(--home-copy); }
+.title { margin: 0; font-size: clamp(42px, 4.4vw, 64px); font-weight: 500; line-height: 1.035; letter-spacing: -.055em; text-wrap: balance; }
+.lead { margin-top: 26px; max-width: 460px; color: var(--home-copy); font-size: 18px; line-height: 1.65; letter-spacing: -.014em; }
+.textLink { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 30px; padding-block: 9px; border-bottom: 1px solid #b8aab0; color: var(--home-plum); font-size: 15px; font-weight: 500; text-decoration: none; transition: color .2s, border-color .2s; }
+.textLink:hover { color: #ab3d23; border-color: var(--home-orange); }
+.textLink svg { transition: transform .2s; }
+.textLink:hover svg { transform: translateX(3px); }
+.proof { padding: 54px 0 0; background: var(--home-paper); }
+.proofLabel { font-size: 14px; text-align: center; color: var(--home-copy); }
+.logos { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 28px 34px; margin: 32px auto 50px; color: #64565e; }
+.logos > span { display: block; height: 24px; max-width: 126px; }
+.logos svg { width: auto; height: 100%; max-width: 126px; }
+.proofFacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); padding: 27px 0; }
+.proofFacts p { display: flex; align-items: center; gap: 18px; }
+.proofFacts p + p { border-left: 1px solid var(--home-line); padding-left: 30px; }
+.proofFacts strong { font-size: 30px; font-weight: 500; letter-spacing: -.06em; white-space: nowrap; }
+.proofFacts span { max-width: 195px; font-size: 13px; line-height: 1.5; color: var(--home-copy); }
+.employer { display: grid; grid-template-columns: minmax(0, .86fr) minmax(0, 1.25fr); gap: 70px 74px; padding-block: 132px 86px; }
+.employerCopy { padding-top: 10px; }
+.featureList { margin: 32px 0 0; }
+.featureList > div { border-top: 1px solid var(--home-line); padding: 17px 0; }
+.featureList dt { font-size: 15px; font-weight: 550; }
+.featureList dd { margin: 5px 0 0; color: var(--home-copy); font-size: 14px; line-height: 1.55; max-width: 355px; }
+.employerCopy .textLink { margin-top: 8px; }
+.planPresentation { min-width: 0; align-self: center; padding: 26px; background: var(--home-ice); border-radius: 5px; }
+.productCaption { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 22px; font-size: 13px; letter-spacing: -.01em; }
+.productCaption span:last-child { color: #685d67; font-size: 12px; }
+.demoCaption { margin-top: 21px; font-size: 12px; line-height: 1.5; color: #685d67; text-align: center; }
+.carriers { grid-column: 1/-1; border-top: 1px solid var(--home-line); padding-top: 38px; }
+.carriers > div { margin: 0; gap: 22px 30px; font-size: 12px; }
+.carriers :global([role="img"]) { color: var(--home-copy); max-width: 150px; }
+.carriers svg { max-width: 100%; }
+.employeeBand { padding: 110px 0; background: var(--home-sage-wash); }
+.complianceBand { padding: 100px 0 84px; background: var(--home-plum); }
+.people { padding-block: 125px 86px; }
+.sectionHead { display: grid; grid-template-columns: 1.25fr 1fr; align-items: end; gap: 85px; margin-bottom: 58px; }
+.sectionHead .lead { margin-top: 0; }
+.sectionHead .textLink { margin-top: 18px; }
+.peopleGrid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, .85fr); gap: 78px; align-items: center; }
+.slackPresentation { min-width: 0; padding: 22px; background: var(--home-warm-wash); border-radius: 5px; }
+.workflow { list-style: none; padding: 0; margin: 0; }
+.workflow li { display: grid; grid-template-columns: 28px 1fr; gap: 18px; padding: 27px 0; border-top: 1px solid var(--home-line); }
+.workflow li:last-child { border-bottom: 1px solid var(--home-line); }
+.stepNumber { font-size: 12px; color: #8e7d84; padding-top: 5px; }
+.workflow h3 { font-size: 21px; font-weight: 500; letter-spacing: -.035em; }
+.workflow p { margin-top: 7px; font-size: 14px; line-height: 1.5; color: var(--home-copy); }
+.stack { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 24px 40px; margin-top: 48px; color: var(--home-copy); }
+.stack > span:first-child { font-size: 13px; margin-right: 10px; }
+.stack > span[role="img"] { display: block; height: 24px; }
+.stack svg { height: 100%; width: 100%; }
+.priceBand { padding-block: 74px; background: var(--home-orange); }
+.priceGrid { display: grid; grid-template-columns: .9fr 1.2fr; gap: 100px; align-items: center; }
+.priceNumber { padding-block: 12px; }
+.priceNumber > span { display: block; font-size: clamp(150px, 19vw, 275px); line-height: .9; letter-spacing: -.075em; font-weight: 450; }
+.priceNumber p { font-size: 15px; margin-top: 30px; }
+.priceCopy .title { font-size: clamp(40px, 4vw, 57px); }
+.priceCopy .lead { color: var(--home-plum); font-size: 18px; }
+.priceTerms { margin-top: 25px; padding-top: 22px; border-top: 1px solid #38222c40; font-size: 14px; line-height: 1.7; }
+.community { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 130px; padding-block: 135px; }
+.community .lead { max-width: 380px; }
+.expertiseIntro { display: flex; align-items: center; gap: 25px; padding-bottom: 25px; border-bottom: 1px solid var(--home-line); }
+.expertiseIntro strong { font-size: 66px; font-weight: 450; letter-spacing: -.065em; line-height: 1; }
+.expertiseIntro span { font-size: 15px; line-height: 1.5; color: var(--home-copy); }
+.expertise ul { list-style: none; padding: 0; margin: 0; }
+.expertise li { padding: 14px 0; border-bottom: 1px solid var(--home-line); font-size: 18px; letter-spacing: -.02em; }
+.expertise > p { margin-top: 22px; font-size: 13px; color: var(--home-copy); }
+.comparisonBand { background: #f2f1ec; padding-block: 100px; }
+.comparisonBand .sectionHead { grid-template-columns: 1.4fr .8fr; gap: 85px; }
+.comparisonBand .title { font-size: clamp(38px, 4.1vw, 60px); }
+.comparison { border-collapse: collapse; width: 100%; table-layout: fixed; text-align: left; }
+.comparison th, .comparison td { vertical-align: top; padding: 25px 26px; border-bottom: 1px solid var(--home-line); font-size: 14px; font-weight: 400; line-height: 1.5; }
+.comparison tr > :first-child { width: 17%; padding-left: 0; font-size: 13px; font-weight: 500; }
+.comparison th:not(:first-child), .comparison td { width: 27.66%; }
+.comparison thead th { font-size: 21px; font-weight: 500; vertical-align: bottom; }
+.comparison thead span { display: block; font-size: 12px; font-weight: 400; margin-top: 9px; color: var(--home-copy); }
+.comparison tr > :last-child { background: var(--home-paper); border-left: 1px solid var(--home-line); }
+.comparison thead tr > :last-child { border-top: 2px solid var(--home-orange); }
+.comparison td { color: var(--home-copy); }
+.comparison td:last-child { color: var(--home-plum); font-weight: 500; }
+.comparisonLogo { height: 29px !important; width: auto; }
+.mobileComparison { display: none; }
+
+@media (max-width: 1100px) {
+  .container { width: calc(100% - 72px); }
+  .employer { gap: 52px 36px; grid-template-columns: .9fr 1.1fr; }
+  .planPresentation { padding: 15px; }
+  .productCaption { flex-wrap: wrap; margin-bottom: 16px; gap: 4px; }
+  .peopleGrid { gap: 35px; grid-template-columns: minmax(0,1.5fr) minmax(0,.85fr); }
+  .slackPresentation { padding: 14px; }
+  .community { gap: 70px; }
+  .sectionHead { gap: 48px; }
+  .priceGrid { gap: 60px; }
+  .logos { gap: 26px; }
+  .logos > span { height: 20px; }
+}
+@media (max-width: 800px) {
+  .container { width: calc(100% - 48px); }
+  .title { font-size: 48px; }
+  .employer { grid-template-columns: 1fr; padding-block: 80px 60px; gap: 40px; }
+  .employerCopy { max-width: 530px; }
+  .lead { max-width: 530px; }
+  .featureList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .planPresentation { padding: 26px; }
+  .proofFacts { gap: 14px; }
+  .proofFacts p { flex-direction: column; align-items: flex-start; gap: 7px; }
+  .proofFacts p + p { padding-left: 20px; }
+  .employeeBand, .complianceBand { padding-block: 78px; }
+  .people { padding-block: 80px 62px; }
+  .sectionHead, .comparisonBand .sectionHead { gap: 30px; grid-template-columns: 1fr; }
+  .sectionHead { margin-bottom: 38px; }
+  .peopleGrid { grid-template-columns: 1fr; }
+  .workflow { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .workflow li:last-child { border-bottom: 0; }
+  .priceGrid { gap: 30px; }
+  .priceCopy .title { font-size: 38px; }
+  .priceCopy .lead { font-size: 16px; }
+  .community { gap: 45px; padding-block: 85px; }
+  .community .title { font-size: 42px; }
+  .expertiseIntro { gap: 15px; }
+  .expertiseIntro strong { font-size: 50px; }
+  .expertiseIntro span { font-size: 13px; }
+  .expertise li { font-size: 16px; }
+  .comparisonBand { padding-block: 75px; }
+  .comparison th, .comparison td { padding: 20px 14px; font-size: 12px; }
+}
+@media (max-width: 540px) {
+  .container { width: calc(100% - 40px); }
+  .title { font-size: 41px; line-height: 1.07; letter-spacing: -.045em; }
+  .label { font-size: 13px; margin-bottom: 20px; }
+  .lead { font-size: 16px; margin-top: 21px; }
+  .proof { padding-top: 28px; }
+  .logos { gap: 27px 25px; margin-block: 27px 36px; }
+  .logos > span { height: 19px; max-width: 90px; }
+  .logos svg { max-width: 90px; }
+  .proofFacts { gap: 12px; padding-block: 23px; }
+  .proofFacts strong { font-size: 27px; }
+  .proofFacts span { font-size: 11px; line-height: 1.5; }
+  .proofFacts p + p { padding-left: 12px; }
+  .employer { padding-top: 65px; }
+  .featureList { grid-template-columns: 1fr; gap: 0; margin-top: 24px; }
+  .featureList > div { padding-block: 14px; }
+  .featureList dd { font-size: 13px; }
+  .planPresentation { padding: 13px; margin-inline: -6px; }
+  .productCaption { margin: 5px 2px 15px; font-size: 12px; }
+  .productCaption span:last-child { font-size: 10px; }
+  .demoCaption { font-size: 11px; margin-top: 15px; }
+  .carriers { padding-top: 30px; }
+  .carriers > div { gap: 18px 24px; }
+  .carriers :global([role="img"]) { max-width: 126px; height: 25px !important; }
+  .carriers > div > span:first-child { width: 100%; }
+  .employeeBand, .complianceBand { padding-block: 65px; }
+  .slackPresentation { padding: 10px; margin-inline: -6px; }
+  .workflow { gap: 0 18px; }
+  .workflow li { gap: 9px; grid-template-columns: 20px 1fr; padding-block: 23px; }
+  .workflow h3 { font-size: 17px; }
+  .workflow p { font-size: 12px; }
+  .stack { gap: 25px; margin-top: 32px; }
+  .stack > span:first-child { width: 100%; text-align: center; }
+  .stack > span[role="img"] { height: 20px; max-width: 80px; }
+  .priceBand { padding-block: 53px; }
+  .priceGrid { grid-template-columns: 1fr; gap: 40px; }
+  .priceNumber > span { font-size: 160px; }
+  .priceNumber p { margin-top: 17px; font-size: 13px; }
+  .priceCopy .title { font-size: 39px; }
+  .community { grid-template-columns: 1fr; padding-block: 70px; gap: 45px; }
+  .community .title { font-size: 41px; }
+  .expertiseIntro strong { font-size: 60px; }
+  .expertiseIntro span { font-size: 15px; }
+  .comparison { display: none; }
+  .comparisonBand .title { font-size: 36px; }
+  .mobileComparison { display: block; }
+  .mobileComparison > div { padding-block: 23px; border-top: 1px solid var(--home-line); }
+  .mobileComparison h3 { font-size: 15px; font-weight: 500; margin-bottom: 18px; }
+  .mobileComparison dl { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 15px; }
+  .mobileComparison dt { font-size: 12px; color: var(--home-copy); margin-bottom: 8px; }
+  .mobileComparison dd { margin: 0; font-size: 12px; line-height: 1.55; color: var(--home-copy); overflow-wrap: anywhere; }
+  .mobileComparison dl > div:last-child dt { color: #a83b24; font-weight: 600; }
+  .mobileComparison dl > div:last-child dd { color: var(--home-plum); }
+}
+@media (prefers-reduced-motion: reduce) { .textLink, .textLink svg { transition: none; } }

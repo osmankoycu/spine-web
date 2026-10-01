@@ -122,6 +122,7 @@ export function Header() {
   return (
     <header
       ref={headerRef}
+      data-site-header
       className="fixed inset-x-0 top-[var(--banner-h,0px)] z-50 h-[var(--header-h)]"
     >
       <div className="relative z-50 mx-auto flex h-full max-w-[1480px] items-start px-4 pt-6 sm:px-6 lg:px-8">
@@ -130,6 +131,7 @@ export function Header() {
         <div className="relative flex h-[64px] w-full items-center justify-between pl-5 pr-3 sm:pl-7">
           <div
             aria-hidden
+            data-header-surface
             className={cn(
               // Pill surface appears ONLY on scroll — opening a menu at the top of
               // the page does NOT bring it in (the panel floats on its own there).

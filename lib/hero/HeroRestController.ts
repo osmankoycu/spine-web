@@ -315,6 +315,16 @@ export class HeroRestController {
       );
   }
 
+  /** Reconnect the simulation after React rebuilds the responsive tag grid. */
+  refreshLayout(): void {
+    if (!this.entered || this.destroyed) return;
+    const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", this.stage);
+    gsap.set(tags.filter((tag) => !tag.hasAttribute("data-important")), { backgroundColor: REST_PILL });
+    gsap.set(tags.filter((tag) => tag.hasAttribute("data-important")), { color: GHOST });
+    this.flow.measureHome();
+    if (this.reduced) this.flow.settle(120);
+  }
+
   private onResize = (): void => {
     if (!this.entered || this.destroyed) return;
     this.flow.measureHome();

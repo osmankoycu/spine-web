@@ -42,7 +42,7 @@ function AnswerBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
+export function AgentPhone({ agent, showCharacter = true }: { agent: BenefitsAgent; showCharacter?: boolean }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const inViewRef = useRef(false);
@@ -138,6 +138,7 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
   return (
     <div
       ref={rootRef}
+      data-product-window="heal"
       className="flex min-h-[600px] w-full flex-col overflow-hidden rounded-[34px] border border-[#e6e6e8] bg-white shadow-[0_40px_80px_-44px_rgba(20,20,18,0.35)] lg:h-full"
     >
       {/* iOS status bar */}
@@ -152,7 +153,7 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
 
       {/* App header — the agent's name centred, a back caret to balance it, and
           a video-call action on the right (ties to the talking clip below). */}
-      <div className="flex items-center gap-2 border-b border-[#eef0f1] px-3.5 pb-3.5 pt-2">
+      <div data-phone-toolbar className="flex items-center gap-2 border-b border-[#eef0f1] px-3.5 pb-3.5 pt-2">
         <span className="grid size-8 shrink-0 place-items-center text-[#bcc6ca]">
           <CaretLeft size={18} weight="bold" />
         </span>
@@ -169,7 +170,7 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
       </div>
 
       {/* Messages */}
-      <div className="relative flex flex-1 flex-col gap-2.5 bg-[#f4f5f6] px-[18px] py-5">
+      <div data-phone-thread className="relative flex flex-1 flex-col gap-2.5 bg-[#f4f5f6] px-[18px] py-5">
         <div
           data-lead
           className="self-center rounded-full bg-[#e5e6e8] px-3 py-1 text-[11px] font-semibold text-[#8b8b91]"
@@ -183,7 +184,7 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
         ))}
 
         {/* Picture-in-picture — the agent's talking clip */}
-        <div
+        {showCharacter && <div
           data-pip
           className="absolute bottom-3 right-[18px] h-[104px] w-[86px] overflow-hidden rounded-[16px] border-2 border-white bg-aqua-100 shadow-[0_10px_24px_-8px_rgba(20,20,18,0.35)]"
         >
@@ -196,11 +197,11 @@ export function AgentPhone({ agent }: { agent: BenefitsAgent }) {
             muted
             playsInline
           />
-        </div>
+        </div>}
       </div>
 
       {/* Input bar */}
-      <div className="flex items-center gap-2.5 border-t border-[#eef0f1] bg-white px-4 pb-[18px] pt-3">
+      <div data-phone-composer className="flex items-center gap-2.5 border-t border-[#eef0f1] bg-white px-4 pb-[18px] pt-3">
         <div className="flex-1 truncate rounded-full border border-[#e6e6e8] bg-[#f4f5f6] px-4 py-[11px] text-[13px] text-[#a9a9a3]">
           Message {agent.name}…
         </div>

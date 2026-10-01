@@ -14,10 +14,12 @@ export function AgentRail({
   agents,
   selected,
   onSelect,
+  showAvatars = true,
 }: {
   agents: BenefitsAgent[];
   selected: string;
   onSelect: (id: string) => void;
+  showAvatars?: boolean;
 }) {
   return (
     // Five equal tracks at 375px give each agent ~59px, but the pills size to
@@ -54,7 +56,7 @@ export function AgentRail({
                 selected agent rests fully on the line (translate-y-0); the
                 others sink a little below it (masked away) and rise up to meet
                 the line on hover. */}
-            <span className="relative mt-3 block h-[132px] w-full overflow-hidden">
+            {showAvatars && <span className="relative mt-3 block h-[132px] w-full overflow-hidden">
               <img
                 src={`/agents/${agent.id}.png`}
                 alt={agent.name}
@@ -64,7 +66,7 @@ export function AgentRail({
                   active ? "translate-y-0" : "translate-y-1.5 group-hover:translate-y-0",
                 )}
               />
-            </span>
+            </span>}
           </button>
         );
       })}

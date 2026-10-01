@@ -30,7 +30,7 @@ const FEATURES: Feature[] = [
 
 const ROTATE_MS = 5000;
 
-export function EmployeeBenefits() {
+export function EmployeeBenefits({ refined = false }: { refined?: boolean }) {
   const [selected, setSelected] = useState(BENEFITS_AGENTS[0].id);
   const [auto, setAuto] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -86,6 +86,7 @@ export function EmployeeBenefits() {
     // right, which is the original two-column layout.
     <div
       ref={rootRef}
+      data-employee-section
       className="grid gap-10 sm:gap-15 lg:grid-cols-[384px_1fr] lg:grid-rows-[1fr_auto] lg:items-stretch lg:gap-x-18 lg:gap-y-0"
     >
       {/* Copy column */}
@@ -93,9 +94,9 @@ export function EmployeeBenefits() {
           content — the agent rail's horizontal scroll strip would otherwise
           stretch this column to 552px and get clipped by the card's
           overflow-hidden instead of scrolling. */}
-      <div className="order-1 flex min-w-0 flex-col items-center text-center lg:col-start-2 lg:row-start-1 lg:items-start lg:text-left">
+      <div data-employee-copy className="order-1 flex min-w-0 flex-col items-center text-center lg:col-start-2 lg:row-start-1 lg:items-start lg:text-left">
         <p className="inline-flex w-fit items-center rounded-full bg-orange/10 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange">
-          01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span>
+          {refined ? "Benefits for your people" : <>01 · Benefits <span className="ml-1 text-orange/50">/ Employees</span></>}
         </p>
         <h2 className="font-display mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#15140f] sm:text-[40px] lg:text-[44px]">
           One place for every
@@ -111,7 +112,7 @@ export function EmployeeBenefits() {
         {/* Feature card — outline only; three equal columns split by hairlines
             that sit exactly on the thirds (padding insets content, not the grid
             lines, so the dividers halve the gaps evenly). */}
-        <div className="mt-9 grid w-full gap-y-5 rounded-[20px] border border-[#e6e6e2] px-5 py-5 sm:grid-cols-3 sm:gap-y-0 sm:divide-x sm:divide-[#e6e6e2] sm:px-6 sm:py-0">
+        <div data-employee-features className="mt-9 grid w-full gap-y-5 rounded-[20px] border border-[#e6e6e2] px-5 py-5 sm:grid-cols-3 sm:gap-y-0 sm:divide-x sm:divide-[#e6e6e2] sm:px-6 sm:py-0">
           {FEATURES.map((f) => (
             <div
               key={f.title}
@@ -131,8 +132,8 @@ export function EmployeeBenefits() {
       {/* Phone — centred when stacked; LEFT cell at lg, spanning both rows. The
           bottom padding keeps its floor off the separator by ~the block's top
           gap, so the phone sits with matching breathing room top and bottom. */}
-      <div className="order-2 mx-auto w-full max-w-[384px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:pb-8">
-        <AgentPhone agent={agent} />
+      <div data-employee-phone className="order-2 mx-auto w-full max-w-[384px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:pb-8">
+        <AgentPhone agent={agent} showCharacter={!refined} />
       </div>
 
       {/* Agent rail — last block stacked, so it lands flush on the card's bottom
@@ -140,8 +141,8 @@ export function EmployeeBenefits() {
           of the copy column, level with the phone's floor. The negative inline
           margins cancel the pillar's mobile side padding so the rail can scroll
           edge to edge instead of inside a 12px inset. */}
-      <div className="order-3 -mx-3 min-w-0 px-3 sm:mx-0 sm:px-0 lg:col-start-2 lg:row-start-2 lg:mt-auto lg:pt-16">
-        <AgentRail agents={BENEFITS_AGENTS} selected={selected} onSelect={pick} />
+      <div data-employee-selector className="order-3 -mx-3 min-w-0 px-3 sm:mx-0 sm:px-0 lg:col-start-2 lg:row-start-2 lg:mt-auto lg:pt-16">
+        <AgentRail agents={BENEFITS_AGENTS} selected={selected} onSelect={pick} showAvatars={!refined} />
       </div>
     </div>
   );

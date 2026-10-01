@@ -141,9 +141,9 @@ export function EmployerScenario() {
   };
 
   return (
-    <div ref={rootRef} className="flex h-full flex-col">
+    <div ref={rootRef} data-plan-scenario className="flex h-full flex-col">
       {/* Header */}
-      <div className="flex items-start justify-between px-4 pt-4 sm:px-5">
+      <div data-plan-heading className="flex items-start justify-between px-4 pt-4 sm:px-5">
         <div>
           <div className="text-[15px] font-extrabold leading-snug tracking-[-0.01em] text-[#15140f]">
             Spine recommends the{" "}
@@ -160,7 +160,7 @@ export function EmployerScenario() {
       </div>
 
       {/* Plot */}
-      <div className="relative min-h-[220px] flex-1 px-4 pb-1 pt-4 sm:px-5">
+      <div data-plan-plot className="relative min-h-[220px] flex-1 px-4 pb-1 pt-4 sm:px-5">
         {/* inner plot area (space for axis labels: left + bottom) */}
         <div className="absolute inset-y-4 left-[42px] right-[42px] bottom-7">
           <div className="relative h-full w-full rounded-[10px] bg-[#f4f4f2]">
@@ -192,6 +192,7 @@ export function EmployerScenario() {
               return (
                 <div
                   key={a.id}
+                  data-plan-point={a.id}
                   className="absolute -translate-x-1/2 -translate-y-1/2 transition-[left,top] duration-500 ease-out"
                   style={{ left, top }}
                 >
@@ -211,6 +212,7 @@ export function EmployerScenario() {
                         recommended arch is labelled — the one the copy above
                         actually names. */}
                     <span
+                      data-plan-label
                       className={cn(
                         "absolute left-1/2 top-[calc(100%+4px)] -translate-x-1/2 whitespace-nowrap text-[11px] font-semibold",
                         sel ? "text-[#15140f]" : "hidden text-[#8a897f] sm:inline",
@@ -242,7 +244,7 @@ export function EmployerScenario() {
       {/* Portfolio contents — the three plans in the recommended mix + why it
           was picked. Simple by design; re-renders when the recommendation
           changes as the sliders move. */}
-      <div className="border-t border-[#d6d6d1] px-4 py-3 sm:px-5">
+      <div data-plan-portfolio className="border-t border-[#d6d6d1] px-4 py-3 sm:px-5">
         <div className="flex items-baseline gap-1.5">
           <span className="text-[12px] font-extrabold text-[#1e54b8]">
             {rec.label} portfolio
@@ -276,7 +278,7 @@ export function EmployerScenario() {
       </div>
 
       {/* Sliders */}
-      <div className="border-t border-[#d6d6d1] bg-white px-4 py-3.5 sm:px-5">
+      <div data-plan-controls className="border-t border-[#d6d6d1] bg-white px-4 py-3.5 sm:px-5">
         <div className="mb-2.5 flex items-center gap-2">
           <span className="text-[12px] font-extrabold text-[#15140f]">Adjust scenario</span>
           <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1e54b8]">

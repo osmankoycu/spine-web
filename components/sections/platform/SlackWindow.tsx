@@ -79,6 +79,7 @@ export function SlackWindow() {
   return (
     <div
       ref={rootRef}
+      data-product-window="slack"
       className="flex h-full min-h-[440px] overflow-hidden rounded-[20px] border border-[#d6d6d1] bg-white shadow-[0_24px_50px_-34px_rgba(20,20,18,0.25)]"
     >
       <Sidebar />

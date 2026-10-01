@@ -30,6 +30,10 @@ export function useHeroScene() {
     }
   }, []);
 
+  const refreshLayout = useCallback(() => {
+    heroRestRef.current?.refreshLayout();
+  }, []);
+
   useGSAP(
     () => {
       const stage = stageRef.current;
@@ -61,5 +65,5 @@ export function useHeroScene() {
     { scope: stageRef },
   );
 
-  return { stageRef, completeIntro };
+  return { stageRef, completeIntro, refreshLayout };
 }

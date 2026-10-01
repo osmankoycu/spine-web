@@ -1,14 +1,13 @@
 "use client";
 
 import { copy } from "@/lib/hero/heroConfig";
-import { useDemoModal } from "@/components/cta/DemoModal";
+import Link from "next/link";
 
 // Center content for HERO_REST: the headline, subtitle,
 // and CTA. Initially opacity-0 — popped in on HERO_REST entry by
 // HeroRestController. [data-center-content] is the box the tag corridor is
 // measured from.
 export function HeadlineMorph() {
-  const { open } = useDemoModal();
   return (
     <div data-center className="pointer-events-none absolute inset-0 z-20">
       {/* Headline + subtitle — nudged above the field centre. The shift (-58px)
@@ -60,14 +59,13 @@ export function HeadlineMorph() {
           so it lands ON the tag line under the text and reads as one of the tags,
           set apart only by its colour. */}
       <div className="absolute inset-x-0 flex justify-center top-[calc(50%+272px)] sm:top-[calc(50%+158px)]">
-          <button
-            type="button"
+          <Link
+            href="/demo-preview"
             data-cta
-            onClick={open}
             className="pointer-events-auto box-border flex cursor-pointer items-center justify-center whitespace-nowrap rounded-pill bg-orange px-[30px] py-[21px] text-[27px] font-medium leading-[39.42px] tracking-[-0.27px] text-white opacity-0 transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 md:text-[24px]"
           >
             {copy.cta}
-          </button>
+          </Link>
       </div>
     </div>
   );

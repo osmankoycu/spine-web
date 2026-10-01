@@ -25,6 +25,8 @@ export function DemoRequestForm() {
   const [numberOfEmployees, setNumberOfEmployees] = useState("");
   const [referralSource, setReferralSource] = useState("");
   const [referralDetails, setReferralDetails] = useState("");
+  const [otherSelected, setOtherSelected] = useState(false);
+  const [interestDetails, setInterestDetails] = useState("");
   const [details, setDetails] = useState<BookingDetails | null>(null);
   const [step, setStep] = useState<"form" | "booking" | "booked">("form");
   const [sending, setSending] = useState(false);
@@ -60,6 +62,7 @@ export function DemoRequestForm() {
       referralSource,
       referralSourceDetails: referralDetails,
       interests: form.getAll("interests").map(String),
+      interestDetails: otherSelected ? interestDetails : "",
       source: "demo-page",
       intent: "meeting",
     };
@@ -118,11 +121,31 @@ export function DemoRequestForm() {
           <div className={styles.choices}>
             {DEMO_INTERESTS.map((interest) => (
               <label key={interest} className={styles.choice}>
-                <input type="checkbox" name="interests" value={interest} />
+                <input
+                  type="checkbox"
+                  name="interests"
+                  value={interest}
+                  onChange={interest === "Other" ? (event) => setOtherSelected(event.target.checked) : undefined}
+                />
                 <span>{interest}</span>
               </label>
             ))}
           </div>
+          {otherSelected && (
+            <div className={`${styles.field} ${styles.otherDetails}`}>
+              <label htmlFor="preview-interest-details">How can we help? <span>(optional)</span></label>
+              <textarea
+                id="preview-interest-details"
+                name="interestDetails"
+                value={interestDetails}
+                onChange={(event) => setInterestDetails(event.target.value)}
+                placeholder="Tell us what you need help with"
+                maxLength={300}
+                rows={3}
+                className={`${styles.input} ${styles.textarea}`}
+              />
+            </div>
+          )}
         </fieldset>
 
         <ReferralSourceField

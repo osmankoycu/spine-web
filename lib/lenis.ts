@@ -18,7 +18,7 @@ export function getLenis(): Lenis | null {
     // scroll-margin-top, so `scroll-mt-*` on the target keeps it clear of the
     // fixed header on both paths (under reduced motion there is no Lenis and
     // the browser applies the same margin). `href="#"` has an empty hash and is
-    // left alone, and the "#demo" CTAs render as <button>, not anchors.
+    // left alone, and demo CTAs link to the standalone demo page.
     instance = new Lenis({ duration: 1.1, smoothWheel: true, anchors: true });
     instance.on("scroll", ScrollTrigger.update);
     tickerFn = (time: number) => instance?.raf(time * 1000);

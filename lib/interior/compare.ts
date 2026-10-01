@@ -6,7 +6,7 @@
 // compliance, and a 24/7 employee app. Rendered by TemplateD.
 import type { ComparePage } from "@/lib/interior/types";
 
-// "#demo" opens the Request-a-demo modal (see parts.tsx Button); Explore → home.
+// "#demo" links to the standalone demo page (see parts.tsx Button); Explore → home.
 const demo = { label: "Get your savings estimate", href: "#demo" };
 const explore = { label: "See the platform", href: "/" };
 const crumb = (current: string) => [

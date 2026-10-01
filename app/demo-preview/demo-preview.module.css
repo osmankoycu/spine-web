@@ -63,6 +63,8 @@ select.input { padding-right: 40px; }
 .choice:hover { background: #f8f8f8; }
 .choice:has(input:checked) { border-color: #ff9a61; background: #fff3eb; }
 .choice:has(input:focus-visible) { outline: 2px solid #ff6c16; outline-offset: 3px; }
+.otherDetails { margin-top: 14px; }
+.textarea { height: auto; min-height: 96px; padding-block: 12px; resize: vertical; }
 .submit { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; min-height: 55px; margin-top: 26px; border: 0; border-radius: 999px; background: #161616; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 150ms, transform 150ms; }
 .submit:hover { background: #363636; }
 .submit:active { transform: translateY(1px); }

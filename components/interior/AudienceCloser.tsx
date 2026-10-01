@@ -5,12 +5,11 @@
 // as the global "Offload your people" closer it replaces. The global TagDrop is
 // suppressed on these routes (see lib/interior/closers.ts).
 import { ArrowRight } from "@phosphor-icons/react";
-import { useDemoModal } from "@/components/cta/DemoModal";
+import Link from "next/link";
 import { TagField } from "@/components/footer/TagField";
 import type { AudiencePage } from "@/lib/interior/types";
 
 export function AudienceCloser({ cta }: { cta: AudiencePage["cta"] }) {
-  const { open } = useDemoModal();
   const title = [cta.heading.pre, cta.heading.accent, cta.heading.post]
     .filter(Boolean)
     .join(" ");
@@ -23,14 +22,13 @@ export function AudienceCloser({ cta }: { cta: AudiencePage["cta"] }) {
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.55] text-grey-text sm:text-[18px]">
           {cta.lead}
         </p>
-        <button
-          type="button"
-          onClick={open}
+        <Link
+          href="/demo-preview"
           className="pointer-events-auto mt-9 flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:w-auto sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
           {cta.button.label}
           <ArrowRight size={18} weight="bold" />
-        </button>
+        </Link>
       </div>
     </TagField>
   );

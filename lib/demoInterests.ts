@@ -1,1 +1,1 @@
-export const DEMO_INTERESTS = ["Benefits", "Payroll & people ops", "Compliance"] as const;
+export const DEMO_INTERESTS = ["Benefits", "Payroll & people ops", "Compliance", "Other"] as const;

@@ -5,7 +5,6 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { cn } from "@/lib/cn";
-import { useDemoModal } from "@/components/cta/DemoModal";
 import type { Breadcrumb as Crumb, Cta, TwoTone } from "@/lib/interior/types";
 
 // ── Two-tone heading text ──────────────────────────────────────────
@@ -90,7 +89,6 @@ type ButtonProps = {
 };
 
 export function Button({ cta, variant = "primary", size = "md", arrow }: ButtonProps) {
-  const { open } = useDemoModal();
   const pad = size === "lg" ? "px-[30px] py-4 text-[16px]" : "px-6 py-[14px] text-[15px]";
   const styles = {
     primary: "bg-orange text-white hover:bg-orange-600",
@@ -114,16 +112,8 @@ export function Button({ cta, variant = "primary", size = "md", arrow }: ButtonP
     </>
   );
 
-  // "#demo" is a sentinel: open the Request-a-demo modal instead of navigating.
-  if (cta.href === "#demo") {
-    return (
-      <button type="button" onClick={open} className={cls}>
-        {inner}
-      </button>
-    );
-  }
   return (
-    <Link href={cta.href} className={cls}>
+    <Link href={cta.href === "#demo" ? "/demo-preview" : cta.href} className={cls}>
       {inner}
     </Link>
   );

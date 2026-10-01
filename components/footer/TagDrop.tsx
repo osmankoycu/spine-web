@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { ArrowRight } from "@phosphor-icons/react";
-import { useDemoModal } from "@/components/cta/DemoModal";
+import Link from "next/link";
 import { TagField } from "@/components/footer/TagField";
 import { hasOwnCloser } from "@/lib/interior/closers";
 
@@ -14,7 +14,6 @@ import { hasOwnCloser } from "@/lib/interior/closers";
 const CONTACT_EMAIL = "hello@joinspine.ai";
 
 export function TagDrop() {
-  const { open } = useDemoModal();
   const pathname = usePathname();
   if (hasOwnCloser(pathname)) return null;
 
@@ -28,14 +27,13 @@ export function TagDrop() {
           Free 30-minute call. We&apos;ll show you exactly what we&apos;d take over: benefits,
           compliance, payroll, onboarding, and how much you&apos;d save. No commitment.
         </p>
-        <button
-          type="button"
-          onClick={open}
+        <Link
+          href="/demo-preview"
           className="pointer-events-auto mt-9 flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:w-auto sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
           Request your free audit
           <ArrowRight size={18} weight="bold" />
-        </button>
+        </Link>
         <p className="mt-6 text-[15px] text-grey-text">
           Or email{" "}
           <a

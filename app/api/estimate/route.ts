@@ -90,8 +90,12 @@ export async function POST(request: Request) {
        data.interests.some((interest) => !DEMO_INTERESTS.some((allowed) => allowed === interest)))) {
     return Response.json({ error: "Please select valid services." }, { status: 400 });
   }
+  const interestDetails = Array.isArray(data.interests) && data.interests.includes("Other")
+    ? clean(data.interestDetails, 300) : "";
   const interestsLine = Array.isArray(data.interests) && data.interests.length
-    ? [...new Set(data.interests)].join(", ") : "(not provided)";
+    ? [...new Set(data.interests)].map((interest) =>
+        interest === "Other" && interestDetails ? `Other: ${interestDetails}` : interest
+      ).join(", ") : "(not provided)";
   const sourceLine = data.source === "demo-page"
     ? "Standalone demo page (/demo-preview)" : "Website demo form";
 

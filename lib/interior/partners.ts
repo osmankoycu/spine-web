@@ -236,7 +236,7 @@ export const partnerPages: Record<string, PartnerPage> = {
     stats: [
       { figure: "50+", label: "Vetted practitioners" },
       { figure: "100%", label: "Hand-picked by Spine" },
-      { figure: "0", label: "Commission to partners" },
+      { figure: "$32,400", label: "Commission to partners" },
       { figure: "4×/yr", label: "Community learning sessions" },
     ],
     economics: {
@@ -247,7 +247,7 @@ export const partnerPages: Record<string, PartnerPage> = {
         { label: "Focused on 20–200 person cos", value: "Same ICP" },
         { label: "Bidirectional referrals", value: "Both ways", border: true },
       ],
-      highlight: { label: "Commission to partners", figure: "$0" },
+      highlight: { label: "Commission to partners", figure: "$32,400" },
       earn: { label: "You get", value: "Referrals back", note: "We route clients who need people ops such as fractional CFOs, fractional HRs and more" },
     },
     why: {

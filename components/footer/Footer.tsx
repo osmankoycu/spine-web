@@ -1,18 +1,11 @@
 import Link from "next/link";
-import { GithubLogo, LinkedinLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
+import { LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import { SpineLogo } from "@/components/SpineLogo";
 import { footerBottomLinks, footerColumns, footerTagline } from "@/lib/footerConfig";
 
 // Near-black footer (solid) in the tone of the dark comparison matrix above.
 // White wordmark with an orange "." accent; orange column headings; a divided
 // bottom bar carries the copyright and, on the right, the legal links (+ socials).
-const SOCIALS = [
-  { label: "LinkedIn", href: "#", Icon: LinkedinLogo },
-  { label: "X", href: "#", Icon: XLogo },
-  { label: "GitHub", href: "#", Icon: GithubLogo },
-];
-// Socials are hidden for now (kept here to re-enable later — flip to true).
-const SHOW_SOCIALS = false;
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -61,7 +54,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar — copyright · legal links (+ socials, hidden for now) */}
+        {/* Bottom bar — copyright · legal links · LinkedIn */}
         <div className="mt-10 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center sm:mt-14 sm:gap-6 sm:pt-7 md:mt-16 md:flex-row md:items-center md:justify-between md:text-left">
           <span className="text-[14px] text-white/45">
             © {year} Spine. All rights reserved.
@@ -76,20 +69,15 @@ export function Footer() {
                 {l.label}
               </Link>
             ))}
-            {SHOW_SOCIALS && (
-              <div className="ml-1 flex items-center gap-5">
-                {SOCIALS.map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    className="text-white/55 transition-colors hover:text-white"
-                  >
-                    <Icon size={23} />
-                  </a>
-                ))}
-              </div>
-            )}
+            <a
+              href="https://www.linkedin.com/company/joinspine/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Spine on LinkedIn (opens in a new tab)"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-white/55 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+            >
+              <LinkedinLogo size={23} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>

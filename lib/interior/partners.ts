@@ -226,10 +226,10 @@ export const partnerPages: Record<string, PartnerPage> = {
 
   "fractional-hr": {
     slug: "fractional-hr",
-    breadcrumb: [{ label: "Partners", href: "/partners" }, { label: "Fractional HR community", current: true }],
+    breadcrumb: [{ label: "Partners", href: "/partners" }, { label: "Fractional CFO and HR community", current: true }],
     eyebrow: "FRACTIONAL CFO & FRACTIONAL HR",
-    h1: { pre: "The Spine", accent: "HR Community." },
-    lead: "Our flagship partner network, 50+ vetted fractional HR practitioners building modern people functions. Spine handles benefits and compliance; you handle people strategy. Both grow together.",
+    h1: { pre: "The", accent: "People Layer" },
+    lead: "Our flagship partner network, 50+ vetted fractional CFO and HR practitioners building modern people functions. Spine handles benefits and compliance; you handle people strategy. Both grow together.",
     primary: { label: "Become a partner", href: "https://app.tryheal.ai/member-directory" },
     secondary: refer,
     checks: ["50+ vetted partners", "Hand-picked by Spine", "Mutual referrals"],
@@ -243,19 +243,19 @@ export const partnerPages: Record<string, PartnerPage> = {
       caption: "Community at a glance",
       sub: "Flagship partner network",
       lines: [
-        { label: "50+ fractional HR practitioners", value: "Vetted" },
+        { label: "50+ fractional CFO and HR practitioners", value: "Vetted" },
         { label: "Focused on 20–200 person cos", value: "Same ICP" },
         { label: "Bidirectional referrals", value: "Both ways", border: true },
       ],
       highlight: { label: "Commission to partners", figure: "$0" },
-      earn: { label: "You get", value: "Referrals back", note: "We route clients who need fractional HR" },
+      earn: { label: "You get", value: "Referrals back", note: "We route clients who need people ops such as fractional CFOs, fractional HRs and more" },
     },
     why: {
       eyebrow: "Why it works",
-      heading: { pre: "Fractional HR + Spine,", accent: "better together." },
+      heading: { pre: "Fractional CFO, HR + Spine,", accent: "better together." },
       rows: [
         { n: "01", icon: "Handshake", title: "Complementary services", body: "You bring people strategy, recruiting, performance, culture. Spine brings operational execution, benefits, compliance, payroll." },
-        { n: "02", icon: "TrendUp", title: "Grow your book", body: "Spine clients often need fractional HR. We route them to community partners, and pay no admin fee for the intro." },
+        { n: "02", icon: "TrendUp", title: "Grow your book", body: "Spine clients often need fractional CFO or HR. We route them to community partners, and pay no admin fee for the intro." },
         { n: "03", icon: "Lightning", title: "Save 30% of your time", body: "Stop debugging benefits, drafting COBRA notices, or managing renewals. Spine handles it; you focus on people work." },
         { n: "04", icon: "LockKeyOpen", title: "No bundle, no lock-in", body: "You stay independent and set your own rate. Spine is a tool you recommend, not a competitor." },
       ],
@@ -284,8 +284,8 @@ export const partnerPages: Record<string, PartnerPage> = {
       logos: ["Member", "Member", "Member", "Member"],
     },
     cta: {
-      heading: { pre: "Join the", accent: "Spine HR community." },
-      lead: "Build a stronger fractional HR practice with Spine as your operational partner.",
+      heading: { pre: "Join the", accent: "Spine CFO and HR Community" },
+      lead: "Build a stronger fractional CFO and HR practice with Spine as your operational partner.",
       button: { label: "Apply to join", href: "#demo" },
     },
   },

@@ -6,14 +6,16 @@ import { CompanyDetailsFields } from "@/components/cta/CompanyDetailsFields";
 import { ReferralSourceField } from "@/components/cta/ReferralSourceField";
 import { CalendlyEmbed } from "@/components/cta/CalendlyEmbed";
 import { DEMO_INTERESTS } from "@/lib/demoInterests";
+import { isPersonalEmail, WORK_EMAIL_MESSAGE } from "@/lib/workEmail";
 import styles from "./demo-preview.module.css";
 
-function Field({ label, optional, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; optional?: boolean }) {
+function Field({ label, optional, error, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; optional?: boolean; error?: string }) {
   const id = `preview-${props.name}`;
   return (
     <div className={styles.field}>
       <label htmlFor={id}>{label}{optional && <span> (optional)</span>}</label>
-      <input {...props} id={id} className={styles.input} />
+      <input {...props} id={id} className={styles.input} aria-invalid={error ? true : undefined} aria-describedby={error ? `${id}-error` : undefined} />
+      {error && <p id={`${id}-error`} role="alert" className={styles.fieldError}>{error}</p>}
     </div>
   );
 }
@@ -31,6 +33,7 @@ export function DemoRequestForm() {
   const [step, setStep] = useState<"form" | "booking" | "booked">("form");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState("");
   const submitting = useRef(false);
   const confirmation = useRef<HTMLHeadingElement>(null);
   const firstField = useRef<HTMLFormElement>(null);
@@ -101,7 +104,21 @@ export function DemoRequestForm() {
         <div className={styles.fields}>
           <Field name="firstName" label="First name" placeholder="Alex" autoComplete="given-name" maxLength={80} required />
           <Field name="lastName" label="Last name" placeholder="Morgan" autoComplete="family-name" maxLength={80} required />
-          <Field name="email" label="Work email" placeholder="alex@company.com" type="email" autoComplete="email" maxLength={200} required />
+          <Field
+            name="email"
+            label="Work email"
+            placeholder="alex@company.com"
+            type="email"
+            autoComplete="email"
+            maxLength={200}
+            required
+            error={emailError}
+            onChange={(event) => {
+              const message = isPersonalEmail(event.target.value) ? WORK_EMAIL_MESSAGE : "";
+              event.target.setCustomValidity(message);
+              setEmailError(message);
+            }}
+          />
           <Field name="phone" label="Phone number" placeholder="(555) 000-0000" type="tel" autoComplete="tel" maxLength={50} optional />
           <Field name="company" label="Company name" placeholder="Your company" autoComplete="organization" maxLength={120} required />
           <Field name="companyWebsite" label="Company website" placeholder="company.com" inputMode="url" autoComplete="url" maxLength={200} optional />

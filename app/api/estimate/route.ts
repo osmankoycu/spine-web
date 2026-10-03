@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { US_STATES } from "@/lib/audit/usStates";
 import { DEMO_INTERESTS } from "@/lib/demoInterests";
+import { isPersonalEmail, WORK_EMAIL_MESSAGE } from "@/lib/workEmail";
 
 // Lead-capture endpoint for the "See how much you'd save" modal. Emails the lead
 // to the Spine inbox(es) via Resend. Runs server-side only, so the API key never
@@ -22,14 +23,6 @@ const esc = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 export async function POST(request: Request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return Response.json(
-      { error: "Email is not configured yet." },
-      { status: 503 },
-    );
-  }
-
   let body: unknown;
   try {
     body = await request.json();
@@ -58,6 +51,9 @@ export async function POST(request: Request) {
 
   if (!EMAIL_RE.test(email)) {
     return Response.json({ error: "Please enter a valid work email." }, { status: 400 });
+  }
+  if (isPersonalEmail(email)) {
+    return Response.json({ error: WORK_EMAIL_MESSAGE }, { status: 400 });
   }
 
   const hqState = clean(data.hqState, 2);
@@ -102,6 +98,10 @@ export async function POST(request: Request) {
   const name = [firstName, lastName].filter(Boolean).join(" ") || "(not provided)";
   const companyLine = company || "(not provided)";
   const websiteLine = companyWebsite || "(not provided)";
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return Response.json({ error: "Email is not configured yet." }, { status: 503 });
+  }
   const resend = new Resend(apiKey);
 
   try {

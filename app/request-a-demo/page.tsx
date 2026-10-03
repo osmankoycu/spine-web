@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SpineLogo } from "@/components/SpineLogo";
 import { DemoRequestForm } from "./DemoRequestForm";
-import styles from "./demo-preview.module.css";
+import styles from "./demo-request.module.css";
 
 export const metadata: Metadata = {
   title: "Request a demo | Spine",
+  alternates: { canonical: "https://www.joinspine.ai/request-a-demo" },
   robots: { index: false, follow: false },
 };
 

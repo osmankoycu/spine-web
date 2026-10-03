@@ -7,7 +7,7 @@ import { ReferralSourceField } from "@/components/cta/ReferralSourceField";
 import { CalendlyEmbed } from "@/components/cta/CalendlyEmbed";
 import { DEMO_INTERESTS } from "@/lib/demoInterests";
 import { isPersonalEmail, WORK_EMAIL_MESSAGE } from "@/lib/workEmail";
-import styles from "./demo-preview.module.css";
+import styles from "./demo-request.module.css";
 
 function Field({ label, optional, error, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; optional?: boolean; error?: string }) {
   const id = `preview-${props.name}`;

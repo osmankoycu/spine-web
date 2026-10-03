@@ -25,7 +25,7 @@ export function PlatformCloser({ cta }: { cta: PlatformPage["cta"] }) {
           {cta.lead}
         </p>
         <Link
-          href="/demo-preview"
+          href="/request-a-demo"
           className="pointer-events-auto mt-9 flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:w-auto sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
           {cta.button.label}

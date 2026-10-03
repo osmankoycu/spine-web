@@ -113,7 +113,7 @@ export function Button({ cta, variant = "primary", size = "md", arrow }: ButtonP
   );
 
   return (
-    <Link href={cta.href === "#demo" ? "/demo-preview" : cta.href} className={cls}>
+    <Link href={cta.href === "#demo" ? "/request-a-demo" : cta.href} className={cls}>
       {inner}
     </Link>
   );

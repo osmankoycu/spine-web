@@ -94,7 +94,7 @@ export function SlackCta({
               Add to Slack
             </a>
             <Link
-              href="/demo-preview"
+              href="/request-a-demo"
               onClick={onCallCta}
               className="inline-flex cursor-pointer items-center justify-center rounded-pill border border-white/25 px-7 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
             >
@@ -103,7 +103,7 @@ export function SlackCta({
           </>
         ) : (
           <Link
-            href="/demo-preview"
+            href="/request-a-demo"
             onClick={onCallCta}
             className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-4 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.02] hover:bg-orange-600"
           >

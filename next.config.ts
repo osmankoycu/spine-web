@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Keep previously shared demo preview links working at the final URL.
+      { source: "/demo-preview", destination: "/request-a-demo", permanent: true },
       // Memorable alias for the instant benefits audit. Permanent — the tool
       // lives at /audit.
       { source: "/overpaying", destination: "/audit", permanent: true },

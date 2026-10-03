@@ -93,7 +93,7 @@ export async function POST(request: Request) {
         interest === "Other" && interestDetails ? `Other: ${interestDetails}` : interest
       ).join(", ") : "(not provided)";
   const sourceLine = data.source === "demo-page"
-    ? "Standalone demo page (/demo-preview)" : "Website demo form";
+    ? "Standalone demo page (/request-a-demo)" : "Website demo form";
 
   const name = [firstName, lastName].filter(Boolean).join(" ") || "(not provided)";
   const companyLine = company || "(not provided)";

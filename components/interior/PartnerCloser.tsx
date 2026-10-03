@@ -23,7 +23,7 @@ export function PartnerCloser({ cta }: { cta: PartnerPage["cta"] }) {
           {cta.lead}
         </p>
         <Link
-          href={cta.button.href === "#demo" ? "/demo-preview" : cta.button.href}
+          href={cta.button.href === "#demo" ? "/request-a-demo" : cta.button.href}
           className="pointer-events-auto mt-9 flex w-full cursor-pointer items-center justify-center gap-2 rounded-pill bg-orange px-7 py-3.5 text-[16px] font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-orange-600 sm:w-auto sm:px-[30px] sm:py-[18px] sm:text-[18px]"
         >
           {cta.button.label}
